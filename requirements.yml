@@ -1,5 +1,5 @@
 ---
 collections:
-  - name: https://github.com/myllynen/ansible-automation
+  - name: https://github.com/myllynen/aap-automation
     type: git
     version: master

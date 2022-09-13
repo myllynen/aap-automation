@@ -1,5 +1,5 @@
 namespace: myllynen
-name: ansible_automation
+name: aap_automation
 version: "0.1.0"
 readme: README.md
 authors:
@@ -15,5 +15,5 @@ tags:
 dependencies:
   ansible.controller: ">=4.2.0"
   redhat.satellite: ">=3.6.0"
-repository: https://www.github.com/myllynen/ansible-automation
-issues: https://www.github.com/myllynen/ansible-automation/issues
+repository: https://www.github.com/myllynen/aap-automation
+issues: https://www.github.com/myllynen/aap-automation/issues
