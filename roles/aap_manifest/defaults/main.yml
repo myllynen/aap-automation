@@ -9,7 +9,7 @@ aap_manifest_path: /root/aap_manifest.zip
 #
 # Required when copying manifest
 #
-# Manifest file to copy to targe
+# Manifest file to copy to target host
 aap_manifest_file: files/aap_manifest.zip
 
 #
