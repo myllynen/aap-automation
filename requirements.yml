@@ -1,0 +1,5 @@
+---
+collections:
+  - name: https://github.com/myllynen/ansible-automation
+    type: git
+    version: master

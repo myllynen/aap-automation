@@ -1,0 +1,20 @@
+#
+# Ansible Automation Platform install parameters
+#
+aap_install_version: "2.2"
+
+aap_install_demo_setup: true
+
+aap_install_controller_fqdn: ctrl.example.com
+aap_install_hub_fqdn: hub.example.com
+
+aap_install_insights_enable: false
+
+aap_install_script_custom_parameters: >
+  -e required_ram=2048
+
+
+# Uncomment and define to automatically download manifest,
+# credentials will also be needed, see vault_aap.yml
+#aap_manifest_download: true
+#aap_manifest_uuid:

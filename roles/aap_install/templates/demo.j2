@@ -1,0 +1,45 @@
+[automationcontroller]
+{{ aap_install_controller_fqdn }}
+
+[automationhub]
+{{ aap_install_hub_fqdn }}
+
+[database]
+
+[all:vars]
+admin_password='{{ aap_install_admin_password }}'
+
+pg_host=''
+pg_port=''
+
+pg_database='awx'
+pg_username='awx'
+pg_password='{{ aap_install_pg_password }}'
+
+automationhub_admin_password='{{ aap_install_hub_admin_password }}'
+
+automationhub_pg_host='{{ aap_install_controller_fqdn }}'
+automationhub_pg_port=5432
+
+automationhub_pg_database='automationhub'
+automationhub_pg_username='automationhub'
+automationhub_pg_password='{{ aap_install_pg_password }}'
+automationhub_pg_sslmode='prefer'
+
+automationhub_enable_unauthenticated_collection_access=true
+automationhub_enable_unauthenticated_collection_download=true
+
+minimum_ansible_version='{{ ansible_rpm }}'
+automation_platform_version='{{ platform_rpm }}'
+tower_package_name='automation-controller'
+tower_package_version='{{ controller_rpm }}'
+automationhub_package_name='automation-hub'
+automationhub_package_version='{{ hub_rpm }}'
+
+registry_url='{{ aap_install_registry_url }}'
+registry_username='{{ aap_install_registry_username }}'
+registry_password='{{ aap_install_registry_password }}'
+
+GALAXY_ENABLE_API_ACCESS_LOG={{ aap_install_galaxy_access_log_enable }}
+
+enable_insights_collection={{ aap_install_insights_enable }}

@@ -1,0 +1,16 @@
+# Controller admin/db passwords
+aap_install_admin_password: foobar123
+aap_install_pg_password: foobar123
+
+# Hub admin/db passwords
+aap_install_hub_admin_password: foobar123
+aap_install_hub_pg_password: foobar123
+
+# Trusted container registry credentials
+aap_install_registry_username:
+aap_install_registry_password:
+
+# Red Hat credentials
+# Needed when downloading manifest
+#aap_rhsm_username:
+#aap_rhsm_password:

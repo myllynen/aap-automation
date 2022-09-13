@@ -1,0 +1,16 @@
+---
+- name: Upgrade Ansible Automation Platform
+  hosts: "{{ bastion | default('bastion') }}"
+  become: true
+  vars:
+    aap_install_upgrade: true
+    # Ansible Automation Platform repo version
+    aap_install_version: "2.2"
+    # Installer runs if installer is updated
+    # so typically this should not be needed
+    #aap_install_installer_run_always: true
+  vars_files:
+    - vars_aap.yml
+    - vault_aap.yml
+  roles:
+    - aap_install

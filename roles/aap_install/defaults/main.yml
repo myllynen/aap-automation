@@ -1,0 +1,75 @@
+---
+# Ansible Automation Platform version
+aap_install_version: "2.2"
+
+# Hostnames for status checks of components
+# In demo setup these will be used as hosts,
+# only the controller is required for demo.
+aap_install_controller_fqdn:
+aap_install_hub_fqdn:
+
+# Register nodes to Red Hat Insights
+aap_install_insights_enable: false
+
+# Full path of installer inventory on bastion
+aap_install_inventory_path: /root/inventory
+
+# Custom parameters for setup.sh (string)
+aap_install_script_custom_parameters:
+
+# Force running installer, skip status checks
+aap_install_installer_run_always: false
+
+# Enable installer update to upgrade AAP
+aap_install_upgrade: false
+
+
+# Custom inventory file to use instead of template
+# If defined no other variables below will be used
+aap_install_inventory_custom_file:
+
+
+# Demo setup of controller+db and optional hub
+# If true all other node variables are ignored
+aap_install_demo_setup: true
+
+# Trusted container registry used by hub
+aap_install_registry_url: registry.redhat.io
+#aap_install_registry_username:
+#aap_install_registry_password:
+
+aap_install_galaxy_access_log_enable: true
+
+
+#
+# Node definitions for multi-node installation
+#
+aap_install_controller_nodes:
+#  - fqdn: ctrl-1.example.com
+#    vars: node_type=control
+#  - fqdn: ctrl-2.example.com
+#    vars: node_type=control peers=execution_nodes
+#  - fqdn: ctrl-3.example.com
+#    vars: node_type=control peers=execution_nodes
+
+aap_install_database_node:
+#  fqdn: db.example.com
+
+# Following variables are optional
+aap_install_execution_nodes:
+#  - fqdn: exec-1.example.com
+#    vars: node_type=execution peers=exec-2.example.com
+#  - fqdn: exec-2.example.com
+#    vars: node_type=execution peers=exec-3.example.com
+#  - fqdn: exec-3.example.com
+#    vars: node_type=execution
+
+# These must be defined together
+aap_install_hub_node:
+#  fqdn: hub.example.com
+aap_install_hub_database_node:
+#  fqdn: hub-db.example.com
+
+# Lines to be added to end of template
+aap_install_template_additional_lines: |
+  # Invenrory custom part starts here
