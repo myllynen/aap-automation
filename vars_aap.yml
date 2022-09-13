@@ -15,6 +15,6 @@ aap_install_script_custom_parameters: >
 
 
 # Uncomment and define to automatically download manifest,
-# credentials will also be needed, see vault_aap.yml
+# Red Hat credentials will also be needed, see vault_aap.yml
 #aap_manifest_download: true
 #aap_manifest_uuid:
