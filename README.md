@@ -13,11 +13,11 @@ Ansible Automation Platform using RPMs.
   * Unencrypted example vault file
 * [inventory](inventory)
   * Example inventory where to run the installer
-* [aap_install.yml](aap_install.yml)
+* [playbooks/aap_install.yml](playbooks/aap_install.yml)
   * Playbook to install Ansible Automation Platform
-* [aap_manifest](aap_manifest.yml)
+* [playbooks/aap_manifest](playbooks/aap_manifest.yml)
   * Playbook to download and install required manifest
-* [aap_upgrade.yml](aap_upgrade.yml)
+* [playbooks/aap_upgrade.yml](playbooks/aap_upgrade.yml)
   * Playbook to upgrade Ansible Automation Platform
 
 These playbooks and roles allow for fully automating Ansible Automation
