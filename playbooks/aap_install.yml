@@ -3,7 +3,7 @@
   hosts: "{{ bastion | default('bastion') }}"
   become: true
   vars_files:
-    - vars_aap.yml
-    - vault_aap.yml
+    - "{{ inventory_dir + '/vars_aap.yml' }}"
+    - "{{ inventory_dir + '/vault_aap.yml' }}"
   roles:
     - aap_install

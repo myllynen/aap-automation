@@ -10,7 +10,7 @@
     # so typically this should not be needed
     #aap_install_installer_run_always: true
   vars_files:
-    - vars_aap.yml
-    - vault_aap.yml
+    - "{{ inventory_dir + '/vars_aap.yml' }}"
+    - "{{ inventory_dir + '/vault_aap.yml' }}"
   roles:
     - aap_install
