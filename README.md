@@ -55,9 +55,10 @@ The only requirements prior installation and upgrades are:
 1. DNS, networking, SSH, and timesync have been setup properly.
 1. Root access on all nodes (including the installer node, for now).
 
-The [inventory](inventory) file in this directory specifies the bastion
-host, i.e., where to run the actual installer. Especially in the demo
-setup it can well be the same node as the Automation Contoller node.
+The [inventory](inventory) file in this directory specifies the
+bastion host, i.e., where to run the actual installer. Especially in a
+demo setup it can well be the same node as the Automation Contoller
+node.
 
 The most minimal configuration for a basic demo setup with the
 contoller node only could be like this:
