@@ -6,4 +6,4 @@
     - "{{ inventory_dir + '/vars_aap.yml' }}"
     - "{{ inventory_dir + '/vault_aap.yml' }}"
   roles:
-    - aap_manifest
+    - myllynen.aap_automation.aap_manifest

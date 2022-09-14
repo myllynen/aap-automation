@@ -5,7 +5,7 @@
   vars:
     aap_install_upgrade: true
     # Ansible Automation Platform repo version
-    aap_install_version: "2.2"
+    #aap_install_version: "2.2"
     # Installer runs if installer is updated
     # so typically this should not be needed
     #aap_install_installer_run_always: true
@@ -13,4 +13,4 @@
     - "{{ inventory_dir + '/vars_aap.yml' }}"
     - "{{ inventory_dir + '/vault_aap.yml' }}"
   roles:
-    - aap_install
+    - myllynen.aap_automation.aap_install
