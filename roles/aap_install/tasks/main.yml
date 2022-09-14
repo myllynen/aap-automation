@@ -10,11 +10,11 @@
       -{{ ansible_facts.architecture }}-rpms
 
 - name: Install Ansible Automation Platform installer
+  become: true
   yum:
     name: ansible-automation-platform-installer
     enablerepo: "{{ installer_repo }}"
     state: "{{ 'latest' if aap_install_upgrade|bool | default(false) else 'present' }}"
-  become: true
   register: installer_package
   when: "'ansible-automation-platform-installer' not in ansible_facts.packages"
 
