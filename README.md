@@ -40,11 +40,11 @@ The installation playbook and role provide three different alternatives:
 1. Template based setup which requires specifying different hosts
    for installation (see
    [roles/aap_install/defaults/main.yml](roles/aap_install/defaults/main.yml)
-   for details.
+   for details).
 1. Customized setup using a manually crafted installer inventory file,
    see
    [roles/aap_install/defaults/main.yml](roles/aap_install/defaults/main.yml)
-   for additional details.
+   for details.
 
 The only requirements prior installation and upgrades are:
 
@@ -59,11 +59,8 @@ The [inventory](inventory) file in this directory specifies the bastion
 host, i.e., where to run the actual installer. Especially in the demo
 setup it can well be the same node as the Automation Contoller node.
 
-A basic demo setup with a controller node only would be like, please see
-[vars_aap.yml](vars_aap.yml) for a slightly more complete example and
-[roles/aap_install/defaults/main.yml](roles/aap_install/defaults/main.yml)
-for all the supported variables. By default all the passwords are set to
-_foobar123_, see [vault_aap.yml](vault_aap.yml).
+The most minimal configuration for a basic demo setup with the
+contoller node only could be like this:
 
 ```
 # AAP repository version
@@ -71,6 +68,13 @@ aap_install_version: "2.2"
 aap_install_demo_setup: true
 aap_install_controller_fqdn: ctrl.example.com
 ```
+
+See [vars_aap.yml](vars_aap.yml) for a more complete example and
+[roles/aap_install/defaults/main.yml](roles/aap_install/defaults/main.yml)
+for all the supported variables.
+
+By default all the passwords are set to _foobar123_, see
+[vault_aap.yml](vault_aap.yml).
 
 These playbooks have been tested most recently with Ansible Automation
 Platform 2.2.1 on RHEL 8.6.
