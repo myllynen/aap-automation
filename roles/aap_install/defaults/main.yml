@@ -8,6 +8,7 @@ aap_install_version: "2.2"
 aap_install_controller_fqdn:
 aap_install_hub_fqdn:
 aap_install_catalog_fqdn:
+# SSO host is required with Services Catalog
 aap_install_sso_fqdn:
 
 # Register nodes to Red Hat Insights
@@ -31,7 +32,7 @@ aap_install_upgrade: false
 aap_install_inventory_custom_file:
 
 
-# Demo setup of controller+db and optional hub
+# Demo setup of controller+db and optional hub/catalog
 # If true all other node variables are ignored
 aap_install_demo_setup: true
 
