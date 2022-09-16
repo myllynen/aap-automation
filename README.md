@@ -97,11 +97,14 @@ vi vars_aap.yml vault_aap.yml
 # Set the hostname where to run the actual installer
 vi inventory
 # Install Ansible Automation Platform
-ansible-playbook -i inventory myllynen.aap_automation.aap_install.yml
+ansible-playbook -i inventory -e @vars_aap.yml -e @vault_aap.yml \
+  myllynen.aap_automation.aap_install.yml
 # Download and install manifest
-ansible-playbook -i inventory myllynen.aap_automation.aap_manifest.yml
+ansible-playbook -i inventory -e @vars_aap.yml -e @vault_aap.yml \
+  myllynen.aap_automation.aap_manifest.yml
 # Upgrade Ansible Automation Platform
-ansible-playbook -i inventory myllynen.aap_automation.aap_upgrade.yml
+ansible-playbook -i inventory -e @vars_aap.yml -e @vault_aap.yml \
+  myllynen.aap_automation.aap_upgrade.yml
 ```
 
 ## See Also

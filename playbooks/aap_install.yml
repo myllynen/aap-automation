@@ -2,8 +2,5 @@
 - name: Install Ansible Automation Platform
   hosts: "{{ bastion | default('bastion') }}"
   become: true
-  vars_files:
-    - "{{ inventory_dir + '/vars_aap.yml' }}"
-    - "{{ inventory_dir + '/vault_aap.yml' }}"
   roles:
     - myllynen.aap_automation.aap_install
