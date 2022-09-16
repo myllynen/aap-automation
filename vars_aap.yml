@@ -7,6 +7,9 @@ aap_install_demo_setup: true
 
 aap_install_controller_fqdn: ctrl.example.com
 aap_install_hub_fqdn: hub.example.com
+aap_install_catalog_fqdn: catalog.example.com
+# SSO host is required with Services Catalog
+aap_install_sso_fqdn: sso.example.com
 
 aap_install_insights_enable: false
 

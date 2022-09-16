@@ -7,6 +7,8 @@ aap_install_version: "2.2"
 # only the controller is required for demo.
 aap_install_controller_fqdn:
 aap_install_hub_fqdn:
+aap_install_catalog_fqdn:
+aap_install_sso_fqdn:
 
 # Register nodes to Red Hat Insights
 aap_install_insights_enable: false
@@ -69,6 +71,16 @@ aap_install_hub_node:
 #  fqdn: hub.example.com
 aap_install_hub_database_node:
 #  fqdn: hub-db.example.com
+
+# These must be defined together
+aap_install_catalog_node:
+#  fqdn: catalog.example.com
+aap_install_catalog_database_node:
+#  fqdn: catalog-db.example.com
+
+# Required with Services Catalog
+aap_install_sso_node:
+#  fqdn: sso.example.com
 
 # Lines to be added to end of template
 aap_install_template_additional_lines: |

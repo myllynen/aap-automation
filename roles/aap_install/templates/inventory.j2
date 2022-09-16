@@ -11,12 +11,10 @@
 [automationcontroller]
 {% for server in aap_install_controller_nodes %}
 {{ server.fqdn }}{% if 'vars' in server %} {{ server.vars }}{% endif %}
-
 {% endfor %}
 
 #[automationcontroller:vars]
 #peers=execution_nodes
-
 
 # Execution Nodes
 # There are two valid node_types that can be assigned for this group.
@@ -40,19 +38,23 @@
 {{ aap_install_hub_node.fqdn }}{%- if 'vars' in aap_install_hub_node %} {{ aap_install_hub_node.vars }}{% endif %}
 {% endif %}
 
-
-#[automationcatalog]
+[automationcatalog]
+{% if aap_install_catalog_node | default(false) and 'fqdn' in aap_install_catalog_node %}
+{{ aap_install_catalog_node.fqdn }}{%- if 'vars' in aap_install_catalog_node %} {{ aap_install_catalog_node.vars }}{% endif %}
+{% endif %}
 
 [database]
 {{ aap_install_database_node.fqdn }}{%- if 'vars' in aap_install_database_node %} {{ aap_install_database_node.vars }}{% endif %}
-
 
 # Single Sign-On
 # If sso_redirect_host is set, that will be used for application to connect to
 # SSO for authentication. This must be reachable from client machines.
 #
 # ssohost.example sso_redirect_host=<host/ip>
-#[sso]
+[sso]
+{% if aap_install_sso_node | default(false) and 'fqdn' in aap_install_sso_node %}
+{{ aap_install_sso_node.fqdn }}{%- if 'vars' in aap_install_sso_node %} {{ aap_install_sso_node.vars }}{% endif %}
+{% endif %}
 
 [all:vars]
 admin_password='{{ aap_install_admin_password }}'
@@ -71,9 +73,10 @@ tower_package_name='automation-controller'
 tower_package_version='{{ controller_rpm }}'
 automationhub_package_name='automation-hub'
 automationhub_package_version='{{ hub_rpm }}'
+automationcatalog_package_name='automation-services-catalog'
+automationcatalog_package_version='{{ catalog_rpm }}'
 
 GALAXY_ENABLE_API_ACCESS_LOG={{ aap_install_galaxy_access_log_enable }}
-
 
 # Execution Environment Configuration
 # Credentials for container registry to pull execution environment images from,
@@ -88,7 +91,7 @@ receptor_listener_port=27199
 
 # Automation Hub Configuration
 #
-{% if aap_install_hub_node | default(false) %}
+{% if aap_install_hub_node | default(false) and 'fqdn' in aap_install_hub_node %}
 automationhub_admin_password='{{ aap_install_hub_admin_password }}'
 
 automationhub_pg_host='{{ aap_install_hub_database_node.fqdn }}'
@@ -168,13 +171,17 @@ automationhub_pg_sslmode='prefer'
 
 # Automation Services Catalog Configuration
 #
-
-automationcatalog_pg_host=''
+{% if aap_install_catalog_node | default(false) and 'fqdn' in aap_install_catalog_node %}
+automationcatalog_pg_host='{{ aap_install_catalog_database_node.fqdn }}'
 automationcatalog_pg_port=5432
 
 automationcatalog_pg_database='automationservicescatalog'
 automationcatalog_pg_username='automationservicescatalog'
-automationcatalog_pg_password=''
+automationcatalog_pg_password='{{ aap_install_catalog_pg_password }}'
+automationcatalog_pg_sslmode='prefer'
+
+automationcatalog_enable_analytics_collection={{ aap_install_insights_enable }}
+{% endif %}
 
 # For an alternative front end url needed for SSO configuration with Automation
 # Services Catalog, provide the URL.
@@ -266,6 +273,10 @@ automationcatalog_pg_password=''
 
 # Single-Sign-On configuration
 #sso_console_admin_password=''
+
+sso_keystore_password='{{ aap_install_sso_admin_password }}'
+sso_console_admin_username='admin'
+sso_console_admin_password='{{ aap_install_sso_admin_password }}'
 
 # The default install will register node to the Red Hat Insights Service
 # if the node is registered with Subscription Manager. Set to False to disable.

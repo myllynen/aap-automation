@@ -6,6 +6,12 @@ aap_install_pg_password: foobar123
 aap_install_hub_admin_password: foobar123
 aap_install_hub_pg_password: foobar123
 
+# Services catalog db password
+aap_install_catalog_pg_password: foobar123
+
+# SSO admin password
+aap_install_sso_admin_password: foobar123
+
 # Trusted container registry credentials
 aap_install_registry_username:
 aap_install_registry_password:
