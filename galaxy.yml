@@ -1,6 +1,6 @@
 namespace: myllynen
 name: aap_automation
-version: "0.2.1"
+version: "0.3.0"
 readme: README.md
 authors:
   - Marko Myllynen <myllynen@redhat.com>
@@ -11,7 +11,7 @@ license:
   - GPL-3.0-or-later
 tags:
   - aap
-  - collection
+  - configuration
 dependencies:
   ansible.controller: ">=4.2.0"
   redhat.satellite: ">=3.6.0"

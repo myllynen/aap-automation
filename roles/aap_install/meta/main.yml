@@ -11,7 +11,6 @@ galaxy_info:
         - 8
         - 9
   galaxy_tags:
-    - rhel
-    - centos
+    - aap
     - configuration
 dependencies: []
