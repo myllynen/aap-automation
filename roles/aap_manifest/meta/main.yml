@@ -1,0 +1,17 @@
+galaxy_info:
+  role_name: aap_manifest
+  author: Marko Myllynen <myllynen@redhat.com>
+  company: Red Hat, Inc.
+  description: aap_manifest role
+  license: GPLv3+
+  min_ansible_version: 2.11
+  platforms:
+    - name: EL
+      versions:
+        - 8
+        - 9
+  galaxy_tags:
+    - rhel
+    - centos
+    - configuration
+dependencies: []
