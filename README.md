@@ -82,7 +82,7 @@ Platform 2.2.1 on RHEL 8.6.
 
 ## Quick Usage Example
 
-To install this collection:
+To install this collection from GitHub:
 
 ```
 ansible-galaxy collection install git+https://github.com/myllynen/aap-automation,master
