@@ -49,9 +49,11 @@ The installation playbook and role provide three different alternatives:
 The only requirements prior installation and upgrades are:
 
 1. The target RHEL installation nodes have been properly subscribed so
-   that the standard RHEL repositories are enabled and Ansible
-   Automation Platform subscription is available to allow the installer
-   to enable the Ansible Automation Platform repositories when needed.
+   that the standard
+   [RHEL repositories](https://github.com/myllynen/rhel-ansible-roles/tree/master/roles/repository_setup)
+   are enabled and Ansible Automation Platform subscription is available
+   to allow the installer to enable the Ansible Automation Platform
+   repositories when needed.
 1. DNS, networking, SSH, and timesync have been setup properly.
 1. Root access on all nodes (including the installer node, for now).
 
