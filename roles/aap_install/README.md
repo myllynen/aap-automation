@@ -11,7 +11,7 @@ Below are the role default values from defaults/main.yml:
 <pre>
 ---
 # Ansible Automation Platform version
-aap_install_version: "2.2"
+aap_install_version: "2.3"
 
 # Hostnames for status checks of components
 # In demo setup these will be used as hosts,

@@ -1,7 +1,7 @@
 #
 # Ansible Automation Platform install parameters
 #
-aap_install_version: "2.2"
+aap_install_version: "2.3"
 
 aap_install_demo_setup: true
 

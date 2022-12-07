@@ -67,7 +67,7 @@ contoller node only could be like this:
 
 ```
 # AAP repository version
-aap_install_version: "2.2"
+aap_install_version: "2.3"
 aap_install_demo_setup: true
 aap_install_controller_fqdn: ctrl.example.com
 ```
@@ -80,7 +80,7 @@ By default all the passwords are set to _foobar123_, see
 [vault_aap.yml](vault_aap.yml).
 
 These playbooks have been tested most recently with Ansible Automation
-Platform 2.2.1 on RHEL 8.6.
+Platform 2.3 on RHEL 8.7.
 
 ## Quick Usage Example
 
