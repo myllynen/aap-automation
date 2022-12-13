@@ -124,6 +124,9 @@ See also
 [https://github.com/myllynen/rhel-ansible-roles](https://github.com/myllynen/rhel-ansible-roles).
 
 See also
+[https://github.com/myllynen/aap-troubleshooting-guide](https://github.com/myllynen/aap-troubleshooting-guide).
+
+See also
 [https://github.com/redhat-cop](https://github.com/redhat-cop).
 
 ## License
