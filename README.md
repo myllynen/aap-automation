@@ -44,7 +44,9 @@ The installation playbook and role provide three different alternatives:
 1. Customized setup using a manually crafted installer inventory file,
    see
    [roles/aap_install/defaults/main.yml](roles/aap_install/defaults/main.yml)
-   for details.
+   for details and
+   [roles/aap_install/templates/inventory.j2](roles/aap_install/templates/inventory.j2)
+   for an example.
 
 The only requirements prior installation and upgrades are:
 

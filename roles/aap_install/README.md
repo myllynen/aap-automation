@@ -96,7 +96,7 @@ aap_install_sso_node:
 
 # Lines to be added to end of template
 aap_install_template_additional_lines: |
-  # Invenrory custom part starts here
+  # Inventory custom part starts here
 </pre>
 
 ## License
