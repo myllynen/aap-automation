@@ -14,7 +14,7 @@
   yum:
     name: ansible-automation-platform-installer
     enablerepo: "{{ installer_repo }}"
-    state: "{{ 'latest' if aap_install_upgrade|bool | default(false) else 'present' }}"
+    state: "{{ 'latest' if aap_install_upgrade|bool else 'present' }}"
   register: installer_package
   when: "'ansible-automation-platform-installer' not in ansible_facts.packages"
 
