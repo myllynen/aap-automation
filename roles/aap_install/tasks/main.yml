@@ -14,7 +14,7 @@
   yum:
     name: ansible-automation-platform-installer
     enablerepo: "{{ installer_repo }}"
-    state: "{{ 'latest' if aap_install_upgrade|bool else 'present' }}"
+    state: "{{ 'latest' if aap_install_upgrade | bool else 'present' }}"
   register: installer_package
   when: "'ansible-automation-platform-installer' not in ansible_facts.packages"
 
@@ -101,6 +101,7 @@
       -i {{ aap_install_inventory_path }}
       {{ aap_install_script_custom_parameters }}
     chdir: /opt/ansible-automation-platform/installer
+  changed_when: true
   when: aap_install_installer_run_always | bool or
         installer_package is changed or
         controller_info.status != 200 or
