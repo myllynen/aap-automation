@@ -13,12 +13,13 @@
   register: manifest_file
   when: aap_manifest_download | bool
 
-- name: Get manifest from Red Hat Customer Portal
+- name: Download manifest from Red Hat Customer Portal
   redhat.satellite.redhat_manifest:
     uuid: "{{ aap_manifest_uuid }}"
     username: "{{ aap_rhsm_username }}"
     password: "{{ aap_rhsm_password }}"
     path: "{{ aap_manifest_path }}"
+    state: present
   register: manifest_download
   when:
     - aap_manifest_download | bool
@@ -29,8 +30,6 @@
     path: "{{ aap_manifest_path }}"
     mode: '0600'
 
-# Update to use "manifest_download is changed" in when once working
-# https://github.com/theforeman/foreman-ansible-modules/issues/1473
 - name: Upload manifest to automation controller
   ansible.controller.license:
     controller_host: https://{{ aap_install_controller_fqdn }}

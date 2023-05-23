@@ -81,8 +81,8 @@ for all the supported variables.
 By default all the passwords are set to _foobar123_, see
 [vault_aap.yml](vault_aap.yml).
 
-These playbooks have been tested most recently with Ansible Automation
-Platform 2.3 on RHEL 8.7.
+These playbooks have been tested most recently using Ansible 2.13 to
+install Ansible Automation Platform 2.3 on RHEL 8.8.
 
 ## Quick Usage Example
 

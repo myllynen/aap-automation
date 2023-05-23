@@ -2,5 +2,6 @@
 - name: Upload Ansible Automation Platform manifest
   hosts: "{{ bastion | default('bastion') }}"
   become: true
+  gather_facts: true
   roles:
     - myllynen.aap_automation.aap_manifest

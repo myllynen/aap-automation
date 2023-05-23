@@ -12,7 +12,9 @@ license:
   - GPL-3.0-or-later
 tags:
   - aap
+  - linux
   - configuration
+  - infrastructure
 dependencies:
   ansible.controller: ">=4.2.0"
   redhat.satellite: ">=3.6.0"

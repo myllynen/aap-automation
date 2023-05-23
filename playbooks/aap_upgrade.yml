@@ -2,6 +2,7 @@
 - name: Upgrade Ansible Automation Platform
   hosts: "{{ bastion | default('bastion') }}"
   become: true
+  gather_facts: true
   vars:
     aap_install_upgrade: true
     # Ansible Automation Platform repo version
