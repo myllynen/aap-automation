@@ -11,16 +11,14 @@ Below are the role default values from defaults/main.yml:
 <pre>
 ---
 # Ansible Automation Platform version
-aap_install_version: "2.3"
+aap_install_version: "2.4"
 
 # Hostnames for status checks of components
 # In demo setup these will be used as hosts,
 # only the controller is required for demo.
 aap_install_controller_fqdn:
 aap_install_hub_fqdn:
-aap_install_catalog_fqdn:
-# SSO host is required with Services Catalog
-aap_install_sso_fqdn:
+aap_install_eda_controller_fqdn:
 
 # Register nodes to Red Hat Insights
 aap_install_insights_enable: false
@@ -43,7 +41,7 @@ aap_install_upgrade: false
 aap_install_inventory_custom_file:
 
 
-# Demo setup of controller+db and optional hub/catalog
+# Demo setup of controller+db and optional hub/eda
 # If true all other node variables are ignored
 aap_install_demo_setup: true
 
@@ -85,12 +83,12 @@ aap_install_hub_database_node:
 #  fqdn: hub-db.example.com
 
 # These must be defined together
-aap_install_catalog_node:
-#  fqdn: catalog.example.com
-aap_install_catalog_database_node:
-#  fqdn: catalog-db.example.com
+aap_install_eda_controller_node:
+#  fqdn: eda.example.com
+aap_install_eda_controller_database_node:
+#  fqdn: eda-db.example.com
 
-# Required with Services Catalog
+# Optional SSO instance to use
 aap_install_sso_node:
 #  fqdn: sso.example.com
 

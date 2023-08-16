@@ -38,15 +38,15 @@
     - aap_install_hub_fqdn | default(false)
     - not aap_install_installer_run_always | bool
 
-- name: Check automation services catalog status
+- name: Check EDA controller status
   uri:
-    url: https://{{ aap_install_catalog_fqdn }}
+    url: https://{{ aap_install_eda_controller_fqdn }}
     method: GET
     validate_certs: false
-  register: catalog_info
+  register: eda_controller_info
   failed_when: false
   when:
-    - aap_install_catalog_fqdn | default(false)
+    - aap_install_eda_controller_fqdn | default(false)
     - not aap_install_installer_run_always | bool
 
 - name: Get available package versions
@@ -56,7 +56,7 @@
       - ansible-automation-platform-installer
       - automation-controller
       - automation-hub
-      - automation-services-catalog
+      - automation-eda-controller
   command: dnf --enablerepo={{ installer_repo }} list {{ needed_versions | join(' ') }}
   register: package_list
   changed_when: false
@@ -67,7 +67,7 @@
     platform_rpm: "{{ ((package_list.stdout | regex_search('ansible-automation-platform-installer\\..*') | split)[1] | split('-'))[0] }}"
     controller_rpm: "{{ ((package_list.stdout | regex_search('automation-controller\\..*') | split)[1] | split('-'))[0] }}"
     hub_rpm: "{{ ((package_list.stdout | regex_search('automation-hub\\..*') | split)[1] | split('-'))[0] }}"
-    catalog_rpm: "{{ ((package_list.stdout | regex_search('automation-services-catalog\\..*') | split)[1] | split('-'))[0] }}"
+    eda_controller_rpm: "{{ ((package_list.stdout | regex_search('automation-eda-controller\\..*') | split)[1] | split('-'))[0] }}"
 
 - name: Copy inventory file
   copy:
@@ -99,6 +99,8 @@
     cmd: >
       ./setup.sh
       -i {{ aap_install_inventory_path }}
+      --
+      --become
       {{ aap_install_script_custom_parameters }}
     chdir: /opt/ansible-automation-platform/installer
   changed_when: true
@@ -106,4 +108,4 @@
         installer_package is changed or
         controller_info.status != 200 or
         (aap_install_hub_fqdn and hub_info.status != 200) or
-        (aap_install_catalog_fqdn and catalog_info.status != 200)
+        (aap_install_eda_controller_fqdn and eda_controller_info.status != 200)

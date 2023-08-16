@@ -6,7 +6,7 @@
   vars:
     aap_install_upgrade: true
     # Ansible Automation Platform repo version
-    #aap_install_version: "2.3"
+    #aap_install_version: "2.4"
     # Installer runs if installer is updated
     # so typically this should not be needed
     #aap_install_installer_run_always: true

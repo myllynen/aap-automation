@@ -4,24 +4,23 @@
 [automationhub]
 {{ aap_install_hub_fqdn }}
 
-[automationcatalog]
-{{ aap_install_catalog_fqdn }}
+[automationedacontroller]
+{{ aap_install_eda_controller_fqdn }}
 
 [database]
 {{ aap_install_controller_fqdn }}
 
-[sso]
-{{ aap_install_sso_fqdn }}
-
 [all:vars]
 admin_password='{{ aap_install_admin_password }}'
+
 
 pg_host='{{ aap_install_controller_fqdn }}'
 pg_port=5432
 
 pg_database='awx'
 pg_username='awx'
-pg_password='{{ aap_install_pg_password }}'
+pg_password='{{ aap_install_db_password }}'
+
 
 automationhub_admin_password='{{ aap_install_hub_admin_password }}'
 
@@ -30,19 +29,23 @@ automationhub_pg_port=5432
 
 automationhub_pg_database='automationhub'
 automationhub_pg_username='automationhub'
-automationhub_pg_password='{{ aap_install_pg_password }}'
+automationhub_pg_password='{{ aap_install_db_password }}'
 automationhub_pg_sslmode='prefer'
 
 automationhub_enable_unauthenticated_collection_access=true
 automationhub_enable_unauthenticated_collection_download=true
 
-automationcatalog_pg_host='{{ aap_install_controller_fqdn }}'
-automationcatalog_pg_port=5432
 
-automationcatalog_pg_database='automationservicescatalog'
-automationcatalog_pg_username='automationservicescatalog'
-automationcatalog_pg_password='{{ aap_install_pg_password }}'
-automationcatalog_pg_sslmode='prefer'
+automationedacontroller_admin_password='{{ aap_install_eda_controller_admin_password }}'
+
+automationedacontroller_pg_host='{{ aap_install_controller_fqdn }}'
+automationedacontroller_pg_port=5432
+
+automationedacontroller_pg_database='automationedacontroller'
+automationedacontroller_pg_username='automationedacontroller'
+automationedacontroller_pg_password='{{ aap_install_db_password }}'
+automationedacontroller_controller_verify_ssl=false
+
 
 minimum_ansible_version='{{ ansible_rpm }}'
 automation_platform_version='{{ platform_rpm }}'
@@ -50,8 +53,8 @@ tower_package_name='automation-controller'
 tower_package_version='{{ controller_rpm }}'
 automationhub_package_name='automation-hub'
 automationhub_package_version='{{ hub_rpm }}'
-automationcatalog_package_name='automation-services-catalog'
-automationcatalog_package_version='{{ catalog_rpm }}'
+automationedacontroller_package_name='automation-eda-controller'
+automationedacontroller_package_version='{{ eda_controller_rpm }}'
 
 receptor_listener_port=27199
 
@@ -59,12 +62,6 @@ registry_url='{{ aap_install_registry_url }}'
 registry_username='{{ aap_install_registry_username }}'
 registry_password='{{ aap_install_registry_password }}'
 
-sso_keystore_password='{{ aap_install_sso_admin_password }}'
-sso_console_admin_username='admin'
-sso_console_admin_password='{{ aap_install_sso_admin_password }}'
-
 GALAXY_ENABLE_API_ACCESS_LOG={{ aap_install_galaxy_access_log_enable }}
-
-automationcatalog_enable_analytics_collection={{ aap_install_insights_enable }}
 
 enable_insights_collection={{ aap_install_insights_enable }}

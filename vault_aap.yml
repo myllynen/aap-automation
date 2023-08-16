@@ -1,15 +1,16 @@
 # Controller admin/db passwords
 aap_install_admin_password: foobar123
-aap_install_pg_password: foobar123
+aap_install_db_password: foobar123
 
 # Hub admin/db passwords
 aap_install_hub_admin_password: foobar123
-aap_install_hub_pg_password: foobar123
+aap_install_hub_db_password: foobar123
 
-# Services catalog db password
-aap_install_catalog_pg_password: foobar123
+# EDA admin/db passwords
+aap_install_eda_controller_admin_password: foobar123
+aap_install_eda_controller_db_password: foobar123
 
-# SSO admin password
+# SSO admin and keystore password
 aap_install_sso_admin_password: foobar123
 
 # Trusted container registry credentials

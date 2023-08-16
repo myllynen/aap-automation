@@ -26,16 +26,17 @@ use supported RPMs from Red Hat repositories and download the required
 manifest file from Red Hat Customer Portal removing the need to download
 or provide any installation related files manually. For more information
 about the manifest, see
-[Subscription Allocations page](https://access.redhat.com/management/subscription_allocations)
+[Red Hat Subscription Allocations page](https://access.redhat.com/management/subscription_allocations)
 and
 [creating a new subscription allocation](https://docs.ansible.com/automation-controller/latest/html/userguide/import_license.html#obtaining-a-subscriptions-manifest).
 
-The installation playbook and role provide three different alternatives:
+The installation playbook and role support three different installation
+variants:
 
-1. Simple demo setup with single-node Automation Controller and an
-   optional Automation Hub node. Only the hostname(s) need to be
-   provided and the playbook will take care of the rest. See below for a
-   basic example and also [vars_aap.yml](vars_aap.yml) and
+1. Simple demo setup with a single-node Automation Controller and optional
+   Automation Hub and/or EDA Controller nodes. Only the hostname(s) need to
+   be provided and the playbook will take care of the rest. See below for a
+   basic example and also see [vars_aap.yml](vars_aap.yml) and
    [vault_aap.yml](vault_aap.yml).
 1. Template based setup which requires specifying different hosts
    for installation (see
@@ -56,20 +57,22 @@ The only requirements prior installation and upgrades are:
    are enabled and Ansible Automation Platform subscription is available
    to allow the installer to enable the Ansible Automation Platform
    repositories when needed.
-1. DNS, networking, SSH, and timesync have been setup properly.
+1. DNS, networking, SSH, and timesync have been setup properly. The
+   installer will open the needed firewall ports if the _firewalld_
+   service was enabled.
 1. Root access on all nodes (including the installer node, for now).
 
 The [inventory](inventory) file in this directory specifies the
 bastion host, i.e., where to run the actual installer. Especially in a
-demo setup it can well be the same node as the Automation Contoller
+demo setup it can well be the same node as the Automation Controller
 node.
 
 The most minimal configuration for a basic demo setup with the
-contoller node only could be like this:
+controller node only could be like this:
 
 ```
 # AAP repository version
-aap_install_version: "2.3"
+aap_install_version: "2.4"
 aap_install_demo_setup: true
 aap_install_controller_fqdn: ctrl.example.com
 ```
@@ -81,8 +84,8 @@ for all the supported variables.
 By default all the passwords are set to _foobar123_, see
 [vault_aap.yml](vault_aap.yml).
 
-These playbooks have been tested most recently using Ansible 2.13 to
-install Ansible Automation Platform 2.3 on RHEL 8.8.
+These playbooks have been tested most recently using Ansible 2.14 to
+install Ansible Automation Platform 2.4 on RHEL 8.8.
 
 ## Quick Usage Example
 

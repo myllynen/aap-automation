@@ -1,21 +1,21 @@
 #
 # Ansible Automation Platform install parameters
 #
-aap_install_version: "2.3"
+aap_install_version: "2.4"
 
+# Set true to install a simple demo setup, only
+# the FQDN(s) below need to be defined for this
+# For other setups, please see the README file
 aap_install_demo_setup: true
 
 aap_install_controller_fqdn: ctrl.example.com
 aap_install_hub_fqdn: hub.example.com
-aap_install_catalog_fqdn:
-# SSO host is required with Services Catalog
-aap_install_sso_fqdn:
+aap_install_eda_controller_fqdn: eda.example.com
 
 aap_install_insights_enable: false
 
 aap_install_script_custom_parameters: >
   -e required_ram=2048
-
 
 # Uncomment and define to automatically download manifest,
 # Red Hat credentials will also be needed, see vault_aap.yml
