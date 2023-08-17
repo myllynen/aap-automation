@@ -95,14 +95,17 @@
     - not aap_install_demo_setup | bool
 
 - name: Install Ansible Automation Platform
+  vars:
+    aap_installer_dir: /opt/ansible-automation-platform/installer
   command:
     cmd: >
       ./setup.sh
       -i {{ aap_install_inventory_path }}
+      -p {{ aap_install_setup_log_dir | default(aap_installer_dir, true) }}
       --
       --become
       {{ aap_install_script_custom_parameters }}
-    chdir: /opt/ansible-automation-platform/installer
+    chdir: "{{ aap_installer_dir }}"
   changed_when: true
   when: aap_install_installer_run_always | bool or
         installer_package is changed or
