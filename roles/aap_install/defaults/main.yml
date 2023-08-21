@@ -31,11 +31,12 @@ aap_install_inventory_custom_file:
 
 
 # Demo setup of controller+db and optional hub/eda
-# If true all other node variables are ignored
+# If true all the other node variables are ignored
 aap_install_demo_setup: true
 
 # Trusted container registry used by hub
 aap_install_registry_url: registry.redhat.io
+# These should come from vault
 #aap_install_registry_username:
 #aap_install_registry_password:
 

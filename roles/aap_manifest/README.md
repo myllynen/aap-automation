@@ -14,20 +14,25 @@ Below are the role default values from defaults/main.yml:
 # or download directly from Red Hat Customer Portal
 aap_manifest_download: false
 
-# Manifest path on the target host
+# Manifest path to use on the target host
 aap_manifest_path: /root/aap_manifest.zip
 
 #
 # Required when copying manifest
 #
-# Manifest file to copy to target host
+# Local manifest file to copy to the target host
 aap_manifest_file: aap_manifest.zip
 
 #
 # Required when downloading manifest
 #
-# Manifest download UUID
+# Manifest UUID to download
 aap_manifest_uuid:
+
+# Red Hat Customer Portal credentials for downloading
+# These should come from vault
+#aap_rhsm_username:
+#aap_rhsm_password:
 </pre>
 
 ## License
