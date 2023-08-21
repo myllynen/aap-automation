@@ -12,7 +12,7 @@ Ansible Automation Platform using RPMs.
 * [vault_aap.yml](vault_aap.yml)
   * Unencrypted example vault file
 * [inventory](inventory)
-  * Example inventory where to run the installer
+  * Example inventory for where to run the installer
 * [playbooks/aap_install.yml](playbooks/aap_install.yml)
   * Playbook to install Ansible Automation Platform
 * [playbooks/aap_manifest](playbooks/aap_manifest.yml)
@@ -61,14 +61,15 @@ The only requirements prior installation and upgrades are:
 1. DNS, networking, SSH, and timesync have been setup properly. The
    installer will open the needed firewall ports if the _firewalld_
    service was enabled during installation.
-1. Passwordless sudo rights on all nodes, including the installer node.
-   If the installer RPM was already installed on the installer node then
-   sudo rights on the installer node are needed only due to AAP-14991
+1. Passwordless sudo rights on all nodes, including the installer host.
+   If the installer RPM was already installed on the installer host then
+   sudo rights on the installer host are needed only due to AAP-14991
    (hopefully to be fixed in a future release).
 
-The [inventory](inventory) file in this directory specifies the bastion
-host, i.e., where to run the actual installer. Especially in a demo
-setup this can well be the same node as the Automation Controller node.
+The [inventory](inventory) file in this directory specifies the
+installer (bastion) host, i.e., where to run the actual installer.
+Especially in a demo setup this can well be the same host as the
+Automation Controller node.
 
 The most minimal configuration for a basic demo setup with the
 controller node only could be like this:
