@@ -21,14 +21,15 @@ Ansible Automation Platform using RPMs.
   * Playbook to upgrade Ansible Automation Platform
 
 These playbooks and roles allow for fully automating Ansible Automation
-Platform installation, manifest handling, and upgrades. The playbooks
-use supported RPMs from Red Hat repositories and download the required
-manifest file from Red Hat Customer Portal removing the need to download
-or provide any installation related files manually. For more information
-about the manifest, see
-[Red Hat Subscription Allocations page](https://access.redhat.com/management/subscription_allocations)
+Platform installation,
+[subscription manifest handling](https://docs.ansible.com/automation-controller/latest/html/userguide/import_license.html#import-a-subscription),
+and upgrades. The playbooks use supported RPMs from Red Hat repositories
+and download the required manifest file from Red Hat Customer Portal
+removing the need to download or provide any installation related files
+manually. For more information about the manifest, see
+[Red Hat Subscription Allocations tool](https://access.redhat.com/management/subscription_allocations)
 and
-[creating a new subscription allocation](https://docs.ansible.com/automation-controller/latest/html/userguide/import_license.html#obtaining-a-subscriptions-manifest).
+[obtaining a subscription manifest](https://docs.ansible.com/automation-controller/latest/html/userguide/import_license.html#obtaining-a-subscriptions-manifest).
 
 The installation playbook and role support three different installation
 variants:
@@ -53,19 +54,21 @@ The only requirements prior installation and upgrades are:
 
 1. The target RHEL installation nodes have been properly subscribed so
    that the standard
-   [RHEL repositories](https://github.com/myllynen/rhel-ansible-roles/tree/master/roles/repository_setup)
+   [RHEL repositories](https://github.com/linux-system-roles/rhc)
    are enabled and Ansible Automation Platform subscription is available
    to allow the installer to enable the Ansible Automation Platform
    repositories when needed.
 1. DNS, networking, SSH, and timesync have been setup properly. The
    installer will open the needed firewall ports if the _firewalld_
-   service was enabled.
-1. Root access on all nodes (including the installer node, for now).
+   service was enabled during installation.
+1. Passwordless sudo rights on all nodes, including the installer node.
+   If the installer RPM is already installed on the installer node then
+   sudo rights on the installer are needed for now only due to
+   AAP-14991.
 
-The [inventory](inventory) file in this directory specifies the
-bastion host, i.e., where to run the actual installer. Especially in a
-demo setup it can well be the same node as the Automation Controller
-node.
+The [inventory](inventory) file in this directory specifies the bastion
+host, i.e., where to run the actual installer. Especially in a demo
+setup this can well be the same node as the Automation Controller node.
 
 The most minimal configuration for a basic demo setup with the
 controller node only could be like this:
@@ -81,8 +84,8 @@ See [vars_aap.yml](vars_aap.yml) for a more complete example and
 [roles/aap_install/defaults/main.yml](roles/aap_install/defaults/main.yml)
 for all the supported variables.
 
-By default all the passwords are set to _foobar123_, see
-[vault_aap.yml](vault_aap.yml).
+All the credentials used are listed in [vault_aap.yml](vault_aap.yml).
+By default all the passwords are set to _foobar123_.
 
 These playbooks have been tested most recently using Ansible 2.14 to
 install Ansible Automation Platform 2.4 on RHEL 8.8.
@@ -99,10 +102,10 @@ To install Ansible Automation Platform, automatically download manifest
 from Red Hat Customer Portal and upload it to the Automation Controller:
 
 ```
-# Edit settings and credentials to suite local environment
-vi vars_aap.yml vault_aap.yml
 # Set the hostname where to run the actual installer
 vi inventory
+# Edit settings and credentials to suite local environment
+vi vars_aap.yml vault_aap.yml
 # Install Ansible Automation Platform
 ansible-playbook -i inventory -e @vars_aap.yml -e @vault_aap.yml \
   myllynen.aap_automation.aap_install.yml
