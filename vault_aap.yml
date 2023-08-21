@@ -17,7 +17,7 @@ aap_install_sso_admin_password: foobar123
 aap_install_registry_username:
 aap_install_registry_password:
 
-# Red Hat credentials
+# Red Hat Customer Portal credentials
 # Needed when downloading manifest
 #aap_rhsm_username:
 #aap_rhsm_password:

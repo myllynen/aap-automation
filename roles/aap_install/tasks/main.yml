@@ -95,6 +95,8 @@
     - not aap_install_demo_setup | bool
 
 - name: Install Ansible Automation Platform
+  # Needed for now due to AAP-14991
+  become: true
   vars:
     aap_installer_dir: /opt/ansible-automation-platform/installer
   command:

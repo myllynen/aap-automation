@@ -1,7 +1,7 @@
 ---
 - name: Install Ansible Automation Platform
   hosts: "{{ bastion | default('bastion') }}"
-  become: true
+  become: false
   gather_facts: true
   roles:
     - myllynen.aap_automation.aap_install
