@@ -49,6 +49,13 @@
     - aap_install_eda_controller_fqdn | default(false)
     - not aap_install_installer_run_always | bool
 
+- name: Check available repository metadata
+  command: dnf -C --enablerepo={{ installer_repo }} list automation-controller
+  register: repo_metadata
+  failed_when: false
+  changed_when: false
+  when: not aap_install_dnf_refresh | bool
+
 - name: Get available package versions
   vars:
     needed_versions:
@@ -57,7 +64,8 @@
       - automation-controller
       - automation-hub
       - automation-eda-controller
-  command: dnf --enablerepo={{ installer_repo }} list {{ needed_versions | join(' ') }}
+    metadata_option: "{{ '--refresh' if aap_install_dnf_refresh | bool or repo_metadata.rc != 0 else '-C' }}"
+  command: dnf --enablerepo={{ installer_repo }} {{ metadata_option }} list {{ needed_versions | join(' ') }}
   register: package_list
   changed_when: false
 

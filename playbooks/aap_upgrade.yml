@@ -7,6 +7,8 @@
     aap_install_upgrade: true
     # Ansible Automation Platform repo version
     #aap_install_version: "2.4"
+    # Ensure always using latest RPM versions
+    aap_install_dnf_refresh: true
     # Installer runs if installer is updated
     # so typically this should not be needed
     #aap_install_installer_run_always: true

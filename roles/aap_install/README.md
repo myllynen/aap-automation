@@ -29,6 +29,10 @@ aap_install_inventory_path: /root/inventory
 # Custom parameters for setup.sh (string)
 aap_install_script_custom_parameters:
 
+# Force refreshing dnf(8) repository data
+# when checking for available RPM versions
+aap_install_dnf_refresh: false
+
 # Force running installer, skip status checks
 aap_install_installer_run_always: false
 
