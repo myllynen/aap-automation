@@ -62,9 +62,9 @@ The only requirements prior installation and upgrades are:
    installer will open the needed firewall ports if the _firewalld_
    service was enabled during installation.
 1. Passwordless sudo rights on all nodes, including the installer node.
-   If the installer RPM is already installed on the installer node then
-   sudo rights on the installer are needed for now only due to
-   AAP-14991.
+   If the installer RPM was already installed on the installer node then
+   sudo rights on the installer node are needed only due to AAP-14991
+   (hopefully to be fixed in a future release).
 
 The [inventory](inventory) file in this directory specifies the bastion
 host, i.e., where to run the actual installer. Especially in a demo
