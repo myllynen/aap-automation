@@ -74,13 +74,13 @@ aap_install_execution_nodes:
 aap_install_hub_node:
 #  fqdn: hub.example.com
 aap_install_hub_database_node:
-#  fqdn: hub-db.example.com
+#  fqdn: db.example.com
 
 # These must be defined together
 aap_install_eda_controller_node:
 #  fqdn: eda.example.com
 aap_install_eda_controller_database_node:
-#  fqdn: eda-db.example.com
+#  fqdn: db.example.com
 
 # Optional SSO instance to use
 aap_install_sso_node:
