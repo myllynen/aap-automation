@@ -67,14 +67,7 @@ pg_username='awx'
 pg_password='{{ aap_install_db_password }}'
 pg_sslmode='prefer'  # set to 'verify-full' for client-side enforced SSL
 
-minimum_ansible_version='{{ ansible_rpm }}'
-automation_platform_version='{{ platform_rpm }}'
-tower_package_name='automation-controller'
-tower_package_version='{{ controller_rpm }}'
-automationhub_package_name='automation-hub'
-automationhub_package_version='{{ hub_rpm }}'
-automationedacontroller_package_name='automation-eda-controller'
-automationedacontroller_package_version='{{ eda_controller_rpm }}'
+automation_platform_version='{{ aap_install_version }}'
 
 # Managed Postgres Options
 

@@ -49,34 +49,6 @@
     - aap_install_eda_controller_fqdn | default(false)
     - not aap_install_installer_run_always | bool
 
-- name: Check available repository metadata
-  command: dnf -C --enablerepo={{ installer_repo }} list automation-controller
-  register: repo_metadata
-  failed_when: false
-  changed_when: false
-  when: not aap_install_dnf_refresh | bool
-
-- name: Get available package versions
-  vars:
-    needed_versions:
-      - ansible-core
-      - ansible-automation-platform-installer
-      - automation-controller
-      - automation-hub
-      - automation-eda-controller
-    metadata_option: "{{ '--refresh' if aap_install_dnf_refresh | bool or repo_metadata.rc != 0 else '-C' }}"
-  command: dnf --enablerepo={{ installer_repo }} {{ metadata_option }} list {{ needed_versions | join(' ') }}
-  register: package_list
-  changed_when: false
-
-- name: Set installation package versions
-  set_fact:
-    ansible_rpm: "{{ ((package_list.stdout | regex_search('ansible-core\\..*') | split)[1] | split('.'))[0:2] | join('.') }}"
-    platform_rpm: "{{ ((package_list.stdout | regex_search('ansible-automation-platform-installer\\..*') | split)[1] | split('-'))[0] }}"
-    controller_rpm: "{{ ((package_list.stdout | regex_search('automation-controller\\..*') | split)[1] | split('-'))[0] }}"
-    hub_rpm: "{{ ((package_list.stdout | regex_search('automation-hub\\..*') | split)[1] | split('-'))[0] }}"
-    eda_controller_rpm: "{{ ((package_list.stdout | regex_search('automation-eda-controller\\..*') | split)[1] | split('-'))[0] }}"
-
 - name: Copy inventory file
   copy:
     src: "{{ aap_install_inventory_custom_file }}"
