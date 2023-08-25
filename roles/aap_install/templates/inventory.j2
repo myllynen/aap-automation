@@ -125,6 +125,9 @@ automationhub_pg_database='automationhub'
 automationhub_pg_username='automationhub'
 automationhub_pg_password='{{ aap_install_hub_db_password }}'
 automationhub_pg_sslmode='prefer'
+
+automationhub_enable_unauthenticated_collection_access=true
+automationhub_enable_unauthenticated_collection_download=true
 {% endif %}
 
 GALAXY_ENABLE_API_ACCESS_LOG={{ aap_install_galaxy_access_log_enable }}
