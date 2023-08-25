@@ -220,7 +220,7 @@ GALAXY_ENABLE_API_ACCESS_LOG={{ aap_install_galaxy_access_log_enable }}
 {% if aap_install_eda_controller_node | default(false) and 'fqdn' in aap_install_eda_controller_node %}
 automationedacontroller_admin_password='{{ aap_install_eda_controller_admin_password }}'
 
-automationedacontroller_pg_host='{{ aap_install_eda_controller_fqdn }}'
+automationedacontroller_pg_host='{{ aap_install_eda_controller_database_node.fqdn }}'
 automationedacontroller_pg_port=5432
 
 automationedacontroller_pg_database='automationedacontroller'
