@@ -69,7 +69,7 @@ The only requirements prior installation and upgrades are:
 The [inventory](inventory) file in this directory specifies the
 installer (bastion) host, i.e., where to run the actual installer.
 Especially in a demo setup this can well be the same host as the
-Automation Controller node.
+as the local system and the Automation Controller node.
 
 The most minimal configuration for a basic demo setup with the
 controller node only could be like this:
