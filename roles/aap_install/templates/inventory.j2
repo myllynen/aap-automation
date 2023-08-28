@@ -11,6 +11,7 @@
 [automationcontroller]
 {% for server in aap_install_controller_nodes %}
 {{ server.fqdn }}{% if 'vars' in server %} {{ server.vars }}{% endif %}
+
 {% endfor %}
 
 #[automationcontroller:vars]
@@ -35,16 +36,19 @@
 
 [automationhub]
 {% if aap_install_hub_node | default(false) and 'fqdn' in aap_install_hub_node %}
-{{ aap_install_hub_node.fqdn }}{%- if 'vars' in aap_install_hub_node %} {{ aap_install_hub_node.vars }}{% endif %}
+{{ aap_install_hub_node.fqdn }}{% if 'vars' in aap_install_hub_node %} {{ aap_install_hub_node.vars }}{% endif %}
+
 {% endif %}
 
 [automationedacontroller]
 {% if aap_install_eda_controller_node | default(false) and 'fqdn' in aap_install_eda_controller_node %}
-{{ aap_install_eda_controller_node.fqdn }}{%- if 'vars' in aap_install_eda_controller_node %} {{ aap_install_eda_controller_node.vars }}{% endif %}
+{{ aap_install_eda_controller_node.fqdn }}{% if 'vars' in aap_install_eda_controller_node %} {{ aap_install_eda_controller_node.vars }}{% endif %}
+
 {% endif %}
 
 [database]
-{{ aap_install_database_node.fqdn }}{%- if 'vars' in aap_install_database_node %} {{ aap_install_database_node.vars }}{% endif %}
+{{ aap_install_database_node.fqdn }}{% if 'vars' in aap_install_database_node %} {{ aap_install_database_node.vars }}{% endif %}
+
 
 # Single Sign-On
 # If sso_redirect_host is set, that will be used for application to connect to
@@ -53,7 +57,8 @@
 # ssohost.example sso_redirect_host=<host/ip>
 [sso]
 {% if aap_install_sso_node | default(false) and 'fqdn' in aap_install_sso_node %}
-{{ aap_install_sso_node.fqdn }}{%- if 'vars' in aap_install_sso_node %} {{ aap_install_sso_node.vars }}{% endif %}
+{{ aap_install_sso_node.fqdn }}{% if 'vars' in aap_install_sso_node %} {{ aap_install_sso_node.vars }}{% endif %}
+
 {% endif %}
 
 [all:vars]
@@ -119,11 +124,13 @@ automationhub_pg_username='automationhub'
 automationhub_pg_password='{{ aap_install_hub_db_password }}'
 automationhub_pg_sslmode='prefer'
 
+automationhub_seed_collections=true
+#automationhub_importer_settings={'run_ansible_lint': True, 'offline_ansible_lint': True}
 automationhub_enable_unauthenticated_collection_access=true
 automationhub_enable_unauthenticated_collection_download=true
+automationhub_enable_api_access_log={{ aap_install_hub_api_log_analytics }}
+automationhub_enable_analytics={{ aap_install_hub_api_log_analytics }}
 {% endif %}
-
-GALAXY_ENABLE_API_ACCESS_LOG={{ aap_install_galaxy_access_log_enable }}
 
 # Set to True to overwrite existing admin password.
 #

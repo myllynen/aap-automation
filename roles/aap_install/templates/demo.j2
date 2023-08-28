@@ -33,8 +33,12 @@ automationhub_pg_username='automationhub'
 automationhub_pg_password='{{ aap_install_db_password }}'
 automationhub_pg_sslmode='prefer'
 
+automationhub_seed_collections=true
+#automationhub_importer_settings={'run_ansible_lint': True, 'offline_ansible_lint': True}
 automationhub_enable_unauthenticated_collection_access=true
 automationhub_enable_unauthenticated_collection_download=true
+automationhub_enable_api_access_log={{ aap_install_hub_api_log_analytics }}
+automationhub_enable_analytics={{ aap_install_hub_api_log_analytics }}
 
 
 automationedacontroller_admin_password='{{ aap_install_eda_controller_admin_password }}'
@@ -55,7 +59,5 @@ receptor_listener_port=27199
 registry_url='{{ aap_install_registry_url }}'
 registry_username='{{ aap_install_registry_username }}'
 registry_password='{{ aap_install_registry_password }}'
-
-GALAXY_ENABLE_API_ACCESS_LOG={{ aap_install_galaxy_access_log_enable }}
 
 enable_insights_collection={{ aap_install_insights_enable }}
