@@ -4,7 +4,7 @@
   become: false
   gather_facts: true
   vars:
-    aap_install_upgrade: true
+    aap_install_installer_update: true
     # Ansible Automation Platform repo version
     #aap_install_version: "2.4"
     # Installer runs if installer is updated

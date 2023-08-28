@@ -9,11 +9,18 @@ aap_install_controller_fqdn:
 aap_install_hub_fqdn:
 aap_install_eda_controller_fqdn:
 
-# Register nodes to Red Hat Insights
-aap_install_insights_enable: false
 
 # Full path of installer inventory on bastion
 aap_install_inventory_path: /root/inventory
+
+# Directory where AAP setup.sh is, if missing
+# installer RPM will be installed using sudo.
+# Defaults to RPM created installer directory
+# Bundle installer will need rsync on bastion
+aap_install_installer_dir: /opt/ansible-automation-platform/installer
+
+# Directory to store installer setup.log
+aap_install_setup_log_dir: "{{ aap_install_installer_dir }}"
 
 # Custom parameters for setup.sh (string)
 aap_install_script_custom_parameters:
@@ -21,8 +28,11 @@ aap_install_script_custom_parameters:
 # Force running installer, skip status checks
 aap_install_installer_run_always: false
 
-# Enable installer update to upgrade AAP
-aap_install_upgrade: false
+# Always try install latest installer RPM
+aap_install_installer_update: false
+
+# Register AAP nodes to Red Hat Insights
+aap_install_insights_enable: false
 
 
 # Custom inventory file to use instead of template
@@ -34,13 +44,15 @@ aap_install_inventory_custom_file:
 # If true all the other node variables are ignored
 aap_install_demo_setup: true
 
+
 # Trusted container registry used by hub
 aap_install_registry_url: registry.redhat.io
 # These should come from vault
 #aap_install_registry_username:
 #aap_install_registry_password:
 
-aap_install_galaxy_access_log_enable: true
+# Enable hub api log and hub analytics
+aap_install_hub_api_log_analytics: true
 
 
 #

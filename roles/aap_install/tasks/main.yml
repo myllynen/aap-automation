@@ -1,6 +1,8 @@
 ---
-- name: Gather package facts
-  package_facts:
+- name: Check Ansible Automation Platform installer presence
+  stat:
+    path: "{{ aap_install_installer_dir }}/setup.sh"
+  register: setup_sh
 
 - name: Set Ansible Automation Platform repository
   set_fact:
@@ -8,15 +10,27 @@
       ansible-automation-platform-{{ aap_install_version -}}
       -for-rhel-{{ ansible_facts.distribution_major_version -}}
       -{{ ansible_facts.architecture }}-rpms
+  when: aap_install_installer_update | bool or
+        setup_sh.stat.isreg is not defined or
+        not setup_sh.stat.isreg or
+        not setup_sh.stat.executable
 
-- name: Install Ansible Automation Platform installer
+- name: Install Ansible Automation Platform installer package
   become: true
   yum:
     name: ansible-automation-platform-installer
     enablerepo: "{{ installer_repo }}"
-    state: "{{ 'latest' if aap_install_upgrade | bool else 'present' }}"
+    state: "{{ 'latest' if aap_install_installer_update | bool else 'present' }}"
   register: installer_package
-  when: "'ansible-automation-platform-installer' not in ansible_facts.packages"
+  when: aap_install_installer_update | bool or
+        setup_sh.stat.isreg is not defined or
+        not setup_sh.stat.isreg or
+        not setup_sh.stat.executable
+
+- name: Check Ansible Automation Platform installer status
+  stat:
+    path: "{{ aap_install_installer_dir }}"
+  register: installer_dir
 
 - name: Check automation controller status
   uri:
@@ -49,14 +63,7 @@
     - aap_install_eda_controller_fqdn | default(false)
     - not aap_install_installer_run_always | bool
 
-- name: Copy inventory file
-  copy:
-    src: "{{ aap_install_inventory_custom_file }}"
-    dest: "{{ aap_install_inventory_path }}"
-    mode: '0600'
-  when: aap_install_inventory_custom_file
-
-- name: Create demo inventory
+- name: Create single-node inventory
   template:
     src: demo.j2
     dest: "{{ aap_install_inventory_path }}"
@@ -65,7 +72,7 @@
     - not aap_install_inventory_custom_file
     - aap_install_demo_setup | bool
 
-- name: Create custom inventory
+- name: Create multi-node inventory
   template:
     src: inventory.j2
     dest: "{{ aap_install_inventory_path }}"
@@ -74,20 +81,31 @@
     - not aap_install_inventory_custom_file
     - not aap_install_demo_setup | bool
 
+- name: Copy custom inventory file
+  copy:
+    src: "{{ aap_install_inventory_custom_file }}"
+    dest: "{{ aap_install_inventory_path }}"
+    mode: '0600'
+  when: aap_install_inventory_custom_file
+
+- name: Create installer log directory
+  file:
+    path: "{{ aap_install_setup_log_dir }}"
+    state: directory
+    mode: '0755'
+
 - name: Install Ansible Automation Platform
-  # Needed for now due to AAP-14991
-  become: true
-  vars:
-    aap_installer_dir: /opt/ansible-automation-platform/installer
+  # For now, due to AAP-14991
+  become: "{{ false if installer_dir.stat.writeable else true }}"
   command:
     cmd: >
       ./setup.sh
       -i {{ aap_install_inventory_path }}
-      -p {{ aap_install_setup_log_dir | default(aap_installer_dir, true) }}
+      -p {{ aap_install_setup_log_dir }}
       --
       --become
       {{ aap_install_script_custom_parameters }}
-    chdir: "{{ aap_installer_dir }}"
+    chdir: "{{ aap_install_installer_dir }}"
   changed_when: true
   when: aap_install_installer_run_always | bool or
         installer_package is changed or
