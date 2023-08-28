@@ -10,18 +10,20 @@ Below are the role default values from defaults/main.yml:
 
 <pre>
 ---
-# Either copy a manifest file from the local system
-# or download directly from Red Hat Customer Portal
+# Either use a manifest file from the local system
+# or download one from Red Hat Customer Portal
+# Downloading will be done from the bastion host
 aap_manifest_download: false
 
-# Manifest path to use on the target host
-aap_manifest_path: /root/aap_manifest.zip
+# Manifest file path to use on the bastion host
+# This is used both when copying or downloading
+aap_manifest_file_bastion: aap_manifest.zip
 
 #
 # Required when copying manifest
 #
-# Local manifest file to copy to the target host
-aap_manifest_file: aap_manifest.zip
+# Manifest local file path to copy to the bastion
+aap_manifest_file_local: aap_manifest.zip
 
 #
 # Required when downloading manifest
