@@ -3,8 +3,9 @@
 [![License: GPLv3](https://img.shields.io/badge/license-GPLv3-brightgreen.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 Ansible collection of playbooks and roles to install and upgrade Ansible
-Automation Platform using RPMs. Supports also installation from the
-offline setup bundle.
+Automation Platform using RPMs.
+
+Supports also installation from the offline setup bundle.
 
 ## Contents
 
@@ -126,8 +127,8 @@ ansible-playbook -i inventory -e @vars_aap.yml -e @vault_aap.yml \
 
 ## Next Steps
 
-To create and get an authentication for Ansible Automation Platform
-administrator run the helper playbook:
+To create and get an authentication token for Ansible Automation
+Platform administrator run the helper playbook:
 
 ```
 # Create and get an administrator token
@@ -144,7 +145,7 @@ best done with
 for Ansible Automation Platform, see especially the
 _infra.controller\_configuration_, _infra.ah\_configuration_,
 _infra.ee\_utilities_, and _infra.aap\_utilities_ collections at
-[Red Hat Automation Hub](https://console.redhat.com/ansible/automation-hub/namespaces/infra/).
+[Red Hat Automation Hub](https://console.redhat.com/ansible/automation-hub/namespaces/infra).
 An upstream example of how to utilize _infra.controller\_configuration_
 for configuring automation controller is also
 [available](https://github.com/redhat-cop/aap_configuration_template/blob/main/playbooks/controller_config.yml).
@@ -158,7 +159,7 @@ See also
 [https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller).
 
 See also
-[https://console.redhat.com/ansible/automation-hub/namespaces/infra/](https://console.redhat.com/ansible/automation-hub/namespaces/infra/).
+[https://console.redhat.com/ansible/automation-hub/namespaces/infra](https://console.redhat.com/ansible/automation-hub/namespaces/infra).
 
 See also
 [https://console.redhat.com/ansible/automation-hub/repo/published/redhat/rhel_system_roles](https://console.redhat.com/ansible/automation-hub/repo/published/redhat/rhel_system_roles).
