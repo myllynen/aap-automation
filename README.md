@@ -2,13 +2,14 @@
 
 [![License: GPLv3](https://img.shields.io/badge/license-GPLv3-brightgreen.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-Ansible collection of playbooks and roles to install and upgrade
-Ansible Automation Platform using RPMs.
+Ansible collection of playbooks and roles to install and upgrade Ansible
+Automation Platform using RPMs. Supports also installation from the
+offline setup bundle.
 
 ## Contents
 
 * [vars_aap.yml](vars_aap.yml)
-  * Example vars file for installation and configuration
+  * Example vars file for installation
 * [vault_aap.yml](vault_aap.yml)
   * Unencrypted example vault file
 * [inventory](inventory)
@@ -19,14 +20,19 @@ Ansible Automation Platform using RPMs.
   * Playbook to download and install required manifest
 * [playbooks/aap_upgrade.yml](playbooks/aap_upgrade.yml)
   * Playbook to upgrade Ansible Automation Platform
+* [playbooks/aap_token_get.yml](playbooks/aap_token_get.yml)
+  * Playbook to get token helpful with later AAP configuration
 
 These playbooks and roles allow for fully automating Ansible Automation
 Platform installation,
 [subscription manifest handling](https://docs.ansible.com/automation-controller/latest/html/userguide/import_license.html#import-a-subscription),
-and upgrades. The playbooks use supported RPMs from Red Hat repositories
-and download the required manifest file from Red Hat Customer Portal
-removing the need to download or provide any installation related files
-manually. For more information about the manifest, see
+and upgrades. The playbooks by default use supported RPMs from Red Hat
+repositories and automatically download the required manifest file from
+Red Hat Customer Portal removing the need to download or provide any
+installation related files manually. However, in case the installer
+directory was populated by manually provided setup files or a manifest
+was made available locally those can also be used. For more information
+about the manifest, see
 [Red Hat Subscription Allocations tool](https://access.redhat.com/management/subscription_allocations)
 and
 [obtaining a subscription manifest](https://docs.ansible.com/automation-controller/latest/html/userguide/import_license.html#obtaining-a-subscriptions-manifest).
@@ -34,11 +40,11 @@ and
 The installation playbook and role support three different installation
 variants:
 
-1. Simple demo setup with a single-node Automation Controller and optional
-   Automation Hub and/or EDA Controller nodes. Only the hostname(s) need to
-   be provided and the playbook will take care of the rest. See below for a
-   basic example and also see [vars_aap.yml](vars_aap.yml) and
-   [vault_aap.yml](vault_aap.yml).
+1. Simple demo setup with a single-node Automation Controller and
+   optional Automation Hub and/or EDA Controller nodes. Only the
+   hostname(s) need to be provided and the playbook will take care of
+   the rest. See below for a basic example and also see
+   [vars_aap.yml](vars_aap.yml) and [vault_aap.yml](vault_aap.yml).
 1. Template based setup which requires specifying different hosts
    for installation (see
    [roles/aap_install/defaults/main.yml](roles/aap_install/defaults/main.yml)
@@ -61,18 +67,19 @@ The only requirements prior installation and upgrades are:
 1. DNS, networking, SSH, and timesync have been setup properly. The
    installer will open the needed firewall ports if the _firewalld_
    service was enabled during installation.
-1. Passwordless sudo rights on all nodes, including the installer host.
-   If the installer RPM was already installed on the installer host then
-   sudo rights on the installer host are needed only due to AAP-14991
-   (hopefully to be fixed in a future release).
+1. Passwordless sudo rights on all AAP nodes. Needed also on the
+   installer host if the RPM needs to be installed. If the installer RPM
+   was already installed on the installer host then sudo rights on the
+   installer host are needed only, for now, due to AAP-14991 (to be
+   fixed in a future release).
 
 The [inventory](inventory) file in this directory specifies the
 installer (bastion) host, i.e., where to run the actual installer.
-Especially in a demo setup this can well be the same host as the
-as the local system and the Automation Controller node.
+Especially in a demo setup this can well be the same host as the as the
+local system and the Automation Controller node.
 
-The most minimal configuration for a basic demo setup with the
-controller node only could be like this:
+The most minimal installation for a basic demo setup with the controller
+node only could be like this:
 
 ```
 # AAP repository version
@@ -117,6 +124,31 @@ ansible-playbook -i inventory -e @vars_aap.yml -e @vault_aap.yml \
   myllynen.aap_automation.aap_upgrade.yml
 ```
 
+## Next Steps
+
+To create and get an authentication for Ansible Automation Platform
+administrator run the helper playbook:
+
+```
+# Create and get an administrator token
+ansible-playbook -c local -i localhost, -e @vars_aap.yml -e @vault_aap.yml \
+  myllynen.aap_automation.aap_token_get.yml
+# Copy the token for later use and remove the token file
+vi ./aap-token-admin.txt
+rm ./aap-token-admin.txt
+```
+
+Configuration, project and team creation, and other follow-up tasks are
+best done with
+[Red Hat validated collections](https://www.redhat.com/en/blog/automate-expert-ansible-validated-content)
+for Ansible Automation Platform, see especially the
+_infra.controller\_configuration_, _infra.ah\_configuration_,
+_infra.ee\_utilities_, and _infra.aap\_utilities_ collections at
+[Red Hat Automation Hub](https://console.redhat.com/ansible/automation-hub/namespaces/infra/).
+An upstream example of how to utilize _infra.controller\_configuration_
+for configuring automation controller is also
+[available](https://github.com/redhat-cop/aap_configuration_template/blob/main/playbooks/controller_config.yml).
+
 ## See Also
 
 See also
@@ -126,13 +158,16 @@ See also
 [https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller).
 
 See also
+[https://console.redhat.com/ansible/automation-hub/namespaces/infra/](https://console.redhat.com/ansible/automation-hub/namespaces/infra/).
+
+See also
 [https://console.redhat.com/ansible/automation-hub/repo/published/redhat/rhel_system_roles](https://console.redhat.com/ansible/automation-hub/repo/published/redhat/rhel_system_roles).
 
 See also
-[https://github.com/myllynen/aap-troubleshooting-guide](https://github.com/myllynen/aap-troubleshooting-guide).
+[https://github.com/myllynen/rhel-ansible-roles](https://github.com/myllynen/rhel-ansible-roles).
 
 See also
-[https://github.com/myllynen/rhel-ansible-roles](https://github.com/myllynen/rhel-ansible-roles).
+[https://github.com/myllynen/aap-troubleshooting-guide](https://github.com/myllynen/aap-troubleshooting-guide).
 
 See also
 [https://github.com/redhat-cop](https://github.com/redhat-cop).

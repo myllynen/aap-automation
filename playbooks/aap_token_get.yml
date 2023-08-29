@@ -1,0 +1,33 @@
+---
+- name: Get automation controller token
+  hosts: all[0]
+  become: false
+  gather_facts: false
+  vars:
+    controller_hostname: "{{ aap_install_controller_fqdn }}"
+    controller_username: admin
+    controller_password: "{{ aap_install_admin_password }}"
+    controller_validate_certs: false
+
+    token_description: Automation token
+    token_file_local: "{{ lookup('env', 'PWD') + '/aap-token-' + controller_username + '.txt' }}"
+  tasks:
+    - name: Create new token at automation controller
+      ansible.controller.token:
+        controller_host: "{{ controller_hostname }}"
+        controller_username: "{{ controller_username }}"
+        controller_password: "{{ controller_password }}"
+        validate_certs: "{{ controller_validate_certs }}"
+        description: "{{ token_description }}"
+        scope: write
+        state: present
+
+    - name: Store token in file
+      copy:
+        content: "{{ controller_token.token + '\n' }}"
+        dest: "{{ token_file_local }}"
+        mode: '0600'
+
+    - name: Display token file name
+      debug:
+        msg: "Token stored on {{ groups.all[0] }} in '{{ token_file_local }}'."
