@@ -1,6 +1,6 @@
 ---
 - name: Get automation controller token
-  hosts: all[0]
+  hosts: "{{ bastion | default('all') }}"
   become: false
   gather_facts: false
   vars:

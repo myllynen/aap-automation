@@ -1,6 +1,6 @@
 ---
 - name: Install Ansible Automation Platform
-  hosts: "{{ bastion | default('bastion') }}"
+  hosts: "{{ bastion | default('all') }}"
   become: false
   gather_facts: true
   roles:
