@@ -13,8 +13,8 @@ Supports also installation from the offline setup bundle.
   * Example vars file for installation
 * [vault_aap.yml](vault_aap.yml)
   * Unencrypted example vault file
-* [inventory](inventory)
-  * Example inventory for where to run the installer
+* [bastion](bastion)
+  * Define the host where to run the installer
 * [playbooks/aap_install.yml](playbooks/aap_install.yml)
   * Playbook to install Ansible Automation Platform
 * [playbooks/aap_manifest](playbooks/aap_manifest.yml)
@@ -50,7 +50,7 @@ variants:
    for installation (see
    [roles/aap_install/defaults/main.yml](roles/aap_install/defaults/main.yml)
    for details).
-1. Customized setup using a manually crafted installer inventory file,
+1. Customized setup using a manually crafted installer inventory template,
    see
    [roles/aap_install/defaults/main.yml](roles/aap_install/defaults/main.yml)
    for details and
@@ -74,19 +74,19 @@ The only requirements prior installation and upgrades are:
    installer host are needed only, for now, due to AAP-14991 (to be
    fixed in a future release).
 
-The [inventory](inventory) file in this directory specifies the
-installer (bastion) host, i.e., where to run the actual installer.
-Especially in a demo setup this can well be the same host as the as the
-local system and the Automation Controller node.
+The [bastion](bastion) file in this directory specifies the bastion
+installer host, i.e., where to run the actual installer. Especially in a
+demo setup this can well be the same host as the as the local system and
+the Automation Controller node.
 
 The most minimal installation for a basic demo setup with the controller
 node only could be like this:
 
 ```
-# AAP repository version
 aap_install_version: "2.4"
 aap_install_demo_setup: true
 aap_install_controller_fqdn: ctrl.example.com
+aap_install_inventory_path: /tmp/inventory
 ```
 
 See [vars_aap.yml](vars_aap.yml) for a more complete example and
@@ -115,13 +115,13 @@ vi inventory
 # Edit settings and credentials to suite local environment
 vi vars_aap.yml vault_aap.yml
 # Install Ansible Automation Platform
-ansible-playbook -i inventory -e @vars_aap.yml -e @vault_aap.yml \
+ansible-playbook -i bastion -e @vars_aap.yml -e @vault_aap.yml \
   myllynen.aap_automation.aap_install.yml
 # Download and install manifest
-ansible-playbook -i inventory -e @vars_aap.yml -e @vault_aap.yml \
+ansible-playbook -i bastion -e @vars_aap.yml -e @vault_aap.yml \
   myllynen.aap_automation.aap_manifest.yml
 # Upgrade Ansible Automation Platform
-ansible-playbook -i inventory -e @vars_aap.yml -e @vault_aap.yml \
+ansible-playbook -i bastion -e @vars_aap.yml -e @vault_aap.yml \
   myllynen.aap_automation.aap_upgrade.yml
 ```
 
