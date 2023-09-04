@@ -7,7 +7,7 @@ authors:
   - Marko Myllynen <myllynen@redhat.com>
 description: >
   Ansible playbooks and roles to install and upgrade Ansible Automation
-  Platform using RPMs.
+  Platform using RPMs or offline setup bundle.
 license:
   - GPL-3.0-or-later
 tags:

@@ -23,6 +23,8 @@ aap_manifest_file_bastion: aap_manifest.zip
 # Required when copying manifest
 #
 # Manifest local file path to copy to the bastion
+# When using ansible_connection=local this can be
+# the same file as aap_manifest_file_bastion above
 aap_manifest_file_local: aap_manifest.zip
 
 #
