@@ -14,8 +14,10 @@
 
 {% endfor %}
 
-#[automationcontroller:vars]
-#peers=execution_nodes
+{% if aap_install_execution_nodes | default(false) %}
+[automationcontroller:vars]
+peers=execution_nodes
+{% endif %}
 
 # Execution Nodes
 # There are two valid node_types that can be assigned for this group.
@@ -72,7 +74,9 @@ pg_username='awx'
 pg_password='{{ aap_install_db_password }}'
 pg_sslmode='prefer'  # set to 'verify-full' for client-side enforced SSL
 
+
 automation_platform_version='{{ aap_install_version }}'
+
 
 # Managed Postgres Options
 
@@ -100,6 +104,7 @@ automation_platform_version='{{ aap_install_version }}'
 registry_url='{{ aap_install_registry_url }}'
 registry_username='{{ aap_install_registry_username }}'
 registry_password='{{ aap_install_registry_password }}'
+ee_images_tmp_dir=/tmp
 ee_from_hub_only=true
 
 # If you wish to add Ansible Engine 2.9 execution environment, set the following variable to true.
@@ -125,7 +130,7 @@ automationhub_pg_password='{{ aap_install_hub_db_password }}'
 automationhub_pg_sslmode='prefer'
 
 automationhub_seed_collections=true
-#automationhub_importer_settings={'run_ansible_lint': True, 'offline_ansible_lint': True}
+automationhub_importer_settings={'run_ansible_lint': True, 'offline_ansible_lint': True}
 automationhub_enable_unauthenticated_collection_access=true
 automationhub_enable_unauthenticated_collection_download=true
 automationhub_enable_api_access_log={{ aap_install_hub_api_log_analytics }}
