@@ -10,20 +10,24 @@ aap_install_hub_fqdn:
 aap_install_eda_controller_fqdn:
 
 
-# Full path of installer inventory on bastion
-aap_install_inventory_path: /root/inventory
-
 # Directory where AAP setup.sh is, if missing
 # installer RPM will be installed using sudo.
 # Defaults to RPM created installer directory
 # Bundle installer will need rsync on bastion
 aap_install_installer_dir: /opt/ansible-automation-platform/installer
 
-# Directory to store installer setup.log
+# Full path to installer inventory on bastion
+aap_install_inventory_path: /root/inventory
+
+# Directory to store installer setup log(s)
 aap_install_setup_log_dir: "{{ aap_install_installer_dir }}"
 
 # Custom parameters for setup.sh (string)
 aap_install_script_custom_parameters:
+
+# Optional ansible.cfg to use with the installer
+# If not set the default (if any) will be used
+aap_install_installer_config:
 
 # Force running installer, skip status checks
 aap_install_installer_run_always: false
@@ -35,9 +39,11 @@ aap_install_installer_update: false
 aap_install_insights_enable: false
 
 
-# Custom inventory file to use instead of template
+# Local custom installer inventory template to use
 # If defined no other variables below will be used
-aap_install_inventory_custom_file:
+# Must differ from aap_install_inventory_path when
+# the bastion host is the same system ie localhost
+aap_install_inventory_custom:
 
 
 # Demo setup of controller+db and optional hub/eda

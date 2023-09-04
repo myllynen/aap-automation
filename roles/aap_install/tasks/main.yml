@@ -69,7 +69,7 @@
     dest: "{{ aap_install_inventory_path }}"
     mode: '0600'
   when:
-    - not aap_install_inventory_custom_file
+    - not aap_install_inventory_custom
     - aap_install_demo_setup | bool
 
 - name: Create multi-node inventory
@@ -78,15 +78,15 @@
     dest: "{{ aap_install_inventory_path }}"
     mode: '0600'
   when:
-    - not aap_install_inventory_custom_file
+    - not aap_install_inventory_custom
     - not aap_install_demo_setup | bool
 
-- name: Copy custom inventory file
-  copy:
-    src: "{{ aap_install_inventory_custom_file }}"
+- name: Create custom inventory file
+  template:
+    src: "{{ aap_install_inventory_custom }}"
     dest: "{{ aap_install_inventory_path }}"
     mode: '0600'
-  when: aap_install_inventory_custom_file
+  when: aap_install_inventory_custom
 
 - name: Create installer log directory
   file:
@@ -97,8 +97,9 @@
 - name: Install Ansible Automation Platform
   # For now, due to AAP-14991
   become: "{{ false if installer_dir.stat.writeable else true }}"
-  command:
+  shell:
     cmd: >
+      {{ 'ANSIBLE_CONFIG=' + aap_install_installer_config if aap_install_installer_config | default(false) else '' }}
       ./setup.sh
       -i {{ aap_install_inventory_path }}
       -p {{ aap_install_setup_log_dir }}
