@@ -14,10 +14,8 @@
 
 {% endfor %}
 
-{% if aap_install_execution_nodes | default(false) %}
-[automationcontroller:vars]
-peers=execution_nodes
-{% endif %}
+#[automationcontroller:vars]
+#peers=execution_nodes
 
 # Execution Nodes
 # There are two valid node_types that can be assigned for this group.
