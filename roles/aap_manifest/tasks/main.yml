@@ -4,7 +4,6 @@
     src: "{{ aap_manifest_file_local }}"
     dest: "{{ aap_manifest_file_bastion }}"
     mode: '0600'
-  register: manifest_copy
   when: not aap_manifest_download | bool
 
 - name: Check manifest file on bastion host
@@ -20,7 +19,6 @@
     password: "{{ aap_rhsm_password }}"
     path: "{{ aap_manifest_file_bastion }}"
     state: present
-  register: manifest_download
   when:
     - aap_manifest_download | bool
     - not manifest_file.stat.exists
@@ -37,5 +35,3 @@
     controller_password: "{{ aap_install_admin_password }}"
     manifest: "{{ aap_manifest_file_bastion }}"
     validate_certs: false
-  when: manifest_copy is changed or
-        (aap_manifest_download | bool and not manifest_file.stat.exists)
