@@ -6,7 +6,7 @@ aap_manifest_download: false
 
 # Manifest file path to use on the bastion host
 # This is used both when copying or downloading
-aap_manifest_file_bastion: aap_manifest.zip
+aap_manifest_file_bastion: "{{ ansible_facts.env.HOME + '/aap_manifest.zip' }}"
 
 #
 # Required when copying manifest
@@ -14,7 +14,7 @@ aap_manifest_file_bastion: aap_manifest.zip
 # Manifest local file path to copy to the bastion
 # When using ansible_connection=local this can be
 # the same file as aap_manifest_file_bastion above
-aap_manifest_file_local: aap_manifest.zip
+aap_manifest_file_local: "{{ lookup('env', 'HOME') + '/aap_manifest.zip' }}"
 
 #
 # Required when downloading manifest
