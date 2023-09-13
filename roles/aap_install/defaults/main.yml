@@ -17,7 +17,7 @@ aap_install_eda_controller_fqdn:
 aap_install_installer_dir: /opt/ansible-automation-platform/installer
 
 # Full path to installer inventory on bastion
-aap_install_inventory_path: "{{ lookup('env', 'HOME') + '/inventory' }}"
+aap_install_inventory_path: "{{ ansible_facts.env.HOME + '/inventory' }}"
 
 # Directory to store installer setup log(s)
 aap_install_setup_log_dir: "{{ aap_install_installer_dir }}"
