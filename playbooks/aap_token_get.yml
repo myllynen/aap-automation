@@ -21,13 +21,18 @@
         description: "{{ token_description }}"
         scope: write
         state: present
+      run_once: true
 
     - name: Store token in file
       copy:
         content: "{{ controller_token.token + '\n' }}"
         dest: "{{ token_file_local }}"
         mode: '0600'
+      delegate_to: localhost
+      run_once: true
 
     - name: Display token file name
       debug:
-        msg: "Token stored on {{ groups.all[0] }} in '{{ token_file_local }}'."
+        msg: "Token stored on {{ ansible_host }} in '{{ token_file_local }}'."
+      delegate_to: localhost
+      run_once: true

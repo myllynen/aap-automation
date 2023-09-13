@@ -1,7 +1,7 @@
 ---
 namespace: myllynen
 name: aap_automation
-version: "1.5.3"
+version: "1.5.4"
 readme: README.md
 authors:
   - Marko Myllynen <myllynen@redhat.com>
