@@ -10,7 +10,7 @@
     controller_validate_certs: false
 
     token_description: Automation token
-    token_file_local: "{{ lookup('env', 'PWD') + '/aap-token-' + controller_username + '.txt' }}"
+    token_file_local: "{{ lookup('env', 'PWD') + '/aap_token_' + controller_username + '.txt' }}"
   tasks:
     - name: Create new token at automation controller
       ansible.controller.token:
