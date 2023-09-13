@@ -19,6 +19,7 @@
     password: "{{ aap_rhsm_password }}"
     path: "{{ aap_manifest_file_bastion }}"
     state: present
+  changed_when: true
   when:
     - aap_manifest_download | bool
     - not manifest_file.stat.exists
