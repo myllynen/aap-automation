@@ -88,11 +88,17 @@
     mode: '0600'
   when: aap_install_inventory_custom
 
+- name: Check installer log directory
+  stat:
+    path: "{{ aap_install_setup_log_dir }}"
+  register: log_dir
+
 - name: Create installer log directory
   file:
     path: "{{ aap_install_setup_log_dir }}"
     state: directory
-    mode: '0755'
+    mode: '0750'
+  when: not log_dir.stat.exists
 
 - name: Install Ansible Automation Platform
   # For now, due to AAP-14991
@@ -100,13 +106,13 @@
   shell:
     cmd: >
       {{ 'ANSIBLE_CONFIG=' + aap_install_installer_config if aap_install_installer_config | default(false) else '' }}
-      ./setup.sh
+      {{ aap_install_installer_dir }}/setup.sh
       -i {{ aap_install_inventory_path }}
       -p {{ aap_install_setup_log_dir }}
       --
       --become
       {{ aap_install_script_custom_parameters }}
-    chdir: "{{ aap_install_installer_dir }}"
+    chdir: "{{ aap_install_setup_log_dir }}"
   changed_when: true
   when: aap_install_installer_run_always | bool or
         installer_package is changed or
