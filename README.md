@@ -23,6 +23,8 @@ Supports also installation from the offline setup bundle.
   * Playbook to upgrade Ansible Automation Platform
 * [playbooks/aap_ctrl_token_get.yml](playbooks/aap_ctrl_token_get.yml)
   * Playbook to get authentication token used with later AAP configuration
+* [examples](examples)
+  * Example playbooks and configuration for further AAP setup automation
 
 These playbooks and roles allow for fully automating Ansible Automation
 Platform installation,

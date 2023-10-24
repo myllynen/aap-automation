@@ -1,0 +1,97 @@
+ah_host: "{{ aap_install_hub_fqdn }}"
+ah_username: "{{ aap_install_hub_admin_username | default('admin') }}"
+ah_password: "{{ aap_install_hub_admin_password }}"
+#ah_oauthtoken: "{{ lookup('file', lookup('env', 'PWD') + '/aap_ah_token_admin.txt') }}"
+ah_validate_certs: false
+
+ah_configuration_secure_logging: false
+ah_configuration_collection_repository_secure_logging: false
+
+redhat_auth_url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
+#ah_redhat_token:
+
+ah_auto_approve: true
+ah_overwrite_existing: true
+
+ah_collection_remotes:
+  - name: rh-certified
+    url: https://console.redhat.com/api/automation-hub/content/published/
+    auth_url: "{{ redhat_auth_url if ah_redhat_token is defined else omit }}"
+    token: "{{ ah_redhat_token | default(omit) }}"
+    tls_validation: true
+    download_concurrency: 10
+    max_retries: 1
+    rate_limit: 8
+    signed_only: true
+    policy: immediate
+    sync_dependencies: false
+    requirements:
+      - name: ansible.controller
+      - name: ansible.eda
+      - name: ansible.posix
+      - name: ansible.utils
+      - name: ansible.windows
+      - name: kubernetes.core
+      - name: redhat.rhel_idm
+      - name: redhat.rhel_system_roles
+      - name: redhat.satellite
+      - name: redhat.satellite_operations
+
+  - name: validated
+    url: https://console.redhat.com/api/automation-hub/content/validated/
+    auth_url: "{{ redhat_auth_url if ah_redhat_token is defined else omit }}"
+    token: "{{ ah_redhat_token | default(omit) }}"
+    tls_validation: true
+    download_concurrency: 10
+    max_retries: 1
+    rate_limit: 8
+    signed_only: true
+    policy: immediate
+    sync_dependencies: false
+    requirements:
+      - name: infra.aap_utilities
+      - name: infra.controller_configuration
+      - name: infra.ah_configuration
+      # - name: infra.eda_configuration
+      - name: infra.ee_utilities
+
+  - name: community
+    url: https://galaxy.ansible.com/api/
+    tls_validation: true
+    download_concurrency: 10
+    max_retries: 1
+    rate_limit: 8
+    signed_only: false
+    policy: immediate
+    sync_dependencies: false
+    requirements:
+      - name: community.general
+        version: 7.5.0
+      - name: community.windows
+        version: 2.0.0
+
+ah_collection_repositories:
+  - name: rh-certified
+    remote: rh-certified
+    retain_repo_versions: 3
+    wait: false
+  - name: validated
+    remote: validated
+    retain_repo_versions: 3
+    wait: false
+  - name: community
+    remote: community
+    retain_repo_versions: 3
+    wait: false
+
+ah_namespaces:
+  - name: myllynen
+
+ah_collections:
+  - collection_name: myllynen.rhel_ansible_roles
+    git_url: https://github.com/myllynen/rhel-ansible-roles
+    version: v1.4.11
+
+  - collection_name: myllynen.rhel_image
+    git_url: https://github.com/myllynen/rhel-image
+    version: v1.1.3
