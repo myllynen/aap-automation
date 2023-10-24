@@ -21,8 +21,8 @@ Supports also installation from the offline setup bundle.
   * Playbook to download and install required manifest
 * [playbooks/aap_upgrade.yml](playbooks/aap_upgrade.yml)
   * Playbook to upgrade Ansible Automation Platform
-* [playbooks/aap_token_get.yml](playbooks/aap_token_get.yml)
-  * Playbook to get token helpful with later AAP configuration
+* [playbooks/aap_ctrl_token_get.yml](playbooks/aap_ctrl_token_get.yml)
+  * Playbook to get authentication token used with later AAP configuration
 
 These playbooks and roles allow for fully automating Ansible Automation
 Platform installation,
@@ -133,7 +133,7 @@ Platform administrator run the helper playbook:
 ```
 # Create and get an administrator token
 ansible-playbook -c local -i localhost, -e @vars_aap.yml -e @vault_aap.yml \
-  myllynen.aap_automation.aap_token_get.yml
+  myllynen.aap_automation.aap_ctrl_token_get.yml
 # Copy the token for later use and remove the token file
 vi ./aap-token-admin.txt
 rm ./aap-token-admin.txt
