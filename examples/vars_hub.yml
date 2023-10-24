@@ -1,7 +1,7 @@
 ah_host: "{{ aap_install_hub_fqdn }}"
 ah_username: "{{ aap_install_hub_admin_username | default('admin') }}"
 ah_password: "{{ aap_install_hub_admin_password }}"
-#ah_oauthtoken: "{{ lookup('file', lookup('env', 'PWD') + '/aap_ah_token_admin.txt') }}"
+#ah_oauthtoken: "{{ lookup('file', lookup('env', 'PWD') + '/aap_hub_token_admin.txt') }}"
 ah_validate_certs: false
 
 ah_configuration_secure_logging: false
