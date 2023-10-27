@@ -115,15 +115,21 @@ ah_ee_repositories:
   - name: ansible-automation-platform-24/ee-29-rhel8
     registry: redhat
     upstream_name: ansible-automation-platform-24/ee-29-rhel8
+    include_tags:
+      - latest
     sync: true
     wait: false
   - name: ansible-automation-platform-24/ee-minimal-rhel8
     registry: redhat
     upstream_name: ansible-automation-platform-24/ee-minimal-rhel8
+    include_tags:
+      - latest
     sync: true
     wait: false
   - name: ansible-automation-platform-24/ee-supported-rhel8
     registry: redhat
     upstream_name: ansible-automation-platform-24/ee-supported-rhel8
+    include_tags:
+      - latest
     sync: true
     wait: false
