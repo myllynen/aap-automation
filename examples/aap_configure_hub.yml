@@ -10,3 +10,9 @@
     - infra.ah_configuration.namespace
     # https://github.com/ansible/galaxy_collection/issues/327
     - infra.ah_configuration.publish
+
+    - infra.ah_configuration.ee_registry
+    #- infra.ah_configuration.ee_registry_index
+    #- infra.ah_configuration.ee_registry_sync
+    - infra.ah_configuration.ee_repository
+    - infra.ah_configuration.ee_repository_sync
