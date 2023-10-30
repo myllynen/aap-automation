@@ -22,7 +22,11 @@ Supports also installation from the offline setup bundle.
 * [playbooks/aap_upgrade.yml](playbooks/aap_upgrade.yml)
   * Playbook to upgrade Ansible Automation Platform
 * [playbooks/aap_ctrl_token_get.yml](playbooks/aap_ctrl_token_get.yml)
-  * Playbook to get authentication token used with later AAP configuration
+  * Playbook to get controller auth token used with later configuration
+* [playbooks/aap_hub_token_get.yml](playbooks/aap_hub_token_get.yml)
+  * Playbook to get hub auth token used with later configuration
+* [playbooks/aap_install_cli.yml](playbooks/aap_install_cli.yml)
+  * Playbook to install Automation Controller CLI package
 * [examples](examples)
   * Example playbooks and configuration for further AAP setup automation
 
