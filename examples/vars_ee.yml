@@ -1,0 +1,89 @@
+ee_ah_host: "{{ ah_host }}"
+ee_registry_username: "{{ ah_username }}"
+ee_registry_password: "{{ ah_password }}"
+ee_ah_token: "{{ lookup('file', lookup('env', 'PWD') + '/aap_hub_token_admin.txt') }}"
+ee_validate_certs: false
+
+ee_version: 3
+ee_build_arg_defaults:
+  ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --no-deps -vvvv
+ee_build_options:
+  container_init:
+    entrypoint: '["/opt/builder/bin/entrypoint"]'
+    package_pip: ""
+  package_manager_path: /usr/bin/microdnf
+
+ee_image_push: true
+ee_prune_images: true
+ee_create_ansible_config: true
+ee_registry_dest: "{{ ah_host }}/custom"
+
+ee_list:
+  - name: ee-29-rhel8
+    base_image: "{{ ee_ah_host }}/ansible-automation-platform-24/ee-29-rhel8:latest"
+    dependencies:
+      system:
+        - iputils [platform:rpm]
+      galaxy:
+        collections:
+          - ansible.posix
+          - redhat.rhel_system_roles
+          - community.general
+          - myllynen.rhel_ansible_roles
+    build_files:
+      - src: "{{ lookup('env', 'PWD') + '/pip.conf' }}"
+        dest: configs
+      - src: "{{ lookup('env', 'PWD') + '/ansible-ee.cfg' }}"
+        dest: configs
+    build_steps:
+      prepend_base:
+        - ADD _build/configs/pip.conf /etc/pip.conf
+      prepend_final:
+        - ADD _build/configs/ansible-ee.cfg /etc/ansible/ansible.cfg
+      append_final:
+        - RUN rm -rf /etc/yum.repos.d/* /etc/pip.conf
+    tag: latest
+
+  - name: ee-base-rhel8
+    base_image: "{{ ee_ah_host }}/ansible-automation-platform-24/ee-minimal-rhel8:latest"
+    dependencies:
+      system:
+        - iputils [platform:rpm]
+      galaxy:
+        collections:
+          - ansible.controller
+          #- ansible.eda
+          - ansible.posix
+          - ansible.utils
+          #- kubernetes.core
+          #- redhat.rhel_idm
+          - redhat.rhel_system_roles
+          - redhat.satellite
+          - redhat.satellite_operations
+          #- infra.aap_utilities
+          - infra.ah_configuration
+          - infra.controller_configuration
+          - infra.ee_utilities
+          - community.general
+          - myllynen.rhel_ansible_roles
+    build_files:
+      - src: "{{ lookup('env', 'PWD') + '/pip.conf' }}"
+        dest: configs
+      - src: "{{ lookup('env', 'PWD') + '/ansible-ee.cfg' }}"
+        dest: configs
+    build_steps:
+      prepend_base:
+        - ADD _build/configs/pip.conf /etc/pip.conf
+      prepend_final:
+        - ADD _build/configs/ansible-ee.cfg /etc/ansible/ansible.cfg
+      append_final:
+        - RUN rm -rf /etc/yum.repos.d/* /etc/pip.conf
+    tag: latest
+
+#ah_ee_images:
+#  - name: custom/test
+#    state: absent
+
+#ah_ee_repositories:
+#  - name: custom/test
+#    state: absent

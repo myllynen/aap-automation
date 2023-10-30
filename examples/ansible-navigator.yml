@@ -1,0 +1,13 @@
+ansible-navigator:
+  execution-environment:
+    enabled: true
+    container-engine: podman
+    container-options:
+      - --net=host
+    pull:
+      arguments:
+        - --tls-verify=false
+      policy: missing
+    image: hub.example.com/custom/ee-base-rhel8
+  time-zone: local
+  mode: stdout
