@@ -4,18 +4,12 @@
     path: "{{ aap_install_installer_dir }}/setup.sh"
   register: setup_sh
 
-- name: Set Ansible Automation Platform repository
-  set_fact:
+- name: Install Ansible Automation Platform installer package
+  vars:
     installer_repo: >-
       ansible-automation-platform-{{ aap_install_version -}}
       -for-rhel-{{ ansible_facts.distribution_major_version -}}
       -{{ ansible_facts.architecture }}-rpms
-  when: aap_install_installer_update | bool or
-        setup_sh.stat.isreg is not defined or
-        not setup_sh.stat.isreg or
-        not setup_sh.stat.executable
-
-- name: Install Ansible Automation Platform installer package
   become: true
   yum:
     name: ansible-automation-platform-installer
