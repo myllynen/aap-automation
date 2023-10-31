@@ -14,22 +14,34 @@ controller_configuration_credentials_secure_logging: false
 controller_settings:
   settings:
     ACTIVITY_STREAM_ENABLED: true
-    ACTIVITY_STREAM_ENABLED_FOR_INVENTORY_SYNC: false
+    ACTIVITY_STREAM_ENABLED_FOR_INVENTORY_SYNC: true
+    # AD_HOC_COMMANDS: ['ping', 'win_ping']
+    ALLOW_JINJA_IN_EXTRA_VARS: template
+    AUTH_BASIC_ENABLED: true
     AUTOMATION_ANALYTICS_GATHER_INTERVAL: 14400
+    AWX_COLLECTIONS_ENABLED: false
+    AWX_ISOLATION_BASE_PATH: /var/tmp
+    AWX_ROLES_ENABLED: false
+    AWX_SHOW_PLAYBOOK_LINKS: false
+    # AWX_TASK_ENV:
+    #   HTTP_PROXY: ...
     CUSTOM_LOGIN_INFO: >-
       Welcome to AAP!
     ## The logo file must use the data URI scheme
     # CUSTOM_LOGO: "{{ lookup('file', './custom-logo.data') }}"
-    INSIGHTS_TRACKING_STATE: false
+    DEFAULT_EXECUTION_ENVIRONMENT: null
+    GALAXY_IGNORE_CERTS: false
+    INSIGHTS_TRACKING_STATE: true
+    MANAGE_ORGANIZATION_AUTH: false
     # MAX_FORKS: 20
     MAX_UI_JOB_EVENTS: 4000
-    PENDO_TRACKING_STATE: 'detailed'
+    ORG_ADMINS_CAN_SEE_ALL_USERS: false
+    PENDO_TRACKING_STATE: detailed
     PROJECT_UPDATE_VVV: true
     # REDHAT_USERNAME: "{{ aap_rhsm_username }}"
     # REDHAT_PASSWORD: "{{ aap_rhsm_password }}"
+    SCHEDULE_MAX_JOBS: 10
     SESSION_COOKIE_AGE: 1800
     SESSIONS_PER_USER: -1
+    # TOWER_URL_BASE: https://controller.example.com
     UI_LIVE_UPDATES_ENABLED: true
-
-    # AWX_TASK_ENV:
-    #   HTTP_PROXY: ...
