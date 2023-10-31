@@ -12,6 +12,7 @@ redhat_auth_url: https://sso.redhat.com/auth/realms/redhat-external/protocol/ope
 #redhat_auth_token: changeme
 
 ah_auto_approve: true
+ah_request_timeout: 1
 ah_overwrite_existing: true
 
 ah_collection_remotes:
@@ -94,9 +95,9 @@ ah_collections:
   - collection_name: myllynen.rhel_ansible_roles
     git_url: https://github.com/myllynen/rhel-ansible-roles
     version: v1.5.0
-  #- collection_name: myllynen.rhel_image
-  #  git_url: https://github.com/myllynen/rhel-image
-  #  version: v1.1.3
+  - collection_name: myllynen.rhel_image
+    git_url: https://github.com/myllynen/rhel-image
+    version: v1.1.3
 
 
 ah_ee_registries:
