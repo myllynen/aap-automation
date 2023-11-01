@@ -5,11 +5,6 @@ controller_oauthtoken: "{{ lookup('file', lookup('env', 'PWD') + '/aap_ctrl_toke
 controller_validate_certs: false
 
 controller_configuration_secure_logging: false
-controller_configuration_credentials_secure_logging: false
-
-controller_configuration_projects_async_retries: 60
-
-controller_user_default_password: Foobar_12
 
 # For available settings and their current default values see:
 # https://automationcontroller.example.com/api/v2/settings/all/
@@ -50,75 +45,27 @@ controller_settings:
     # TOWER_URL_BASE: https://controller.example.com
     UI_LIVE_UPDATES_ENABLED: true
 
-controller_execution_environments:
-  - name: Custom Base EE
-    image: hub.example.com/custom/ee-base-rhel8
-    pull: always
-    description: Customized base EE image
-    credential: Automation Hub Container Registry
-
-controller_organizations:
-  - name: Test Org
-    description: Test organization
-    max_hosts: 10
-    instance_groups:
-      - default
-    default_environment: Custom Base EE
-    galaxy_credentials:
-      - Automation Hub RH Certified Repository
-      - Automation Hub Validated Repository
-      - Automation Hub Community Repository
-      - Automation Hub Published Repository
-
-controller_user_accounts:
-  - first_name: Test
-    last_name: Admin
-    email: test_admin@example.com
-    username: test_admin
-    organization: Test Org
-
-controller_roles:
-  - user: test_admin
-    organizations:
-      - Test Org
-    role: admin
-
-controller_credentials:
-  - name: Test Credential
-    description: Credential for testing
-    organization: Test Org
-    credential_type: Machine
-    inputs:
-      username: admin
-      ssh_key_data: |
-        -----BEGIN OPENSSH PRIVATE KEY-----
-        ...
-        -----END OPENSSH PRIVATE KEY-----
-
-controller_projects:
-  - name: Test Project
-    description: Project for testing
-    organization: Test Org
-    default_environment: Custom Base EE
-    scm_type: git
-    scm_url: https://git.example.com/project.git
-    scm_clean: true
-    scm_update_on_launch: true
-    scm_update_cache_timeout: "30"
-    update_project: true
-
-controller_inventories:
-  - name: Test Inventory
-    description: Inventory for testing
-    organization: Test Org
-
-controller_templates:
-  - name: Test Job Template
-    description: Job template for testing
-    job_type: run
-    organization: Test Org
-    inventory: Test Inventory
-    project: Test Project
-    playbook: example.yml
-    credentials: Test Credential
-    verbosity: "0"
+    # AD/LDAP authentication
+    AUTH_LDAP_SERVER_URI: ldaps://ldap.example.com:636
+    AUTH_LDAP_BIND_DN: aap@example.com
+    # AUTH_LDAP_BIND_PASSWORD: ...
+    AUTH_LDAP_GROUP_TYPE: ActiveDirectoryGroupType
+    AUTH_LDAP_START_TLS: false
+    AUTH_LDAP_USER_SEARCH:
+      - ["OU=Users,DC=example,DC=com", "SCOPE_ONELEVEL", "(sAMAccountName=%(user)s)"]
+    AUTH_LDAP_GROUP_SEARCH: ["OU=Groups,DC=example,DC=com", "SCOPE_SUBTREE", "(objectClass=group)"]
+    AUTH_LDAP_USER_ATTR_MAP:
+      first_name: givenName
+      last_name: sn
+      email: mail
+    AUTH_LDAP_GROUP_TYPE_PARAMS: {}
+    AUTH_LDAP_USER_FLAGS_BY_GROUP: {}
+    AUTH_LDAP_ORGANIZATION_MAP:
+      Example:
+        users: "OU=Users,DC=example,DC=com"
+        admins: "CN=admins,OU=Groups,DC=example,DC=com"
+    AUTH_LDAP_TEAM_MAP:
+      admins:
+        remove: true
+        organization: Example
+        users: "CN=admins,DC=example,DC=com"
