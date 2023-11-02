@@ -50,7 +50,7 @@ controller_credentials:
     inputs:
       username: admin
       ssh_key_data: "{{ lookup('file', lookup('env', 'PWD') + '/id_ed25519') }}"
-      ssh_key_unlock: "{{ ssh_key_passphrase }}"
+      ssh_key_unlock: "{{ ssh_key_passphrase | default(omit) }}"
 
 controller_projects:
   - name: Test Project
