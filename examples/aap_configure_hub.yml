@@ -7,6 +7,7 @@
     - infra.ah_configuration.collection_remote
     - infra.ah_configuration.collection_repository
     - infra.ah_configuration.collection_repository_sync
+
     - infra.ah_configuration.namespace
     # https://github.com/ansible/galaxy_collection/issues/327
     - infra.ah_configuration.publish
