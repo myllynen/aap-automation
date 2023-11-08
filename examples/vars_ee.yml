@@ -26,9 +26,7 @@ ee_list:
         - iputils [platform:rpm]
       galaxy:
         collections:
-          - ansible.posix
           - redhat.rhel_system_roles
-          - community.general
           - myllynen.rhel_ansible_roles
     build_files:
       - src: "{{ lookup('env', 'PWD') + '/pip.conf' }}"
@@ -61,9 +59,9 @@ ee_list:
           - redhat.satellite
           - redhat.satellite_operations
           #- infra.aap_utilities
-          - infra.ah_configuration
-          - infra.controller_configuration
-          - infra.ee_utilities
+          #- infra.ah_configuration
+          #- infra.controller_configuration
+          #- infra.ee_utilities
           - community.general
           - myllynen.rhel_ansible_roles
     build_files:
