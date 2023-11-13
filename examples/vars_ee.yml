@@ -19,7 +19,7 @@ ee_create_ansible_config: true
 ee_registry_dest: "{{ ah_host }}/custom"
 
 ee_list:
-  - name: ee-29-rhel8
+  - name: custom-29-rhel8
     base_image: "{{ ee_ah_host }}/ansible-automation-platform-24/ee-29-rhel8:latest"
     dependencies:
       system:
@@ -42,7 +42,7 @@ ee_list:
         - RUN rm -rf /etc/yum.repos.d/* /etc/pip.conf
     tag: latest
 
-  - name: ee-base-rhel8
+  - name: custom-base-rhel8
     base_image: "{{ ee_ah_host }}/ansible-automation-platform-24/ee-minimal-rhel8:latest"
     dependencies:
       system:
