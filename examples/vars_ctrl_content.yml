@@ -11,7 +11,7 @@ controller_user_default_password: Foobar_12
 
 controller_execution_environments:
   - name: Custom Base EE
-    image: hub.example.com/custom/ee-base-rhel8
+    image: hub.example.com/custom/custom-base-rhel8
     pull: always
     description: Customized base EE image
     credential: Automation Hub Container Registry
