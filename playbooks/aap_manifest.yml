@@ -1,6 +1,6 @@
 ---
 - name: Upload Ansible Automation Platform manifest
-  hosts: "{{ bastion | default('all') }}"
+  hosts: bastion
   become: false
   gather_facts: true
   roles:

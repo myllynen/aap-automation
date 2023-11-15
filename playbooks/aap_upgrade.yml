@@ -1,6 +1,6 @@
 ---
 - name: Upgrade Ansible Automation Platform
-  hosts: "{{ bastion | default('all') }}"
+  hosts: bastion
   become: false
   gather_facts: true
   vars:

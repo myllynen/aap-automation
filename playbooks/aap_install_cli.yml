@@ -1,6 +1,6 @@
 ---
 - name: Install automation controller cli package
-  hosts: "{{ bastion | default('all') }}"
+  hosts: bastion
   become: false
   gather_facts: true
   tasks:

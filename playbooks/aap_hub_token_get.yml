@@ -1,6 +1,6 @@
 ---
 - name: Get automation hub token
-  hosts: "{{ bastion | default('all') }}"
+  hosts: "{{ groups.all[0] }}"
   become: false
   gather_facts: false
   vars:
