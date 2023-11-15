@@ -102,7 +102,7 @@ for all the supported variables.
 All the credentials used are listed in [vault_aap.yml](vault_aap.yml).
 
 These playbooks have been tested most recently using Ansible 2.14 to
-install Ansible Automation Platform 2.4 on RHEL 8.8.
+install Ansible Automation Platform 2.4 on RHEL 8.9.
 
 ## Quick Usage Example
 
