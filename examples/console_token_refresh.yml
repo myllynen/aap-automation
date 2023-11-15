@@ -1,7 +1,7 @@
 ---
 - name: Refresh Red Hat hybrid cloud console authentication token
-  hosts: "{{ bastion | default('all') }}"
-  connection: local
+  hosts: bastion
+  become: false
   gather_facts: false
   tasks:
     - name: Refresh token

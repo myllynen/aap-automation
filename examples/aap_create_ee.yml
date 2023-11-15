@@ -1,6 +1,6 @@
 ---
 - name: Create execution environments
-  hosts: "{{ bastion | default('all') }}"
+  hosts: bastion
   become: false
   gather_facts: false
   roles:
