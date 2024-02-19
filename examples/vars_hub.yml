@@ -12,7 +12,7 @@ redhat_auth_url: https://sso.redhat.com/auth/realms/redhat-external/protocol/ope
 #redhat_auth_token: changeme
 
 ah_auto_approve: true
-ah_request_timeout: 1
+ah_request_timeout: 5
 ah_overwrite_existing: true
 
 ah_collection_remotes:
@@ -70,7 +70,7 @@ ah_collection_remotes:
       - name: containers.podman
         version: 1.11.0
       - name: community.general
-        version: 8.0.2
+        version: 8.3.0
       - name: community.windows
         version: 2.1.0
 
@@ -91,6 +91,10 @@ ah_collection_repositories:
 
 ah_namespaces:
   - name: myllynen
+    company: myllynen
+    email: myllynen@redhat.com
+    avatar_url: https://avatars.githubusercontent.com/u/24413632
+    description: Collections from myllynen's GitHub repositories
 
 ah_collections:
   - collection_name: myllynen.rhel_ansible_roles
