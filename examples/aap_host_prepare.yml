@@ -38,7 +38,7 @@
       - gcc*
       - geolite*
       - i*-firmware
-      - kernel-tools
+      - kernel-tools*
       - NetworkManager-team
       - NetworkManager-tui
     packages_remove_autoremove: true
