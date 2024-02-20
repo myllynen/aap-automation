@@ -1,0 +1,60 @@
+---
+- name: Prepare host for AAP installation
+  hosts: all
+  become: true
+  gather_facts: false
+  vars:
+    boot_parameters_enable:
+      - quiet
+    boot_parameters_disable:
+      - debug
+      - resume
+      - rhgb
+    boot_parameters_timeout: 1
+    boot_parameters_reboot: false
+    etc_hosts_self_add: true
+    etc_hosts_omit_entries: ipv6
+    guest_agent_enable: true
+    guest_agent_remove_firmware: true
+    packages_install:
+      - bash-completion
+      - bind-utils
+      - curl
+      - firewalld
+      - man-pages
+      - nano
+      - openssh-clients
+      - psmisc
+      - sos
+    packages_install_weak_deps: true
+    packages_remove:
+      - gofer
+      - katello-agent
+      - puppet-agent
+      - rhn*
+      - telnet-server
+      - fonts*
+      - gawk-all-langpacks
+      - gcc*
+      - geolite*
+      - i*-firmware
+      - kernel-tools
+      - NetworkManager-team
+      - NetworkManager-tui
+    packages_remove_autoremove: true
+    service_state_enable:
+      - firewalld.service
+    system_hostname: "{{ ansible_facts.fqdn | lower }}"
+    system_locale: auto
+    system_update_reboot_policy: when_updated
+  roles:
+    - myllynen.rhel_ansible_roles.system_hostname
+    - myllynen.rhel_ansible_roles.etc_hosts
+    - myllynen.rhel_ansible_roles.guest_agent
+    - myllynen.rhel_ansible_roles.packages_remove
+    - myllynen.rhel_ansible_roles.boot_parameters
+    - myllynen.rhel_ansible_roles.system_locale
+    - myllynen.rhel_ansible_roles.packages_install
+    - myllynen.rhel_ansible_roles.service_state
+    - myllynen.rhel_ansible_roles.system_update
+    - myllynen.rhel_ansible_roles.system_init
