@@ -16,6 +16,7 @@
     etc_hosts_omit_entries: ipv6
     guest_agent_enable: true
     guest_agent_remove_firmware: true
+    ipv6_setup_enable: false
     packages_install:
       - bash-completion
       - bind-utils
@@ -49,6 +50,7 @@
     system_update_reboot_policy: when_updated
   roles:
     - myllynen.rhel_ansible_roles.system_hostname
+    - myllynen.rhel_ansible_roles.ipv6_setup
     - myllynen.rhel_ansible_roles.etc_hosts
     - myllynen.rhel_ansible_roles.guest_agent
     - myllynen.rhel_ansible_roles.packages_remove
