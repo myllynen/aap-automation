@@ -68,9 +68,9 @@ ah_collection_remotes:
     sync_dependencies: false
     requirements:
       - name: containers.podman
-        version: 1.11.0
+        version: 1.12.0
       - name: community.general
-        version: 8.3.0
+        version: 8.4.0
       - name: community.windows
         version: 2.1.0
 
@@ -135,6 +135,21 @@ ah_ee_repositories:
   - name: ansible-automation-platform-24/ee-supported-rhel8
     registry: redhat
     upstream_name: ansible-automation-platform-24/ee-supported-rhel8
+    include_tags:
+      - latest
+    sync: true
+    wait: false
+
+  - name: ansible-automation-platform-24/ee-minimal-rhel9
+    registry: redhat
+    upstream_name: ansible-automation-platform-24/ee-minimal-rhel9
+    include_tags:
+      - latest
+    sync: true
+    wait: false
+  - name: ansible-automation-platform-24/ee-supported-rhel9
+    registry: redhat
+    upstream_name: ansible-automation-platform-24/ee-supported-rhel9
     include_tags:
       - latest
     sync: true
