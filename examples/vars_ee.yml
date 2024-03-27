@@ -19,14 +19,27 @@ ee_create_ansible_config: true
 ee_registry_dest: "{{ ah_host }}/custom"
 
 ee_list:
-  - name: custom-29-rhel8
-    base_image: "{{ ee_ah_host }}/ansible-automation-platform-24/ee-29-rhel8:latest"
+  - name: custom-base-rhel8
+    base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel8:2.14"
     dependencies:
       system:
         - iputils [platform:rpm]
       galaxy:
         collections:
+          - ansible.controller
+          #- ansible.eda
+          - ansible.posix
+          - ansible.utils
+          #- kubernetes.core
+          #- redhat.rhel_idm
           - redhat.rhel_system_roles
+          - redhat.satellite
+          - redhat.satellite_operations
+          #- infra.aap_utilities
+          #- infra.ah_configuration
+          #- infra.controller_configuration
+          #- infra.ee_utilities
+          - community.general
           - myllynen.rhel_ansible_roles
     build_files:
       - src: "{{ lookup('env', 'PWD') + '/pip.conf' }}"
@@ -42,8 +55,8 @@ ee_list:
         - RUN rm -rf /etc/yum.repos.d/* /etc/pip.conf
     tag: latest
 
-  - name: custom-base-rhel8
-    base_image: "{{ ee_ah_host }}/ansible-automation-platform-24/ee-minimal-rhel8:latest"
+  - name: custom-base-rhel9
+    base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel9:2.15"
     dependencies:
       system:
         - iputils [platform:rpm]
