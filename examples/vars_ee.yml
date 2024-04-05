@@ -92,6 +92,8 @@ ee_list:
         - RUN rm -rf /etc/yum.repos.d/* /etc/pip.conf
     tag: latest
 
+
+# https://github.com/ansible/galaxy_collection/issues/329
 #ah_ee_images:
 #  - name: custom/test
 #    state: absent
