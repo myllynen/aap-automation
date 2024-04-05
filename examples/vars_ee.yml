@@ -56,7 +56,7 @@ ee_list:
     tag: latest
 
   - name: custom-base-rhel9
-    base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel9:2.15"
+    base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel9:2.16"
     dependencies:
       system:
         - iputils [platform:rpm]
