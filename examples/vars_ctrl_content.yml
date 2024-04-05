@@ -11,7 +11,7 @@ controller_user_default_password: Foobar_12
 
 controller_execution_environments:
   - name: Custom Base EE
-    image: hub.example.com/custom/custom-base-rhel8
+    image: hub.example.com/custom/custom-base-rhel9
     pull: always
     description: Customized base EE image
     credential: Automation Hub Container Registry
@@ -23,6 +23,8 @@ controller_organizations:
     instance_groups:
       - default
     default_environment: Custom Base EE
+    # NB. At least one credential needs to be
+    #     defined if downloading collections.
     galaxy_credentials:
       - Automation Hub RH Certified Repository
       - Automation Hub Validated Repository
