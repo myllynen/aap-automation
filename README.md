@@ -100,6 +100,8 @@ See [vars_aap.yml](vars_aap.yml) for a more complete example and
 for all the supported variables.
 
 All the credentials used are listed in [vault_aap.yml](vault_aap.yml).
+Note that the created inventory on the bastion host will contain the
+passwords for the installer so access to it should be restricted.
 
 These playbooks have been tested most recently using Ansible 2.14 to
 install Ansible Automation Platform 2.4 on RHEL 8.9.
