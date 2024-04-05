@@ -102,6 +102,8 @@ automation_platform_version='{{ aap_install_version }}'
 registry_url='{{ aap_install_registry_url }}'
 registry_username='{{ aap_install_registry_username }}'
 registry_password='{{ aap_install_registry_password }}'
+# https://issues.redhat.com/browse/AAP-21792
+#global_job_execution_environments='[]'
 ee_images_tmp_dir=/tmp
 ee_from_hub_only=true
 
@@ -133,6 +135,7 @@ automationhub_enable_unauthenticated_collection_access=true
 automationhub_enable_unauthenticated_collection_download=true
 automationhub_enable_api_access_log={{ aap_install_hub_api_log_analytics }}
 automationhub_enable_analytics={{ aap_install_hub_api_log_analytics }}
+automationhub_collection_download_count=true
 {% endif %}
 
 # Set to True to overwrite existing admin password.
