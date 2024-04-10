@@ -1,3 +1,4 @@
+# https://ansible.readthedocs.io/projects/navigator/settings/
 ansible-navigator:
   execution-environment:
     enabled: true
@@ -8,6 +9,12 @@ ansible-navigator:
       arguments:
         - --tls-verify=false
       policy: missing
-    image: hub.example.com/custom/custom-base-rhel8
-  time-zone: local
+    image: hub.example.com/custom/custom-base-rhel9
+  logging:
+    level: warning
+    append: true
+    file: .ansible-navigator.log
   mode: stdout
+  playbook-artifact:
+    enable: false
+  time-zone: local
