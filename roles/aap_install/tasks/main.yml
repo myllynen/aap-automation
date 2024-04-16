@@ -12,9 +12,9 @@
       -{{ ansible_facts.architecture }}-rpms
   become: true
   yum:
+    state: "{{ 'latest' if aap_install_installer_update | bool else 'present' }}"
     name: ansible-automation-platform-installer
     enablerepo: "{{ installer_repo }}"
-    state: "{{ 'latest' if aap_install_installer_update | bool else 'present' }}"
   register: installer_package
   when: aap_install_installer_update | bool or
         setup_sh.stat.isreg is not defined or
@@ -29,8 +29,8 @@
 - name: Check automation controller status
   uri:
     url: https://{{ aap_install_controller_fqdn }}
-    method: GET
     validate_certs: false
+    method: GET
   register: controller_info
   failed_when: false
   when: not aap_install_installer_run_always | bool
@@ -38,8 +38,8 @@
 - name: Check automation hub status
   uri:
     url: https://{{ aap_install_hub_fqdn }}
-    method: GET
     validate_certs: false
+    method: GET
   register: hub_info
   failed_when: false
   when:
@@ -49,8 +49,8 @@
 - name: Check EDA controller status
   uri:
     url: https://{{ aap_install_eda_controller_fqdn }}
-    method: GET
     validate_certs: false
+    method: GET
   register: eda_controller_info
   failed_when: false
   when:
@@ -89,8 +89,8 @@
 
 - name: Create installer log directory
   file:
-    path: "{{ aap_install_setup_log_dir }}"
     state: directory
+    path: "{{ aap_install_setup_log_dir }}"
     mode: '0750'
   when: not log_dir.stat.exists
 

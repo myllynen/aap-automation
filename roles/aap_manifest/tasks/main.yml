@@ -14,11 +14,11 @@
 
 - name: Download manifest from Red Hat Customer Portal
   redhat.satellite.redhat_manifest:
-    uuid: "{{ aap_manifest_uuid }}"
+    state: present
     username: "{{ aap_rhsm_username }}"
     password: "{{ aap_rhsm_password }}"
+    uuid: "{{ aap_manifest_uuid }}"
     path: "{{ aap_manifest_file_bastion }}"
-    state: present
   changed_when: true
   when:
     - aap_manifest_download | bool
@@ -34,5 +34,5 @@
     controller_host: https://{{ aap_install_controller_fqdn }}
     controller_username: admin
     controller_password: "{{ aap_install_admin_password }}"
-    manifest: "{{ aap_manifest_file_bastion }}"
     validate_certs: false
+    manifest: "{{ aap_manifest_file_bastion }}"
