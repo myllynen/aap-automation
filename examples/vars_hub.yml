@@ -68,7 +68,7 @@ ah_collection_remotes:
     sync_dependencies: false
     requirements:
       - name: containers.podman
-        version: 1.12.0
+        version: 1.12.1
       - name: community.general
         version: 8.5.0
       - name: community.windows
