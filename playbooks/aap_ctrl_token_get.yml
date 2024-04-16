@@ -14,13 +14,13 @@
   tasks:
     - name: Create new token at automation controller
       ansible.controller.token:
+        state: present
         controller_host: "{{ controller_hostname }}"
         controller_username: "{{ controller_username }}"
         controller_password: "{{ controller_password }}"
         validate_certs: "{{ controller_validate_certs }}"
         description: "{{ token_description }}"
         scope: write
-        state: present
       run_once: true
 
     - name: Store token in file

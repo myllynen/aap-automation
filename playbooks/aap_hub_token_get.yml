@@ -13,11 +13,11 @@
   tasks:
     - name: Create new token at automation hub
       infra.ah_configuration.ah_token:
+        state: present
         ah_host: "{{ ah_host }}"
         ah_username: "{{ ah_username }}"
         ah_password: "{{ ah_password }}"
         validate_certs: "{{ ah_validate_certs }}"
-        state: present
       run_once: true
 
     - name: Store token in file

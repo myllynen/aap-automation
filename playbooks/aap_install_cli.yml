@@ -15,7 +15,7 @@
           -{{ ansible_facts.architecture }}-rpms
       become: true
       yum:
+        state: present
         name: automation-controller-cli
         enablerepo: "{{ installer_repo }}"
-        state: present
       when: "'automation-controller-cli' not in ansible_facts.packages"
