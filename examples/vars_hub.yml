@@ -68,9 +68,9 @@ ah_collection_remotes:
     sync_dependencies: false
     requirements:
       - name: containers.podman
-        version: 1.12.1
+        version: 1.13.0
       - name: community.general
-        version: 8.5.0
+        version: 8.6.0
       - name: community.windows
         version: 2.2.0
 
@@ -101,10 +101,10 @@ ah_collections:
 #    collection_local_path: /tmp/collections/example-collection-1.2.3
   - collection_name: myllynen.rhel_ansible_roles
     git_url: https://github.com/myllynen/rhel-ansible-roles
-    version: v1.7.4
+    version: v1.8.1
   - collection_name: myllynen.rhel_image
     git_url: https://github.com/myllynen/rhel-image
-    version: v1.2.0
+    version: v1.3.1
 
 
 ah_ee_registries:
