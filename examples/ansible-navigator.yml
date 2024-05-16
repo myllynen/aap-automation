@@ -1,5 +1,7 @@
 # https://ansible.readthedocs.io/projects/navigator/settings/
 ansible-navigator:
+  #ansible:
+  #  cmdline: --user ansible
   execution-environment:
     enabled: true
     container-engine: podman
@@ -8,8 +10,16 @@ ansible-navigator:
     pull:
       arguments:
         - --tls-verify=false
+      # https://github.com/ansible/ansible-navigator/issues/1741
       policy: missing
     image: hub.example.com/custom/custom-base-rhel9
+    #environment-variables:
+    #  set:
+    #    KRB5CCNAME: /share/krb5cc
+    #volume-mounts:
+    #  - src: ee-share
+    #    dest: /share
+    #    options: Z
   logging:
     level: warning
     append: true
