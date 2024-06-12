@@ -17,6 +17,9 @@ ansible-navigator:
     #  set:
     #    KRB5CCNAME: /share/krb5cc
     #volume-mounts:
+    #  - src: /etc/pki/ca-trust
+    #    dest: /etc/pki/ca-trust
+    #    options: ro
     #  - src: ee-share
     #    dest: /share
     #    options: Z
