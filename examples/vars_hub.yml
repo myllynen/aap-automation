@@ -54,7 +54,7 @@ ah_collection_remotes:
       - name: infra.aap_utilities
       - name: infra.ah_configuration
       - name: infra.controller_configuration
-      # - name: infra.eda_configuration
+      - name: infra.eda_configuration
       - name: infra.ee_utilities
 
   - name: community
@@ -67,12 +67,12 @@ ah_collection_remotes:
     policy: immediate
     sync_dependencies: false
     requirements:
-      - name: containers.podman
-        version: 1.13.0
       - name: community.general
-        version: 9.0.0
+        version: 9.0.1
       - name: community.windows
-        version: 2.3.0
+        version: 2.2.0
+      - name: containers.podman
+        version: 1.15.2
 
 ah_collection_repositories:
   - name: rh-certified
