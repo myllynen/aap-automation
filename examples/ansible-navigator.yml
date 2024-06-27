@@ -20,6 +20,7 @@ ansible-navigator:
     #  - src: /etc/pki/ca-trust
     #    dest: /etc/pki/ca-trust
     #    options: ro
+    # src is in the work directory
     #  - src: ee-share
     #    dest: /share
     #    options: Z
