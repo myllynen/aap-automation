@@ -39,6 +39,7 @@ ee_list:
           #- infra.aap_utilities
           #- infra.ah_configuration
           #- infra.controller_configuration
+          #- infra.eda_configuration
           #- infra.ee_utilities
           - community.general
           - myllynen.rhel_ansible_roles
@@ -76,6 +77,7 @@ ee_list:
           #- infra.aap_utilities
           #- infra.ah_configuration
           #- infra.controller_configuration
+          #- infra.eda_configuration
           #- infra.ee_utilities
           - community.general
           - myllynen.rhel_ansible_roles

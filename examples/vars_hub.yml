@@ -68,11 +68,11 @@ ah_collection_remotes:
     sync_dependencies: false
     requirements:
       - name: community.general
-        version: 9.0.1
+        version: 9.3.0
       - name: community.windows
         version: 2.2.0
       - name: containers.podman
-        version: 1.15.2
+        version: 1.15.4
 
 ah_collection_repositories:
   - name: rh-certified
