@@ -46,26 +46,37 @@ controller_settings:
     UI_LIVE_UPDATES_ENABLED: true
 
     # AD/LDAP authentication
-    # AUTH_LDAP_SERVER_URI: ldaps://ldap.example.com:636
-    # AUTH_LDAP_BIND_DN: aap@example.com
-    # AUTH_LDAP_BIND_PASSWORD: ...
-    # AUTH_LDAP_GROUP_TYPE: ActiveDirectoryGroupType
+    # AUTH_LDAP_SERVER_URI: ldap://ad.example.com:389
     # AUTH_LDAP_START_TLS: false
+    # AUTH_LDAP_BIND_DN: cn={{ aap_ldap_bind_username }},ou=service_accounts,dc=example,dc=com
+    # AUTH_LDAP_BIND_PASSWORD: "{{ aap_ldap_bind_password }}"
+    # AUTH_LDAP_GROUP_TYPE: MemberDNGroupType
+    # AUTH_LDAP_GROUP_TYPE_PARAMS:
+    #   name_attr: cn
+    #   member_attr: member
+    # #AUTH_LDAP_USER_DN_TEMPLATE: sAMAccountName=%(user)s,ou=users,dc=example,dc=com
     # AUTH_LDAP_USER_SEARCH:
-    #   - ["OU=Users,DC=example,DC=com", "SCOPE_ONELEVEL", "(sAMAccountName=%(user)s)"]
-    # AUTH_LDAP_GROUP_SEARCH: ["OU=Groups,DC=example,DC=com", "SCOPE_SUBTREE", "(objectClass=group)"]
+    #   - ["ou=users,dc=example,dc=com", SCOPE_ONELEVEL, '(sAMAccountName=%(user)s)']
+    #   - ["ou=users_ext,dc=example,dc=com", SCOPE_ONELEVEL, '(sAMAccountName=%(user)s)']
+    # AUTH_LDAP_GROUP_SEARCH: ["ou=groups,dc=example,dc=com", SCOPE_SUBTREE, '(objectClass=group)']
+    # AUTH_LDAP_DENY_GROUP: cn=aap_users_deny,ou=users,dc=example,dc=com
+    # AUTH_LDAP_REQUIRE_GROUP: cn=aap_users,ou=users,dc=example,dc=com
     # AUTH_LDAP_USER_ATTR_MAP:
     #   first_name: givenName
     #   last_name: sn
     #   email: mail
-    # AUTH_LDAP_GROUP_TYPE_PARAMS: {}
-    # AUTH_LDAP_USER_FLAGS_BY_GROUP: {}
+    # AUTH_LDAP_USER_FLAGS_BY_GROUP:
+    #   is_superuser:
+    #     - cn=aap_sys_admins,ou=groups,dc=example,dc=com
+    #   is_system_auditor:
+    #     - cn=aap_sys_auditors,ou=groups,dc=example,dc=com
     # AUTH_LDAP_ORGANIZATION_MAP:
-    #   Example:
-    #     users: "OU=Users,DC=example,DC=com"
-    #     admins: "CN=admins,OU=Groups,DC=example,DC=com"
+    #   Example Org:
+    #     users: cn=example_org_users,ou=users,dc=example,dc=com
+    #     admins: cn=example_org_admins,ou=groups,dc=example,dc=com
+    #     remove_admins: true
     # AUTH_LDAP_TEAM_MAP:
-    #   admins:
+    #   example-dev-team:
+    #     organization: Example Org
+    #     users: cn=devs,ou=groups,dc=example,dc=com
     #     remove: true
-    #     organization: Example
-    #     users: "CN=admins,DC=example,DC=com"
