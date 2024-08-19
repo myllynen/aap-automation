@@ -1,0 +1,49 @@
+# This needs to be applied by system administrator
+
+controller_hostname: "{{ aap_install_controller_fqdn }}"
+controller_username: test_org_admin
+controller_password: Foobar_12
+controller_validate_certs: false
+
+controller_configuration_secure_logging: false
+controller_configuration_users_secure_logging: false
+controller_user_default_password: Foobar_12
+
+# Local users for RBAC setup
+controller_user_accounts:
+  - username: test_content_admin
+    lookup_organization: Test Org
+    organization: Test Org
+
+  - username: test_dev_linux
+    lookup_organization: Test Org
+    organization: Test Org
+  - username: test_dev_windows
+    lookup_organization: Test Org
+    organization: Test Org
+
+  - username: test_ops_linux
+    lookup_organization: Test Org
+    organization: Test Org
+  - username: test_ops_windows
+    lookup_organization: Test Org
+    organization: Test Org
+
+  - username: test_auditor
+    lookup_organization: Test Org
+    organization: Test Org
+
+# Configuration to use in "LDAP Organization Map"
+#{
+#  "Test Org": {
+#    "users": [
+#      "cn=content_admins,ou=groups,dc=example,dc=com",
+#      "cn=devs_linux,ou=groups,dc=example,dc=com",
+#      "cn=devs_windows,ou=groups,dc=example,dc=com",
+#      "cn=ops_linux,ou=groups,dc=example,dc=com",
+#      "cn=ops_windows,ou=groups,dc=example,dc=com",
+#      "cn=auditors,ou=groups,dc=example,dc=com"
+#    ],
+#    "remove_users": true
+#  }
+#}

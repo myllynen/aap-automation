@@ -1,0 +1,63 @@
+# This needs to be applied by system administrator
+
+controller_hostname: "{{ aap_install_controller_fqdn }}"
+controller_username: sys_admin
+controller_password: Foobar_12
+controller_validate_certs: false
+
+controller_configuration_secure_logging: false
+controller_configuration_organizations_secure_logging: false
+controller_configuration_credentials_secure_logging: false
+controller_configuration_users_secure_logging: false
+controller_configuration_role_secure_logging: false
+controller_user_default_password: Foobar_12
+
+# Minimal organization definition
+controller_organizations:
+  - name: Test Org
+    description: Test organization
+
+# Example credential
+controller_credentials:
+  - name: Test Credential
+    description: Credential for testing
+    lookup_organization: Test Org
+    organization: Test Org
+    credential_type: Machine
+    inputs:
+      username: admin
+      password: Foobar_12
+
+
+# Org admin permissions in AAP are per-user for local users
+#
+# For allowing org admins to manage local users:
+#
+#controller_settings:
+#  settings:
+#    MANAGE_ORGANIZATION_AUTH: true
+
+# Local org admin user account setup
+controller_user_accounts:
+  - first_name: Test
+    last_name: Admin
+    email: test_org_admin@example.com
+    username: test_org_admin
+    organization: Test Org
+
+controller_roles:
+  - user: test_org_admin
+    lookup_organization: Test Org
+    organizations:
+      - Test Org
+    role: admin
+
+# Configuration to use in "LDAP Organization Map"
+#{
+#  "Test Org": {
+#    "admins": [
+#      "cn=test_org_admins,ou=groups,dc=example,dc=com"
+#    ],
+#    "remove_admins": true
+#  }
+#}

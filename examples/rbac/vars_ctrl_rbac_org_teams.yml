@@ -1,0 +1,272 @@
+# This needs to be applied by organization administrator
+
+controller_hostname: "{{ aap_install_controller_fqdn }}"
+controller_username: test_org_admin
+controller_password: Foobar_12
+controller_validate_certs: false
+
+controller_configuration_secure_logging: false
+controller_configuration_teams_secure_logging: false
+controller_configuration_role_secure_logging: false
+controller_user_default_password: Foobar_12
+
+#
+# Teams for RBAC
+#
+controller_teams:
+  # Team for content administrators
+  - name: test-content-admins
+    organization: Test Org
+
+  # Teams for automation developers
+  - name: test-dev-linux
+    organization: Test Org
+  - name: test-dev-windows
+    organization: Test Org
+
+  # Teams for automation users
+  - name: test-ops-linux
+    organization: Test Org
+  - name: test-ops-windows
+    organization: Test Org
+
+  # Team for read-only users
+  - name: test-auditors
+    organization: Test Org
+
+#
+# RBAC teams permissions
+#
+controller_roles:
+  # Allow content admin team to manage all automation content
+  - team: test-content-admins
+    lookup_organization: Test Org
+    organization: Test Org
+    role: auditor
+  - team: test-content-admins
+    lookup_organization: Test Org
+    organization: Test Org
+    role: credential_admin
+  - team: test-content-admins
+    lookup_organization: Test Org
+    organization: Test Org
+    role: execution_environment_admin
+  - team: test-content-admins
+    lookup_organization: Test Org
+    organization: Test Org
+    role: inventory_admin
+  - team: test-content-admins
+    lookup_organization: Test Org
+    organization: Test Org
+    role: project_admin
+  - team: test-content-admins
+    lookup_organization: Test Org
+    organization: Test Org
+    role: job_template_admin
+  - team: test-content-admins
+    lookup_organization: Test Org
+    organization: Test Org
+    role: notification_admin
+  - team: test-content-admins
+    lookup_organization: Test Org
+    organization: Test Org
+    role: workflow_admin
+
+  # Allow dev teams to work on automation content
+  - team: test-dev-linux
+    lookup_organization: Test Org
+    organization: Test Org
+    role: auditor
+  - team: test-dev-linux
+    lookup_organization: Test Org
+    organization: Test Org
+    role: inventory_admin
+  - team: test-dev-linux
+    lookup_organization: Test Org
+    organization: Test Org
+    role: project_admin
+  - team: test-dev-linux
+    lookup_organization: Test Org
+    organization: Test Org
+    role: job_template_admin
+  - team: test-content-admins
+    lookup_organization: Test Org
+    organization: Test Org
+    role: notification_admin
+  - team: test-dev-linux
+    lookup_organization: Test Org
+    organization: Test Org
+    role: workflow_admin
+  - team: test-dev-linux
+    lookup_organization: Test Org
+    organization: Test Org
+    role: approval
+  - team: test-dev-linux
+    lookup_organization: Test Org
+    organization: Test Org
+    role: execute
+
+  - team: test-dev-windows
+    lookup_organization: Test Org
+    organization: Test Org
+    role: auditor
+  - team: test-dev-windows
+    lookup_organization: Test Org
+    organization: Test Org
+    role: inventory_admin
+  - team: test-dev-windows
+    lookup_organization: Test Org
+    organization: Test Org
+    role: project_admin
+  - team: test-dev-windows
+    lookup_organization: Test Org
+    organization: Test Org
+    role: job_template_admin
+  - team: test-content-admins
+    lookup_organization: Test Org
+    organization: Test Org
+    role: notification_admin
+  - team: test-dev-windows
+    lookup_organization: Test Org
+    organization: Test Org
+    role: workflow_admin
+  - team: test-dev-windows
+    lookup_organization: Test Org
+    organization: Test Org
+    role: approval
+  - team: test-dev-windows
+    lookup_organization: Test Org
+    organization: Test Org
+    role: execute
+
+  # Allow ops teams to run automation
+  - team: test-ops-linux
+    lookup_organization: Test Org
+    organization: Test Org
+    role: auditor
+  - team: test-ops-linux
+    lookup_organization: Test Org
+    organization: Test Org
+    role: approval
+  - team: test-ops-linux
+    lookup_organization: Test Org
+    organization: Test Org
+    role: execute
+
+  - team: test-ops-windows
+    lookup_organization: Test Org
+    organization: Test Org
+    role: auditor
+  - team: test-ops-windows
+    lookup_organization: Test Org
+    organization: Test Org
+    role: approval
+  - team: test-ops-windows
+    lookup_organization: Test Org
+    organization: Test Org
+    role: execute
+
+  # Allow read-only access for auditors
+  - team: test-auditors
+    lookup_organization: Test Org
+    organization: Test Org
+    role: auditor
+
+#
+# RBAC for credentials
+#
+  # Allow dev teams to use the test credential
+  - credential: Test Credential
+    lookup_organization: Test Org
+    team: test-dev-linux
+    role: use
+  - credential: Test Credential
+    lookup_organization: Test Org
+    team: test-dev-windows
+    role: use
+
+#
+# RBAC teams setup with local users
+#
+  # Add content admin to the content admin team
+  - user: test_content_admin
+    lookup_organization: Test Org
+    target_team: test-content-admins
+    role: member
+
+  # Add devs to dev teams
+  - user: test_dev_linux
+    lookup_organization: Test Org
+    target_team: test-dev-linux
+    role: member
+  - user: test_dev_windows
+    lookup_organization: Test Org
+    target_team: test-dev-windows
+    role: member
+
+  # Add ops to ops teams
+  - user: test_ops_linux
+    lookup_organization: Test Org
+    target_team: test-ops-linux
+    role: member
+  - user: test_ops_windows
+    lookup_organization: Test Org
+    target_team: test-dev-windows
+    role: member
+
+  # Add auditor to the read-only team
+  - user: test_auditor
+    lookup_organization: Test Org
+    target_team: test-auditors
+    role: member
+
+#
+# RBAC teams setup with AD/LDAP
+#
+#{
+#  "test-content-admins": {
+#    "organization": "Test Org",
+#    "users": [
+#      "cn=content_admins,ou=groups,dc=example,dc=com"
+#    ],
+#    "remove": true
+#  },
+#
+#  "test-dev-linux": {
+#    "organization": "Test Org",
+#    "users": [
+#      "cn=devs_linux,ou=groups,dc=example,dc=com"
+#    ],
+#    "remove": true
+#  },
+#  "test-dev-windows": {
+#    "organization": "Test Org",
+#    "users": [
+#      "cn=devs_windows,ou=groups,dc=example,dc=com"
+#    ],
+#    "remove": true
+#  },
+#
+#  "test-ops-linux": {
+#    "organization": "Test Org",
+#    "users": [
+#      "cn=ops_linux,ou=groups,dc=example,dc=com"
+#    ],
+#    "remove": true
+#  },
+#  "test-ops-windows": {
+#    "organization": "Test Org",
+#    "users": [
+#      "cn=ops_windows,ou=groups,dc=example,dc=com"
+#    ],
+#    "remove": true
+#  },
+#
+#  "test-auditors": {
+#    "organization": "Test Org",
+#    "users": [
+#      "cn=auditors,ou=groups,dc=example,dc=com"
+#    ],
+#    "remove": true
+#  }
+#}
