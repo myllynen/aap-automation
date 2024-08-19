@@ -40,6 +40,7 @@ controller_user_accounts:
 
 controller_roles:
   - user: test_admin
+    lookup_organization: Test Org
     organizations:
       - Test Org
     role: admin
