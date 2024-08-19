@@ -20,7 +20,9 @@ controller_user_accounts:
     username: sys_admin
     is_superuser: true
 
-# Configuration to use in "LDAP User Flags By Group"
-#{
-#  "is_superuser": "cn=sys_admins,ou=groups,dc=example,dc=com"
-#}
+# Corresponding AD/LDAP configuration
+#controller_settings:
+#  settings:
+#    AUTH_LDAP_USER_FLAGS_BY_GROUP:
+#      is_superuser:
+#        - cn=sys_admins,ou=groups,dc=example,dc=com

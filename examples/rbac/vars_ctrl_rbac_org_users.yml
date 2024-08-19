@@ -33,17 +33,16 @@ controller_user_accounts:
     lookup_organization: Test Org
     organization: Test Org
 
-# Configuration to use in "LDAP Organization Map"
-#{
-#  "Test Org": {
-#    "users": [
-#      "cn=content_admins,ou=groups,dc=example,dc=com",
-#      "cn=devs_linux,ou=groups,dc=example,dc=com",
-#      "cn=devs_windows,ou=groups,dc=example,dc=com",
-#      "cn=ops_linux,ou=groups,dc=example,dc=com",
-#      "cn=ops_windows,ou=groups,dc=example,dc=com",
-#      "cn=auditors,ou=groups,dc=example,dc=com"
-#    ],
-#    "remove_users": true
-#  }
-#}
+# Corresponding AD/LDAP configuration
+#controller_settings:
+#  settings:
+#    AUTH_LDAP_ORGANIZATION_MAP:
+#      Test Org:
+#        users:
+#          - cn=content_admins,ou=groups,dc=example,dc=com
+#          - cn=devs_linux,ou=groups,dc=example,dc=com
+#          - cn=devs_windows,ou=groups,dc=example,dc=com
+#          - cn=ops_linux,ou=groups,dc=example,dc=com
+#          - cn=ops_windows,ou=groups,dc=example,dc=com
+#          - cn=auditors,ou=groups,dc=example,dc=com
+#        remove_users: true

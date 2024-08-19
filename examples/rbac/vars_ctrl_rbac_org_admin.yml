@@ -52,12 +52,11 @@ controller_roles:
       - Test Org
     role: admin
 
-# Configuration to use in "LDAP Organization Map"
-#{
-#  "Test Org": {
-#    "admins": [
-#      "cn=test_org_admins,ou=groups,dc=example,dc=com"
-#    ],
-#    "remove_admins": true
-#  }
-#}
+# Corresponding AD/LDAP configuration
+#controller_settings:
+#  settings:
+#    AUTH_LDAP_ORGANIZATION_MAP:
+#      Test Org:
+#        admins:
+#          - cn=test_org_admins,ou=groups,dc=example,dc=com
+#        remove_admins: true

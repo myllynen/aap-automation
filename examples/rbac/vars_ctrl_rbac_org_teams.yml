@@ -223,50 +223,40 @@ controller_roles:
 #
 # RBAC teams setup with AD/LDAP
 #
-#{
-#  "test-content-admins": {
-#    "organization": "Test Org",
-#    "users": [
-#      "cn=content_admins,ou=groups,dc=example,dc=com"
-#    ],
-#    "remove": true
-#  },
+#controller_settings:
+#  settings:
+#    AUTH_LDAP_TEAM_MAP:
+#      test-content-admins:
+#        organization: Test Org
+#        users:
+#          - cn=content_admins,ou=groups,dc=example,dc=com
+#        remove: true
 #
-#  "test-dev-linux": {
-#    "organization": "Test Org",
-#    "users": [
-#      "cn=devs_linux,ou=groups,dc=example,dc=com"
-#    ],
-#    "remove": true
-#  },
-#  "test-dev-windows": {
-#    "organization": "Test Org",
-#    "users": [
-#      "cn=devs_windows,ou=groups,dc=example,dc=com"
-#    ],
-#    "remove": true
-#  },
+#      test-dev-linux:
+#        organization: Test Org
+#        users:
+#          - cn=devs_linux,ou=groups,dc=example,dc=com
+#        remove: true
+#      test-dev-windows:
+#        organization: Test Org
+#        users:
+#          - cn=devs_windows,ou=groups,dc=example,dc=com
+#        remove: true
 #
-#  "test-ops-linux": {
-#    "organization": "Test Org",
-#    "users": [
-#      "cn=ops_linux,ou=groups,dc=example,dc=com"
-#    ],
-#    "remove": true
-#  },
-#  "test-ops-windows": {
-#    "organization": "Test Org",
-#    "users": [
-#      "cn=ops_windows,ou=groups,dc=example,dc=com"
-#    ],
-#    "remove": true
-#  },
+#      test-ops-linux:
+#        organization: Test Org
+#        users:
+#          - cn=ops_linux,ou=groups,dc=example,dc=com
+#        remove: true
+#      test-ops-windows:
+#        organization: Test Org
+#        users:
+#          - cn=ops_windows,ou=groups,dc=example,dc=com
+#        remove: true
 #
-#  "test-auditors": {
-#    "organization": "Test Org",
-#    "users": [
-#      "cn=auditors,ou=groups,dc=example,dc=com"
-#    ],
-#    "remove": true
-#  }
-#}
+#      test-auditors:
+#        organization: Test Org
+#        # users: true
+#        users:
+#          - cn=auditors,ou=groups,dc=example,dc=com
+#        remove: true
