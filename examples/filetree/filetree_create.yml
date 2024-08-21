@@ -1,0 +1,20 @@
+---
+- name: Create filetree configuration structure
+  hosts: localhost
+  connection: local
+  become: false
+  gather_facts: false
+  vars:
+    controller_hostname: "{{ aap_install_controller_fqdn }}"
+    #controller_username: "{{ aap_install_admin_username | default('admin') }}"
+    #controller_password: "{{ aap_install_admin_password }}"
+    controller_oauthtoken: "{{ lookup('file', lookup('env', 'PWD') + '/aap_ctrl_token_admin.txt') }}"
+    controller_validate_certs: false
+
+    controller_configuration_secure_logging: false
+    controller_configuration_filetree_create_secure_logging: false
+
+    output_path: ./filetree_export
+    flatten_output: false
+  roles:
+    - infra.controller_configuration.filetree_create

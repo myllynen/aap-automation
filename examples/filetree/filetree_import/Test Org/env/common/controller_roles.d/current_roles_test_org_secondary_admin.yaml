@@ -1,0 +1,6 @@
+---
+controller_roles:
+  - user: "test_org_secondary_admin"
+    organizations:
+      - "Test Org"
+    role: "member"

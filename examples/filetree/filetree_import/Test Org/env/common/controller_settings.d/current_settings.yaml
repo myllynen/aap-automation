@@ -1,0 +1,5 @@
+---
+controller_settings:
+  - settings:
+      CUSTOM_LOGIN_INFO: "Welcome to AAP!"
+...

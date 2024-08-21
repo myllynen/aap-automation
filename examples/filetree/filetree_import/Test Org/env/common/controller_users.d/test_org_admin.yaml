@@ -1,0 +1,12 @@
+---
+controller_user_accounts:
+- username: "test_org_admin"
+  password: "INITIAL"
+  email: "test_org_admin@example.com"
+  first_name: "Test"
+  last_name: "Admin"
+  auditor: "False"
+  superuser: "False"
+  update_secrets: false
+  organization: Test Org
+...
