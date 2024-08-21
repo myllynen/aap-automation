@@ -16,22 +16,28 @@ controller_user_default_password: Foobar_12
 controller_teams:
   # Team for content administrators
   - name: test-content-admins
+    description: Content administrators
     organization: Test Org
 
   # Teams for automation developers
   - name: test-dev-linux
+    description: Linux automation developers
     organization: Test Org
   - name: test-dev-windows
+    description: Windows automation developers
     organization: Test Org
 
   # Teams for automation users
   - name: test-ops-linux
+    description: Linux automation operators
     organization: Test Org
   - name: test-ops-windows
+    description: Windows automation operators
     organization: Test Org
 
   # Team for read-only users
   - name: test-auditors
+    description: Auditors
     organization: Test Org
 
 #
