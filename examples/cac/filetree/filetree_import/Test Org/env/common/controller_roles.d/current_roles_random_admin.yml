@@ -1,6 +1,0 @@
----
-controller_roles:
-  - user: "random_admin"
-    organizations:
-      - "Test Org"
-    role: "member"
