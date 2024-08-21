@@ -1,7 +1,6 @@
 ---
 controller_user_accounts:
 - username: "sys_admin"
-  password: "INITIAL"
   email: "sys_admin@example.com"
   first_name: "System"
   last_name: "Admin"

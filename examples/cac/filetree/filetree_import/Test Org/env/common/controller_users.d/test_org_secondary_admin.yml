@@ -1,7 +1,6 @@
 ---
 controller_user_accounts:
 - username: "test_org_secondary_admin"
-  password: "INITIAL"
   email: "test_org_secondary_admin@example.com"
   first_name: "Secondary"
   last_name: "Admin"
