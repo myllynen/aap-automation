@@ -1,0 +1,6 @@
+controller_user_accounts:
+  - first_name: YetAnother
+    last_name: Admin
+    email: test_org_yetanother_admin@example.com
+    username: test_org_yetanother_admin
+    organization: Test Org

@@ -1,0 +1,10 @@
+controller_user_accounts:
+  - first_name: Random
+    last_name: Admin
+    email: random_admin@example.com
+    username: random_admin
+    organization: Test Org
+
+controller_teams:
+  - name: random-team
+    organization: Test Org

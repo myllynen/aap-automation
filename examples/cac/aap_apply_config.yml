@@ -1,0 +1,54 @@
+---
+- name: Configure automation controller
+  hosts: localhost
+  connection: local
+  become: false
+  gather_facts: false
+  vars:
+    controller_hostname: "{{ aap_install_controller_fqdn }}"
+    controller_username: "{{ aap_install_admin_username | default('admin') }}"
+    controller_password: "{{ aap_install_admin_password }}"
+    controller_validate_certs: false
+
+    controller_configuration_secure_logging: false
+    controller_configuration_organizations_secure_logging: false
+    controller_configuration_teams_secure_logging: false
+    controller_configuration_users_secure_logging: false
+
+    controller_user_default_password: Foobar_12
+
+    config_basepath: aap_ctrl_vars
+    config_target: org_a
+    config_files: '*.yml'
+    # Explicit alternative for the above
+    #config_file_list: []
+  tasks:
+    - name: Read AAP CaC target configuration files
+      ansible.builtin.slurp:
+        src: "{{ item }}"
+      register: config_content
+      loop: "{{ config_file_list | default(lookup('ansible.builtin.fileglob',
+                                           config_basepath + '/' + config_target + '/' + config_files,
+                                           wantlist=true)) }}"
+
+    - name: Prepare target configuration
+      set_fact:
+        ctrl_config: "{{ ctrl_config | default({}) | combine(item | from_yaml, list_merge='append_rp') }}"
+      loop: "{{ config_content.results | map(attribute='content') | map('b64decode') }}"
+      loop_control:
+        label: "{{ item.split(':')[0] }}"
+
+    - name: Set target configuration
+      set_fact:
+        "{{ item }}": "{{ ctrl_config[item] }}"
+      loop: "{{ ctrl_config.keys() }}"
+
+    - name: Display target configuration
+      debug:
+        msg: "{{ ctrl_config }}"
+
+    #- meta: end_play
+
+    - name: Apply target configuration
+      ansible.builtin.include_role:
+        name: infra.controller_configuration.dispatch
