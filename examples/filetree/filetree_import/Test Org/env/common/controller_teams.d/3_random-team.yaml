@@ -1,6 +1,6 @@
 ---
 controller_teams:
   - name: "random-team"
-    description: ""
+    description: "Random team"
     organization: "Test Org"
 ...

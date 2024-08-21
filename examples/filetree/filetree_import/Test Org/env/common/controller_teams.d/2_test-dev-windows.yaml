@@ -1,6 +1,6 @@
 ---
 controller_teams:
   - name: "test-dev-windows"
-    description: ""
+    description: "Windows automation developers"
     organization: "Test Org"
 ...

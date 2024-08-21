@@ -1,6 +1,6 @@
 ---
 controller_teams:
   - name: "test-dev-linux"
-    description: ""
+    description: "Linux automation developers"
     organization: "Test Org"
 ...
