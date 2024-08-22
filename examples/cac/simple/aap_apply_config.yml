@@ -22,6 +22,8 @@
     config_files: '*.yml'
     # Explicit alternative for the above
     #config_file_list: []
+    # Optional output file for debugging
+    #config_write_file: ./output.yml
   tasks:
     - name: Read AAP CaC target configuration files
       no_log: "{{ controller_configuration_secure_logging }}"
@@ -38,18 +40,35 @@
         ctrl_config: "{{ ctrl_config | default({}) | combine(item | from_yaml, list_merge='append_rp') }}"
       loop: "{{ config_content.results | map(attribute='content') | map('b64decode') }}"
       loop_control:
-        label: "{{ item.split(':')[0] }}"
+        label: "{{ item | split | select('match', '^controller_.*:$') | replace(':', '') }}"
 
     - name: Set target configuration
       no_log: "{{ controller_configuration_secure_logging }}"
       ansible.builtin.set_fact:
-        "{{ item }}": "{{ ctrl_config[item] }}"
-      loop: "{{ ctrl_config.keys() }}"
+        "{{ item }}": "{{ ctrl_config[item] | sort(attribute='name,organization') }}"
+      loop: "{{ ctrl_config.keys() | sort }}"
 
     - name: Display target configuration
       ansible.builtin.debug:
         msg: "{{ ctrl_config }}"
       when: not controller_configuration_secure_logging
+
+    - name: Initialize output file
+      ansible.builtin.copy:
+        content: ''
+        dest: "{{ config_write_file }}"
+        mode: '0600'
+      when: config_write_file | default(false)
+
+    - name: Write target configuration to output file
+      ansible.builtin.blockinfile:
+        path: "{{ config_write_file }}"
+        block: |
+          {{ item }}:
+          {{ ctrl_config[item] | sort(attribute='name,organization') | to_nice_yaml(indent=2) }}
+        marker: ''
+      loop: "{{ ctrl_config.keys() | sort }}"
+      when: config_write_file | default(false)
 
     #- meta: end_play
 
