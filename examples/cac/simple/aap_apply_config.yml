@@ -44,8 +44,10 @@
 
     - name: Set target configuration
       no_log: "{{ controller_configuration_secure_logging }}"
+      vars:
+        sort_keys: "{{ 'name,organization' if item != 'controller_user_accounts' else 'first_name,organization' }}"
       ansible.builtin.set_fact:
-        "{{ item }}": "{{ ctrl_config[item] | sort(attribute='name,organization') }}"
+        "{{ item }}": "{{ ctrl_config[item] | sort(attribute=sort_keys) }}"
       loop: "{{ ctrl_config.keys() | sort }}"
 
     - name: Display target configuration
@@ -61,11 +63,13 @@
       when: config_write_file | default(false)
 
     - name: Write target configuration to output file
+      vars:
+        sort_keys: "{{ 'name,organization' if item != 'controller_user_accounts' else 'first_name,organization' }}"
       ansible.builtin.blockinfile:
         path: "{{ config_write_file }}"
         block: |
           {{ item }}:
-          {{ ctrl_config[item] | sort(attribute='name,organization') | to_nice_yaml(indent=2) }}
+          {{ ctrl_config[item] | sort(attribute=sort_keys) | to_nice_yaml(indent=2) }}
         marker: ''
       loop: "{{ ctrl_config.keys() | sort }}"
       when: config_write_file | default(false)
