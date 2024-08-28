@@ -26,7 +26,9 @@ controller_settings:
     #   HTTP_PROXY: ...
     CUSTOM_LOGIN_INFO: >-
       Welcome to AAP!
-    ## The logo file must use the data URI scheme
+    ## The logo file must use the data URI scheme:
+    ##   convert orig-logo.png -transparent white logo.png
+    ##   echo "data:image/png;base64,$(base64 -w0 < logo.png)" > logo.data
     # CUSTOM_LOGO: "{{ lookup('file', './custom-logo.data') }}"
     DEFAULT_EXECUTION_ENVIRONMENT: null
     GALAXY_IGNORE_CERTS: false
