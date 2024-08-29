@@ -82,3 +82,21 @@ controller_settings:
     #     organization: Example Org
     #     users: cn=devs,ou=groups,dc=example,dc=com
     #     remove: true
+
+    # Log aggregator configuration
+    # LOG_AGGREGATOR_ENABLED: true
+    # LOG_AGGREGATOR_TYPE: splunk
+    # LOG_AGGREGATOR_HOST: https://splunk.example.com:8088/services/collector/event/1.0?channel=1111-2222-3333
+    # LOG_AGGREGATOR_PORT: null
+    # LOG_AGGREGATOR_PROTOCOL: https
+    # LOG_AGGREGATOR_USERNAME: "{{ aap_logger_username | default(omit) }}"
+    # LOG_AGGREGATOR_PASSWORD: "{{ aap_logger_password }}"
+    # LOG_AGGREGATOR_TCP_TIMEOUT: 5
+    # LOG_AGGREGATOR_VERIFY_CERT: true
+    # LOG_AGGREGATOR_LEVEL: INFO
+    # LOG_AGGREGATOR_INDIVIDUAL_FACTS: false
+    # LOG_AGGREGATOR_LOGGERS:
+    #   - job_events
+    # LOG_AGGREGATOR_MAX_DISK_USAGE_GB: 4
+    # LOG_AGGREGATOR_MAX_DISK_USAGE_PATH: /var/lib/awx
+    # LOG_AGGREGATOR_RSYSLOGD_DEBUG: false
