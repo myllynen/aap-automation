@@ -23,7 +23,7 @@
     # Explicit alternative for the above
     #config_file_list: []
     # Optional output file for debugging
-    #config_write_file: ./output.yml
+    config_write_file: ./output.yml
   tasks:
     - name: Read AAP CaC target configuration files
       no_log: "{{ controller_configuration_secure_logging }}"
@@ -74,7 +74,7 @@
       loop: "{{ ctrl_config.keys() | sort }}"
       when: config_write_file | default(false)
 
-    #- meta: end_play
+    - meta: end_play
 
     - name: Apply target configuration
       ansible.builtin.include_role:
