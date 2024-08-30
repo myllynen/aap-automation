@@ -73,6 +73,7 @@
         role_keys: role,organizations
         user_keys: username
         sort_keys: "{{ role_keys if item == 'controller_roles' else (item == 'controller_user_accounts') | ternary(user_keys, dflt_keys) }}"
+      no_log: "{{ controller_configuration_secure_logging }}"
       ansible.builtin.blockinfile:
         path: "{{ config_write_file }}"
         block: |
