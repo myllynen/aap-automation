@@ -1,5 +1,5 @@
 ---
-- name: Configure automation controller
+- name: Configure AAP automation controller
   hosts: localhost
   connection: local
   become: false
@@ -8,6 +8,7 @@
     controller_hostname: "{{ aap_install_controller_fqdn }}"
     controller_username: "{{ aap_install_admin_username | default('admin') }}"
     controller_password: "{{ aap_install_admin_password }}"
+    #controller_oauthtoken: "{{ lookup('file', lookup('env', 'PWD') + '/aap_ctrl_token_admin.txt') }}"
     controller_validate_certs: false
 
     controller_configuration_secure_logging: false
@@ -45,10 +46,14 @@
     - name: Set target configuration
       no_log: "{{ controller_configuration_secure_logging }}"
       vars:
-        sort_keys: "{{ 'name,organization' if item != 'controller_user_accounts' else 'first_name,organization' }}"
+        dflt_keys: name,organization
+        role_keys: role,organizations
+        user_keys: username
+        sort_keys: "{{ role_keys if item == 'controller_roles' else (item == 'controller_user_accounts') | ternary(user_keys, dflt_keys) }}"
       ansible.builtin.set_fact:
         "{{ item }}": "{{ ctrl_config[item] | sort(attribute=sort_keys) }}"
       loop: "{{ ctrl_config.keys() | sort }}"
+      when: ctrl_config[item] is not none
 
     - name: Display target configuration
       ansible.builtin.debug:
@@ -64,7 +69,10 @@
 
     - name: Write target configuration to output file
       vars:
-        sort_keys: "{{ 'name,organization' if item != 'controller_user_accounts' else 'first_name,organization' }}"
+        dflt_keys: name,organization
+        role_keys: role,organizations
+        user_keys: username
+        sort_keys: "{{ role_keys if item == 'controller_roles' else (item == 'controller_user_accounts') | ternary(user_keys, dflt_keys) }}"
       ansible.builtin.blockinfile:
         path: "{{ config_write_file }}"
         block: |
@@ -72,7 +80,9 @@
           {{ ctrl_config[item] | sort(attribute=sort_keys) | to_nice_yaml(indent=2) }}
         marker: ''
       loop: "{{ ctrl_config.keys() | sort }}"
-      when: config_write_file | default(false)
+      when:
+        - config_write_file | default(false)
+        - ctrl_config[item] is not none
 
     - meta: end_play
 
