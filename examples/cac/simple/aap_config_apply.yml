@@ -44,12 +44,12 @@
         label: "{{ item | split | select('match', '^controller_.*:$') | replace(':', '') }}"
 
     - name: Set target configuration
-      no_log: "{{ controller_configuration_secure_logging }}"
       vars:
         dflt_keys: name,organization
         role_keys: role,organizations
         user_keys: username
         sort_keys: "{{ role_keys if item == 'controller_roles' else (item == 'controller_user_accounts') | ternary(user_keys, dflt_keys) }}"
+      no_log: "{{ controller_configuration_secure_logging }}"
       ansible.builtin.set_fact:
         "{{ item }}": "{{ ctrl_config[item] | sort(attribute=sort_keys) }}"
       loop: "{{ ctrl_config.keys() | sort }}"
