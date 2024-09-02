@@ -97,6 +97,17 @@
       loop_control:
         label: "{{ item | split | select('match', '^controller_.*:$') | replace(':', '') }}"
 
+    - name: Reset unrecognized in-cac items
+      no_log: "{{ controller_configuration_secure_logging }}"
+      ansible.builtin.set_fact:
+        config_repo: "{{ config_repo | combine({item.key: []}) }}"
+      loop: "{{ config_repo | dict2items }}"
+      loop_control:
+        label: "{{ item.key }}"
+      when: >
+        item.value is string or
+        item.value is not iterable
+
     - name: Find AAP in-use configuration files
       no_log: "{{ controller_configuration_secure_logging }}"
       ansible.builtin.find:
