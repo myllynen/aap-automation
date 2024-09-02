@@ -4,14 +4,17 @@
   become: false
   gather_facts: false
   roles:
+    # Sync selected collections from an external hub
     - infra.ah_configuration.collection_remote
     - infra.ah_configuration.collection_repository
     - infra.ah_configuration.collection_repository_sync
 
+    # Make collections in git repos available in this hub
     - infra.ah_configuration.namespace
     # https://github.com/ansible/galaxy_collection/issues/397
     - infra.ah_configuration.publish
 
+    # Sync selected EE images from external registries
     - infra.ah_configuration.ee_registry
     #- infra.ah_configuration.ee_registry_index
     #- infra.ah_configuration.ee_registry_sync
