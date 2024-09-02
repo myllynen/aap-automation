@@ -70,7 +70,7 @@ ah_collection_remotes:
       - name: community.general
         version: 9.3.0
       - name: community.windows
-        version: 2.2.0
+        version: 2.3.0
       - name: containers.podman
         version: 1.15.4
 
