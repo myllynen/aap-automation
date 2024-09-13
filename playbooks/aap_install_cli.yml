@@ -14,7 +14,7 @@
           -for-rhel-{{ ansible_facts.distribution_major_version -}}
           -{{ ansible_facts.architecture }}-rpms
       become: true
-      yum:
+      dnf:
         state: present
         name: automation-controller-cli
         enablerepo: "{{ installer_repo }}"
