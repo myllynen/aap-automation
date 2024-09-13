@@ -11,7 +11,7 @@
       -for-rhel-{{ ansible_facts.distribution_major_version -}}
       -{{ ansible_facts.architecture }}-rpms
   become: true
-  yum:
+  dnf:
     state: "{{ 'latest' if aap_install_installer_update | bool else 'present' }}"
     name: ansible-automation-platform-installer
     enablerepo: "{{ installer_repo }}"
@@ -43,7 +43,7 @@
   register: hub_info
   failed_when: false
   when:
-    - aap_install_hub_fqdn | default(false)
+    - aap_install_hub_fqdn
     - not aap_install_installer_run_always | bool
 
 - name: Check EDA controller status
@@ -54,7 +54,7 @@
   register: eda_controller_info
   failed_when: false
   when:
-    - aap_install_eda_controller_fqdn | default(false)
+    - aap_install_eda_controller_fqdn
     - not aap_install_installer_run_always | bool
 
 - name: Create single-node inventory
@@ -99,7 +99,7 @@
   become: "{{ false if installer_dir.stat.writeable else true }}"
   shell:
     cmd: >
-      {{ 'ANSIBLE_CONFIG=' + aap_install_installer_config if aap_install_installer_config | default(false) else '' }}
+      {{ 'ANSIBLE_CONFIG=' + aap_install_installer_config if aap_install_installer_config else '' }}
       {{ aap_install_installer_dir }}/setup.sh
       -i {{ aap_install_inventory_path }}
       -p {{ aap_install_setup_log_dir }}

@@ -27,7 +27,7 @@
 # execution.example  node_type=execution
 # execution2.example <- this will default to execution
 [execution_nodes]
-{% if aap_install_execution_nodes | default(false) %}
+{% if aap_install_execution_nodes %}
 {% for server in aap_install_execution_nodes %}
 {{ server.fqdn }}{% if 'vars' in server %} {{ server.vars }}{% endif %}
 
@@ -35,13 +35,13 @@
 {% endif %}
 
 [automationhub]
-{% if aap_install_hub_node | default(false) and 'fqdn' in aap_install_hub_node %}
+{% if aap_install_hub_node and 'fqdn' in aap_install_hub_node %}
 {{ aap_install_hub_node.fqdn }}{% if 'vars' in aap_install_hub_node %} {{ aap_install_hub_node.vars }}{% endif %}
 
 {% endif %}
 
 [automationedacontroller]
-{% if aap_install_eda_controller_node | default(false) and 'fqdn' in aap_install_eda_controller_node %}
+{% if aap_install_eda_controller_node and 'fqdn' in aap_install_eda_controller_node %}
 {{ aap_install_eda_controller_node.fqdn }}{% if 'vars' in aap_install_eda_controller_node %} {{ aap_install_eda_controller_node.vars }}{% endif %}
 
 {% endif %}
@@ -56,7 +56,7 @@
 #
 # ssohost.example sso_redirect_host=<host/ip>
 [sso]
-{% if aap_install_sso_node | default(false) and 'fqdn' in aap_install_sso_node %}
+{% if aap_install_sso_node and 'fqdn' in aap_install_sso_node %}
 {{ aap_install_sso_node.fqdn }}{% if 'vars' in aap_install_sso_node %} {{ aap_install_sso_node.vars }}{% endif %}
 
 {% endif %}
@@ -118,7 +118,7 @@ receptor_listener_port=27199
 
 # Automation Hub Configuration
 #
-{% if aap_install_hub_node | default(false) and 'fqdn' in aap_install_hub_node %}
+{% if aap_install_hub_node and 'fqdn' in aap_install_hub_node %}
 automationhub_admin_password='{{ aap_install_hub_admin_password }}'
 
 automationhub_pg_host='{{ aap_install_hub_database_node.fqdn }}'
@@ -226,7 +226,7 @@ automationhub_collection_download_count=true
 
 # Automation EDA Controller Configuration
 #
-{% if aap_install_eda_controller_node | default(false) and 'fqdn' in aap_install_eda_controller_node %}
+{% if aap_install_eda_controller_node and 'fqdn' in aap_install_eda_controller_node %}
 automationedacontroller_admin_password='{{ aap_install_eda_controller_admin_password }}'
 
 automationedacontroller_pg_host='{{ aap_install_eda_controller_database_node.fqdn }}'
