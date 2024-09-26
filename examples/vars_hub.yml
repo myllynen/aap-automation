@@ -34,6 +34,7 @@ ah_collection_remotes:
       - name: ansible.utils
       - name: ansible.windows
       - name: kubernetes.core
+      - name: microsoft.ad
       - name: redhat.rhel_idm
       - name: redhat.rhel_system_roles
       - name: redhat.satellite
