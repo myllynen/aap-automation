@@ -12,8 +12,8 @@
       -{{ ansible_facts.architecture }}-rpms
   become: true
   dnf:
-    state: "{{ 'latest' if aap_install_installer_update | bool else 'present' }}"
     name: ansible-automation-platform-installer
+    state: "{{ 'latest' if aap_install_installer_update | bool else 'present' }}"
     enablerepo: "{{ installer_repo }}"
   register: installer_package
   when: aap_install_installer_update | bool or
@@ -89,8 +89,8 @@
 
 - name: Create installer log directory
   file:
-    state: directory
     path: "{{ aap_install_setup_log_dir }}"
+    state: directory
     mode: '0750'
   when: not log_dir.stat.exists
 
