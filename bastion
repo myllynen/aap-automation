@@ -1,3 +1,0 @@
-# Host where to install and run the installer
-[bastion]
-localhost ansible_connection=local
