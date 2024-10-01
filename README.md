@@ -2,15 +2,17 @@
 
 [![License: GPLv3](https://img.shields.io/badge/license-GPLv3-brightgreen.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-Examples how to automate the automation when using AAP
-(Ansible Automation Platform).
+Examples how to automate the automation when using Ansible Automation
+Platform (AAP).
 
 ## Contents
 
+* [aap_host_prepare.yml](aap_host_prepare.yml)
+  * Example playbook to prepare RHEL 9 systems for AAP 2.5 installation
 * [ansible.cfg](ansible.cfg)
-  * Enhanced example ansible.cfg to use with the containerized installer
+  * Enhanced ansible.cfg to use with the containerized installer
 * [inventory.lab](inventory.lab)
-  * Example containerized inventory to install AAP 2.5 in a small lab env
+  * Example containerized inventory to install AAP 2.5 in a small lab
   * Can be easily adjusted for bundle and non-bundle installations
 * [examples](examples)
   * Example playbooks and configuration for further AAP setup automation
@@ -20,36 +22,27 @@ To create the required AAP manifest, see
 and
 [obtaining a manifest file](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/access_management_and_authentication/assembly-gateway-licensing#assembly-aap-obtain-manifest-files).
 
+## AAP Host Preparation
+
+
+
 ## Quick Usage Example
 
-To install this collection from GitHub:
+To install Ansible Automation Platform,
+[download the preferred installer](https://access.redhat.com/downloads/content/480/),
+[obtain a manifest file](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/access_management_and_authentication/assembly-gateway-licensing#assembly-aap-obtain-manifest-files),
+then unpack the installer and adjust the inventory:
 
 ```
-ansible-galaxy collection install git+https://github.com/myllynen/aap-automation,master
-```
-
-To install Ansible Automation Platform, automatically download manifest
-from Red Hat Customer Portal and upload it to the Automation Controller:
-
-```
-# Set the hostname where to run the actual installer
+# Update the inventory for the local environment
 vi inventory
-# Edit settings and credentials to suite local environment
-vi vars_aap.yml vault_aap.yml
-# Install Ansible Automation Platform
-ansible-playbook -i bastion -e @vars_aap.yml -e @vault_aap.yml \
-  myllynen.aap_automation.aap_install.yml
-# Download and install manifest
-ansible-playbook -i bastion -e @vars_aap.yml -e @vault_aap.yml \
-  myllynen.aap_automation.aap_manifest.yml
-# Upgrade Ansible Automation Platform
-ansible-playbook -i bastion -e @vars_aap.yml -e @vault_aap.yml \
-  myllynen.aap_automation.aap_upgrade.yml
+# Run the AAP containerized installer
+ansible-playbook -i inventory ansible.containerized_installer.install
 ```
 
 ## Next Steps
 
-
+See [examples](examples).
 
 ## See Also
 

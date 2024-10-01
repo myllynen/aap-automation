@@ -1,0 +1,103 @@
+# This is the AAP enterprise installer inventory file
+# Please consult the docs if you're unsure what to add
+# For all optional variables please consult the included README.md
+# or the Red Hat documentation:
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/containerized_installation
+
+# This section is for your AAP Gateway host(s)
+# -----------------------------------------------------
+[automationgateway]
+lab3.example.com
+lab4.example.com
+
+# This section is for your AAP Controller host(s)
+# -----------------------------------------------------
+[automationcontroller]
+lab2.example.com
+
+# This section is for your AAP Execution host(s)
+# -----------------------------------------------------
+[execution_nodes]
+lab3.example.com
+
+# This section is for your AAP Automation Hub host(s)
+# -----------------------------------------------------
+[automationhub]
+lab3.example.com
+
+# This section is for your AAP EDA Controller host(s)
+# -----------------------------------------------------
+[automationeda]
+lab4.example.com
+
+# This section is for the Ansible Automation Platform database
+# --------------------------------------
+[database]
+lab1.example.com
+
+# This section is for the AAP redis hosts
+# --------------------------------------
+#[redis]
+
+[all:vars]
+
+# Common variables
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/containerized_installation/appendix-inventory-files-vars#ref-general-inventory-variables
+# -----------------------------------------------------
+
+# Bundle
+bundle_install=true
+# The bundle directory must include /bundle in the path
+bundle_dir=/home/admin/ansible-automation-platform-containerized-setup-bundle-2.5-1-x86_64/bundle
+
+# Red Hat registry authentication for non-bundle
+#registry_username=your-rhn-username
+#registry_password=your-rhn-password
+
+# Database
+postgresql_admin_username=postgres
+postgresql_admin_password=Foobar_12
+
+# Redis
+redis_mode=standalone
+
+# Postinstall
+controller_postinstall=true
+controller_postinstall_dir=/home/admin/aap-postinstall
+controller_license_file=/home/admin/aap-postinstall/aap_manifest.zip
+
+# AAP Gateway
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/containerized_installation/appendix-inventory-files-vars#ref-gateway-variables
+# -----------------------------------------------------
+gateway_admin_password=Foobar_12
+gateway_pg_host=lab1.example.com
+gateway_pg_database=gateway
+gateway_pg_username=admin
+gateway_pg_password=Foobar_12
+
+# AAP Controller
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/containerized_installation/appendix-inventory-files-vars#ref-controller-variables
+# -----------------------------------------------------
+controller_admin_password=Foobar_12
+controller_pg_host=lab1.example.com
+controller_pg_database=controller
+controller_pg_username=admin
+controller_pg_password=Foobar_12
+
+# AAP Automation Hub
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/containerized_installation/appendix-inventory-files-vars#ref-hub-variables
+# -----------------------------------------------------
+hub_admin_password=Foobar_12
+hub_pg_host=lab1.example.com
+hub_pg_database=hub
+hub_pg_username=admin
+hub_pg_password=Foobar_12
+
+# AAP EDA Controller
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/containerized_installation/appendix-inventory-files-vars#event-driven-ansible-controller
+# -----------------------------------------------------
+eda_admin_password=Foobar_12
+eda_pg_host=lab1.example.com
+eda_pg_database=eda
+eda_pg_username=admin
+eda_pg_password=Foobar_12
