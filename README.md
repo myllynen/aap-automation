@@ -24,7 +24,14 @@ and
 
 ## AAP Host Preparation
 
+Before installing AAP on RHEL (not OCP) it is a good idea to ensure a
+known-good baseline configuration on the target hosts.
 
+[aap_host_prepare.yml](aap_host_prepare.yml) is an example playbook
+that could be used for this. It should be adjusted for the local
+environment and it uses the
+[https://github.com/myllynen/rhel-ansible-roles](https://github.com/myllynen/rhel-ansible-roles)
+collection.
 
 ## Quick Usage Example
 
