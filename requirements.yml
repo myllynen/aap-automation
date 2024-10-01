@@ -1,5 +1,0 @@
----
-collections:
-  - name: https://github.com/myllynen/aap-automation
-    type: git
-    version: master
