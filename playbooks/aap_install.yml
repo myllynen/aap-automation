@@ -1,7 +1,0 @@
----
-- name: Install Ansible Automation Platform
-  hosts: bastion
-  become: false
-  gather_facts: true
-  roles:
-    - myllynen.aap_automation.aap_install
