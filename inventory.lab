@@ -63,8 +63,8 @@ redis_mode=standalone
 
 # Postinstall
 controller_postinstall=true
-controller_postinstall_dir=/home/admin/aap-postinstall
-controller_license_file=/home/admin/aap-postinstall/aap_manifest.zip
+controller_postinstall_dir=/home/admin/aap_postinstall
+controller_license_file=/home/admin/aap_postinstall/aap_manifest.zip
 
 # AAP Gateway
 # https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/containerized_installation/appendix-inventory-files-vars#ref-gateway-variables
