@@ -1,0 +1,38 @@
+--- a/collections/ansible_collections/ansible/containerized_installer/roles/automationcontroller/tasks/license.yml
++++ b/collections/ansible_collections/ansible/containerized_installer/roles/automationcontroller/tasks/license.yml
+@@ -3,11 +3,12 @@
+   ansible.builtin.wait_for:
+     port: '{{ _controller_port }}'
+ 
+-- name: Wait for the Controller API to te ready
++- name: Wait for the Controller API to be ready
+   ansible.builtin.uri:
+     url: '{{ _controller_url }}/api/v2/ping/'
+     validate_certs: true
+     ca_path: '{{ _ca_tls_dir }}/extracted/pem/tls-ca-bundle.pem'
++    timeout: 60
+ 
+ - name: Upload the Automation Controller subscription
+   block:
+--- a/collections/ansible_collections/ansible/containerized_installer/roles/postgresql/tasks/systemd.yml
++++ b/collections/ansible_collections/ansible/containerized_installer/roles/postgresql/tasks/systemd.yml
+@@ -1,4 +1,8 @@
+ ---
++- name: Allow postgresql container to settle
++  ansible.builtin.pause:
++    seconds: 10
++
+ - name: Manage postgresql container via systemd
+   ansible.builtin.systemd:
+     name: postgresql.service
+--- a/collections/ansible_collections/ansible/containerized_installer/roles/redis/tasks/systemd.yml
++++ b/collections/ansible_collections/ansible/containerized_installer/roles/redis/tasks/systemd.yml
+@@ -1,4 +1,8 @@
+ ---
++- name: Allow redis container to settle
++  ansible.builtin.pause:
++    seconds: 10
++
+ - name: Manage redis container via systemd
+   ansible.builtin.systemd:
+     name: 'redis-{{ _redis_suffix }}.service'
