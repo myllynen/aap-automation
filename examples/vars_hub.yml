@@ -30,6 +30,8 @@ ah_collection_remotes:
     requirements:
       - name: ansible.controller
       - name: ansible.eda
+      - name: ansible.hub
+      - name: ansible.platform
       - name: ansible.posix
       - name: ansible.utils
       - name: ansible.windows
@@ -57,6 +59,7 @@ ah_collection_remotes:
       - name: infra.controller_configuration
       - name: infra.eda_configuration
       - name: infra.ee_utilities
+      #- name: infra.platform_configuration
 
   - name: community
     url: https://galaxy.ansible.com/api/
@@ -73,7 +76,7 @@ ah_collection_remotes:
       - name: community.windows
         version: 2.3.0
       - name: containers.podman
-        version: 1.15.4
+        version: 1.16.1
 
 ah_collection_repositories:
   - name: rh-certified
@@ -106,7 +109,6 @@ ah_collections:
   - collection_name: myllynen.rhel_image
     git_url: https://github.com/myllynen/rhel-image
     version: v1.3.1
-
 
 ah_ee_registries:
   - name: redhat
