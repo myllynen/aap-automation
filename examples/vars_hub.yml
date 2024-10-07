@@ -35,6 +35,7 @@ ah_collection_remotes:
       - name: ansible.posix
       - name: ansible.utils
       - name: ansible.windows
+      - name: chocolatey.chocolatey
       - name: kubernetes.core
       - name: microsoft.ad
       - name: redhat.rhel_idm
