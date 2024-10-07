@@ -38,7 +38,7 @@ collection.
 To install Ansible Automation Platform,
 [download the preferred installer](https://access.redhat.com/downloads/content/480/),
 [obtain a manifest file](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/access_management_and_authentication/assembly-gateway-licensing#assembly-aap-obtain-manifest-files),
-then unpack the installer and adjust the inventory:
+then unpack the installer, cd to the extracted directory, and adjust the inventory:
 
 ```
 # Update the inventory for the local environment
