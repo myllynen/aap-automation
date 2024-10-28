@@ -48,7 +48,7 @@ lab1.example.com
 # Bundle
 bundle_install=true
 # The bundle directory must include /bundle in the path
-bundle_dir=/home/admin/ansible-automation-platform-containerized-setup-bundle-2.5-1-x86_64/bundle
+bundle_dir='{{ lookup("ansible.builtin.env", "PWD") }}/bundle'
 
 # Red Hat registry authentication for non-bundle
 #registry_username=your-rhn-username
