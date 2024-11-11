@@ -9,7 +9,7 @@ Platform (AAP).
 
 * [aap_host_prepare.yml](aap_host_prepare.yml)
   * Example playbook to prepare RHEL 9 systems for AAP 2.5 installation
-* [ansible.cfg](ansible.cfg)
+* [ansible.cfg.install](ansible.cfg.install)
   * Enhanced ansible.cfg to use with the containerized installer
 * [inventory.lab](inventory.lab)
   * Example containerized inventory to install AAP 2.5 in a small lab
