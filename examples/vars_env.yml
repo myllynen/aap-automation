@@ -1,0 +1,5 @@
+aap_gateway_fqdn: idm3.sub.example.com
+aap_admin_username: admin
+aap_admin_password: Foobar_12
+#aap_redhat_registry_username: your-rhn-username
+#aap_redhat_registry_password: your-rhn-password

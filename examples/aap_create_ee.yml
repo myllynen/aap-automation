@@ -1,11 +1,11 @@
 ---
 - name: Create execution environments
-  hosts: bastion
+  hosts: all
   become: false
   gather_facts: false
   roles:
     - infra.ee_utilities.ee_builder
 
     # https://github.com/ansible/galaxy_collection/issues/329
-    #- infra.ah_configuration.ee_image
-    #- infra.ah_configuration.ee_repository
+    #- infra.aap_configuration.hub_ee_image
+    #- infra.aap_configuration.hub_ee_repository

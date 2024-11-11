@@ -1,7 +1,7 @@
 ---
 - name: Configure automation controller
-  hosts: bastion
+  hosts: all
   become: false
   gather_facts: false
   roles:
-    - infra.controller_configuration.dispatch
+    - infra.aap_configuration.dispatch

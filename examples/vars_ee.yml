@@ -28,19 +28,23 @@ ee_list:
       galaxy:
         collections:
           - ansible.controller
-          #- ansible.eda
+          - ansible.eda
+          - ansible.hub
           - ansible.posix
           - ansible.utils
+          #- ansible.windows
+          #- chocolatey.chocolatey
           #- kubernetes.core
+          #- microsoft.ad
           #- redhat.rhel_idm
           - redhat.rhel_system_roles
           - redhat.satellite
           - redhat.satellite_operations
+          #- infra.aap_configuration
           #- infra.aap_utilities
-          #- infra.ah_configuration
-          #- infra.controller_configuration
-          #- infra.eda_configuration
           #- infra.ee_utilities
+          #- infra.leapp
+          #- containers.podman
           - community.general
           - myllynen.rhel_ansible_roles
     build_files:
@@ -66,19 +70,23 @@ ee_list:
       galaxy:
         collections:
           - ansible.controller
-          #- ansible.eda
+          - ansible.eda
+          - ansible.hub
           - ansible.posix
           - ansible.utils
+          #- ansible.windows
+          #- chocolatey.chocolatey
           #- kubernetes.core
+          #- microsoft.ad
           #- redhat.rhel_idm
           - redhat.rhel_system_roles
           - redhat.satellite
           - redhat.satellite_operations
+          #- infra.aap_configuration
           #- infra.aap_utilities
-          #- infra.ah_configuration
-          #- infra.controller_configuration
-          #- infra.eda_configuration
           #- infra.ee_utilities
+          #- infra.leapp
+          #- containers.podman
           - community.general
           - myllynen.rhel_ansible_roles
     build_files:

@@ -1,22 +1,22 @@
 ---
 - name: Configure automation hub
-  hosts: bastion
+  hosts: all
   become: false
   gather_facts: false
   roles:
     # Sync selected collections from an external hub
-    - infra.ah_configuration.collection_remote
-    - infra.ah_configuration.collection_repository
-    - infra.ah_configuration.collection_repository_sync
+    - infra.aap_configuration.hub_collection_remote
+    - infra.aap_configuration.hub_collection_repository
+    - infra.aap_configuration.hub_collection_repository_sync
 
     # Make collections in git repos available in this hub
-    - infra.ah_configuration.namespace
+    - infra.aap_configuration.hub_namespace
     # https://github.com/ansible/galaxy_collection/issues/397
-    - infra.ah_configuration.publish
+    - infra.aap_configuration.hub_publish
 
     # Sync selected EE images from external registries
-    - infra.ah_configuration.ee_registry
-    #- infra.ah_configuration.ee_registry_index
-    #- infra.ah_configuration.ee_registry_sync
-    - infra.ah_configuration.ee_repository
-    - infra.ah_configuration.ee_repository_sync
+    - infra.aap_configuration.hub_ee_registry
+    #- infra.aap_configuration.hub_ee_registry_index
+    #- infra.aap_configuration.hub_ee_registry_sync
+    - infra.aap_configuration.hub_ee_repository
+    - infra.aap_configuration.hub_ee_repository_sync

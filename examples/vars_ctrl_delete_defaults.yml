@@ -1,30 +1,43 @@
-controller_hostname: "{{ aap_install_controller_fqdn }}"
-#controller_username: "{{ aap_install_admin_username | default('admin') }}"
-#controller_password: "{{ aap_install_admin_password }}"
-controller_oauthtoken: "{{ lookup('file', lookup('env', 'PWD') + '/aap_ctrl_token_admin.txt') }}"
-controller_validate_certs: false
+aap_hostname: "{{ aap_gateway_fqdn }}"
+aap_username: "{{ aap_admin_username | default('admin') }}"
+aap_password: "{{ aap_admin_password }}"
+#aap_token: "{{ lookup('file', lookup('env', 'PWD') + '/aap_token_admin.txt') }}"
+aap_validate_certs: false
 
-controller_execution_environments:
-  - name: Automation Hub Default execution environment
-    image: null
-    state: absent
-  - name: Automation Hub Minimal execution environment
-    image: null
-    state: absent
+#controller_execution_environments:
+#  - name: Default execution environment
+#    image: null
+#    state: absent
+#  - name: Minimal execution environment
+#    image: null
+#    state: absent
+#  - name: Hub Default execution environment
+#    image: null
+#    state: absent
+#  - name: Hub Minimal execution environment
+#    image: null
+#    state: absent
 
-controller_organizations:
-  - name: Default
-    state: absent
+#aap_organizations:
+#  - name: Default
+#    state: absent
 
 controller_credentials:
   - name: Demo Credential
     credential_type: Machine
     state: absent
 
-controller_projects:
-  - name: Demo Project
-    state: absent
-
 controller_templates:
   - name: Demo Job Template
+    organization: Default
+    state: absent
+
+controller_inventories:
+  - name: Demo Inventory
+    organization: Default
+    state: absent
+
+controller_projects:
+  - name: Demo Project
+    organization: Default
     state: absent

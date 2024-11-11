@@ -1,8 +1,8 @@
-controller_hostname: "{{ aap_install_controller_fqdn }}"
-#controller_username: "{{ aap_install_admin_username | default('admin') }}"
-#controller_password: "{{ aap_install_admin_password }}"
-controller_oauthtoken: "{{ lookup('file', lookup('env', 'PWD') + '/aap_ctrl_token_admin.txt') }}"
-controller_validate_certs: false
+aap_hostname: "{{ aap_gateway_fqdn }}"
+aap_username: "{{ aap_admin_username | default('admin') }}"
+aap_password: "{{ aap_admin_password }}"
+#aap_token: "{{ lookup('file', lookup('env', 'PWD') + '/aap_token_admin.txt') }}"
+aap_validate_certs: false
 
 controller_configuration_secure_logging: false
 controller_configuration_credentials_secure_logging: false
@@ -13,10 +13,10 @@ controller_execution_environments:
   - name: Custom Base EE
     image: hub.example.com/custom/custom-base-rhel9
     pull: always
-    description: Customized base EE image
+    #pull: missing
     credential: Automation Hub Container Registry
 
-controller_organizations:
+aap_organizations:
   - name: Test Org
     description: Test organization
     max_hosts: 10
@@ -25,11 +25,11 @@ controller_organizations:
     default_environment: Custom Base EE
     # NB. At least one credential needs to be
     #     defined if downloading collections.
-    galaxy_credentials:
-      - Automation Hub RH Certified Repository
-      - Automation Hub Validated Repository
-      - Automation Hub Community Repository
-      - Automation Hub Published Repository
+#    galaxy_credentials:
+#      - Automation Hub RH Certified Repository
+#      - Automation Hub Validated Repository
+#      - Automation Hub Community Repository
+#      - Automation Hub Published Repository
 
 controller_user_accounts:
   - first_name: Test
@@ -46,12 +46,17 @@ controller_roles:
     role: admin
 
 controller_credentials:
+  - name: Automation Hub Container Registry
+    organization: Test Org
+    credential_type: Container Registry
+    inputs:
+      username: "{{ aap_admin_username | default('admin') }}"
+      password: "{{ aap_admin_password }}"
   - name: Test Credential
-    description: Credential for testing
     organization: Test Org
     credential_type: Machine
     inputs:
-      username: admin
+      username: "{{ test_machine_username | default('admin') }}"
       ssh_key_data: "{{ lookup('file', lookup('env', 'PWD') + '/id_ed25519') }}"
       ssh_key_unlock: "{{ ssh_key_passphrase | default(omit) }}"
 
