@@ -108,7 +108,7 @@ ah_collections:
     version: v2.0.0
   - collection_name: myllynen.rhel_image
     git_url: https://github.com/myllynen/rhel-image
-    version: v1.3.1
+    version: v1.3.2
 
 
 ah_ee_registries:
