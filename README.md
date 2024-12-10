@@ -41,7 +41,9 @@ To install Ansible Automation Platform,
 then unpack the installer, cd to the extracted directory, and adjust the inventory:
 
 ```
-# Install supported ansible-core version and other tools
+# Install ansible-core from standard RHEL repos
+sudo dnf install ansible-core
+# Alternatively, install ansible-core and other helpful tools from AAP repos
 sudo dnf install --enablerepo=ansible-automation-platform-2.5-for-rhel-9-x86_64-rpms \
   ansible-core ansible-builder ansible-lint ansible-navigator ansible-sign
 # Update the inventory for the local environment
