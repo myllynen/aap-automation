@@ -3,6 +3,8 @@ collections_path = ./collections
 inventory = ./inventory
 log_path = ./aap_install.log
 
+forks = 20
+
 stdout_callback = ansible.builtin.default
 callback_result_format = yaml
 callback_format_pretty = True
