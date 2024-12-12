@@ -30,13 +30,13 @@ lab3.example.com
 [automationeda]
 lab4.example.com
 
-# This section is for the Ansible Automation Platform database
-# --------------------------------------
+# This section is for your AAP database host
+# -----------------------------------------------------
 [database]
 lab1.example.com
 
-# This section is for the AAP redis hosts
-# --------------------------------------
+# This section is for your AAP redis host(s)
+# -----------------------------------------------------
 #[redis]
 
 [all:vars]
