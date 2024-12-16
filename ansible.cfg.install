@@ -3,6 +3,7 @@ collections_path = ./collections
 inventory = ./inventory
 log_path = ./aap_install.log
 
+#remote_user = aapadmin
 forks = 20
 
 stdout_callback = ansible.builtin.default
