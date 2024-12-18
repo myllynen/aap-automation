@@ -1,5 +1,7 @@
-aap_gateway_fqdn: gateway.example.com
-aap_admin_username: admin
-aap_admin_password: Foobar_12
-#aap_redhat_registry_username: your-rhn-username
-#aap_redhat_registry_password: your-rhn-password
+aap_hostname: gateway.example.com
+
+aap_username: "{{ aap_admin_username | default('admin') }}"
+aap_password: "{{ aap_admin_password }}"
+#aap_token: "{{ lookup('file', lookup('env', 'PWD') + '/aap_token_admin.txt') }}"
+
+aap_validate_certs: false

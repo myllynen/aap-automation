@@ -1,5 +1,5 @@
 ---
-- name: Configure automation controller
+- name: Configure Ansible Automation Platform
   hosts: all
   become: false
   gather_facts: false

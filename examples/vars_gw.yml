@@ -1,0 +1,62 @@
+# Ansible Automation Platform gateway configuration
+
+gateway_services_secure_logging: false
+
+# For available settings and their current default values see:
+# https://gateway.example.com/api/gateway/v1/settings/all/
+gateway_settings:
+  allow_admins_to_set_insecure: false
+  custom_login_info: >-
+    Welcome to AAP!
+  ## The logo file must use the data URI scheme:
+  ##   convert orig-logo.png -transparent white logo.png
+  ##   echo "data:image/png;base64,$(base64 -w0 < logo.png)" > logo.data
+  custom_logo: "{{ lookup('file', './logo.data') }}"
+  gateway_basic_auth_enabled: true
+  gateway_proxy_url_ignore_cert: false
+  ALLOW_OAUTH2_FOR_EXTERNAL_USERS: false
+  DEFAULT_PAGE_SIZE: 50
+  MAX_PAGE_SIZE: 200
+  SESSION_COOKIE_AGE: 900
+
+gateway_authenticators:
+  - name: Local Database Authenticator
+    order: 1
+    type: ansible_base.authentication.authenticator_plugins.local
+    slug: local-database-authenticator
+    configuration: {}
+    enabled: true
+    create_objects: true
+    remove_users: false
+  - name: Microsoft Active Directory
+    order: 2
+    type: ansible_base.authentication.authenticator_plugins.ldap
+    slug: microsoft-active-directory
+    configuration:
+      SERVER_URI:
+        - ldap://ad.example.com:389
+      START_TLS: false
+      #BIND_DN: cn={{ aap_ldap_bind_username }},ou=service_accounts,dc=example,dc=com
+      #BIND_PASSWORD: "{{ aap_ldap_bind_password }}"
+      GROUP_TYPE: MemberDNGroupType
+      GROUP_TYPE_PARAMS:
+        name_attr: cn
+        member_attr: member
+      #USER_DN_TEMPLATE: sAMAccountName=%(user)s,ou=users,dc=example,dc=com
+      USER_SEARCH: ["ou=users,dc=example,dc=com", SCOPE_ONELEVEL, '(sAMAccountName=%(user)s)']
+      GROUP_SEARCH: ["ou=groups,dc=example,dc=com", SCOPE_SUBTREE, '(objectClass=group)']
+      USER_ATTR_MAP:
+        first_name: givenName
+        last_name: sn
+        email: mail
+
+gateway_authenticator_maps:
+  - name: Default Organization
+    authenticator: Microsoft Active Directory
+    revoke: true
+    map_type: organization
+    role: Organization Member
+    organization: Default
+    team: null
+    triggers:
+      always: {}
