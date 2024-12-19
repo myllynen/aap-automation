@@ -1,9 +1,3 @@
-aap_hostname: "{{ aap_gateway_fqdn }}"
-aap_username: "{{ aap_admin_username | default('admin') }}"
-aap_password: "{{ aap_admin_password }}"
-#aap_token: "{{ lookup('file', lookup('env', 'PWD') + '/aap_token_admin.txt') }}"
-aap_validate_certs: false
-
 #controller_execution_environments:
 #  - name: Default execution environment
 #    image: null
