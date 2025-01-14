@@ -93,6 +93,9 @@ hub_pg_database=hub
 hub_pg_username=admin
 hub_pg_password=Foobar_12
 
+hub_galaxy_importer={'run_ansible_lint': True, 'offline_ansible_lint': True}
+hub_seed_collections=false
+
 # AAP EDA Controller
 # https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/containerized_installation/appendix-inventory-files-vars#event-driven-ansible-controller
 # -----------------------------------------------------
