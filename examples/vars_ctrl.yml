@@ -26,7 +26,7 @@ controller_settings:
     GALAXY_IGNORE_CERTS: false
     GALAXY_TASK_ENV:
       ANSIBLE_FORCE_COLOR: "false"
-      GIT_SSH_COMMAND: ssh -o StrictHostKeyChecking=no
+      GIT_SSH_COMMAND: ssh -o StrictHostKeyChecking=accept-new
     INSIGHTS_TRACKING_STATE: true
     MANAGE_ORGANIZATION_AUTH: false
     MAX_FORKS: 200
