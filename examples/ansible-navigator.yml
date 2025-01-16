@@ -12,7 +12,7 @@ ansible-navigator:
         - --tls-verify=false
       # https://github.com/ansible/ansible-navigator/issues/1741
       policy: missing
-    image: hub.example.com/custom/custom-base-rhel9
+    image: gateway.example.com/custom/custom-base-rhel9
     #environment-variables:
     #  set:
     #    KRB5CCNAME: /share/krb5cc
