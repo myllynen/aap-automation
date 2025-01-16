@@ -1,6 +1,8 @@
-# Ansible Automation Platform controller configuration
+# Ansible Automation Platform controller core configuration
 
+aap_configuration_secure_logging: false
 controller_configuration_settings_secure_logging: false
+controller_configuration_execution_environments_secure_logging: false
 
 # For available settings and their current default values see:
 # https://gateway.example.com/api/controller/v2/settings/all/

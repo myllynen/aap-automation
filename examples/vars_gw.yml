@@ -1,6 +1,9 @@
 # Ansible Automation Platform gateway configuration
 
-gateway_services_secure_logging: false
+aap_configuration_secure_logging: false
+gateway_settings_secure_logging: false
+gateway_authenticators_secure_logging: false
+gateway_authenticator_maps_secure_logging: false
 
 # For available settings and their current default values see:
 # https://gateway.example.com/api/gateway/v1/settings/all/
@@ -19,7 +22,7 @@ gateway_settings:
   MAX_PAGE_SIZE: 200
   SESSION_COOKIE_AGE: 900
 
-gateway_authenticators:
+XXX_gateway_authenticators:
   - name: Local Database Authenticator
     order: 1
     type: ansible_base.authentication.authenticator_plugins.local
@@ -50,7 +53,7 @@ gateway_authenticators:
         last_name: sn
         email: mail
 
-gateway_authenticator_maps:
+XXX_gateway_authenticator_maps:
   - name: Default Organization
     authenticator: Microsoft Active Directory
     revoke: true

@@ -1,3 +1,7 @@
+# Ansible Automation Platform controller default configuration deletion
+
+aap_configuration_secure_logging: false
+
 #controller_execution_environments:
 #  - name: Default execution environment
 #    image: null
@@ -12,6 +16,7 @@
 #    image: null
 #    state: absent
 
+# Managed organizations cannot be deleted
 #aap_organizations:
 #  - name: Default
 #    state: absent
