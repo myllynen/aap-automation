@@ -1,12 +1,16 @@
-aap_hostname: "{{ aap_gateway_fqdn }}"
-aap_username: "{{ aap_admin_username | default('admin') }}"
-aap_password: "{{ aap_admin_password }}"
-#aap_token: "{{ lookup('file', lookup('env', 'PWD') + '/aap_token_admin.txt') }}"
-aap_validate_certs: false
+# Ansible Automation Platform automation hub configuration
 
-ah_configuration_secure_logging: false
-ah_configuration_collection_repository_secure_logging: false
-ah_configuration_ee_registry_secure_logging: false
+aap_configuration_secure_logging: false
+
+hub_configuration_collection_remote_secure_logging: false
+hub_configuration_collection_repository_secure_logging: false
+hub_configuration_collection_repository_sync_secure_logging: false
+
+hub_configuration_namespace_secure_logging: false
+hub_configuration_publish_secure_logging: false
+
+hub_configuration_ee_registry_secure_logging: false
+hub_configuration_ee_repository_secure_logging: false
 
 redhat_auth_url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
 #redhat_auth_token: changeme
@@ -16,7 +20,7 @@ ah_request_timeout: 5
 ah_overwrite_existing: true
 
 
-ah_collection_remotes:
+hub_collection_remotes:
   - name: rh-certified
     url: https://console.redhat.com/api/automation-hub/content/published/
     auth_url: "{{ redhat_auth_url if redhat_auth_token is defined else omit }}"
@@ -59,7 +63,7 @@ ah_collection_remotes:
       - name: infra.aap_configuration
       - name: infra.aap_utilities
       - name: infra.ee_utilities
-      #- name: infra.leapp
+      - name: infra.leapp
 
   - name: community
     url: https://galaxy.ansible.com/api/
@@ -78,7 +82,7 @@ ah_collection_remotes:
       - name: containers.podman
         version: 1.16.2
 
-ah_collection_repositories:
+hub_collection_repositories:
   - name: rh-certified
     remote: rh-certified
     retain_repo_versions: 3
@@ -93,25 +97,28 @@ ah_collection_repositories:
     wait: false
 
 
-ah_namespaces:
+hub_namespaces:
   - name: myllynen
     company: myllynen
     email: myllynen@redhat.com
     avatar_url: https://avatars.githubusercontent.com/u/24413632
     description: Collections from myllynen's GitHub repositories
 
-ah_collections:
+hub_collections:
 #  - collection_name: custom.example_collection
 #    collection_local_path: /tmp/collections/example-collection-1.2.3
   - collection_name: myllynen.rhel_ansible_roles
     git_url: https://github.com/myllynen/rhel-ansible-roles
-    version: v2.0.0
-  - collection_name: myllynen.rhel_image
-    git_url: https://github.com/myllynen/rhel-image
-    version: v1.3.2
+    version: v2.0.4
+#  - collection_name: myllynen.rhel_image
+#    git_url: https://github.com/myllynen/rhel-image
+#    version: v1.3.3
+#  - collection_name: myllynen.windows_ansible_roles
+#    git_url: https://github.com/myllynen/windows-ansible-roles
+#    version: v4.3.3
 
 
-ah_ee_registries:
+hub_ee_registries:
   - name: redhat
     url: https://registry.redhat.io
     username: "{{ aap_redhat_registry_username }}"
@@ -123,12 +130,12 @@ ah_ee_registries:
     sync: true
     wait: true
 
-ah_ee_repositories:
+hub_ee_repositories:
   - name: ansible-automation-platform/ee-minimal-rhel8
     registry: redhat
     upstream_name: ansible-automation-platform/ee-minimal-rhel8
     include_tags:
-      - 2.17
+      - 2.16
     sync: true
     wait: false
 
@@ -136,6 +143,7 @@ ah_ee_repositories:
     registry: redhat
     upstream_name: ansible-automation-platform/ee-minimal-rhel9
     include_tags:
+      - 2.16
       - 2.18
     sync: true
     wait: false

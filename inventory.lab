@@ -37,7 +37,7 @@ lab1.example.com
 
 # This section is for your AAP redis host(s)
 # -----------------------------------------------------
-#[redis]
+[redis]
 
 [all:vars]
 

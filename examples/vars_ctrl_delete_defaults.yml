@@ -1,4 +1,4 @@
-# Ansible Automation Platform controller default configuration deletion
+# Ansible Automation Platform controller configuration - defaults deletion
 
 aap_configuration_secure_logging: false
 

@@ -1,3 +1,5 @@
+# Ansible Automation Platform environment configuration
+
 aap_hostname: gateway.example.com
 
 aap_username: "{{ aap_admin_username | default('admin') }}"

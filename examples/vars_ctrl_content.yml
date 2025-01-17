@@ -1,14 +1,12 @@
-controller_configuration_secure_logging: false
-controller_configuration_credentials_secure_logging: false
-controller_configuration_projects_async_retries: 60
-controller_user_default_password: Foobar_12
+# Ansible Automation Platform controller configuration - content
 
-controller_execution_environments:
-  - name: Custom Base EE
-    image: gateway.example.com/custom/custom-base-rhel9
-    pull: always
-    #pull: missing
-    credential: Automation Hub Container Registry
+aap_configuration_secure_logging: false
+controller_configuration_organizations_secure_logging: false
+controller_configuration_credential_types_secure_logging: false
+controller_configuration_credentials_secure_logging: false
+controller_configuration_execution_environments_secure_logging: false
+controller_configuration_projects_secure_logging: false
+controller_configuration_inventories_secure_logging: false
 
 aap_organizations:
   - name: Test Org
@@ -25,19 +23,47 @@ aap_organizations:
 #      - Automation Hub Community Repository
 #      - Automation Hub Published Repository
 
-controller_user_accounts:
-  - first_name: Test
-    last_name: Admin
-    email: test_admin@example.com
-    username: test_admin
-    organization: Test Org
-
-controller_roles:
-  - user: test_admin
-    lookup_organization: Test Org
-    organizations:
-      - Test Org
-    role: admin
+controller_credential_types:
+  - name: Kerberos
+    inputs:
+      fields:
+        - id: username
+          type: string
+          label: Username
+        - id: password
+          type: string
+          label: Password
+          secret: true
+        - id: default_realm
+          type: string
+          label: Default Realm
+        - id: kdc
+          type: string
+          label: KDC
+          help_text: Optional KDC, use only if KDC DNS lookup not working
+      required:
+        - username
+        - password
+        - default_realm
+    injectors:
+      env:
+        KRB5_CONFIG: !unsafe "{{ tower.filename }}"
+      file:
+        template: !unsafe |-
+          [libdefaults]
+          default_realm = {{ default_realm | upper }}
+          dns_canonicalize_hostname = fallback
+          dns_lookup_realm = {% if kdc %}false{% else %}true{% endif %}
+          dns_lookup_kdc = {% if kdc %}false{% else %}true{% endif %}
+          forwardable = true
+          [realms]
+          {{ default_realm | upper }} = {
+            default_domain = {{ default_realm | lower }}
+            {% if kdc %}kdc = {{ kdc }}{% endif %}
+          }
+      extra_vars:
+        ansible_user: !unsafe "{{ username }}"
+        ansible_password: !unsafe "{{ password }}"
 
 controller_credentials:
   - name: Automation Hub Container Registry
@@ -51,8 +77,16 @@ controller_credentials:
     credential_type: Machine
     inputs:
       username: "{{ test_machine_username | default('admin') }}"
-      ssh_key_data: "{{ lookup('file', lookup('env', 'PWD') + '/id_ed25519') }}"
-      ssh_key_unlock: "{{ ssh_key_passphrase | default(omit) }}"
+      password: "{{ test_machine_password | default('Foobar_12') }}"
+      #ssh_key_data: "{{ lookup('file', lookup('env', 'PWD') + '/id_ed25519') }}"
+      #ssh_key_unlock: "{{ ssh_key_passphrase | default(omit) }}"
+
+controller_execution_environments:
+  - name: Custom Base EE
+    image: gateway.example.com/custom/custom-base-rhel9
+    pull: always
+    #pull: missing
+    credential: Automation Hub Container Registry
 
 controller_projects:
   - name: Test Project

@@ -1,0 +1,12 @@
+# Ansible Automation Platform access configuration - users
+
+aap_configuration_secure_logging: false
+gateway_users_secure_logging: false
+
+users_default_password: Foobar_12
+
+aap_user_accounts:
+  - first_name: Test
+    last_name: Admin
+    email: test_admin@example.com
+    username: test_admin

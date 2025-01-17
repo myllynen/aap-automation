@@ -1,0 +1,13 @@
+# Ansible Automation Platform access configuration - roles
+
+aap_configuration_secure_logging: false
+gateway_role_user_assignments_secure_logging: false
+
+# For the time being must use object_id for organization
+gateway_role_user_assignments:
+  - role_definition: Organization Member
+    object_id: 2
+    user: test_admin
+  - role_definition: Organization Admin
+    object_id: 2
+    user: test_admin

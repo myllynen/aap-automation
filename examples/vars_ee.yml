@@ -1,13 +1,20 @@
+# Ansible Automation Platform execution environments build definitions
+
+ah_host: "{{ aap_hostname }}"
 ee_ah_host: "{{ ah_host }}"
-ee_registry_username: "{{ ah_username }}"
-ee_registry_password: "{{ ah_password }}"
-ee_ah_token: "{{ lookup('file', lookup('env', 'PWD') + '/aap_hub_token_admin.txt') }}"
-ee_validate_certs: false
+
+ee_registry_username: "{{ aap_username }}"
+ee_registry_password: "{{ aap_password }}"
+#ah_token: "{{ lookup('file', lookup('env', 'PWD') + '/ah_token_admin.txt') }}"
+#ah_token: changeme
+
+ee_validate_certs: "{{ aap_validate_certs }}"
 
 # https://ansible.readthedocs.io/projects/builder/en/stable/definition/
 ee_version: 3
 ee_build_arg_defaults:
   ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --no-deps -vvvv
+  #ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --upgrade -vvvv
 ee_build_options:
   container_init:
     entrypoint: '["/opt/builder/bin/entrypoint"]'
@@ -21,32 +28,49 @@ ee_registry_dest: "{{ ah_host }}/custom"
 
 ee_list:
   - name: custom-base-rhel8
-    base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel8:2.14"
+    base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel8:2.16"
     dependencies:
       system:
+        - findutils [platform:rpm]
         - iputils [platform:rpm]
+        - python3-pip [platform:rpm]
+        #- python3.11-devel [platform:rpm]
+        #- python3.11-pip [platform:rpm]
+        #- python3.11-setuptools [platform:rpm]
+        #- gcc [platform:rpm]
+        #- systemd-devel [platform:rpm]
+      #python:
+      #  - dnspython
+      #  - netaddr
+      #  - psutil
+      #  - pyjwt
+      #  - selinux
       galaxy:
         collections:
           - ansible.controller
-          - ansible.eda
+          #- ansible.eda
           - ansible.hub
           - ansible.posix
           - ansible.utils
           #- ansible.windows
+          #- azure.azcollection
           #- chocolatey.chocolatey
           #- kubernetes.core
           #- microsoft.ad
-          #- redhat.rhel_idm
+          - redhat.rhel_idm
           - redhat.rhel_system_roles
           - redhat.satellite
           - redhat.satellite_operations
-          #- infra.aap_configuration
+          - infra.aap_configuration
           #- infra.aap_utilities
           #- infra.ee_utilities
           #- infra.leapp
-          #- containers.podman
           - community.general
+          #- community.windows
+          #- containers.podman
           - myllynen.rhel_ansible_roles
+          #- myllynen.rhel_image
+          #- myllynen.windows_ansible_roles
     build_files:
       - src: "{{ lookup('env', 'PWD') + '/pip.conf' }}"
         dest: configs
@@ -62,33 +86,49 @@ ee_list:
     tag: latest
 
   - name: custom-base-rhel9
-    base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel9:2.16"
+    base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel9:2.18"
     dependencies:
       system:
+        - findutils [platform:rpm]
         - iputils [platform:rpm]
         - python3-pip [platform:rpm]
+        #- python3.11-devel [platform:rpm]
+        #- python3.11-pip [platform:rpm]
+        #- python3.11-setuptools [platform:rpm]
+        #- gcc [platform:rpm]
+        #- systemd-devel [platform:rpm]
+      #python:
+      #  - dnspython
+      #  - netaddr
+      #  - psutil
+      #  - pyjwt
+      #  - selinux
       galaxy:
         collections:
           - ansible.controller
-          - ansible.eda
+          #- ansible.eda
           - ansible.hub
           - ansible.posix
           - ansible.utils
           #- ansible.windows
+          #- azure.azcollection
           #- chocolatey.chocolatey
           #- kubernetes.core
           #- microsoft.ad
-          #- redhat.rhel_idm
+          - redhat.rhel_idm
           - redhat.rhel_system_roles
           - redhat.satellite
           - redhat.satellite_operations
-          #- infra.aap_configuration
+          - infra.aap_configuration
           #- infra.aap_utilities
           #- infra.ee_utilities
           #- infra.leapp
-          #- containers.podman
           - community.general
+          #- community.windows
+          #- containers.podman
           - myllynen.rhel_ansible_roles
+          #- myllynen.rhel_image
+          #- myllynen.windows_ansible_roles
     build_files:
       - src: "{{ lookup('env', 'PWD') + '/pip.conf' }}"
         dest: configs
@@ -105,10 +145,10 @@ ee_list:
 
 
 # https://github.com/ansible/galaxy_collection/issues/329
-#ah_ee_images:
+#hub_ee_images:
 #  - name: custom/test
 #    state: absent
 
-#ah_ee_repositories:
+#hub_ee_repositories:
 #  - name: custom/test
 #    state: absent
