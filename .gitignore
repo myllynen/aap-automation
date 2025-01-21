@@ -1,4 +1,5 @@
 examples/aap_admin_token.txt
 examples/id_ed25519.scm
+examples/id_ed25519.machine
 examples/pah_token.txt
 examples/rh_token.txt

@@ -85,7 +85,7 @@ controller_credentials:
     inputs:
       username: "{{ test_machine_username | default('admin') }}"
       password: "{{ test_machine_password | default('Foobar_12') }}"
-      #ssh_key_data: "{{ lookup('file', lookup('env', 'PWD') + '/id_ed25519') }}"
+      #ssh_key_data: "{{ lookup('file', lookup('env', 'PWD') + '/id_ed25519.machine') }}"
       #ssh_key_unlock: "{{ ssh_key_passphrase | default(omit) }}"
 
 controller_execution_environments:
