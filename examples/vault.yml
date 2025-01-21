@@ -1,7 +1,17 @@
 # Ansible Automation Platform vault - unencrypted example
 
+# AAP administrator credentials
 aap_admin_username: admin
 aap_admin_password: Foobar_12
 
+# AAP private automation hub token
+# This needs to be added after installation
+aap_private_hub_token: "{{ lookup('file', lookup('env', 'PWD') + '/pah_token.txt') }}"
+
+# Red Hat Automation Hub token
+# https://console.redhat.com/ansible/automation-hub/token
+aap_redhat_hub_token: "{{ lookup('file', lookup('env', 'PWD') + '/rh_token.txt') }}"
+
+# Red Hat registry credentials
 #aap_redhat_registry_username: your-rhn-username
 #aap_redhat_registry_password: your-rhn-password

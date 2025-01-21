@@ -13,7 +13,7 @@ hub_configuration_ee_registry_secure_logging: false
 hub_configuration_ee_repository_secure_logging: false
 
 redhat_auth_url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
-#redhat_auth_token: changeme
+redhat_auth_token: "{{ aap_redhat_hub_token }}"
 
 ah_auto_approve: true
 ah_request_timeout: 5

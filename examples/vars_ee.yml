@@ -5,8 +5,7 @@ ee_ah_host: "{{ ah_host }}"
 
 ee_registry_username: "{{ aap_username }}"
 ee_registry_password: "{{ aap_password }}"
-#ah_token: "{{ lookup('file', lookup('env', 'PWD') + '/ah_token_admin.txt') }}"
-#ah_token: changeme
+ah_token: "{{ aap_private_hub_token }}"
 
 ee_validate_certs: "{{ aap_validate_certs }}"
 
