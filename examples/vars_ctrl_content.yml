@@ -70,8 +70,15 @@ controller_credentials:
     organization: Test Org
     credential_type: Container Registry
     inputs:
+      host: "{{ aap_hostname }}"
       username: "{{ aap_admin_username | default('admin') }}"
       password: "{{ aap_admin_password }}"
+  - name: Test Org SCM Credential
+    organization: Test Org
+    credential_type: Source Control
+    inputs:
+      ssh_key_data: "{{ lookup('file', lookup('env', 'PWD') + '/id_ed25519.scm') }}"
+      #ssh_key_unlock: "{{ ssh_key_passphrase | default(omit) }}"
   - name: Test Credential
     organization: Test Org
     credential_type: Machine
@@ -83,7 +90,7 @@ controller_credentials:
 
 controller_execution_environments:
   - name: Custom Base EE
-    image: gateway.example.com/custom/custom-base-rhel9
+    image: "{{ aap_hostname }}/custom/custom-base-rhel9"
     pull: always
     #pull: missing
     credential: Automation Hub Container Registry
@@ -95,6 +102,7 @@ controller_projects:
     default_environment: Custom Base EE
     scm_type: git
     scm_url: https://git.example.com/example.git
+    #scm_credential: Test Org SCM Credential
     scm_clean: true
     scm_update_on_launch: true
     scm_update_cache_timeout: "30"
