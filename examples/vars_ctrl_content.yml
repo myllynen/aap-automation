@@ -96,22 +96,46 @@ controller_execution_environments:
     credential: Automation Hub Container Registry
 
 controller_projects:
+  - name: Test Project for Git Inventory
+    description: Inventory project for testing
+    organization: Test Org
+    scm_type: git
+    scm_url: https://github.com/myllynen/autotest.git
+    #credential: Test Org SCM Credential
+    scm_clean: true
+    scm_update_on_launch: false
+    #scm_update_cache_timeout: "30"
+    update_project: true
+
   - name: Test Project
     description: Project for testing
     organization: Test Org
     default_environment: Custom Base EE
     scm_type: git
-    scm_url: https://git.example.com/example.git
-    #scm_credential: Test Org SCM Credential
+    scm_url: https://github.com/myllynen/misc.git
+    #credential: Test Org SCM Credential
     scm_clean: true
-    scm_update_on_launch: true
-    scm_update_cache_timeout: "30"
+    scm_update_on_launch: false
+    #scm_update_cache_timeout: "30"
     update_project: true
 
 controller_inventories:
   - name: Test Inventory
     description: Inventory for testing
     organization: Test Org
+
+controller_inventory_sources:
+  - name: Test Git Inventory Source
+    description: Inventory Source for testing
+    organization: Test Org
+    execution_environment: Control Plane Execution Environment
+    inventory: Test Inventory
+    source: scm
+    source_project: Test Project for Git Inventory
+    source_path: inventory
+    overwrite: true
+    overwrite_vars: true
+    verbosity: 2
 
 controller_templates:
   - name: Test Job Template
@@ -120,6 +144,50 @@ controller_templates:
     organization: Test Org
     inventory: Test Inventory
     project: Test Project
-    playbook: example.yml
-    credentials: Test Credential
+    playbook: debug.yml
+    #credentials: Test Credential
+    limit: local
     verbosity: "0"
+
+  - name: Test Random Failure
+    description: Random failure for testing
+    job_type: run
+    organization: Test Org
+    inventory: Test Inventory
+    project: Test Project
+    playbook: random_fail.yml
+    #credentials: Test Credential
+    limit: local
+    verbosity: "0"
+    extra_vars:
+      message: This might fail
+
+controller_workflows:
+  - name: Test Workflow Job Template
+    description: Workflow for testing
+    organization: Test Org
+    inventory: Test Inventory
+    limit: local
+    extra_vars:
+      message: Message from workflow
+    simplified_workflow_nodes:
+      - identifier: node1
+        all_parents_must_converge: false
+        unified_job_template: Test Random Failure
+        credentials: []
+        success_nodes:
+          - node10
+        failure_nodes:
+          - node20
+        always_nodes: []
+      - identifier: node10
+        approval_node:
+          name: Test Approval
+          description: Approval step for testing
+          timeout: 0
+        success_nodes:
+          - node11
+      - identifier: node11
+        unified_job_template: Test Job Template
+      - identifier: node20
+        unified_job_template: Test Random Failure
