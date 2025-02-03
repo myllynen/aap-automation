@@ -58,6 +58,9 @@ bundle_dir='{{ lookup("ansible.builtin.env", "PWD") }}/bundle'
 postgresql_admin_username=postgres
 postgresql_admin_password=Foobar_12
 
+# Monitoring
+#setup_monitoring=true
+
 # Redis
 redis_mode=standalone
 
