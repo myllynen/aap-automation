@@ -20,6 +20,7 @@ ee_build_options:
     package_pip: ""
   package_manager_path: /usr/bin/microdnf
 
+ee_aap_version: 2.5
 ee_image_push: true
 ee_prune_images: true
 ee_create_ansible_config: true
