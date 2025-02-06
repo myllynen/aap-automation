@@ -112,11 +112,11 @@ ee_list:
           - ansible.platform
           - ansible.posix
           - ansible.utils
-          #- ansible.windows
-          #- azure.azcollection
-          #- chocolatey.chocolatey
+          - ansible.windows
+          - azure.azcollection
+          - chocolatey.chocolatey
           #- kubernetes.core
-          #- microsoft.ad
+          - microsoft.ad
           - redhat.rhel_idm
           - redhat.rhel_system_roles
           - redhat.satellite
@@ -126,11 +126,11 @@ ee_list:
           #- infra.ee_utilities
           #- infra.leapp
           - community.general
-          #- community.windows
+          - community.windows
           #- containers.podman
           - myllynen.rhel_ansible_roles
           #- myllynen.rhel_image
-          #- myllynen.windows_ansible_roles
+          - myllynen.windows_ansible_roles
     build_files:
       - src: "{{ lookup('env', 'PWD') + '/pip.conf' }}"
         dest: configs
