@@ -50,7 +50,7 @@ bundle_install=true
 # The bundle directory must include /bundle in the path
 bundle_dir='{{ lookup("ansible.builtin.env", "PWD") }}/bundle'
 
-# Red Hat registry authentication for non-bundle installer
+# Red Hat registry authentication for the non-bundle installer
 #registry_username=your-rhn-username
 #registry_password=your-rhn-password
 
@@ -77,6 +77,10 @@ gateway_pg_host=lab1.example.com
 gateway_pg_database=gateway
 gateway_pg_username=admin
 gateway_pg_password=Foobar_12
+gateway_redis_username=gateway
+gateway_redis_password=Foobar_12
+
+#gateway_main_url=
 
 # AAP Controller
 # https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/containerized_installation/appendix-inventory-files-vars#ref-controller-variables
@@ -96,8 +100,11 @@ hub_pg_database=hub
 hub_pg_username=admin
 hub_pg_password=Foobar_12
 
-hub_galaxy_importer={'run_ansible_lint': True, 'offline_ansible_lint': True}
+#hub_shared_data_path=
+#hub_shared_data_mount_opts=rw,sync,hard
+
 hub_seed_collections=false
+hub_galaxy_importer={'run_ansible_lint': True, 'offline_ansible_lint': True}
 
 # AAP EDA Controller
 # https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/containerized_installation/appendix-inventory-files-vars#event-driven-ansible-controller
@@ -107,3 +114,5 @@ eda_pg_host=lab1.example.com
 eda_pg_database=eda
 eda_pg_username=admin
 eda_pg_password=Foobar_12
+eda_redis_username=eda
+eda_redis_password=Foobar_12
