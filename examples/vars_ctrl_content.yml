@@ -58,9 +58,10 @@ controller_credential_types:
           forwardable = true
           [realms]
           {{ default_realm | upper }} = {
-            default_domain = {{ default_realm | lower }}
             {% if kdc %}kdc = {{ kdc }}{% endif %}
           }
+          [domain_realm]
+            {{ default_realm | lower }} = {{ default_realm | upper }}
       extra_vars:
         ansible_user: !unsafe "{{ username }}"
         ansible_password: !unsafe "{{ password }}"
