@@ -53,9 +53,11 @@ controller_credential_types:
           [libdefaults]
           default_realm = {{ default_realm | upper }}
           dns_canonicalize_hostname = fallback
-          dns_lookup_realm = {% if kdc %}false{% else %}true{% endif %}
           dns_lookup_kdc = {% if kdc %}false{% else %}true{% endif %}
+          dns_lookup_realm = true
           forwardable = true
+          rdns = false
+          #udp_preference_limit = 1
           [realms]
           {{ default_realm | upper }} = {
             {% if kdc %}kdc = {{ kdc }}{% endif %}
