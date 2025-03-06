@@ -54,6 +54,9 @@ bundle_dir='{{ lookup("ansible.builtin.env", "PWD") }}/bundle'
 #registry_username=your-rhn-username
 #registry_password=your-rhn-password
 
+# Certificates
+#custom_ca_cert=/tmp/ca.crt
+
 # Database
 postgresql_admin_username=postgres
 postgresql_admin_password=Foobar_12
