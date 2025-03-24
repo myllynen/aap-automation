@@ -42,7 +42,9 @@ XXX_gateway_authenticators:
       START_TLS: false
       #BIND_DN: cn={{ aap_ldap_bind_username }},ou=service_accounts,dc=example,dc=com
       #BIND_PASSWORD: "{{ aap_ldap_bind_password }}"
-      GROUP_TYPE: MemberDNGroupType
+      # https://access.redhat.com/solutions/7093912
+      GROUP_TYPE: ActiveDirectoryGroupType
+      #GROUP_TYPE: MemberDNGroupType
       GROUP_TYPE_PARAMS:
         name_attr: cn
         member_attr: member
