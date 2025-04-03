@@ -77,7 +77,7 @@ hub_collection_remotes:
     sync_dependencies: false
     requirements:
       - name: community.general
-        version: 9.5.4
+        version: 9.5.6
       - name: community.windows
         version: 2.4.0
       - name: containers.podman
