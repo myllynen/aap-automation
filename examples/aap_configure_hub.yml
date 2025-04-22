@@ -4,7 +4,7 @@
   become: false
   gather_facts: false
   roles:
-    # Sync selected collections from an external hub
+    # Sync selected collections from external hubs
     - infra.aap_configuration.hub_collection_remote
     - infra.aap_configuration.hub_collection_repository
     - infra.aap_configuration.hub_collection_repository_sync
