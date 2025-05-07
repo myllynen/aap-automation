@@ -44,6 +44,7 @@ hub_collection_remotes:
       - name: chocolatey.chocolatey
       - name: kubernetes.core
       - name: microsoft.ad
+      - name: redhat.ai
       - name: redhat.rhel_idm
       - name: redhat.rhel_system_roles
       - name: redhat.satellite
@@ -62,9 +63,12 @@ hub_collection_remotes:
     sync_dependencies: false
     requirements:
       - name: infra.aap_configuration
+      - name: infra.aap_configuration_extended
       - name: infra.aap_utilities
+      - name: infra.ai
       - name: infra.ee_utilities
       - name: infra.leapp
+      - name: infra.lvm_snapshots
 
   - name: community
     url: https://galaxy.ansible.com/api/
