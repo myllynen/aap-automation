@@ -65,7 +65,7 @@ hub_collection_remotes:
       - name: infra.aap_configuration
       - name: infra.aap_configuration_extended
       - name: infra.aap_utilities
-      - name: infra.ai
+      #- name: infra.ai
       - name: infra.ee_utilities
       - name: infra.leapp
       - name: infra.lvm_snapshots
