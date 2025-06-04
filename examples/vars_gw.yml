@@ -39,15 +39,13 @@ XXX_gateway_authenticators:
     configuration:
       SERVER_URI:
         - ldap://ad.example.com:389
-      START_TLS: false
+      START_TLS: true
       #BIND_DN: cn={{ aap_ldap_bind_username }},ou=service_accounts,dc=example,dc=com
       #BIND_PASSWORD: "{{ aap_ldap_bind_password }}"
       # https://access.redhat.com/solutions/7093912
       GROUP_TYPE: ActiveDirectoryGroupType
-      #GROUP_TYPE: MemberDNGroupType
       GROUP_TYPE_PARAMS:
         name_attr: cn
-        member_attr: member
       #USER_DN_TEMPLATE: sAMAccountName=%(user)s,ou=users,dc=example,dc=com
       USER_SEARCH:
         - 'ou=users,dc=example,dc=com'
