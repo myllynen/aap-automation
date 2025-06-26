@@ -82,7 +82,7 @@ hub_collection_remotes:
     sync_dependencies: false
     requirements:
       - name: community.general
-        version: 9.5.8
+        version: 9.5.9
       - name: community.windows
         version: 3.0.0
       - name: containers.podman
@@ -115,13 +115,13 @@ hub_collections:
 #    collection_local_path: /tmp/collections/example-collection-1.2.3
   - collection_name: myllynen.rhel_ansible_roles
     git_url: https://github.com/myllynen/rhel-ansible-roles
-    version: v2.1.1
+    version: v3.0.0
   - collection_name: myllynen.rhel_image
     git_url: https://github.com/myllynen/rhel-image
     version: v1.4.1
   - collection_name: myllynen.windows_ansible_roles
     git_url: https://github.com/myllynen/windows-ansible-roles
-    version: v4.6.0
+    version: v5.0.0
 
 
 hub_ee_registries:
