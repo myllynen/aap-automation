@@ -86,7 +86,7 @@ hub_collection_remotes:
       - name: community.windows
         version: 3.0.0
       - name: containers.podman
-        version: 1.16.4
+        version: 1.17.0
 
 hub_collection_repositories:
   - name: rh-certified
@@ -121,7 +121,7 @@ hub_collections:
     version: v1.4.1
   - collection_name: myllynen.windows_ansible_roles
     git_url: https://github.com/myllynen/windows-ansible-roles
-    version: v5.0.0
+    version: v5.0.1
 
 
 hub_ee_registries:
