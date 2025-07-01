@@ -64,16 +64,14 @@ postgresql_admin_password=Foobar_12
 # Features
 #feature_flags={'FEATURE_POLICY_AS_CODE_ENABLED': True}
 
+# Manifest
+controller_license_file=/home/admin/aap_manifest.zip
+
 # Monitoring
 #setup_monitoring=true
 
 # Redis
 redis_mode=standalone
-
-# Postinstall
-controller_license_file=/home/admin/aap_manifest.zip
-#controller_postinstall=true
-#controller_postinstall_dir=/home/admin/aap_postinstall
 
 # AAP Gateway
 # https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/containerized_installation/appendix-inventory-files-vars#ref-gateway-variables
