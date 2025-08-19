@@ -3,6 +3,8 @@
 ah_host: "{{ aap_hostname }}"
 ee_ah_host: "{{ ah_host }}"
 
+ee_base_registry_username: "{{ aap_username }}"
+ee_base_registry_password: "{{ aap_password }}"
 ee_registry_username: "{{ aap_username }}"
 ee_registry_password: "{{ aap_password }}"
 ah_token: "{{ aap_private_hub_token }}"
