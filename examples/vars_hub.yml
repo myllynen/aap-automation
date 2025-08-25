@@ -115,13 +115,13 @@ hub_collections:
 #    collection_local_path: /tmp/collections/example-collection-1.2.3
   - collection_name: myllynen.rhel_ansible_roles
     git_url: https://github.com/myllynen/rhel-ansible-roles
-    version: v3.2.2
+    version: v3.2.3
   - collection_name: myllynen.rhel_image
     git_url: https://github.com/myllynen/rhel-image
     version: v2.0.0
   - collection_name: myllynen.windows_ansible_roles
     git_url: https://github.com/myllynen/windows-ansible-roles
-    version: v5.0.2
+    version: v5.0.3
 
 
 hub_ee_registries:
