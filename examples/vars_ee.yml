@@ -14,8 +14,10 @@ ee_validate_certs: "{{ aap_validate_certs }}"
 # https://ansible.readthedocs.io/projects/builder/en/stable/definition/
 ee_version: 3
 ee_build_arg_defaults:
-  ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --no-deps -vvvv
-  #ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --upgrade -vvvv
+  ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --no-deps -vvv
+  #ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --upgrade --ignore-certs -vvv
+#ee_builder_dir: ./build
+#ee_builder_dir_clean: false
 ee_build_options:
   container_init:
     entrypoint: '["/opt/builder/bin/entrypoint"]'
