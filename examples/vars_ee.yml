@@ -16,7 +16,7 @@ ee_version: 3
 ee_build_arg_defaults:
   ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --no-deps -vvv
   #ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --upgrade --ignore-certs -vvv
-#ee_builder_dir: ./build
+#ee_builder_dir: /var/tmp/build
 #ee_builder_dir_clean: false
 ee_build_options:
   container_init:
