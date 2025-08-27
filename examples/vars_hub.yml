@@ -82,7 +82,7 @@ hub_collection_remotes:
     sync_dependencies: false
     requirements:
       - name: community.general
-        version: 9.5.10
+        version: 11.2.1
       - name: community.windows
         version: 3.0.1
       - name: containers.podman
@@ -121,7 +121,7 @@ hub_collections:
     version: v2.0.0
   - collection_name: myllynen.windows_ansible_roles
     git_url: https://github.com/myllynen/windows-ansible-roles
-    version: v5.0.3
+    version: v5.1.1
 
 
 hub_ee_registries:
