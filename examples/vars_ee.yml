@@ -23,10 +23,12 @@ ee_build_options:
     entrypoint: '["/opt/builder/bin/entrypoint"]'
     package_pip: ""
   package_manager_path: /usr/bin/microdnf
+ee_verbosity: 1
 
 ee_aap_version: 2.5
 ee_image_push: true
 ee_prune_images: true
+ee_update_base_images: true
 ee_pull_collections_from_hub: true
 ee_registry_dest: "{{ ah_host }}/custom"
 
