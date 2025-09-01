@@ -14,8 +14,8 @@ ee_validate_certs: "{{ aap_validate_certs }}"
 # https://ansible.readthedocs.io/projects/builder/en/stable/definition/
 ee_version: 3
 ee_build_arg_defaults:
-  ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --no-deps -vvv
-  #ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --upgrade --ignore-certs -vvv
+  ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: -vvv
+  #ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --ignore-certs --no-deps --upgrade -vvv
 #ee_builder_dir: /var/tmp/build
 #ee_builder_dir_clean: false
 ee_build_options:
@@ -39,7 +39,6 @@ ee_list:
       system:
         - findutils [platform:rpm]
         - iputils [platform:rpm]
-        - python3-pip [platform:rpm]
         #- python3.11-devel [platform:rpm]
         #- python3.11-pip [platform:rpm]
         #- python3.11-setuptools [platform:rpm]
@@ -92,13 +91,13 @@ ee_list:
         - RUN rm -rf /etc/yum.repos.d/* /etc/pip.conf
     tag: latest
 
+XXX_ee_list:
   - name: custom-base-rhel9
     base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel9:2.18"
     dependencies:
       system:
         - findutils [platform:rpm]
         - iputils [platform:rpm]
-        - python3-pip [platform:rpm]
         #- python3.11-devel [platform:rpm]
         #- python3.11-pip [platform:rpm]
         #- python3.11-setuptools [platform:rpm]
