@@ -91,7 +91,6 @@ ee_list:
         - RUN rm -rf /etc/yum.repos.d/* /etc/pip.conf
     tag: latest
 
-XXX_ee_list:
   - name: custom-base-rhel9
     base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel9:2.18"
     dependencies:
