@@ -1,0 +1,65 @@
+# Ansible Automation Platform execution environments build definitions
+
+ah_host: "{{ aap_hostname }}"
+ee_ah_host: "{{ ah_host }}"
+
+ee_base_registry_username: "{{ aap_username }}"
+ee_base_registry_password: "{{ aap_password }}"
+ee_registry_username: "{{ aap_username }}"
+ee_registry_password: "{{ aap_password }}"
+ah_token: "{{ aap_private_hub_token }}"
+
+ee_validate_certs: "{{ aap_validate_certs }}"
+
+# https://ansible.readthedocs.io/projects/builder/en/stable/definition/
+ee_version: 3
+ee_build_arg_defaults:
+  ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: -vvv
+  #ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --ignore-certs --no-deps --upgrade -vvv
+#ee_builder_dir: /var/tmp/build
+#ee_builder_dir_clean: false
+ee_build_options:
+  container_init:
+    entrypoint: '["/opt/builder/bin/entrypoint"]'
+    package_pip: ""
+  package_manager_path: /usr/bin/microdnf
+ee_verbosity: 1
+
+ee_aap_version: 2.5
+ee_image_push: false
+ee_prune_images: true
+ee_update_base_images: true
+ee_pull_collections_from_hub: true
+ee_registry_dest: "{{ ah_host }}/custom"
+
+ee_list:
+  - name: custom-full-rhel8
+    base_image: "{{ ee_ah_host }}/ee-supported-rhel8:latest"
+    build_files:
+      - src: "{{ lookup('env', 'PWD') + '/pip.conf' }}"
+        dest: configs
+      - src: "{{ lookup('env', 'PWD') + '/ansible-ee.cfg' }}"
+        dest: configs
+    build_steps:
+      prepend_final:
+        - ADD _build/configs/ansible.cfg /etc/ansible/ansible.cfg
+        - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv chocolatey.chocolatey
+        - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv infra.aap_configuration
+        - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv community.general
+        - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv community.windows
+        - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv myllynen.rhel_ansible_roles
+        - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv myllynen.windows_ansible_roles
+        - ADD _build/configs/ansible-ee.cfg /etc/ansible/ansible.cfg
+      append_final:
+        - RUN rm -rf /etc/yum.repos.d/* /etc/pip.conf
+    tag: latest
+
+
+# https://github.com/ansible/galaxy_collection/issues/329
+#hub_ee_images:
+#  - name: custom/test
+#    state: absent
+
+#hub_ee_repositories:
+#  - name: custom/test
+#    state: absent
