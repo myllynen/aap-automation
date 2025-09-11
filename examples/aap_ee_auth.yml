@@ -1,0 +1,52 @@
+---
+- name: Configure AAP EE image authentication mode
+  hosts: localhost
+  become: false
+  gather_facts: false
+  vars:
+    base_url: https://gateway.example.com
+    # These should come from vault
+    username: admin
+    password: Foobar_12
+
+    # List of PAH EE images to update
+    # Set to empty list to update all
+    ee_list: []
+    #  - custom/custom-full-rhel8
+
+    # This must be either:
+    # * true   - set images private and require authentcation for pulling EEs
+    # * false  - set images public and thus allow unauthenticated EE image pulls
+    ee_private: true
+
+    container_index: /api/galaxy/pulp/api/v3/distributions/container/container/
+  tasks:
+    - name: Get list of EE image containers at private automation hub
+      ansible.builtin.uri:
+        url: "{{ base_url + container_index }}"
+        user: "{{ username }}"
+        password: "{{ password }}"
+        force_basic_auth: true
+        method: GET
+        validate_certs: false
+      register: ee_images
+
+    - name: Configure EE authentication mode
+      ansible.builtin.uri:
+        url: "{{ base_url + item.pulp_href }}"
+        user: "{{ username }}"
+        password: "{{ password }}"
+        force_basic_auth: true
+        method: PATCH
+        body_format: json
+        body:
+          private: "{{ ee_private }}"
+        status_code: [200, 202]
+        validate_certs: false
+      changed_when: true
+      loop: "{{ ee_images.json.results }}"
+      loop_control:
+        label: "{{ item.name }}"
+      when:
+        - ee_list | length == 0 or item.name in ee_list
+        - item.private != ee_private
