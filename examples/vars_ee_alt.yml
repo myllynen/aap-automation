@@ -43,12 +43,11 @@ ee_list:
     build_steps:
       prepend_final:
         - ADD _build/configs/ansible.cfg /etc/ansible/ansible.cfg
-        - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv chocolatey.chocolatey
-        - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv infra.aap_configuration
         - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv community.general
-        - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv community.windows
+        - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv infra.aap_configuration
         - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv myllynen.rhel_ansible_roles
-        - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv myllynen.windows_ansible_roles
+        - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv -U redhat.satellite
+        - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv -U redhat.satellite_operations
         - ADD _build/configs/ansible-ee.cfg /etc/ansible/ansible.cfg
       append_final:
         - RUN rm -rf /etc/yum.repos.d/* /etc/pip.conf

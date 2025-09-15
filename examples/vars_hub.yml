@@ -86,7 +86,7 @@ hub_collection_remotes:
       - name: community.windows
         version: 3.0.1
       - name: containers.podman
-        version: 1.17.0
+        version: 1.18.0
 
 hub_collection_repositories:
   - name: rh-certified
