@@ -19,6 +19,9 @@ ah_auto_approve: true
 ah_request_timeout: 5
 ah_overwrite_existing: true
 
+cas_async_retries: 100
+cas_async_delay: 3
+
 
 hub_collection_remotes:
   - name: rh-certified
@@ -92,15 +95,18 @@ hub_collection_repositories:
   - name: rh-certified
     remote: rh-certified
     retain_repo_versions: 3
-    wait: false
+    sync: true
+    wait: true
   - name: validated
     remote: validated
     retain_repo_versions: 3
-    wait: false
+    sync: true
+    wait: true
   - name: community
     remote: community
     retain_repo_versions: 3
-    wait: false
+    sync: true
+    wait: true
 
 
 hub_namespaces:
@@ -118,7 +124,7 @@ hub_collections:
     version: v3.2.6
   - collection_name: myllynen.rhel_image
     git_url: https://github.com/myllynen/rhel-image
-    version: v2.0.0
+    version: v2.1.0
   - collection_name: myllynen.windows_ansible_roles
     git_url: https://github.com/myllynen/windows-ansible-roles
     version: v5.1.1
@@ -143,7 +149,7 @@ hub_ee_repositories:
     include_tags:
       - 2.16
     sync: true
-    wait: false
+    wait: true
 
   - name: ansible-automation-platform/ee-minimal-rhel9
     registry: redhat
@@ -152,4 +158,4 @@ hub_ee_repositories:
       - 2.16
       - 2.18
     sync: true
-    wait: false
+    wait: true
