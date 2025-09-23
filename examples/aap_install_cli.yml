@@ -1,0 +1,23 @@
+---
+- name: Install automation controller cli package
+  hosts: all
+  become: false
+  gather_facts: true
+  vars:
+    aap_version: "2.5"
+  tasks:
+    - name: Gather package facts
+      ansible.builtin.package_facts:
+
+    - name: Install automation controller cli package
+      vars:
+        installer_repo: >-
+          ansible-automation-platform-{{ aap_version -}}
+          -for-rhel-{{ ansible_facts.distribution_major_version -}}
+          -{{ ansible_facts.architecture }}-rpms
+      become: true
+      ansible.builtin.dnf:
+        name: automation-controller-cli
+        enablerepo: "{{ installer_repo }}"
+        state: present
+      when: "'automation-controller-cli' not in ansible_facts.packages"
