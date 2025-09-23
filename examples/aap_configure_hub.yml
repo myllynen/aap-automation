@@ -11,7 +11,6 @@
 
     # Make collections in git repos available in this hub
     - infra.aap_configuration.hub_namespace
-    # https://github.com/ansible/galaxy_collection/issues/397
     - infra.aap_configuration.hub_publish
 
     # Sync selected EE images from external registries

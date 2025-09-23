@@ -4,9 +4,13 @@
 aap_admin_username: admin
 aap_admin_password: Foobar_12
 
+# AAP platform gateway token
+# This needs to be added after installation
+aap_platform_gateway_token: "{{ lookup('file', lookup('env', 'PWD') + '/aap_token.txt') }}"
+
 # AAP private automation hub token
 # This needs to be added after installation
-aap_private_hub_token: "{{ lookup('file', lookup('env', 'PWD') + '/pah_token.txt') }}"
+aap_automation_hub_token: "{{ lookup('file', lookup('env', 'PWD') + '/pah_token.txt') }}"
 
 # Red Hat Automation Hub token
 # https://console.redhat.com/ansible/automation-hub/token

@@ -2,8 +2,10 @@
 
 aap_hostname: gateway.example.com
 
+# These should come from vault
 aap_username: "{{ aap_admin_username | default('admin') }}"
 aap_password: "{{ aap_admin_password }}"
-#aap_token: "{{ lookup('file', lookup('env', 'PWD') + '/aap_admin_token.txt') }}"
+#aap_token: "{{ aap_platform_gateway_token }}"
+#hub_token: "{{ aap_automation_hub_token }}"
 
 aap_validate_certs: false
