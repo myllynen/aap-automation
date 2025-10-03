@@ -39,6 +39,14 @@ lab1.example.com
 # -----------------------------------------------------
 [redis]
 
+# This section is for your automation mesh
+[automationcontroller:vars]
+node_type=control
+#peers=execution_nodes
+[execution_nodes:vars]
+node_type=execution
+peers=automationcontroller
+
 [all:vars]
 
 # Common variables
