@@ -4,7 +4,7 @@
   become: false
   gather_facts: true
   vars:
-    aap_version: "2.5"
+    aap_version: "2.6"
   tasks:
     - name: Gather package facts
       ansible.builtin.package_facts:

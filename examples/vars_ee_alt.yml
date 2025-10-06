@@ -7,7 +7,7 @@ ee_base_registry_username: "{{ aap_username }}"
 ee_base_registry_password: "{{ aap_password }}"
 ee_registry_username: "{{ aap_username }}"
 ee_registry_password: "{{ aap_password }}"
-ah_token: "{{ aap_private_hub_token }}"
+ee_ah_token: "{{ aap_automation_hub_token }}"
 
 ee_validate_certs: "{{ aap_validate_certs }}"
 
@@ -23,9 +23,10 @@ ee_build_options:
     entrypoint: '["/opt/builder/bin/entrypoint"]'
     package_pip: ""
   package_manager_path: /usr/bin/microdnf
+  skip_ansible_check: true
 ee_verbosity: 1
 
-ee_aap_version: 2.5
+ee_aap_version: 2.6
 ee_image_push: true
 ee_prune_images: true
 ee_update_base_images: true
@@ -33,8 +34,8 @@ ee_pull_collections_from_hub: true
 ee_registry_dest: "{{ ah_host }}/custom"
 
 ee_list:
-  - name: custom-full-rhel8
-    base_image: "{{ ee_ah_host }}/ee-supported-rhel8:latest"
+  - name: custom-full-rhel9
+    base_image: "{{ ee_ah_host }}/ee-supported-rhel9:latest"
     build_files:
       - src: "{{ lookup('env', 'PWD') + '/pip.conf' }}"
         dest: configs

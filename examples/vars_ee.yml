@@ -7,7 +7,7 @@ ee_base_registry_username: "{{ aap_username }}"
 ee_base_registry_password: "{{ aap_password }}"
 ee_registry_username: "{{ aap_username }}"
 ee_registry_password: "{{ aap_password }}"
-ah_token: "{{ aap_private_hub_token }}"
+ee_ah_token: "{{ aap_automation_hub_token }}"
 
 ee_validate_certs: "{{ aap_validate_certs }}"
 
@@ -23,9 +23,10 @@ ee_build_options:
     entrypoint: '["/opt/builder/bin/entrypoint"]'
     package_pip: ""
   package_manager_path: /usr/bin/microdnf
+  skip_ansible_check: false
 ee_verbosity: 1
 
-ee_aap_version: 2.5
+ee_aap_version: 2.6
 ee_image_push: true
 ee_prune_images: true
 ee_update_base_images: true
@@ -33,17 +34,18 @@ ee_pull_collections_from_hub: true
 ee_registry_dest: "{{ ah_host }}/custom"
 
 ee_list:
-  - name: custom-base-rhel8
-    base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel8:2.16"
+  - name: custom-base-rhel9
+    base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel9:2.16"
     dependencies:
       system:
+        - gcc [platform:rpm]
+        - python3-pip [platform:rpm]
+        - python3-devel [platform:rpm]
+        - python3-setuptools [platform:rpm]
+        - python3-gssapi [platform:rpm]
+        - systemd-devel [platform:rpm]
         - findutils [platform:rpm]
         - iputils [platform:rpm]
-        #- python3.11-devel [platform:rpm]
-        #- python3.11-pip [platform:rpm]
-        #- python3.11-setuptools [platform:rpm]
-        #- gcc [platform:rpm]
-        #- systemd-devel [platform:rpm]
       #python:
       #  - dnspython
       #  - netaddr
@@ -95,13 +97,14 @@ ee_list:
     base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel9:2.18"
     dependencies:
       system:
+        - gcc [platform:rpm]
+        - python3-pip [platform:rpm]
+        - python3-devel [platform:rpm]
+        - python3-setuptools [platform:rpm]
+        - python3-gssapi [platform:rpm]
+        - systemd-devel [platform:rpm]
         - findutils [platform:rpm]
         - iputils [platform:rpm]
-        #- python3.11-devel [platform:rpm]
-        #- python3.11-pip [platform:rpm]
-        #- python3.11-setuptools [platform:rpm]
-        #- gcc [platform:rpm]
-        #- systemd-devel [platform:rpm]
       #python:
       #  - dnspython
       #  - netaddr
