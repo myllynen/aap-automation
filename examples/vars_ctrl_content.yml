@@ -8,6 +8,8 @@ controller_configuration_execution_environments_secure_logging: false
 controller_configuration_projects_secure_logging: false
 controller_configuration_inventories_secure_logging: false
 
+dispatch_include_wildcard_vars: false
+
 aap_organizations:
   - name: Test Org
     description: Test organization
