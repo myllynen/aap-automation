@@ -140,7 +140,7 @@ hub_pg_password=Foobar_12
 #hub_shared_data_mount_opts=rw,sync,hard
 
 hub_seed_collections=false
-hub_galaxy_importer='{"run_ansible_lint": True, "offline_ansible_lint": True}'
+hub_galaxy_importer={"run_ansible_lint": True, "offline_ansible_lint": True}
 
 # AAP EDA Controller
 # https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/html/containerized_installation/appendix-inventory-files-vars#event-driven-ansible-variables
