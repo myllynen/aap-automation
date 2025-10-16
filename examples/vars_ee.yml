@@ -28,6 +28,7 @@ ee_verbosity: 1
 
 ee_aap_version: 2.6
 ee_image_push: true
+ee_squash: new
 ee_prune_images: true
 ee_update_base_images: true
 ee_pull_collections_from_hub: true
