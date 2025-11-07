@@ -12,7 +12,7 @@
     # List of PAH EE images to update
     # Set to empty list to update all
     ee_list: []
-    #  - custom/custom-full-rhel8
+    #  - custom/custom-full-rhel9
 
     # This must be either:
     # * true   - set images private and require authentcation for pulling EEs
