@@ -21,14 +21,14 @@ controller_settings:
     AWX_ANSIBLE_CALLBACK_PLUGINS: []
     AWX_CLEANUP_PATHS: true
     AWX_COLLECTIONS_ENABLED: false
-    # AWX_ISOLATION_BASE_PATH:
+    #AWX_ISOLATION_BASE_PATH:
     AWX_ISOLATION_SHOW_PATHS:
       - /etc/pki/ca-trust:/etc/pki/ca-trust:O
       - /usr/share/pki:/usr/share/pki:O
     AWX_ROLES_ENABLED: false
     AWX_SHOW_PLAYBOOK_LINKS: false
-    # AWX_TASK_ENV:
-    #   HTTP_PROXY: ...
+    #AWX_TASK_ENV:
+    #  HTTP_PROXY: ...
     DEFAULT_EXECUTION_ENVIRONMENT: null
     DEFAULT_JOB_TIMEOUT: 3600
     DEFAULT_JOB_IDLE_TIMEOUT: 0
@@ -44,29 +44,29 @@ controller_settings:
     PENDO_TRACKING_STATE: detailed
     PROJECT_UPDATE_VVV: false
     # https://access.redhat.com/articles/7112649
-    # SUBSCRIPTIONS_CLIENT_ID: "{{ aap_rh_client_id }}"
-    # SUBSCRIPTIONS_CLIENT_SECRET: "{{ aap_rh_client_secret }}"
+    #SUBSCRIPTIONS_CLIENT_ID: "{{ aap_rh_client_id }}"
+    #SUBSCRIPTIONS_CLIENT_SECRET: "{{ aap_rh_client_secret }}"
     SCHEDULE_MAX_JOBS: 10
     SESSION_COOKIE_AGE: 900
     SESSIONS_PER_USER: -1
     UI_LIVE_UPDATES_ENABLED: true
 
     # Log aggregator configuration
-    # LOG_AGGREGATOR_ENABLED: true
-    # LOG_AGGREGATOR_TYPE: splunk
-    # LOG_AGGREGATOR_HOST: https://splunk.example.com:8088/services/collector/event/1.0?channel=1111-2222-3333
-    # LOG_AGGREGATOR_PORT: null
-    # LOG_AGGREGATOR_PROTOCOL: https
-    # LOG_AGGREGATOR_USERNAME: "{{ aap_logger_username | default(omit) }}"
-    # LOG_AGGREGATOR_PASSWORD: "{{ aap_logger_password }}"
-    # LOG_AGGREGATOR_TCP_TIMEOUT: 5
-    # LOG_AGGREGATOR_VERIFY_CERT: true
-    # LOG_AGGREGATOR_LEVEL: INFO
-    # LOG_AGGREGATOR_INDIVIDUAL_FACTS: false
-    # LOG_AGGREGATOR_LOGGERS:
-    #   - job_events
-    #   - job_lifecycle
-    # LOG_AGGREGATOR_ACTION_QUEUE_SIZE: 131072
-    # LOG_AGGREGATOR_MAX_DISK_USAGE_GB: 4
-    # LOG_AGGREGATOR_MAX_DISK_USAGE_PATH: /var/lib/awx
-    # LOG_AGGREGATOR_RSYSLOGD_DEBUG: false
+    #LOG_AGGREGATOR_ENABLED: true
+    #LOG_AGGREGATOR_TYPE: splunk
+    #LOG_AGGREGATOR_HOST: https://splunk.example.com:8088/services/collector/event/1.0?channel=1111-2222-3333
+    #LOG_AGGREGATOR_PORT: null
+    #LOG_AGGREGATOR_PROTOCOL: https
+    #LOG_AGGREGATOR_USERNAME: "{{ aap_logger_username | default(omit) }}"
+    #LOG_AGGREGATOR_PASSWORD: "{{ aap_logger_password }}"
+    #LOG_AGGREGATOR_TCP_TIMEOUT: 5
+    #LOG_AGGREGATOR_VERIFY_CERT: true
+    #LOG_AGGREGATOR_LEVEL: INFO
+    #LOG_AGGREGATOR_INDIVIDUAL_FACTS: false
+    #LOG_AGGREGATOR_LOGGERS:
+    #  - job_events
+    #  - job_lifecycle
+    #LOG_AGGREGATOR_ACTION_QUEUE_SIZE: 131072
+    #LOG_AGGREGATOR_MAX_DISK_USAGE_GB: 4
+    #LOG_AGGREGATOR_MAX_DISK_USAGE_PATH: /var/lib/awx
+    #LOG_AGGREGATOR_RSYSLOGD_DEBUG: false
