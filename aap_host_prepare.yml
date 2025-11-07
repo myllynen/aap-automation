@@ -51,6 +51,7 @@
       - rsync
       - sos
       - tar
+      - tpm2-tools
       - zstd
       - podman
       - python3-cryptography
@@ -64,7 +65,7 @@
       - rhn*
       - telnet-server
       - flashrom
-      - fonts*
+      - '*fonts*'
       - gawk-all-langpacks
       - gcc*
       - geolite*
@@ -74,7 +75,7 @@
       - kernel-tools*
       - NetworkManager-team
       - NetworkManager-tui
-      - parted
+      - python3-perf
       - sssd*
       - libsss*
     packages_remove_autoremove: true
