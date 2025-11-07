@@ -18,8 +18,13 @@ gateway_settings:
   gateway_basic_auth_enabled: true
   gateway_proxy_url_ignore_cert: false
   ALLOW_OAUTH2_FOR_EXTERNAL_USERS: false
+  AUTOMATION_ANALYTICS_GATHER_INTERVAL: 14400
   DEFAULT_PAGE_SIZE: 50
+  INSIGHTS_TRACKING_STATE: false
   MAX_PAGE_SIZE: 200
+  MANAGE_ORGANIZATION_AUTH: false
+  NOTIFICATION_RSS_FEED_ENABLED: false
+  ORG_ADMINS_CAN_SEE_ALL_USERS: false
   SESSION_COOKIE_AGE: 900
 
 XXX_gateway_authenticators:
@@ -27,34 +32,38 @@ XXX_gateway_authenticators:
     order: 1
     type: ansible_base.authentication.authenticator_plugins.local
     slug: local-database-authenticator
-    configuration: {}
     enabled: true
     create_objects: true
     remove_users: false
+    configuration: {}
   - name: Microsoft Active Directory
     order: 2
     type: ansible_base.authentication.authenticator_plugins.ldap
     slug: microsoft-active-directory
     enabled: true
+    create_objects: true
+    remove_users: true
     configuration:
       SERVER_URI:
         - ldap://ad.example.com:389
       START_TLS: true
-      #BIND_DN: cn={{ aap_ldap_bind_username }},ou=service_accounts,dc=example,dc=com
-      #BIND_PASSWORD: "{{ aap_ldap_bind_password }}"
+      #BIND_DN: "{{ aap_ad_bind_username }}"
+      #BIND_PASSWORD: "{{ aap_ad_bind_password }}"
+      #CONNECTION_OPTIONS: {}
       # https://access.redhat.com/solutions/7093912
       GROUP_TYPE: ActiveDirectoryGroupType
+      GROUP_SEARCH:
+        - ou=groups,dc=example,dc=com
+        - SCOPE_SUBTREE
+        - (objectClass=group)
       GROUP_TYPE_PARAMS:
         name_attr: cn
       #USER_DN_TEMPLATE: sAMAccountName=%(user)s,ou=users,dc=example,dc=com
       USER_SEARCH:
-        - 'ou=users,dc=example,dc=com'
-        - 'SCOPE_ONELEVEL'
-        - '(sAMAccountName=%(user)s)'
-      GROUP_SEARCH:
-        - 'ou=groups,dc=example,dc=com'
-        - 'SCOPE_SUBTREE'
-        - '(objectClass=group)'
+        -
+          - ou=users,dc=example,dc=com
+          - SCOPE_ONELEVEL
+          - (sAMAccountName=%(user)s)
       USER_ATTR_MAP:
         first_name: givenName
         last_name: sn
@@ -64,24 +73,29 @@ XXX_gateway_authenticators:
     type: ansible_base.authentication.authenticator_plugins.ldap
     slug: redhat-idm
     enabled: true
+    create_objects: true
+    remove_users: true
     configuration:
       SERVER_URI:
         - ldap://ipa.example.com:389
       START_TLS: false
-      #BIND_DN: uid={{ aap_ldap_bind_username }},cn=sysaccounts,dc=example,dc=com
-      #BIND_PASSWORD: "{{ aap_ldap_bind_password }}"
+      #BIND_DN: "{{ aap_idm_bind_username }}"
+      #BIND_PASSWORD: "{{ aap_idm_bind_password }}"
+      #CONNECTION_OPTIONS: {}
       GROUP_TYPE: MemberDNGroupType
+      GROUP_SEARCH:
+        - cn=groups,cn=accounts,dc=example,dc=com
+        - SCOPE_SUBTREE
+        - (objectClass=posixgroup)
       GROUP_TYPE_PARAMS:
         name_attr: cn
         member_attr: member
+      #USER_DN_TEMPLATE: uid=%(user)s,cn=users,cn=accounts,dc=example,dc=com
       USER_SEARCH:
-        - 'cn=users,cn=accounts,dc=example,dc=com'
-        - 'SCOPE_SUBTREE'
-        - '(uid=%(user)s)'
-      GROUP_SEARCH:
-        - 'cn=groups,cn=accounts,dc=example,dc=com'
-        - 'SCOPE_SUBTREE'
-        - '(objectClass=posixgroup)'
+        -
+          - cn=users,cn=accounts,dc=example,dc=com
+          - SCOPE_SUBTREE
+          - (uid=%(user)s)
       USER_ATTR_MAP:
         first_name: givenName
         last_name: sn

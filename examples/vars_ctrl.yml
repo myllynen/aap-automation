@@ -9,39 +9,46 @@ controller_configuration_execution_environments_secure_logging: false
 controller_settings:
   settings:
     ACTIVITY_STREAM_ENABLED: true
-    ACTIVITY_STREAM_ENABLED_FOR_INVENTORY_SYNC: true
+    ACTIVITY_STREAM_ENABLED_FOR_INVENTORY_SYNC: false
     AD_HOC_COMMANDS:
       - ping
       - win_ping
     ALLOW_JINJA_IN_EXTRA_VARS: template
+    ALLOW_OAUTH2_FOR_EXTERNAL_USERS: false
+    ANSIBLE_FACT_CACHE_TIMEOUT: 0
+    AUTH_BASIC_ENABLED: true
     AUTOMATION_ANALYTICS_GATHER_INTERVAL: 14400
     AWX_ANSIBLE_CALLBACK_PLUGINS: []
     AWX_CLEANUP_PATHS: true
     AWX_COLLECTIONS_ENABLED: false
     # AWX_ISOLATION_BASE_PATH:
-    # AWX_ISOLATION_SHOW_PATHS:
+    AWX_ISOLATION_SHOW_PATHS:
+      - /etc/pki/ca-trust:/etc/pki/ca-trust:O
+      - /usr/share/pki:/usr/share/pki:O
     AWX_ROLES_ENABLED: false
     AWX_SHOW_PLAYBOOK_LINKS: false
     # AWX_TASK_ENV:
     #   HTTP_PROXY: ...
     DEFAULT_EXECUTION_ENVIRONMENT: null
+    DEFAULT_JOB_TIMEOUT: 3600
+    DEFAULT_JOB_IDLE_TIMEOUT: 0
     GALAXY_IGNORE_CERTS: false
     GALAXY_TASK_ENV:
       ANSIBLE_FORCE_COLOR: "false"
-      GIT_SSH_COMMAND: ssh -o StrictHostKeyChecking=accept-new
-    INSIGHTS_TRACKING_STATE: true
+      GIT_SSH_COMMAND: ssh -o StrictHostKeyChecking=no
+    INSIGHTS_TRACKING_STATE: false
     MANAGE_ORGANIZATION_AUTH: false
     MAX_FORKS: 200
     MAX_UI_JOB_EVENTS: 4000
     ORG_ADMINS_CAN_SEE_ALL_USERS: false
     PENDO_TRACKING_STATE: detailed
-    PROJECT_UPDATE_VVV: true
-    # REDHAT_USERNAME: "{{ aap_rhsm_username }}"
-    # REDHAT_PASSWORD: "{{ aap_rhsm_password }}"
+    PROJECT_UPDATE_VVV: false
+    # https://access.redhat.com/articles/7112649
+    # SUBSCRIPTIONS_CLIENT_ID: "{{ aap_rh_client_id }}"
+    # SUBSCRIPTIONS_CLIENT_SECRET: "{{ aap_rh_client_secret }}"
     SCHEDULE_MAX_JOBS: 10
-    SESSION_COOKIE_AGE: 1800
+    SESSION_COOKIE_AGE: 900
     SESSIONS_PER_USER: -1
-    # TOWER_URL_BASE: https://controller.example.com:8443
     UI_LIVE_UPDATES_ENABLED: true
 
     # Log aggregator configuration
@@ -58,6 +65,7 @@ controller_settings:
     # LOG_AGGREGATOR_INDIVIDUAL_FACTS: false
     # LOG_AGGREGATOR_LOGGERS:
     #   - job_events
+    #   - job_lifecycle
     # LOG_AGGREGATOR_ACTION_QUEUE_SIZE: 131072
     # LOG_AGGREGATOR_MAX_DISK_USAGE_GB: 4
     # LOG_AGGREGATOR_MAX_DISK_USAGE_PATH: /var/lib/awx
