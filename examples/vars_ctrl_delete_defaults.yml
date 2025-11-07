@@ -2,19 +2,19 @@
 
 aap_configuration_secure_logging: false
 
-#controller_execution_environments:
-#  - name: Default execution environment
-#    image: null
-#    state: absent
-#  - name: Minimal execution environment
-#    image: null
-#    state: absent
-#  - name: Hub Default execution environment
-#    image: null
-#    state: absent
-#  - name: Hub Minimal execution environment
-#    image: null
-#    state: absent
+controller_execution_environments:
+  - name: Default execution environment
+    image: null
+    state: absent
+  - name: Minimal execution environment
+    image: null
+    state: absent
+  - name: Hub Default execution environment
+    image: null
+    state: absent
+  - name: Hub Minimal execution environment
+    image: null
+    state: absent
 
 # Managed organizations cannot be deleted
 #aap_organizations:

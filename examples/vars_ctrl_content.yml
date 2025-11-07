@@ -95,7 +95,7 @@ controller_credentials:
 
 controller_execution_environments:
   - name: Custom Base EE
-    image: "{{ aap_hostname }}/custom/custom-base-rhel9"
+    image: "{{ aap_hostname }}/custom/custom-full-rhel9"
     pull: always
     #pull: missing
     credential: Automation Hub Container Registry
