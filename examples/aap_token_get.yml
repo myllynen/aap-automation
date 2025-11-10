@@ -1,5 +1,5 @@
 ---
-- name: Get platform gateway token
+- name: Get AAP gateway token
   hosts: localhost
   connection: local
   become: false
@@ -9,7 +9,7 @@
 
     token_file_local: "{{ lookup('env', 'PWD') + '/aap_token.txt' }}"
   tasks:
-    - name: Create new platform gateway token
+    - name: Create new AAP gateway token
       ansible.platform.token:
         aap_hostname: "{{ aap_hostname | default(omit) }}"
         aap_username: "{{ aap_username | default(omit) }}"

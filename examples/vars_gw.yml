@@ -52,7 +52,7 @@ XXX_gateway_authenticators:
       START_TLS: true
       #BIND_DN: "{{ aap_ad_bind_username }}"
       #BIND_PASSWORD: "{{ aap_ad_bind_password }}"
-      #CONNECTION_OPTIONS: {}
+      CONNECTION_OPTIONS: {}
       # https://access.redhat.com/solutions/7093912
       GROUP_TYPE: ActiveDirectoryGroupType
       GROUP_SEARCH:
@@ -84,7 +84,7 @@ XXX_gateway_authenticators:
       START_TLS: false
       #BIND_DN: "{{ aap_idm_bind_username }}"
       #BIND_PASSWORD: "{{ aap_idm_bind_password }}"
-      #CONNECTION_OPTIONS: {}
+      CONNECTION_OPTIONS: {}
       GROUP_TYPE: MemberDNGroupType
       GROUP_SEARCH:
         - cn=groups,cn=accounts,dc=example,dc=com

@@ -1,5 +1,5 @@
 ---
-- name: Get automation hub token
+- name: Get AAP hub token
   hosts: localhost
   connection: local
   become: false
@@ -7,11 +7,11 @@
   vars:
     token_file_local: "{{ lookup('env', 'PWD') + '/pah_token.txt' }}"
   tasks:
-    - name: Get token
+    - name: Create new AAP hub token
       ansible.hub.ah_token:
-        ah_host: "{{ aap_hostname | default(omit) }}"
-        ah_username: "{{ aap_username | default(omit) }}"
-        ah_password: "{{ aap_password | default(omit) }}"
+        aap_hostname: "{{ aap_hostname | default(omit) }}"
+        aap_username: "{{ aap_username | default(omit) }}"
+        aap_password: "{{ aap_password | default(omit) }}"
         validate_certs: "{{ aap_validate_certs | default(omit) }}"
 
     - name: Store token in file

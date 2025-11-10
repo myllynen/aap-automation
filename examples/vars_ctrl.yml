@@ -47,8 +47,8 @@ controller_settings:
     PENDO_TRACKING_STATE: detailed
     PROJECT_UPDATE_VVV: false
     # https://access.redhat.com/articles/7112649
-    #SUBSCRIPTIONS_CLIENT_ID: "{{ aap_rh_client_id }}"
-    #SUBSCRIPTIONS_CLIENT_SECRET: "{{ aap_rh_client_secret }}"
+    #SUBSCRIPTIONS_CLIENT_ID: "{{ aap_redhat_client_id }}"
+    #SUBSCRIPTIONS_CLIENT_SECRET: "{{ aap_redhat_client_secret }}"
     SCHEDULE_MAX_JOBS: 10
     SESSION_COOKIE_AGE: 900
     SESSIONS_PER_USER: -1

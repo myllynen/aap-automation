@@ -4,10 +4,11 @@
   become: false
   gather_facts: false
   vars:
-    base_url: https://gateway.example.com
+    base_url: "https://{{ aap_hostname }}"
+
     # These should come from vault
-    username: admin
-    password: Foobar_12
+    username: "{{ aap_username }}"
+    password: "{{ aap_password }}"
 
     # List of PAH EE images to update
     # Set to empty list to update all
