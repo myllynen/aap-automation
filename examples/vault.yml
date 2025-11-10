@@ -4,18 +4,29 @@
 aap_admin_username: admin
 aap_admin_password: Foobar_12
 
-# AAP platform gateway token
-# This needs to be added after installation
-aap_platform_gateway_token: "{{ lookup('file', lookup('env', 'PWD') + '/aap_token.txt') }}"
+# AAP username and password for AAP CaC playbooks and roles
+aap_username: "{{ aap_admin_username }}"
+aap_password: "{{ aap_admin_password }}"
 
-# AAP private automation hub token
+# AAP gateway token
 # This needs to be added after installation
-aap_automation_hub_token: "{{ lookup('file', lookup('env', 'PWD') + '/pah_token.txt') }}"
+#aap_token: "{{ lookup('file', lookup('env', 'PWD') + '/aap_token.txt') }}"
+
+# AAP automation hub token
+# This needs to be added after installation
+#hub_token: "{{ lookup('file', lookup('env', 'PWD') + '/pah_token.txt') }}"
 
 # Red Hat Automation Hub token
+# Needed for configuring automation hub
 # https://console.redhat.com/ansible/automation-hub/token
-aap_redhat_hub_token: "{{ lookup('file', lookup('env', 'PWD') + '/rh_token.txt') }}"
+#aap_redhat_hub_token: "{{ lookup('file', lookup('env', 'PWD') + '/rh_token.txt') }}"
 
 # Red Hat registry credentials
+# Needed for configuring automation hub
 #aap_redhat_registry_username: your-rhn-username
 #aap_redhat_registry_password: your-rhn-password
+
+# Red Hat service account credentials
+# Needed for configuring automation analytics
+#aap_redhat_client_id: your-rhn-client-id
+#aap_redhat_client_secret: your-rhn-client-secret
