@@ -53,6 +53,7 @@
       - tar
       - tpm2-tools
       - zstd
+      - libpq
       - podman
       - python3-cryptography
       - python3-psycopg2
