@@ -1,9 +1,12 @@
-# Ansible Automation Platform gateway configuration
+# Ansible Automation Platform gateway configuration - settings
 
 aap_configuration_secure_logging: false
 gateway_settings_secure_logging: false
 gateway_authenticators_secure_logging: false
 gateway_authenticator_maps_secure_logging: false
+
+# NB. Some settings are defined for both the gateway
+#     and the controller, they must be kept in sync.
 
 # For available settings and their current default values see:
 # https://gateway.example.com/api/gateway/v1/settings/all/
