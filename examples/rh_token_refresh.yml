@@ -1,10 +1,11 @@
 ---
-- name: Refresh Red Hat hybrid cloud console authentication token
-  hosts: bastion
+- name: Refresh Red Hat Hybrid Cloud Console authentication token
+  hosts: localhost
+  connection: local
   become: false
   gather_facts: false
   tasks:
-    - name: Refresh token
+    - name: Refresh RH token
       no_log: true
       ansible.builtin.uri:
         url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
@@ -15,4 +16,4 @@
         body:
           client_id: cloud-services
           grant_type: refresh_token
-          refresh_token: "{{ cloud_token }}"
+          refresh_token: "{{ aap_redhat_hub_token }}"
