@@ -37,13 +37,14 @@ XXX_gateway_authenticators:
     slug: local-database-authenticator
     enabled: true
     create_objects: true
-    remove_users: false
+    remove_users: true
     configuration: {}
+
   - name: Microsoft Active Directory
     order: 2
     type: ansible_base.authentication.authenticator_plugins.ldap
     slug: microsoft-active-directory
-    enabled: true
+    enabled: false
     create_objects: true
     remove_users: true
     configuration:
@@ -55,27 +56,28 @@ XXX_gateway_authenticators:
       CONNECTION_OPTIONS: {}
       # https://access.redhat.com/solutions/7093912
       GROUP_TYPE: ActiveDirectoryGroupType
-      GROUP_SEARCH:
-        - ou=groups,dc=example,dc=com
-        - SCOPE_SUBTREE
-        - (objectClass=group)
       GROUP_TYPE_PARAMS:
         name_attr: cn
-      #USER_DN_TEMPLATE: sAMAccountName=%(user)s,ou=users,dc=example,dc=com
-      USER_SEARCH:
-        -
-          - ou=users,dc=example,dc=com
-          - SCOPE_ONELEVEL
-          - (sAMAccountName=%(user)s)
+      GROUP_SEARCH:
+        - ou=groups,ou=corp,dc=example,dc=com
+        - SCOPE_SUBTREE
+        - (objectClass=group)
+      #USER_DN_TEMPLATE: sAMAccountName=%(user)s,ou=users,ou=corp,dc=example,dc=com
       USER_ATTR_MAP:
         first_name: givenName
         last_name: sn
         email: mail
+      USER_SEARCH:
+        -
+          - ou=users,ou=accounts,ou=corp,dc=example,dc=com
+          - SCOPE_SUBTREE
+          - (sAMAccountName=%(user)s)
+
   - name: Red Hat IdM
     order: 3
     type: ansible_base.authentication.authenticator_plugins.ldap
     slug: redhat-idm
-    enabled: true
+    enabled: false
     create_objects: true
     remove_users: true
     configuration:
@@ -86,23 +88,23 @@ XXX_gateway_authenticators:
       #BIND_PASSWORD: "{{ aap_idm_bind_password }}"
       CONNECTION_OPTIONS: {}
       GROUP_TYPE: MemberDNGroupType
+      GROUP_TYPE_PARAMS:
+        name_attr: cn
+        member_attr: member
       GROUP_SEARCH:
         - cn=groups,cn=accounts,dc=example,dc=com
         - SCOPE_SUBTREE
         - (objectClass=posixgroup)
-      GROUP_TYPE_PARAMS:
-        name_attr: cn
-        member_attr: member
       #USER_DN_TEMPLATE: uid=%(user)s,cn=users,cn=accounts,dc=example,dc=com
+      USER_ATTR_MAP:
+        first_name: givenName
+        last_name: sn
+        email: mail
       USER_SEARCH:
         -
           - cn=users,cn=accounts,dc=example,dc=com
           - SCOPE_SUBTREE
           - (uid=%(user)s)
-      USER_ATTR_MAP:
-        first_name: givenName
-        last_name: sn
-        email: mail
 
 XXX_gateway_authenticator_maps:
   - name: Default Organization

@@ -1,6 +1,7 @@
 ---
 - name: Configure automation hub
-  hosts: all
+  hosts: localhost
+  connection: local
   become: false
   gather_facts: false
   roles:

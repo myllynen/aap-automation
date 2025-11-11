@@ -60,8 +60,8 @@ controller_settings:
     #LOG_AGGREGATOR_HOST: https://splunk.example.com:8088/services/collector/event/1.0?channel=1111-2222-3333
     #LOG_AGGREGATOR_PORT: null
     #LOG_AGGREGATOR_PROTOCOL: https
-    #LOG_AGGREGATOR_USERNAME: "{{ aap_logger_username | default(omit) }}"
-    #LOG_AGGREGATOR_PASSWORD: "{{ aap_logger_password }}"
+    #LOG_AGGREGATOR_USERNAME: "{{ aap_log_aggregator_username }}"
+    #LOG_AGGREGATOR_PASSWORD: "{{ aap_log_aggregator_password }}"
     #LOG_AGGREGATOR_TCP_TIMEOUT: 5
     #LOG_AGGREGATOR_VERIFY_CERT: true
     #LOG_AGGREGATOR_LEVEL: INFO
@@ -70,6 +70,6 @@ controller_settings:
     #  - job_events
     #  - job_lifecycle
     #LOG_AGGREGATOR_ACTION_QUEUE_SIZE: 131072
-    #LOG_AGGREGATOR_MAX_DISK_USAGE_GB: 4
+    #LOG_AGGREGATOR_ACTION_MAX_DISK_USAGE_GB: 2
     #LOG_AGGREGATOR_MAX_DISK_USAGE_PATH: /var/lib/awx
     #LOG_AGGREGATOR_RSYSLOGD_DEBUG: false

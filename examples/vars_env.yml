@@ -1,6 +1,17 @@
 # Ansible Automation Platform environment configuration
 
+#
+# AAP/platform definitions
+#
+
 # AAP FQDN
 aap_hostname: gateway.example.com
 
 aap_validate_certs: false
+
+#
+# AAP/environment definitions
+#
+
+#aap_ad_bind_username: cn=aap-ldap,ou=service-accounts,ou=corp,dc=example,dc=com
+#aap_log_aggregator_username: aap-logger

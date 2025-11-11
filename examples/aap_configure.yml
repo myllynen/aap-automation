@@ -1,6 +1,7 @@
 ---
 - name: Configure Ansible Automation Platform
-  hosts: all
+  hosts: localhost
+  connection: local
   become: false
   gather_facts: false
   roles:
