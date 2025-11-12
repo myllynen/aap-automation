@@ -13,5 +13,5 @@ aap_validate_certs: false
 # AAP/environment definitions
 #
 
-#aap_ad_bind_username: cn=aap-ldap,ou=service-accounts,ou=corp,dc=example,dc=com
+#aap_ad_bind_username: cn=aap-ldap,ou=services,ou=corp,dc=example,dc=com
 #aap_log_aggregator_username: aap-logger

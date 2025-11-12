@@ -2,8 +2,6 @@
 
 aap_configuration_secure_logging: false
 gateway_settings_secure_logging: false
-gateway_authenticators_secure_logging: false
-gateway_authenticator_maps_secure_logging: false
 
 # NB. Some settings are defined for both the gateway
 #     and the controller, they must be kept in sync.
@@ -29,99 +27,3 @@ gateway_settings:
   NOTIFICATION_RSS_FEED_ENABLED: false
   ORG_ADMINS_CAN_SEE_ALL_USERS: false
   SESSION_COOKIE_AGE: 900
-
-XXX_gateway_authenticators:
-  - name: Local Database Authenticator
-    order: 1
-    type: ansible_base.authentication.authenticator_plugins.local
-    slug: local-database-authenticator
-    enabled: true
-    create_objects: true
-    remove_users: true
-    configuration: {}
-
-  - name: Microsoft Active Directory
-    order: 2
-    type: ansible_base.authentication.authenticator_plugins.ldap
-    slug: microsoft-active-directory
-    enabled: false
-    create_objects: true
-    remove_users: true
-    configuration:
-      SERVER_URI:
-        - ldap://ad.example.com:389
-      START_TLS: true
-      #BIND_DN: "{{ aap_ad_bind_username }}"
-      #BIND_PASSWORD: "{{ aap_ad_bind_password }}"
-      CONNECTION_OPTIONS: {}
-      # https://access.redhat.com/solutions/7093912
-      GROUP_TYPE: ActiveDirectoryGroupType
-      GROUP_TYPE_PARAMS:
-        name_attr: cn
-      GROUP_SEARCH:
-        - ou=groups,ou=corp,dc=example,dc=com
-        - SCOPE_SUBTREE
-        - (objectClass=group)
-      #USER_DN_TEMPLATE: sAMAccountName=%(user)s,ou=users,ou=corp,dc=example,dc=com
-      USER_ATTR_MAP:
-        first_name: givenName
-        last_name: sn
-        email: mail
-      USER_SEARCH:
-        -
-          - ou=users,ou=accounts,ou=corp,dc=example,dc=com
-          - SCOPE_SUBTREE
-          - (sAMAccountName=%(user)s)
-
-  - name: Red Hat IdM
-    order: 3
-    type: ansible_base.authentication.authenticator_plugins.ldap
-    slug: redhat-idm
-    enabled: false
-    create_objects: true
-    remove_users: true
-    configuration:
-      SERVER_URI:
-        - ldap://ipa.example.com:389
-      START_TLS: false
-      #BIND_DN: "{{ aap_idm_bind_username }}"
-      #BIND_PASSWORD: "{{ aap_idm_bind_password }}"
-      CONNECTION_OPTIONS: {}
-      GROUP_TYPE: MemberDNGroupType
-      GROUP_TYPE_PARAMS:
-        name_attr: cn
-        member_attr: member
-      GROUP_SEARCH:
-        - cn=groups,cn=accounts,dc=example,dc=com
-        - SCOPE_SUBTREE
-        - (objectClass=posixgroup)
-      #USER_DN_TEMPLATE: uid=%(user)s,cn=users,cn=accounts,dc=example,dc=com
-      USER_ATTR_MAP:
-        first_name: givenName
-        last_name: sn
-        email: mail
-      USER_SEARCH:
-        -
-          - cn=users,cn=accounts,dc=example,dc=com
-          - SCOPE_SUBTREE
-          - (uid=%(user)s)
-
-XXX_gateway_authenticator_maps:
-  - name: Default Organization
-    authenticator: Microsoft Active Directory
-    revoke: true
-    map_type: organization
-    role: Organization Member
-    organization: Default
-    team: null
-    triggers:
-      always: {}
-
-  - name: AAP admin
-    authenticator: Red Hat IdM
-    revoke: true
-    map_type: is_superuser
-    triggers:
-      groups:
-        has_or:
-          - cn=admins,cn=groups,cn=accounts,dc=example,dc=com
