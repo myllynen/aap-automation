@@ -9,7 +9,7 @@ Platform (AAP).
 
 * [aap_host_prepare.yml](aap_host_prepare.yml)
   * Example playbook to prepare RHEL systems for AAP 2.6 installation
-* [ansible.cfg.install](ansible.cfg.install)
+* [ansible.cfg.installer](ansible.cfg.installer)
   * Enhanced ansible.cfg to use with the containerized installer
 * [inventory.lab](inventory.lab)
   * Example containerized inventory to install AAP 2.6 in a small lab
