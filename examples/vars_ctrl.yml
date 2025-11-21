@@ -66,6 +66,7 @@ controller_settings:
     #LOG_AGGREGATOR_LEVEL: INFO
     #LOG_AGGREGATOR_INDIVIDUAL_FACTS: false
     #LOG_AGGREGATOR_LOGGERS:
+    #  - awx
     #  - job_events
     #  - job_lifecycle
     #LOG_AGGREGATOR_ACTION_QUEUE_SIZE: 131072
