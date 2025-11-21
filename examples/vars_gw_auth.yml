@@ -12,7 +12,8 @@ gateway_authenticators:
     enabled: true
     create_objects: true
     remove_users: true
-    configuration: {}
+    configuration:
+      fallback_authentication: []
 
   - name: Microsoft Active Directory
     order: 2
@@ -98,7 +99,8 @@ gateway_authenticator_maps:
   - name: Require access group membership
     authenticator: Microsoft Active Directory
     map_type: allow
-    revoke: false
+    revoke: true
+    order: 1
     triggers:
       groups:
         has_and:
@@ -108,10 +110,22 @@ gateway_authenticator_maps:
     authenticator: Microsoft Active Directory
     map_type: is_superuser
     revoke: true
+    order: 2
     triggers:
       groups:
         has_and:
           - cn=admins,ou=groups,ou=corp,dc=example,dc=com
+
+  - name: Grant AAP auditor permissions
+    authenticator: Microsoft Active Directory
+    map_type: role
+    role: Platform Auditor
+    revoke: true
+    order: 3
+    triggers:
+      groups:
+        has_and:
+          - cn=auditors,ou=groups,ou=corp,dc=example,dc=com
 
   - name: Assign to Default Organization - example
     authenticator: Microsoft Active Directory
@@ -119,5 +133,6 @@ gateway_authenticator_maps:
     role: Organization Member
     organization: Default
     revoke: true
+    order: 4
     triggers:
       always: {}
