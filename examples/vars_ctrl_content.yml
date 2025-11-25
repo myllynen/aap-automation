@@ -13,6 +13,7 @@ dispatch_include_wildcard_vars: false
 aap_organizations:
   - name: Test Org
     description: Test organization
+
     max_hosts: 10
     instance_groups:
       - default

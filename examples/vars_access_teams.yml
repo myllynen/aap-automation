@@ -1,0 +1,141 @@
+# Ansible Automation Platform access configuration example - teams
+
+aap_configuration_secure_logging: false
+gateway_teams_secure_logging: false
+gateway_role_team_assignments_secure_logging: false
+
+# No t_admins teams, see vars_access_users.yml
+aap_teams:
+  - name: t_auditors
+    organization: Test Org
+    description: Test Org auditors
+
+  - name: t_operators
+    organization: Test Org
+    description: Test Org operators
+
+  - name: t_developers
+    organization: Test Org
+    description: Test Org developers
+
+# Roles to teams assignments
+gateway_role_team_assignments:
+  - team: t_auditors
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Audit
+
+
+  - team: t_operators
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Audit
+
+  - team: t_operators
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Approval
+  - team: t_operators
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Execute
+
+
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Audit
+
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Approval
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Execute
+
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Activation Admin
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Credential Admin
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Decision Environment Admin
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Eda Credential Admin
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: EDA Organization Project Admin
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Event Stream Admin
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization ExecutionEnvironment Admin
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Inventory Admin
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization JobTemplate Admin
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization NotificationTemplate Admin
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Project Admin
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization WorkflowJobTemplate Admin
+
+# Users to teams assignments
+gateway_role_user_assignments:
+  - user: t_auditor
+    object_ids:
+      - t_auditors
+    role_definition: Team Member
+
+  - user: t_operator
+    object_ids:
+      - t_operators
+    role_definition: Team Member
+
+  - user: t_developer
+    object_ids:
+      - t_developers
+    role_definition: Team Member
