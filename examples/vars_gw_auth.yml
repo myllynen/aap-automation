@@ -11,9 +11,10 @@ gateway_authenticators:
     slug: local-database-authenticator
     enabled: true
     create_objects: true
-    remove_users: true
+    remove_users: false
     configuration:
-      fallback_authentication: []
+      fallback_authentication:
+        - aap_gateway_api.authentication.fallbacks.controller
 
   - name: Microsoft Active Directory
     order: 2
