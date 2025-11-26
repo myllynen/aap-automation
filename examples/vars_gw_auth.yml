@@ -148,6 +148,7 @@ gateway_authenticator_maps:
     authenticator: Microsoft Active Directory
     map_type: organization
     role: Organization Admin
+    organization: Test Org
     revoke: true
     order: 5
     triggers:
@@ -160,6 +161,7 @@ gateway_authenticator_maps:
     map_type: team
     role: Team Member
     organization: Test Org
+    team: t_auditors
     revoke: true
     order: 6
     triggers:
@@ -172,6 +174,7 @@ gateway_authenticator_maps:
     map_type: team
     role: Team Member
     organization: Test Org
+    team: t_operators
     revoke: true
     order: 7
     triggers:
@@ -184,6 +187,7 @@ gateway_authenticator_maps:
     map_type: team
     role: Team Member
     organization: Test Org
+    team: t_developers
     revoke: true
     order: 8
     triggers:
