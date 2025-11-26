@@ -46,6 +46,12 @@ aap_user_accounts:
     last_name: Developer
     email: nobody@example.com
 
+  # API user in organization
+  - username: t_api_user
+    first_name: Test Org
+    last_name: API User
+    email: nobody@example.com
+
 gateway_role_user_assignments:
   # Platform auditor role must be assigned per-user
   - user: aap_auditor
@@ -72,6 +78,11 @@ gateway_role_user_assignments:
       - Test Org
     role_definition: Organization Member
 
+  - user: t_api_user
+    object_ids:
+      - Test Org
+    role_definition: Organization Member
+
 
   # Organization admin role must be assigned per-user
   - user: t_admin
@@ -92,4 +103,9 @@ gateway_role_user_assignments:
   - user: t_developer
     object_ids:
       - t_developers
+    role_definition: Team Member
+
+  - user: t_api_user
+    object_ids:
+      - t_api_users
     role_definition: Team Member

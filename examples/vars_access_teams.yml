@@ -18,6 +18,10 @@ aap_teams:
     organization: Test Org
     description: Test Org developers
 
+  - name: t_api_users
+    organization: Test Org
+    description: Test Org API users
+
 # Roles to teams assignments
 gateway_role_team_assignments:
   - team: t_auditors
@@ -66,32 +70,7 @@ gateway_role_team_assignments:
     assignment_objects:
       - name: Test Org
         type: organizations
-    role_definition: Organization Activation Admin
-  - team: t_developers
-    assignment_objects:
-      - name: Test Org
-        type: organizations
     role_definition: Organization Credential Admin
-  - team: t_developers
-    assignment_objects:
-      - name: Test Org
-        type: organizations
-    role_definition: Organization Decision Environment Admin
-  - team: t_developers
-    assignment_objects:
-      - name: Test Org
-        type: organizations
-    role_definition: Organization Eda Credential Admin
-  - team: t_developers
-    assignment_objects:
-      - name: Test Org
-        type: organizations
-    role_definition: EDA Organization Project Admin
-  - team: t_developers
-    assignment_objects:
-      - name: Test Org
-        type: organizations
-    role_definition: Organization Event Stream Admin
   - team: t_developers
     assignment_objects:
       - name: Test Org

@@ -1,0 +1,28 @@
+# Ansible Automation Platform access configuration example - controller
+
+aap_configuration_secure_logging: false
+controller_configuration_role_secure_logging: false
+
+# NB. Do NOT specify the organization here
+controller_roles:
+  - team: t_operators
+    role: use
+    inventories:
+      - Test Inventory
+
+  - team: t_operators
+    role: use
+    instance_groups:
+      - default
+
+
+  - team: t_developers
+    role: use
+    instance_groups:
+      - default
+
+
+  - team: t_api_users
+    role: execute
+    job_templates:
+      - Test Job Template

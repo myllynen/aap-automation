@@ -144,6 +144,7 @@ gateway_authenticator_maps:
           - cn=test-org-auditors,ou=groups,ou=corp,dc=example,dc=com
           - cn=test-org-operators,ou=groups,ou=corp,dc=example,dc=com
           - cn=test-org-developers,ou=groups,ou=corp,dc=example,dc=com
+          - cn=test-org-api-users,ou=groups,ou=corp,dc=example,dc=com
 
   - name: Test Org - Grant organization admin permissions
     authenticator: Microsoft Active Directory
@@ -195,3 +196,16 @@ gateway_authenticator_maps:
       groups:
         has_and:
           - cn=test-org-developers,ou=groups,ou=corp,dc=example,dc=com
+
+  - name: Test Org - Assign team members - API users
+    authenticator: Microsoft Active Directory
+    map_type: team
+    role: Team Member
+    organization: Test Org
+    team: t_api_users
+    revoke: true
+    order: 9
+    triggers:
+      groups:
+        has_and:
+          - cn=test-org-api-users,ou=groups,ou=corp,dc=example,dc=com
