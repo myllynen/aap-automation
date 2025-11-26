@@ -51,16 +51,11 @@ gateway_role_user_assignments:
   - user: aap_auditor
     role_definition: Platform Auditor
 
+
   - user: t_admin
     object_ids:
       - Test Org
     role_definition: Organization Member
-
-  # Organization admin role must be assigned per-user
-  - user: t_admin
-    object_ids:
-      - Test Org
-    role_definition: Organization Admin
 
   - user: t_auditor
     object_ids:
@@ -76,3 +71,25 @@ gateway_role_user_assignments:
     object_ids:
       - Test Org
     role_definition: Organization Member
+
+
+  # Organization admin role must be assigned per-user
+  - user: t_admin
+    object_ids:
+      - Test Org
+    role_definition: Organization Admin
+
+  - user: t_auditor
+    object_ids:
+      - t_auditors
+    role_definition: Team Member
+
+  - user: t_operator
+    object_ids:
+      - t_operators
+    role_definition: Team Member
+
+  - user: t_developer
+    object_ids:
+      - t_developers
+    role_definition: Team Member

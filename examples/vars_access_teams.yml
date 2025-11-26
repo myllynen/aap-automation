@@ -122,20 +122,3 @@ gateway_role_team_assignments:
       - name: Test Org
         type: organizations
     role_definition: Organization WorkflowJobTemplate Admin
-
-# Users to teams assignments
-gateway_role_user_assignments:
-  - user: t_auditor
-    object_ids:
-      - t_auditors
-    role_definition: Team Member
-
-  - user: t_operator
-    object_ids:
-      - t_operators
-    role_definition: Team Member
-
-  - user: t_developer
-    object_ids:
-      - t_developers
-    role_definition: Team Member
