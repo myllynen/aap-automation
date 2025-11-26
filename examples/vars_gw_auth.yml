@@ -96,6 +96,7 @@ gateway_authenticators:
       PUBLIC_KEY: "{{ aap_keycloak_public_key | default('changeme') }}"
       SECRET: "{{ aap_keycloak_secret | default('changeme') }}"
 
+# AD/LDAP mapping example
 gateway_authenticator_maps:
   - name: Require access group membership
     authenticator: Microsoft Active Directory
@@ -115,7 +116,7 @@ gateway_authenticator_maps:
     triggers:
       groups:
         has_and:
-          - cn=admins,ou=groups,ou=corp,dc=example,dc=com
+          - cn=aap-admins,ou=groups,ou=corp,dc=example,dc=com
 
   - name: Grant AAP auditor permissions
     authenticator: Microsoft Active Directory
@@ -126,14 +127,66 @@ gateway_authenticator_maps:
     triggers:
       groups:
         has_and:
-          - cn=auditors,ou=groups,ou=corp,dc=example,dc=com
+          - cn=aap-auditors,ou=groups,ou=corp,dc=example,dc=com
 
-  - name: Assign to Default Organization - example
+  - name: Assign to Test Org
     authenticator: Microsoft Active Directory
     map_type: organization
     role: Organization Member
-    organization: Default
+    organization: Test Org
     revoke: true
     order: 4
     triggers:
-      always: {}
+      groups:
+        has_or:
+          - cn=test-org-admins,ou=groups,ou=corp,dc=example,dc=com
+          - cn=test-org-auditors,ou=groups,ou=corp,dc=example,dc=com
+          - cn=test-org-operators,ou=groups,ou=corp,dc=example,dc=com
+          - cn=test-org-developers,ou=groups,ou=corp,dc=example,dc=com
+
+  - name: Grant Test Org administrator permissions
+    authenticator: Microsoft Active Directory
+    map_type: organization
+    role: Organization Admin
+    revoke: true
+    order: 5
+    triggers:
+      groups:
+        has_and:
+          - cn=test-org-admins,ou=groups,ou=corp,dc=example,dc=com
+
+  - name: Assign to Test Org team - auditors
+    authenticator: Microsoft Active Directory
+    map_type: team
+    role: Team Member
+    organization: Test Org
+    revoke: true
+    order: 6
+    triggers:
+      groups:
+        has_and:
+          - cn=test-org-auditors,ou=groups,ou=corp,dc=example,dc=com
+
+  - name: Assign to Test Org team - operators
+    authenticator: Microsoft Active Directory
+    map_type: team
+    role: Team Member
+    organization: Test Org
+    revoke: true
+    order: 7
+    triggers:
+      groups:
+        has_and:
+          - cn=test-org-operators,ou=groups,ou=corp,dc=example,dc=com
+
+  - name: Assign to Test Org team - developers
+    authenticator: Microsoft Active Directory
+    map_type: team
+    role: Team Member
+    organization: Test Org
+    revoke: true
+    order: 8
+    triggers:
+      groups:
+        has_and:
+          - cn=test-org-developers,ou=groups,ou=corp,dc=example,dc=com
