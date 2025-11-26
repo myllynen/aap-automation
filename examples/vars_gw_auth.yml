@@ -99,7 +99,7 @@ gateway_authenticators:
 # AD/LDAP mapping example
 # See vars_access_orgs.yml and vars_access_teams.yml
 gateway_authenticator_maps:
-  - name: Require access group membership
+  - name: AAP - Require access group membership
     authenticator: Microsoft Active Directory
     map_type: allow
     revoke: true
@@ -109,7 +109,7 @@ gateway_authenticator_maps:
         has_and:
           - cn=aap-access,ou=groups,ou=corp,dc=example,dc=com
 
-  - name: Grant AAP administrator permissions
+  - name: AAP - Grant superuser permissions
     authenticator: Microsoft Active Directory
     map_type: is_superuser
     revoke: true
@@ -119,7 +119,7 @@ gateway_authenticator_maps:
         has_and:
           - cn=aap-admins,ou=groups,ou=corp,dc=example,dc=com
 
-  - name: Grant AAP auditor permissions
+  - name: AAP - Grant platform auditor permissions
     authenticator: Microsoft Active Directory
     map_type: role
     role: Platform Auditor
@@ -130,7 +130,7 @@ gateway_authenticator_maps:
         has_and:
           - cn=aap-auditors,ou=groups,ou=corp,dc=example,dc=com
 
-  - name: Assign to Test Org
+  - name: Test Org - Assign organization members
     authenticator: Microsoft Active Directory
     map_type: organization
     role: Organization Member
@@ -145,7 +145,7 @@ gateway_authenticator_maps:
           - cn=test-org-operators,ou=groups,ou=corp,dc=example,dc=com
           - cn=test-org-developers,ou=groups,ou=corp,dc=example,dc=com
 
-  - name: Grant Test Org administrator permissions
+  - name: Test Org - Grant organization admin permissions
     authenticator: Microsoft Active Directory
     map_type: organization
     role: Organization Admin
@@ -157,7 +157,7 @@ gateway_authenticator_maps:
         has_and:
           - cn=test-org-admins,ou=groups,ou=corp,dc=example,dc=com
 
-  - name: Assign to Test Org team - auditors
+  - name: Test Org - Assign team members - auditors
     authenticator: Microsoft Active Directory
     map_type: team
     role: Team Member
@@ -170,7 +170,7 @@ gateway_authenticator_maps:
         has_and:
           - cn=test-org-auditors,ou=groups,ou=corp,dc=example,dc=com
 
-  - name: Assign to Test Org team - operators
+  - name: Test Org - Assign team members - operators
     authenticator: Microsoft Active Directory
     map_type: team
     role: Team Member
@@ -183,7 +183,7 @@ gateway_authenticator_maps:
         has_and:
           - cn=test-org-operators,ou=groups,ou=corp,dc=example,dc=com
 
-  - name: Assign to Test Org team - developers
+  - name: Test Org - Assign team members - developers
     authenticator: Microsoft Active Directory
     map_type: team
     role: Team Member
