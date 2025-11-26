@@ -97,6 +97,7 @@ gateway_authenticators:
       SECRET: "{{ aap_keycloak_secret | default('changeme') }}"
 
 # AD/LDAP mapping example
+# See vars_access_orgs.yml and vars_access_teams.yml
 gateway_authenticator_maps:
   - name: Require access group membership
     authenticator: Microsoft Active Directory
