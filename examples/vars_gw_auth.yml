@@ -98,6 +98,7 @@ gateway_authenticators:
 
 # AD/LDAP mapping example
 # See vars_access_orgs.yml and vars_access_teams.yml
+# NB. Names are used as IDs, changing name creates new mapping
 gateway_authenticator_maps:
   - name: AAP - Require access group membership
     authenticator: Microsoft Active Directory
