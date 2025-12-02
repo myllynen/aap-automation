@@ -1,0 +1,12 @@
+# Ansible Automation Platform access configuration - local AAP auditor accounts
+
+aap_user_accounts_auditors:
+  - username: aap_auditor
+    first_name: AAP
+    last_name: Auditor
+    email: nobody@example.com
+
+gateway_role_user_assignments_auditors:
+  # Platform auditor role must be assigned per-user
+  - user: aap_auditor
+    role_definition: Platform Auditor

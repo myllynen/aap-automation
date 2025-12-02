@@ -1,6 +1,0 @@
-controller_user_accounts:
-  - first_name: System
-    last_name: Admin
-    email: sys_admin@example.com
-    username: sys_admin
-    is_superuser: true

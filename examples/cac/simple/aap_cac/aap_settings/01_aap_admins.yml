@@ -1,0 +1,9 @@
+# Ansible Automation Platform access configuration - local AAP admin accounts
+
+aap_user_accounts_admins:
+  # Superuser type must be set at user account level
+  - username: aap_admin
+    is_superuser: true
+    first_name: AAP
+    last_name: Administrator
+    email: nobody@example.com

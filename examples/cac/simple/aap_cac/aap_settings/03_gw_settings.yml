@@ -1,0 +1,26 @@
+# Ansible Automation Platform gateway configuration - settings
+
+# NB. Some settings are defined for both the gateway
+#     and the controller, they must be kept in sync.
+
+# For available settings and their current default values see:
+# https://gateway.example.com/api/gateway/v1/settings/all/
+gateway_settings:
+  allow_admins_to_set_insecure: false
+  custom_login_info: >-
+    Welcome to AAP!
+  ## The logo file must use the data URI scheme:
+  ##   convert orig-logo.png -transparent white logo.png
+  ##   echo "data:image/png;base64,$(base64 -w0 < logo.png)" > logo.data
+  #custom_logo: "{{ lookup('file', './logo.data') }}"
+  gateway_basic_auth_enabled: true
+  gateway_proxy_url_ignore_cert: false
+  ALLOW_OAUTH2_FOR_EXTERNAL_USERS: false
+  AUTOMATION_ANALYTICS_GATHER_INTERVAL: 14400
+  DEFAULT_PAGE_SIZE: 50
+  INSIGHTS_TRACKING_STATE: false
+  MAX_PAGE_SIZE: 200
+  MANAGE_ORGANIZATION_AUTH: false
+  NOTIFICATION_RSS_FEED_ENABLED: false
+  ORG_ADMINS_CAN_SEE_ALL_USERS: false
+  SESSION_COOKIE_AGE: 900

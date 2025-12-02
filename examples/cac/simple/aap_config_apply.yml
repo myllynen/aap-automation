@@ -1,92 +1,35 @@
 ---
-- name: Configure AAP automation controller
+- name: Configure Ansible Automation Platform
   hosts: localhost
   connection: local
   become: false
   gather_facts: false
   vars:
-    controller_hostname: "{{ aap_install_controller_fqdn }}"
-    controller_username: "{{ aap_install_admin_username | default('admin') }}"
-    controller_password: "{{ aap_install_admin_password }}"
-    #controller_oauthtoken: "{{ lookup('file', lookup('env', 'PWD') + '/aap_ctrl_token_admin.txt') }}"
-    controller_validate_certs: false
+    # AAP CaC top level dir
+    config_basedir: aap_cac
+    # Config file or directory to read
+    # NB. !unsafe is lost when using include_vars so
+    #     credential_types needs to be applied directly
+    #config_content: aap_settings
+    #config_content: test_org/02_teams.yml
+    config_content: test_org
 
-    controller_configuration_secure_logging: false
-    controller_configuration_organizations_secure_logging: false
-    controller_configuration_teams_secure_logging: false
-    controller_configuration_users_secure_logging: false
+    # infra.aap_configuration parameters
+    # Settings in files will override these
+    aap_configuration_secure_logging: false
 
-    controller_user_default_password: Foobar_12
-
-    config_basepath: aap_ctrl_vars
-    config_target: org_a
-    config_files: '*.yml'
-    # Explicit alternative for the above
-    #config_file_list: []
-    # Optional output file for debugging
-    config_write_file: ./output.yml
   tasks:
-    - name: Read AAP CaC target configuration files
-      no_log: "{{ controller_configuration_secure_logging }}"
-      ansible.builtin.slurp:
-        src: "{{ item }}"
-      register: config_content
-      loop: "{{ config_file_list | default(lookup('ansible.builtin.fileglob',
-                                           config_basepath + '/' + config_target + '/' + config_files,
-                                           wantlist=true)) }}"
-
-    - name: Prepare target configuration
-      no_log: "{{ controller_configuration_secure_logging }}"
-      ansible.builtin.set_fact:
-        ctrl_config: "{{ ctrl_config | default({}) | combine(item | from_yaml, list_merge='append_rp') }}"
-      loop: "{{ config_content.results | map(attribute='content') | map('b64decode') }}"
-      loop_control:
-        label: "{{ item | split | select('match', '^controller_.*:$') | replace(':', '') }}"
-
-    - name: Set target configuration
+    - name: Read AAP CaC files
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       vars:
-        dflt_keys: name,organization
-        role_keys: role,organizations
-        user_keys: username
-        sort_keys: "{{ role_keys if item == 'controller_roles' else (item == 'controller_user_accounts') | ternary(user_keys, dflt_keys) }}"
-      no_log: "{{ controller_configuration_secure_logging }}"
-      ansible.builtin.set_fact:
-        "{{ item }}": "{{ ctrl_config[item] | sort(attribute=sort_keys) }}"
-      loop: "{{ ctrl_config.keys() | sort }}"
-      when: ctrl_config[item] is not none
+        dir_input: "{{ false if config_content.endswith('yml') else true }}"
+      ansible.builtin.include_vars:
+        dir: "{{ config_basedir + '/' + config_content if dir_input else omit }}"
+        file: "{{ config_basedir + '/' + config_content if not dir_input else omit }}"
+        ignore_unknown_extensions: "{{ true if dir_input else omit }}"
 
-    - name: Display target configuration
-      ansible.builtin.debug:
-        msg: "{{ ctrl_config }}"
-      when: not controller_configuration_secure_logging
-
-    - name: Initialize output file
-      ansible.builtin.copy:
-        content: ''
-        dest: "{{ config_write_file }}"
-        mode: '0600'
-      when: config_write_file | default(false)
-
-    - name: Write target configuration to output file
+    - name: Apply AAP configuration
       vars:
-        dflt_keys: name,organization
-        role_keys: role,organizations
-        user_keys: username
-        sort_keys: "{{ role_keys if item == 'controller_roles' else (item == 'controller_user_accounts') | ternary(user_keys, dflt_keys) }}"
-      no_log: "{{ controller_configuration_secure_logging }}"
-      ansible.builtin.blockinfile:
-        path: "{{ config_write_file }}"
-        block: |
-          {{ item }}:
-          {{ ctrl_config[item] | sort(attribute=sort_keys) | to_nice_yaml(indent=2) }}
-        marker: ''
-      loop: "{{ ctrl_config.keys() | sort }}"
-      when:
-        - config_write_file | default(false)
-        - ctrl_config[item] is not none
-
-    - meta: end_play
-
-    - name: Apply target configuration
+        dispatch_include_wildcard_vars: true
       ansible.builtin.include_role:
-        name: infra.controller_configuration.dispatch
+        name: infra.aap_configuration.dispatch
