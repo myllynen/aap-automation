@@ -3,7 +3,8 @@
 aap_configuration_secure_logging: false
 controller_configuration_role_secure_logging: false
 
-# NB. Do NOT specify the organization here
+# NB. Do NOT specify the organization here,
+#     team names must be unique across AAP
 controller_roles:
   - team: t_operators
     role: use
