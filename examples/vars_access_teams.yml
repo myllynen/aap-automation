@@ -4,7 +4,7 @@ aap_configuration_secure_logging: false
 gateway_teams_secure_logging: false
 gateway_role_team_assignments_secure_logging: false
 
-# No t_admins teams, see vars_access_users.yml
+# No t_admins teams, see users config
 aap_teams:
   - name: t_auditors
     organization: Test Org

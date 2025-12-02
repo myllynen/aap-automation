@@ -1,4 +1,4 @@
-# No t_admins teams, see 03_users.yml
+# No t_admins teams, see users config
 aap_teams_test_org:
   - name: t_auditors
     organization: Test Org
