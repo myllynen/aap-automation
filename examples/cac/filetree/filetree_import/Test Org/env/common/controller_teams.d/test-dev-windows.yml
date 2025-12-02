@@ -1,6 +1,0 @@
----
-controller_teams:
-  - name: "test-dev-windows"
-    description: "Windows automation developers"
-    organization: "Test Org"
-...

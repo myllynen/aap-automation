@@ -5,20 +5,14 @@
   become: false
   gather_facts: false
   vars:
-    controller_hostname: "{{ aap_install_controller_fqdn }}"
-    #controller_username: "{{ aap_install_admin_username | default('admin') }}"
-    #controller_password: "{{ aap_install_admin_password }}"
-    controller_oauthtoken: "{{ lookup('file', lookup('env', 'PWD') + '/aap_ctrl_token_admin.txt') }}"
-    controller_validate_certs: false
+    aap_oauthtoken: "{{ aap_token }}"
 
-    controller_configuration_secure_logging: false
     controller_configuration_filetree_read_secure_logging: false
-
-    controller_user_default_password: Foobar_12
 
     dir_orgs_vars: ./filetree_import
     orgs: Test Org
     env: common
+
   roles:
-    - infra.controller_configuration.filetree_read
-    - infra.controller_configuration.dispatch
+    - infra.aap_configuration_extended.filetree_read
+    - infra.aap_configuration.dispatch
