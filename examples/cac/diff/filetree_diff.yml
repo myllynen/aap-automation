@@ -18,6 +18,7 @@
     drop_user_external_accounts: false
 
   roles:
+    - role: infra.aap_configuration_extended.filetree_read
     - role: infra.aap_configuration_extended.object_diff
       vars:
         controller_configuration_object_diff_tasks:
