@@ -7,12 +7,15 @@
   vars:
     # AAP CaC top level dir
     config_basedir: aap_cac
-    # Config file or directory to read
+    # AAP CaC files or directories to read
     # NB. !unsafe is lost when using include_vars so
     #     credential_types needs to be applied directly
     #config_content: aap_settings
-    #config_content: test_org/02_teams.yml
     config_content: test_org
+    #config_content:
+    #  - test_org/02_teams.yml
+    #  - test_org/03_users.yml
+    #  - test_org/05_ctrl_rbac.yml
 
     # infra.aap_configuration parameters
     # Settings in files will override these
@@ -22,11 +25,14 @@
     - name: Read AAP CaC files
       no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       vars:
-        dir_input: "{{ false if config_content.endswith('yml') else true }}"
+        list_input: "{{ true if config_content is string else false }}"
+        content_list: "{{ [config_content] if list_input else config_content }}"
+        dir_input: "{{ false if item.endswith('yml') else true }}"
       ansible.builtin.include_vars:
-        dir: "{{ config_basedir + '/' + config_content if dir_input else omit }}"
-        file: "{{ config_basedir + '/' + config_content if not dir_input else omit }}"
+        dir: "{{ (config_basedir + '/' + item) if dir_input else omit }}"
+        file: "{{ (config_basedir + '/' + item) if not dir_input else omit }}"
         ignore_unknown_extensions: "{{ true if dir_input else omit }}"
+      loop: "{{ content_list }}"
 
     - name: Apply AAP configuration
       vars:
