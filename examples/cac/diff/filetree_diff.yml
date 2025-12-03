@@ -5,35 +5,38 @@
   become: false
   gather_facts: false
   vars:
-    controller_hostname: "{{ aap_install_controller_fqdn }}"
-    #controller_username: "{{ aap_install_admin_username | default('admin') }}"
-    #controller_password: "{{ aap_install_admin_password }}"
-    controller_oauthtoken: "{{ lookup('file', lookup('env', 'PWD') + '/aap_ctrl_token_admin.txt') }}"
-    controller_validate_certs: false
+    aap_oauthtoken: "{{ aap_token }}"
 
-    controller_configuration_secure_logging: false
     controller_configuration_filetree_read_secure_logging: false
     controller_configuration_filetree_object_diff_secure_logging: false
 
-    dir_orgs_vars: ./filetree_export
+    dir_orgs_vars: ./filetree_import
     orgs: Test Org
     env: common
 
-    drop_user_external_accounts: true
+    include_present_state: true
+    drop_user_external_accounts: false
+
   roles:
-    - role: infra.controller_configuration.filetree_read
-    - role: infra.controller_configuration.object_diff
+    - role: infra.aap_configuration_extended.object_diff
       vars:
-        aaacontroller_configuration_object_diff_tasks:
-          - {name: workflow_job_templates, var: controller_workflows, tags: workflow_job_templates}
-          - {name: job_templates, var: controller_templates, tags: job_templates}
-          - {name: user_accounts, var: controller_user_accounts, tags: users}
-          - {name: groups, var: controller_groups, tags: groups}
-          - {name: hosts, var: controller_hosts, tags: hosts}
-          - {name: inventory_sources, var: controller_inventory_sources, tags: inventory_sources}
-          - {name: inventories, var: controller_inventories, tags: inventories}
-          - {name: projects, var: controller_projects, tags: projects}
-          - {name: credentials, var: controller_credentials, tags: credentials}
-          - {name: credential_types, var: controller_credential_types, tags: credential_types}
-          - {name: organizations, var: controller_organizations, tags: organizations}
-    - role: infra.controller_configuration.dispatch
+        controller_configuration_object_diff_tasks:
+          - {name: controller_schedules, var: controller_schedules, tags: controller_schedules}
+          - {name: controller_workflow_job_templates, var: controller_workflows, tags: controller_workflow_job_templates}
+          - {name: controller_job_templates, var: controller_templates, tags: controller_job_templates}
+          - {name: controller_roles, var: controller_roles, tags: controller_roles}
+          - {name: controller_teams, var: aap_teams, tags: controller_teams}
+          - {name: controller_user_accounts, var: aap_user_accounts, tags: controller_users}
+          - {name: controller_host_groups, var: controller_groups, tags: controller_host_groups}
+          - {name: controller_hosts, var: controller_hosts, tags: controller_hosts}
+          - {name: controller_applications, var: aap_applications, tags: controller_applications}
+          - {name: controller_execution_environments, var: controller_execution_environments, tags: controller_execution_environments}
+          - {name: controller_inventory_sources, var: controller_inventory_sources, tags: controller_inventory_sources}
+          - {name: controller_inventories, var: controller_inventories, tags: controller_inventories}
+          - {name: controller_projects, var: controller_projects, tags: controller_projects}
+          - {name: controller_notification_templates, var: controller_notification_templates, tags: controller_notification_templates}
+          - {name: controller_credentials, var: controller_credentials, tags: controller_credentials}
+          - {name: controller_credential_types, var: controller_credential_types, tags: controller_credential_types}
+          - {name: controller_organizations, var: aap_organizations, tags: controller_organizations}
+          - {name: controller_instance_groups, var: controller_instance_groups, tags: controller_instance_groups}
+    #- role: infra.aap_configuration.dispatch

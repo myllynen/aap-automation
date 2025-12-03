@@ -5,18 +5,14 @@
   become: false
   gather_facts: false
   vars:
-    controller_hostname: "{{ aap_install_controller_fqdn }}"
-    controller_username: "{{ aap_install_admin_username | default('admin') }}"
-    controller_password: "{{ aap_install_admin_password }}"
-    controller_oauthtoken: "{{ lookup('file', lookup('env', 'PWD') + '/aap_ctrl_token_admin.txt') }}"
-    controller_validate_certs: false
+    aap_oauthtoken: "{{ aap_token }}"
 
-    controller_configuration_secure_logging: false
     controller_configuration_filetree_create_secure_logging: false
 
     export_aap_configuration: false
     output_path: ./filetree_export
     flatten_output: false
+
   pre_tasks:
     - name: Remove previous export directory
       ansible.builtin.file:
@@ -25,7 +21,13 @@
       when: export_aap_configuration | bool
 
   roles:
-    - name: infra.controller_configuration.filetree_create
+    - name: infra.aap_configuration_extended.filetree_create
+      # For now, see https://github.com/redhat-cop/aap_configuration_extended/issues/198
+      vars:
+        input_tag:
+          - gateway
+          - controller
+          - eda
       when: export_aap_configuration | bool
 
   post_tasks:
@@ -37,31 +39,22 @@
           -e '/LICENSE:/,/INSTALL_UUID:/d'
           -e '/CLEANUP_HOST_METRICS_LAST_TS/d'
           -e '/HOST_METRIC_SUMMARY_TASK_LAST_TS/d'
-          current_settings.yaml
+          controller_settings.yaml
       when: export_aap_configuration | bool
 
-- name: Compare AAP in-cac and in-use configurations
+- name: Compare AAP in-cac and in-use configuration
   hosts: localhost
   connection: local
   become: false
   gather_facts: false
   vars:
-    controller_hostname: "{{ aap_install_controller_fqdn }}"
-    controller_username: "{{ aap_install_admin_username | default('admin') }}"
-    controller_password: "{{ aap_install_admin_password }}"
-    controller_validate_certs: false
-
-    controller_configuration_secure_logging: false
-    controller_configuration_organizations_secure_logging: false
-    controller_configuration_teams_secure_logging: false
-    controller_configuration_users_secure_logging: false
-
-    controller_user_default_password: Foobar_12
+    aap_configuration_secure_logging: false
 
     config_live_path: ./filetree_export
     config_repo_path: ./aap-config.git
 
     fail_if_different: true
+
   tasks:
     - name: Fail if configuration directories not found
       ansible.builtin.fail:
@@ -71,69 +64,21 @@
         - "{{ config_repo_path }}"
       when: item is not directory
 
-    - name: Find AAP in-cac configuration files
-      no_log: "{{ controller_configuration_secure_logging }}"
-      ansible.builtin.find:
-        paths:
-          - "{{ config_repo_path }}"
-        patterns:
-          - '*.yml'
-          - '*.yaml'
-        recurse: true
-      register: config_repo_files
+    - name: Read AAP in-cac configuration
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
+      ansible.builtin.include_vars:
+        dir: "{{ config_repo_path }}"
+        ignore_unknown_extensions: true
+        name: config_repo
 
-    - name: Read AAP in-cac configuration files
-      no_log: "{{ controller_configuration_secure_logging }}"
-      ansible.builtin.slurp:
-        src: "{{ item }}"
-      register: config_repo_content
-      loop: "{{ config_repo_files.files | map(attribute='path') }}"
+    - name: Read AAP in-use configuration
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
+      ansible.builtin.include_vars:
+        dir: "{{ config_live_path }}"
+        ignore_unknown_extensions: true
+        name: config_live
 
-    - name: Process AAP in-cac configuration
-      no_log: "{{ controller_configuration_secure_logging }}"
-      ansible.builtin.set_fact:
-        config_repo: "{{ config_repo | default({}) | combine(item | from_yaml, list_merge='append') }}"
-      loop: "{{ config_repo_content.results | map(attribute='content') | map('b64decode') }}"
-      loop_control:
-        label: "{{ item | split | select('match', '^controller_.*:$') | replace(':', '') }}"
-
-    - name: Reset unrecognized in-cac items
-      no_log: "{{ controller_configuration_secure_logging }}"
-      ansible.builtin.set_fact:
-        config_repo: "{{ config_repo | combine({item.key: []}) }}"
-      loop: "{{ config_repo | dict2items }}"
-      loop_control:
-        label: "{{ item.key }}"
-      when: >
-        item.value is string or
-        item.value is not iterable
-
-    - name: Find AAP in-use configuration files
-      no_log: "{{ controller_configuration_secure_logging }}"
-      ansible.builtin.find:
-        paths:
-          - "{{ config_live_path }}"
-        patterns:
-          - '*.yml'
-          - '*.yaml'
-        recurse: true
-      register: config_live_files
-
-    - name: Read AAP in-use configuration files
-      no_log: "{{ controller_configuration_secure_logging }}"
-      ansible.builtin.slurp:
-        src: "{{ item }}"
-      register: config_live_content
-      loop: "{{ config_live_files.files | map(attribute='path') }}"
-
-    - name: Process AAP in-use configuration
-      no_log: "{{ controller_configuration_secure_logging }}"
-      ansible.builtin.set_fact:
-        config_live: "{{ config_live | default({}) | combine(item | from_yaml, list_merge='append') }}"
-      loop: "{{ config_live_content.results | map(attribute='content') | map('b64decode') }}"
-      loop_control:
-        label: "{{ item | split | select('match', '^controller_.*:$') | replace(':', '') }}"
-
+    # Fix to display differences correctly for missing items
     - name: Display high-level differences in configurations
       ansible.builtin.set_fact:
         config_diff: "{{ config_diff | default([]) + [item] }}"
@@ -149,11 +94,12 @@
       ansible.builtin.debug:
         msg: "{{ config_live[item] | symmetric_difference(config_repo[item]) }}"
       loop: "{{ config_diff | default([]) }}"
-      when: not controller_configuration_secure_logging
+      when: not aap_configuration_secure_logging
 
     - name: Fail if requested when differences found
       ansible.builtin.fail:
-        msg: Configuration differences found, see above messages for details.
+        msg: "Configuration differences found, see above messages for details."
       when:
+        - config_diff is defined
+        - config_diff | length > 0
         - fail_if_different | bool
-        - config_diff | default([])
