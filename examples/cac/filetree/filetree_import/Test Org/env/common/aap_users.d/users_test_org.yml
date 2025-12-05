@@ -1,18 +1,4 @@
 aap_user_accounts:
-  # AAP global administrator
-  # Superuser type must be set at user account level
-  - username: aap_admin
-    is_superuser: true
-    first_name: AAP
-    last_name: Administrator
-    email: nobody@example.com
-
-  # AAP global auditor
-  - username: aap_auditor
-    first_name: AAP
-    last_name: Auditor
-    email: nobody@example.com
-
   # Administrator for organization
   - username: t_admin
     first_name: Test Org
@@ -44,11 +30,6 @@ aap_user_accounts:
     email: nobody@example.com
 
 gateway_role_user_assignments:
-  # Platform auditor role must be assigned per-user
-  - user: aap_auditor
-    role_definition: Platform Auditor
-
-
   - user: t_admin
     object_ids:
       - Test Org
