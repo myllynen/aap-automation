@@ -1,0 +1,45 @@
+# Ansible Automation Platform controller configuration - defaults deletion
+
+controller_templates_default_org:
+  - name: Demo Job Template
+    organization: Default
+    state: absent
+
+controller_projects_default_org:
+  - name: Demo Project
+    organization: Default
+    state: absent
+
+controller_inventories_default_org:
+  - name: Demo Inventory
+    organization: Default
+    state: absent
+
+controller_credentials_default_org:
+  - name: Demo Credential
+    organization: Default
+    credential_type: Machine
+    state: absent
+
+controller_execution_environments_default_org:
+  - name: Default execution environment
+    organization: Default
+    image: null
+    state: absent
+  - name: Minimal execution environment
+    organization: Default
+    image: null
+    state: absent
+  - name: Hub Default execution environment
+    organization: Default
+    image: null
+    state: absent
+  - name: Hub Minimal execution environment
+    organization: Default
+    image: null
+    state: absent
+
+# Managed organizations cannot be deleted
+#aap_organizations_default_org:
+#  - name: Default
+#    state: absent
