@@ -8,8 +8,6 @@
     # AAP CaC top level dir
     config_basedir: aap_cac
     # AAP CaC files or directories to read
-    # NB. !unsafe is lost when using include_vars so
-    #     credential_types needs to be applied directly
     #config_content: aap_settings
     config_content: test_org
     #config_content:

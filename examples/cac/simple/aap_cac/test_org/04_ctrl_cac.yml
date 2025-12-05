@@ -14,9 +14,7 @@ aap_organizations_test_org:
 #      - Automation Hub Community Repository
 #      - Automation Hub Published Repository
 
-# NB. !unsafe is lost when using include_vars so
-#     credential_types needs to be applied directly
-XXX_controller_credential_types_test_org:
+controller_credential_types_test_org:
   - name: Kerberos
     inputs:
       fields:
@@ -40,10 +38,10 @@ XXX_controller_credential_types_test_org:
         - default_realm
     injectors:
       env:
-        KRB5_CONFIG: !unsafe "{{ tower.filename }}"
+        KRB5_CONFIG: "{% raw %}{{ tower.filename }}{% endraw %}"
       file:
-        template: !unsafe |-
-          [libdefaults]
+        template: |-
+          {% raw %}[libdefaults]
           default_realm = {{ default_realm | upper }}
           dns_canonicalize_hostname = fallback
           dns_lookup_kdc = {% if kdc %}false{% else %}true{% endif %}
@@ -56,10 +54,10 @@ XXX_controller_credential_types_test_org:
             {% if kdc %}kdc = {{ kdc }}{% endif %}
           }
           [domain_realm]
-            {{ default_realm | lower }} = {{ default_realm | upper }}
+            {{ default_realm | lower }} = {{ default_realm | upper }}{% endraw %}
       extra_vars:
-        ansible_user: !unsafe "{{ username }}"
-        ansible_password: !unsafe "{{ password }}"
+        ansible_user: "{% raw %}{{ username }}{% endraw %}"
+        ansible_password: "{% raw %}{{ password }}{% endraw %}"
 
 controller_credentials_test_org:
   - name: Automation Hub Container Registry
