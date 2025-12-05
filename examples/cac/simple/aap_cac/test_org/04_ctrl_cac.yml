@@ -1,4 +1,4 @@
-aap_organizations_test_org_ctrl:
+aap_organizations_test_org:
   - name: Test Org
     description: Test organization
 
