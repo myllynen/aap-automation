@@ -1,0 +1,63 @@
+# Ansible Automation Platform hub configuration - execution environments
+
+aap_configuration_secure_logging: false
+
+hub_configuration_ee_registry_secure_logging: false
+hub_configuration_ee_repository_secure_logging: false
+
+aap_request_timeout: 5
+
+aap_configuration_async_retries: 100
+aap_configuration_async_delay: 3
+
+# NB. Not a wildcard variable
+hub_configuration_dispatcher_roles:
+  - role: hub_collection_remote
+    var: hub_collection_remotes
+    tags: collectionremote
+  - role: hub_collection_repository
+    var: hub_collection_repositories
+    tags: collectionsrep
+  - role: hub_collection_repository_sync
+    var: hub_collection_repositories
+    tags: collectionsrepsync
+
+  - role: hub_namespace
+    var: hub_namespaces
+    tags: namespaces
+  - role: hub_collection
+    var: hub_collections
+    tags: collections
+
+  - role: hub_ee_registry
+    var: hub_ee_registries
+    tags: registries
+  - role: hub_ee_repository
+    var: hub_ee_repositories
+    tags: repos
+  - role: hub_ee_repository_sync
+    var: hub_ee_repositories
+    tags: repos
+
+
+hub_ee_registries:
+  - name: redhat
+    url: https://registry.redhat.io
+    username: "{{ aap_redhat_registry_username }}"
+    password: "{{ aap_redhat_registry_password }}"
+    tls_validation: true
+    download_concurrency: 100
+    rate_limit: 5
+    index: true
+    sync: true
+    wait: true
+
+hub_ee_repositories:
+  - name: ansible-automation-platform/ee-minimal-rhel9
+    registry: redhat
+    upstream_name: ansible-automation-platform/ee-minimal-rhel9
+    include_tags:
+      - 2.16
+      - 2.18
+    sync: true
+    wait: true

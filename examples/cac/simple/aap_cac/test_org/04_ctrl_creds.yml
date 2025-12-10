@@ -1,0 +1,22 @@
+controller_credentials_test_org:
+  - name: Automation Hub Container Registry
+    organization: Test Org
+    credential_type: Container Registry
+    inputs:
+      host: "{{ aap_hostname }}"
+      username: "{{ aap_admin_username | default('admin') }}"
+      password: "{{ aap_admin_password }}"
+  - name: Test Org SCM Credential
+    organization: Test Org
+    credential_type: Source Control
+    inputs:
+      ssh_key_data: "{{ lookup('file', lookup('env', 'AAP_KEYS') + '/id_ed25519.scm') }}"
+      #ssh_key_unlock: "{{ ssh_key_passphrase | default(omit) }}"
+  - name: Test Credential
+    organization: Test Org
+    credential_type: Machine
+    inputs:
+      username: "{{ test_machine_username | default('admin') }}"
+      password: "{{ test_machine_password | default('Foobar_12') }}"
+      #ssh_key_data: "{{ lookup('file', lookup('env', 'AAP_KEYS') + '/id_ed25519.machine') }}"
+      #ssh_key_unlock: "{{ ssh_key_passphrase | default(omit) }}"
