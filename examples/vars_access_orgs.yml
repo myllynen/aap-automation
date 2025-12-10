@@ -1,8 +1,0 @@
-# Ansible Automation Platform access configuration example - orgs
-
-aap_configuration_secure_logging: false
-gateway_organizations_secure_logging: false
-
-aap_organizations:
-  - name: Test Org
-    description: Test organization
