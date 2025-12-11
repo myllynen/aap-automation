@@ -1,8 +1,0 @@
----
-- name: Configure Ansible Automation Platform
-  hosts: localhost
-  connection: local
-  become: false
-  gather_facts: false
-  roles:
-    - infra.aap_configuration.dispatch
