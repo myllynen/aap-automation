@@ -8,7 +8,7 @@
     # AAP CaC top level dir
     config_basedir: aap_cac
     # AAP CaC files or directories to read
-    #config_content: aap_settings
+    #config_content: aap_config
     config_content: test_org
     #config_content:
     #  - test_org/02_teams.yml
