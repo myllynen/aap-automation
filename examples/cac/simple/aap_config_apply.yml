@@ -13,16 +13,16 @@
     #config_content:
     #  - test_org/02_teams.yml
     #  - test_org/03_users.yml
-    #  - test_org/05_ctrl_rbac.yml
+    #  - test_org/06_ctrl_rbac.yml
 
     # Optional list of files to ignore
     # when reading contents of directories
     #config_ignore:
     #  - '.*creds.*'
 
-    # infra.aap_configuration parameters
     # Settings in files will override these for AAP
     aap_configuration_secure_logging: false
+    aap_scm_update_projects: false
 
   tasks:
     - name: Read AAP CaC files

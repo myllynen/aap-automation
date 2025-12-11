@@ -76,8 +76,7 @@ controller_projects_test_org:
     scm_clean: true
     scm_update_on_launch: false
     #scm_update_cache_timeout: "30"
-    #update_project: true
-    update_project: false
+    update_project: "{{ aap_scm_update_projects | default(false) }}"
 
   - name: Test Project
     description: Project for testing
@@ -89,7 +88,7 @@ controller_projects_test_org:
     scm_clean: true
     scm_update_on_launch: false
     #scm_update_cache_timeout: "30"
-    update_project: true
+    update_project: "{{ aap_scm_update_projects | default(false) }}"
 
 controller_inventories_test_org:
   - name: Test Inventory
