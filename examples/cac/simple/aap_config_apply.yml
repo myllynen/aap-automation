@@ -22,6 +22,8 @@
 
     # Settings in files will override these for AAP
     aap_configuration_secure_logging: false
+    aap_configuration_dispatcher_exclude_roles:
+      - controller_inventory_source_update
     aap_scm_update_projects: false
 
   tasks:
