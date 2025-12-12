@@ -35,12 +35,12 @@ aap-eda-1.example.com
 # This section is for your AAP Lightspeed host(s)
 # -----------------------------------------------------
 [ansiblelightspeed]
-#aap-ls-1.example.com
+#aap-ai-1.example.com
 
 # This section is for your AAP MCP host(s)
 # -----------------------------------------------------
 [ansiblemcp]
-#aap-mcp-1.example.com
+#aap-ai-1.example.com
 
 # This section is for your AAP database host
 # -----------------------------------------------------
