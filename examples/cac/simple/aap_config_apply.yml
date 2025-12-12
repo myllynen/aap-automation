@@ -11,6 +11,10 @@
     #config_content: aap_config
     config_content: test_org
     #config_content:
+    #  - aap_config
+    #  - default_org
+    #  - test_org
+    #config_content:
     #  - test_org/02_teams.yml
     #  - test_org/03_users.yml
     #  - test_org/06_ctrl_rbac.yml
@@ -19,6 +23,7 @@
     # when reading contents of directories
     #config_ignore:
     #  - '.*creds.*'
+    #  - '.*hub.*'
 
     # Settings in files will override these for AAP
     aap_configuration_secure_logging: false
