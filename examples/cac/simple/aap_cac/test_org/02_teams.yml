@@ -15,3 +15,83 @@ aap_teams_test_org:
   - name: t_api_users
     organization: Test Org
     description: Test Org API users
+
+# Roles to teams assignments
+gateway_role_team_assignments_test_org:
+  - team: t_auditors
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Audit
+
+
+  - team: t_operators
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Audit
+
+  - team: t_operators
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Approval
+  - team: t_operators
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Execute
+
+
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Audit
+
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Approval
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Execute
+
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Credential Admin
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization ExecutionEnvironment Admin
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Inventory Admin
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization JobTemplate Admin
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization NotificationTemplate Admin
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization Project Admin
+  - team: t_developers
+    assignment_objects:
+      - name: Test Org
+        type: organizations
+    role_definition: Organization WorkflowJobTemplate Admin
