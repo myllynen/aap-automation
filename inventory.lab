@@ -37,6 +37,11 @@ aap-eda-1.example.com
 [ansiblelightspeed]
 #aap-ls-1.example.com
 
+# This section is for your AAP MCP host(s)
+# -----------------------------------------------------
+[ansiblemcp]
+#aap-mcp-1.example.com
+
 # This section is for your AAP database host
 # -----------------------------------------------------
 [database]
@@ -87,6 +92,11 @@ postgresql_admin_password=Foobar_12
 # Manifest
 # https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/html/containerized_installation/assembly-gateway-licensing#assembly-aap-obtain-manifest-files
 controller_license_file=/home/admin/aap_manifest.zip
+
+# MCP
+mcp_tls_remote=false
+mcp_ignore_certificate_errors=false
+mcp_allow_write_operations=true
 
 # Monitoring
 #setup_monitoring=true
