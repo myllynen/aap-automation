@@ -22,6 +22,19 @@ aap_configuration_async_delay: 3
 
 # NB. Not a wildcard variable
 hub_configuration_dispatcher_roles:
+  - role: hub_namespace
+    var: hub_namespaces
+    tags: namespaces
+  - role: hub_collection
+    var: hub_collections
+    tags: collections
+  - role: hub_publish
+    var: hub_collection_list
+    tags: publish
+  - role: hub_publish
+    var: hub_custom_collections
+    tags: publish
+
   - role: hub_collection_remote
     var: hub_collection_remotes
     tags: collectionremote
@@ -32,13 +45,6 @@ hub_configuration_dispatcher_roles:
     var: hub_collection_repositories
     tags: collectionsrepsync
 
-  - role: hub_namespace
-    var: hub_namespaces
-    tags: namespaces
-  - role: hub_collection
-    var: hub_collections
-    tags: collections
-
   - role: hub_ee_registry
     var: hub_ee_registries
     tags: registries
@@ -48,7 +54,35 @@ hub_configuration_dispatcher_roles:
   - role: hub_ee_repository_sync
     var: hub_ee_repositories
     tags: repos
+  - role: hub_ee_image
+    var: hub_ee_images
+    tags: images
 
+
+hub_namespaces:
+  - name: myllynen
+    company: myllynen
+    email: myllynen@redhat.com
+    avatar_url: https://avatars.githubusercontent.com/u/24413632
+    description: Collections from myllynen's GitHub repositories
+
+# This is mutually exclusive with hub_collections
+#hub_collection_list:
+#  - collection_name: custom.example_collection
+#    collection_local_path: /tmp/collections/custom.example_collection-1.2.3
+
+hub_custom_collections:
+  - collection_name: myllynen.rhel_ansible_roles
+    git_url: https://github.com/myllynen/rhel-ansible-roles
+    version: v3.2.6
+  - collection_name: myllynen.rhel_image
+    git_url: https://github.com/myllynen/rhel-image
+    version: v2.1.0
+  - collection_name: myllynen.windows_ansible_roles
+    git_url: https://github.com/myllynen/windows-ansible-roles
+    version: v5.1.1
+    #key_file:
+    #ssh_opts:
 
 hub_collection_remotes:
   - name: rh-certified
@@ -134,29 +168,3 @@ hub_collection_repositories:
     retain_repo_versions: 3
     sync: true
     wait: true
-
-
-hub_namespaces:
-  - name: myllynen
-    company: myllynen
-    email: myllynen@redhat.com
-    avatar_url: https://avatars.githubusercontent.com/u/24413632
-    description: Collections from myllynen's GitHub repositories
-
-# This is mutually exclusive with hub_collections
-#hub_collection_list:
-#  - collection_name: custom.example_collection
-#    collection_local_path: /tmp/collections/custom.example_collection-1.2.3
-
-hub_custom_collections:
-  - collection_name: myllynen.rhel_ansible_roles
-    git_url: https://github.com/myllynen/rhel-ansible-roles
-    version: v3.2.6
-  - collection_name: myllynen.rhel_image
-    git_url: https://github.com/myllynen/rhel-image
-    version: v2.1.0
-  - collection_name: myllynen.windows_ansible_roles
-    git_url: https://github.com/myllynen/windows-ansible-roles
-    version: v5.1.1
-    #key_file:
-    #ssh_opts:
