@@ -15,8 +15,8 @@
       - default_org
       - test_org
     #config_content:
-    #  - aap_config/05_hub_collections.yml
-    #  - aap_config/06_hub_exec_envs.yml
+    #  - aap_config/06_hub_collections.yml
+    #  - aap_config/07_hub_exec_envs.yml
     #config_content:
     #  - test_org/02_teams.yml
     #  - test_org/03_users.yml

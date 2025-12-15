@@ -1,5 +1,7 @@
 # Ansible Automation Platform gateway configuration - settings
 
+gateway_settings_secure_logging: false
+
 # NB. Some settings are defined for both the gateway
 #     and the controller, they must be kept in sync.
 

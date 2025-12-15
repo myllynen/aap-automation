@@ -1,9 +1,8 @@
 # Ansible Automation Platform hub configuration - execution environments
 
-aap_configuration_secure_logging: false
-
 hub_configuration_ee_registry_secure_logging: false
 hub_configuration_ee_repository_secure_logging: false
+hub_configuration_ee_image_secure_logging: false
 
 aap_request_timeout: 5
 

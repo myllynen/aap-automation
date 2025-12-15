@@ -1,0 +1,95 @@
+# Ansible Automation Platform gateway configuration - authentication
+
+gateway_authenticators_secure_logging: false
+
+gateway_authenticators:
+  - name: Local Database Authenticator
+    order: 1
+    type: ansible_base.authentication.authenticator_plugins.local
+    slug: local-database-authenticator
+    enabled: true
+    create_objects: true
+    remove_users: false
+    configuration:
+      fallback_authentication:
+        - aap_gateway_api.authentication.fallbacks.controller
+
+  - name: Microsoft Active Directory
+    order: 2
+    type: ansible_base.authentication.authenticator_plugins.ldap
+    slug: microsoft-active-directory
+    enabled: false
+    create_objects: true
+    remove_users: true
+    configuration:
+      SERVER_URI:
+        - ldap://ad.example.com:389
+      START_TLS: true
+      #BIND_DN: "{{ aap_ad_bind_username }}"
+      #BIND_PASSWORD: "{{ aap_ad_bind_password }}"
+      CONNECTION_OPTIONS: {}
+      # https://access.redhat.com/solutions/7093912
+      GROUP_TYPE: ActiveDirectoryGroupType
+      GROUP_TYPE_PARAMS:
+        name_attr: cn
+      GROUP_SEARCH:
+        - ou=groups,ou=corp,dc=example,dc=com
+        - SCOPE_SUBTREE
+        - (objectClass=group)
+      #USER_DN_TEMPLATE: sAMAccountName=%(user)s,ou=users,ou=corp,dc=example,dc=com
+      USER_ATTR_MAP:
+        first_name: givenName
+        last_name: sn
+        email: mail
+      USER_SEARCH:
+        -
+          - ou=users,ou=corp,dc=example,dc=com
+          - SCOPE_SUBTREE
+          - (sAMAccountName=%(user)s)
+
+  - name: Red Hat IdM
+    order: 3
+    type: ansible_base.authentication.authenticator_plugins.ldap
+    slug: redhat-idm
+    enabled: false
+    create_objects: true
+    remove_users: true
+    configuration:
+      SERVER_URI:
+        - ldap://idm.example.com:389
+      START_TLS: false
+      #BIND_DN: "{{ aap_idm_bind_username }}"
+      #BIND_PASSWORD: "{{ aap_idm_bind_password }}"
+      CONNECTION_OPTIONS: {}
+      GROUP_TYPE: PosixGroupType
+      GROUP_TYPE_PARAMS:
+        name_attr: cn
+      GROUP_SEARCH:
+        - cn=groups,cn=accounts,dc=example,dc=com
+        - SCOPE_SUBTREE
+        - (objectClass=posixgroup)
+      #USER_DN_TEMPLATE: uid=%(user)s,cn=users,cn=accounts,dc=example,dc=com
+      USER_ATTR_MAP:
+        first_name: givenName
+        last_name: sn
+        email: mail
+      USER_SEARCH:
+        -
+          - cn=users,cn=accounts,dc=example,dc=com
+          - SCOPE_SUBTREE
+          - (uid=%(user)s)
+
+  - name: Keycloak
+    order: 4
+    type: ansible_base.authentication.authenticator_plugins.keycloak
+    slug: keycloak-auth
+    enabled: false
+    create_objects: true
+    remove_users: true
+    configuration:
+      ACCESS_TOKEN_URL: https://keycloak.example.com:8443/realms/aap/protocol/openid-connect/token
+      AUTHORIZATION_URL: https://keycloak.example.com:8443/realms/aap/protocol/openid-connect/auth
+      GROUPS_CLAIM: roles
+      KEY: aapoidc
+      PUBLIC_KEY: "{{ aap_keycloak_public_key | default('changeme') }}"
+      SECRET: "{{ aap_keycloak_secret | default('changeme') }}"
