@@ -117,8 +117,10 @@ controller_templates_test_org:
     project: Test Project
     playbook: debug.yml
     #credentials: Test Credential
-    limit: local
+    #limit: localhost
     verbosity: "0"
+    extra_vars:
+      ansible_connection: local
 
   - name: Test Random Failure
     description: Random failure for testing
@@ -128,7 +130,7 @@ controller_templates_test_org:
     project: Test Project
     playbook: random_fail.yml
     #credentials: Test Credential
-    limit: local
+    #limit: localhost
     verbosity: "0"
     extra_vars:
       message: This might fail
@@ -138,7 +140,7 @@ controller_workflows_test_org:
     description: Workflow for testing
     organization: Test Org
     inventory: Test Inventory
-    limit: local
+    #limit: localhost
     extra_vars:
       message: Message from workflow
     simplified_workflow_nodes:
