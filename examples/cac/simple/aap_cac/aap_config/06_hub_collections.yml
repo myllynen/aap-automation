@@ -19,44 +19,6 @@ aap_configuration_working_dir: /var/tmp
 aap_configuration_async_retries: 100
 aap_configuration_async_delay: 3
 
-# NB. Not a wildcard variable
-hub_configuration_dispatcher_roles:
-  - role: hub_namespace
-    var: hub_namespaces
-    tags: namespaces
-  - role: hub_collection
-    var: hub_collections
-    tags: collections
-  - role: hub_publish
-    var: hub_collection_list
-    tags: publish
-  - role: hub_publish
-    var: hub_custom_collections
-    tags: publish
-
-  - role: hub_collection_remote
-    var: hub_collection_remotes
-    tags: collectionremote
-  - role: hub_collection_repository
-    var: hub_collection_repositories
-    tags: collectionsrep
-  - role: hub_collection_repository_sync
-    var: hub_collection_repositories
-    tags: collectionsrepsync
-
-  - role: hub_ee_registry
-    var: hub_ee_registries
-    tags: registries
-  - role: hub_ee_repository
-    var: hub_ee_repositories
-    tags: repos
-  - role: hub_ee_repository_sync
-    var: hub_ee_repositories
-    tags: repos
-  - role: hub_ee_image
-    var: hub_ee_images
-    tags: images
-
 
 hub_namespaces:
   - name: myllynen

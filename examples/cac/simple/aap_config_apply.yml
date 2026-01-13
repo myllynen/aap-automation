@@ -21,6 +21,8 @@
     #  - test_org/02_teams.yml
     #  - test_org/03_users.yml
     #  - test_org/06_ctrl_rbac.yml
+    #config_content:
+    #  - test_org/05_ctrl_cac.yml
 
     # Optional list of files to ignore
     # when reading contents of directories
@@ -32,7 +34,9 @@
     aap_configuration_secure_logging: false
     aap_configuration_dispatcher_exclude_roles:
       - controller_inventory_source_update
+      - hub_ee_registry_index
     aap_scm_update_projects: false
+    hub_configuration_dispatcher_roles_include_publish: true
 
   tasks:
     - name: Read AAP CaC files
