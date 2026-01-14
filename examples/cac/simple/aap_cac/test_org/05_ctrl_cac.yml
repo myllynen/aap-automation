@@ -14,6 +14,14 @@ aap_organizations_test_org:
 #      - Automation Hub Community Repository
 #      - Automation Hub Published Repository
 
+controller_inventories_test_org:
+  - name: default
+    roles:
+      use:
+        teams:
+          - t_developers
+          - t_operators
+
 controller_credential_types_test_org:
   - name: Kerberos
     inputs:
@@ -94,6 +102,10 @@ controller_inventories_test_org:
   - name: Test Inventory
     description: Inventory for testing
     organization: Test Org
+    roles:
+      use:
+        teams:
+          - t_operators
 
 controller_inventory_sources_test_org:
   - name: Test Git Inventory Source
@@ -121,6 +133,10 @@ controller_templates_test_org:
     verbosity: "0"
     extra_vars:
       ansible_connection: local
+    roles:
+      execute:
+        teams:
+          - t_api_users
 
   - name: Test Random Failure
     description: Random failure for testing

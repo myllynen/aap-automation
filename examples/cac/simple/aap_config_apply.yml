@@ -20,7 +20,6 @@
     #config_content:
     #  - test_org/02_teams.yml
     #  - test_org/03_users.yml
-    #  - test_org/06_ctrl_rbac.yml
     #config_content:
     #  - test_org/05_ctrl_cac.yml
 
