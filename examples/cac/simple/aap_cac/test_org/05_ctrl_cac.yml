@@ -14,6 +14,7 @@ aap_organizations_test_org:
 #      - Automation Hub Community Repository
 #      - Automation Hub Published Repository
 
+# NB. Team names must be unique across AAP
 controller_inventories_test_org:
   - name: default
     roles:
