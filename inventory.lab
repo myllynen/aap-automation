@@ -22,12 +22,12 @@ aap-ctrl-2.example.com
 aap-exec-1.example.com
 aap-exec-2.example.com
 
-# This section is for your AAP Automation Hub host(s)
+# This section is for your AAP Hub host(s)
 # -----------------------------------------------------
 [automationhub]
 aap-hub-1.example.com
 
-# This section is for your AAP EDA Controller host(s)
+# This section is for your AAP EDA host(s)
 # -----------------------------------------------------
 [automationeda]
 aap-eda-1.example.com eda_type=hybrid
