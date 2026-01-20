@@ -30,7 +30,7 @@ aap-hub-1.example.com
 # This section is for your AAP EDA Controller host(s)
 # -----------------------------------------------------
 [automationeda]
-aap-eda-1.example.com
+aap-eda-1.example.com eda_type=hybrid
 
 # This section is for your AAP Lightspeed host(s)
 # -----------------------------------------------------
@@ -94,7 +94,6 @@ postgresql_admin_password=Foobar_12
 controller_license_file=/home/admin/aap_manifest.zip
 
 # MCP
-mcp_tls_remote=false
 mcp_ignore_certificate_errors=false
 mcp_allow_write_operations=true
 
@@ -142,7 +141,7 @@ controller_pg_database=controller
 controller_pg_username=admin
 controller_pg_password=Foobar_12
 
-# AAP Automation Hub
+# AAP Hub
 # https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/html/containerized_installation/appendix-inventory-files-vars#hub-variables
 # -----------------------------------------------------
 hub_admin_password=Foobar_12
@@ -157,7 +156,7 @@ hub_pg_password=Foobar_12
 hub_seed_collections=false
 hub_galaxy_importer={"run_ansible_lint": True, "offline_ansible_lint": True}
 
-# AAP EDA Controller
+# AAP EDA
 # https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/html/containerized_installation/appendix-inventory-files-vars#event-driven-ansible-variables
 # -----------------------------------------------------
 eda_admin_email=root@localhost
