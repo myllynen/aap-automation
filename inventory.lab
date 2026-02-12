@@ -60,6 +60,9 @@ receptor_peers=''
 receptor_type=execution
 receptor_peers='["aap-ctrl-1.example.com","aap-ctrl-2.example.com"]'
 
+[automationeda:vars]
+eda_safe_plugins='["ansible.eda.file","ansible.eda.webhook"]'
+
 [all:vars]
 
 # Common variables
@@ -80,14 +83,15 @@ bundle_dir='{{ lookup("ansible.builtin.env", "PWD") }}/bundle'
 # Certificates
 # https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/html/containerized_installation/appendix-inventory-files-vars#general-variables
 #custom_ca_cert=/tmp/ca.crt
-#ca_tls_cert=/root/ca.crt
-#ca_tls_key=/root/ca.key
+# To manually provide certificates for services,
+# set the corresponding # *_{,pg,redis}_{cert,key}
+# variables and also *_tls_remote as needed.
+#ca_tls_cert=/home/admin/ca.crt
+#ca_tls_key=/home/admin/ca.key
 #ca_tls_key_passphrase=Foobar_12
 
-# Database
-# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/html/containerized_installation/appendix-inventory-files-vars#database-variables
-postgresql_admin_username=postgres
-postgresql_admin_password=Foobar_12
+# Firewall
+# Set the *_firewall_zone variable for each service.
 
 # Manifest
 # https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/html/containerized_installation/assembly-gateway-licensing#assembly-aap-obtain-manifest-files
@@ -114,8 +118,13 @@ redis_mode=standalone
 images_tmp_dir=/var/tmp
 #registry_ns_rhel=rhel10
 
-# For using custom certificates with different services and
+# To manually provide certificates for different services and
 # enabling mTLS, see the AAP Containerized installation guide.
+
+# AAP Database
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/html/containerized_installation/appendix-inventory-files-vars#database-variables
+postgresql_admin_username=postgres
+postgresql_admin_password=Foobar_12
 
 # AAP Gateway
 # https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/html/containerized_installation/appendix-inventory-files-vars#platform-gateway-variables
