@@ -1,44 +1,44 @@
-"mcpServers": {
+"servers": {
     "aap-mcp-job-management": {
         "type": "http",
-        "url": "https://api.example.com/job_management/mcp",
+        "url": "https://gateway.example.com:8448/job_management/mcp",
         "headers": {
-            "Authorization": "Bearer ${env:MY_SERVICE_TOKEN}"
+            "Authorization": "Bearer ${env:MCP_SERVICE_TOKEN}"
         }
     },
     "aap-mcp-inventory-management": {
         "type": "http",
-        "url": "https://api.example.com/inventory_management/mcp",
+        "url": "https://gateway.example.com:8448/inventory_management/mcp",
         "headers": {
-            "Authorization": "Bearer ${env:MY_SERVICE_TOKEN}"
+            "Authorization": "Bearer ${env:MCP_SERVICE_TOKEN}"
         }
     },
     "aap-mcp-system-monitoring": {
         "type": "http",
-        "url": "https://api.example.com/system_monitoring/mcp",
+        "url": "https://gateway.example.com:8448/system_monitoring/mcp",
         "headers": {
-            "Authorization": "Bearer ${env:MY_SERVICE_TOKEN}"
+            "Authorization": "Bearer ${env:MCP_SERVICE_TOKEN}"
         }
     },
     "aap-mcp-user-management": {
         "type": "http",
-        "url": "https://api.example.com/user_management/mcp",
+        "url": "https://gateway.example.com:8448/user_management/mcp",
         "headers": {
-            "Authorization": "Bearer ${env:MY_SERVICE_TOKEN}"
+            "Authorization": "Bearer ${env:MCP_SERVICE_TOKEN}"
         }
     },
     "aap-mcp-security-compliance": {
         "type": "http",
-        "url": "https://api.example.com/security_compliance/mcp",
+        "url": "https://gateway.example.com:8448/security_compliance/mcp",
         "headers": {
-            "Authorization": "Bearer ${env:MY_SERVICE_TOKEN}"
+            "Authorization": "Bearer ${env:MCP_SERVICE_TOKEN}"
         }
     },
     "aap-mcp-platform-configuration": {
         "type": "http",
-        "url": "https://api.example.com/platform_configuration/mcp",
+        "url": "https://gateway.example.com:8448/platform_configuration/mcp",
         "headers": {
-            "Authorization": "Bearer ${env:MY_SERVICE_TOKEN}"
+            "Authorization": "Bearer ${env:MCP_SERVICE_TOKEN}"
         }
     }
 }
