@@ -17,7 +17,8 @@ debug = bright gray
 verbose = bright gray
 
 [ssh_connection]
-ssh_args = -o ControlMaster=auto -o ControlPersist=600s -o PreferredAuthentications=publickey -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=accept-new
+ssh_args = -o ControlMaster=auto -o ControlPersist=600s -o PreferredAuthentications=publickey -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
+# -o StrictHostKeyChecking=accept-new
 control_path = %(directory)s/%%h-%%p-%%r
 pipelining = True
 timeout = 10
