@@ -41,6 +41,38 @@ ee_list:
   - name: custom-full-rhel9
     base_image: "{{ ee_ah_host }}/ee-supported-rhel9:latest"
 
+    dependencies:
+      # Must match Python version with pip in base image
+      python_interpreter:
+        package_system: python311
+        python_path: /usr/bin/python3.11
+      # Exclude everything we are not adding ourselves
+      exclude:
+        # This would only consider deps from these collections
+        #all_from_collections:
+        #  - ~^(?!community|infra|myllynen).*
+        python:
+          - ~^(?!fastapi|flask).*
+        system:
+          - ~^(?!iputils).*
+      galaxy:
+        collections:
+          - community.general
+          #- community.windows
+          - infra.aap_configuration
+          - myllynen.rhel_ansible_roles
+          #- myllynen.windows_ansible_roles
+      python:
+        - fastapi
+        - flask
+      system:
+        - iputils
+        # Packages often needed for building deps
+        #- gcc [platform:rpm]
+        #- python3.11-devel [platform:rpm]
+        #- python3.11-requests [platform:rpm]
+        #- systemd-devel [platform:rpm]
+
     build_files:
       # ee_pull_collections_from_hub: true adds ansible.cfg
       - src: "{{ lookup('env', 'PWD') + '/ansible-ee.cfg' }}"
@@ -49,15 +81,11 @@ ee_list:
         dest: configs
 
     build_steps:
-      prepend_final:
+      prepend_base:
+        - ADD _build/configs/pip.conf /etc/ansible/pip.conf
+      prepend_galaxy:
         - ADD _build/configs/ansible.cfg /etc/ansible/ansible.cfg
-        - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv community.general
-        #- RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv community.windows
-        - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv infra.aap_configuration
-        - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv myllynen.rhel_ansible_roles
-        #- RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv myllynen.windows_ansible_roles
-        #- RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv -U -n redhat.satellite
-        #- RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv -U -n redhat.satellite_operations
+      prepend_final:
         - ADD _build/configs/ansible-ee.cfg /etc/ansible/ansible.cfg
       append_final:
         - RUN rm -rf /etc/yum.repos.d/* /var/{cache,lib}/{dnf,yum} /etc/pip.conf

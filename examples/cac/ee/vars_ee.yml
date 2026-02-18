@@ -7,7 +7,7 @@ ee_base_registry_username: "{{ aap_username }}"
 ee_base_registry_password: "{{ aap_password }}"
 ee_registry_username: "{{ aap_username }}"
 ee_registry_password: "{{ aap_password }}"
-ee_ah_token: "{{ aap_automation_hub_token }}"
+ee_ah_token: "{{ hub_token }}"
 
 ee_validate_certs: "{{ aap_validate_certs }}"
 
@@ -16,14 +16,17 @@ ee_version: 3
 ee_build_arg_defaults:
   ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: -vvv
   #ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --ignore-certs --no-deps --upgrade -vvv
+  PKGMGR_PRESERVE_CACHE: always
 #ee_builder_dir: /var/tmp/build
 #ee_builder_dir_clean: false
 ee_build_options:
   container_init:
     entrypoint: '["/opt/builder/bin/entrypoint"]'
-    package_pip: ""
+    package_pip: ''
   package_manager_path: /usr/bin/microdnf
-  skip_ansible_check: false
+  # We can expect these being ok with AAP images
+  skip_ansible_check: true
+  skip_pip_install: true
 ee_verbosity: 1
 
 ee_aap_version: 2.6
@@ -37,26 +40,15 @@ ee_registry_dest: "{{ ah_host }}/custom"
 ee_list:
   - name: custom-base-rhel9
     base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel9:2.16"
+
     dependencies:
-      system:
-        - gcc [platform:rpm]
-        - python3-pip [platform:rpm]
-        - python3-devel [platform:rpm]
-        - python3-setuptools [platform:rpm]
-        - python3-gssapi [platform:rpm]
-        - systemd-devel [platform:rpm]
-        - findutils [platform:rpm]
-        - iputils [platform:rpm]
-      #python:
-      #  - dnspython
-      #  - netaddr
-      #  - psutil
-      #  - pyjwt
-      #  - selinux
+      python_interpreter:
+        package_system: python311
+        python_path: /usr/bin/python3.11
       galaxy:
         collections:
           - ansible.controller
-          #- ansible.eda
+          - ansible.eda
           - ansible.hub
           - ansible.platform
           - ansible.posix
@@ -80,48 +72,54 @@ ee_list:
           - myllynen.rhel_ansible_roles
           #- myllynen.rhel_image
           #- myllynen.windows_ansible_roles
-    build_files:
-      - src: "{{ lookup('env', 'PWD') + '/pip.conf' }}"
-        dest: configs
-      - src: "{{ lookup('env', 'PWD') + '/ansible-ee.cfg' }}"
-        dest: configs
-    build_steps:
-      prepend_base:
-        - ADD _build/configs/pip.conf /etc/pip.conf
-      prepend_final:
-        - ADD _build/configs/ansible-ee.cfg /etc/ansible/ansible.cfg
-      append_final:
-        - RUN rm -rf /etc/yum.repos.d/* /etc/pip.conf
-    tag: latest
-
-  - name: custom-base-rhel9
-    base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel9:2.18"
-    dependencies:
-      system:
-        - gcc [platform:rpm]
-        - python3-pip [platform:rpm]
-        - python3-devel [platform:rpm]
-        - python3-setuptools [platform:rpm]
-        - python3-gssapi [platform:rpm]
-        - systemd-devel [platform:rpm]
-        - findutils [platform:rpm]
-        - iputils [platform:rpm]
       #python:
       #  - dnspython
       #  - netaddr
       #  - psutil
       #  - pyjwt
       #  - selinux
+      system:
+        - iputils [platform:rpm]
+        # Packages often needed for building deps
+        - gcc [platform:rpm]
+        - python3.11-devel [platform:rpm]
+        - python3.11-requests [platform:rpm]
+        - systemd-devel [platform:rpm]
+
+    build_files:
+      # ee_pull_collections_from_hub: true adds ansible.cfg
+      - src: "{{ lookup('env', 'PWD') + '/ansible-ee.cfg' }}"
+        dest: configs
+      - src: "{{ lookup('env', 'PWD') + '/pip.conf' }}"
+        dest: configs
+
+    build_steps:
+      prepend_base:
+        - ADD _build/configs/pip.conf /etc/pip.conf
+      prepend_final:
+        - ADD _build/configs/ansible-ee.cfg /etc/ansible/ansible.cfg
+      append_final:
+        - RUN rm -rf /etc/yum.repos.d/* /var/{cache,lib}/{dnf,yum} /etc/pip.conf
+
+    tag: latest
+
+  - name: custom-base-rhel9
+    base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel9:2.18"
+
+    dependencies:
+      python_interpreter:
+        package_system: python311
+        python_path: /usr/bin/python3.11
       galaxy:
         collections:
           - ansible.controller
-          #- ansible.eda
+          - ansible.eda
           - ansible.hub
           - ansible.platform
           - ansible.posix
           - ansible.utils
           - ansible.windows
-          - azure.azcollection
+          #- azure.azcollection
           - chocolatey.chocolatey
           #- kubernetes.core
           - microsoft.ad
@@ -135,22 +133,39 @@ ee_list:
           #- infra.leapp
           - community.general
           - community.windows
-          #- containers.podman
+          - containers.podman
           - myllynen.rhel_ansible_roles
           #- myllynen.rhel_image
           - myllynen.windows_ansible_roles
+      #python:
+      #  - dnspython
+      #  - netaddr
+      #  - psutil
+      #  - pyjwt
+      #  - selinux
+      system:
+        - iputils [platform:rpm]
+        # Packages often needed for building deps
+        - gcc [platform:rpm]
+        - python3.11-devel [platform:rpm]
+        - python3.11-requests [platform:rpm]
+        - systemd-devel [platform:rpm]
+
     build_files:
-      - src: "{{ lookup('env', 'PWD') + '/pip.conf' }}"
-        dest: configs
+      # ee_pull_collections_from_hub: true adds ansible.cfg
       - src: "{{ lookup('env', 'PWD') + '/ansible-ee.cfg' }}"
         dest: configs
+      - src: "{{ lookup('env', 'PWD') + '/pip.conf' }}"
+        dest: configs
+
     build_steps:
       prepend_base:
         - ADD _build/configs/pip.conf /etc/pip.conf
       prepend_final:
         - ADD _build/configs/ansible-ee.cfg /etc/ansible/ansible.cfg
       append_final:
-        - RUN rm -rf /etc/yum.repos.d/* /etc/pip.conf
+        - RUN rm -rf /etc/yum.repos.d/* /var/{cache,lib}/{dnf,yum} /etc/pip.conf
+
     tag: latest
 
 
