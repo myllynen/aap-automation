@@ -55,6 +55,10 @@ sudo dnf --enablerepo=ansible-automation-platform-2.6-for-rhel-10-x86_64-rpms in
   ansible-core ansible-builder ansible-lint ansible-navigator ansible-sign
 # Update the inventory for the local environment
 vi inventory
+# Prepare AAP hosts for installation,
+# make sure to review SSH/user config before applying
+vi aap_host_prepare.yml
+ansible-playbook -i inventory aap_host_prepare.yml
 # Run the AAP containerized installer
 ansible-playbook -i inventory ansible.containerized_installer.install
 ```

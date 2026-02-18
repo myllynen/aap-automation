@@ -66,7 +66,7 @@
       - rhn*
       - telnet-server
       - flashrom
-      - '*fonts*'
+      #- '*fonts*'
       - gawk-all-langpacks
       - gcc*
       - geolite*
@@ -79,7 +79,7 @@
       - python3-perf
       - sssd*
       - libsss*
-    packages_remove_autoremove: true
+    packages_remove_autoremove: false
     packages_remove_display_results: true
     service_state_enable:
       - firewalld.service
