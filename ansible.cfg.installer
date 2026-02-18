@@ -8,6 +8,7 @@ forks = 20
 
 stdout_callback = ansible.builtin.default
 callback_result_format = yaml
+callback_result_indentation = 2
 callback_format_pretty = True
 show_task_path_on_failure = True
 callbacks_enabled = ansible.posix.profile_tasks
@@ -17,8 +18,7 @@ debug = bright gray
 verbose = bright gray
 
 [ssh_connection]
-ssh_args = -o ControlMaster=auto -o ControlPersist=600s -o PreferredAuthentications=publickey -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
-# -o StrictHostKeyChecking=accept-new
+ssh_args = -o ControlMaster=auto -o ControlPersist=600s -o PreferredAuthentications=publickey -o StrictHostKeyChecking=accept-new
 control_path = %(directory)s/%%h-%%p-%%r
 pipelining = True
 timeout = 10
