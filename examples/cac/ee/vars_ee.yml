@@ -43,7 +43,7 @@ ee_list:
 
     dependencies:
       python_interpreter:
-        package_system: python311
+        package_system: python3.11
         python_path: /usr/bin/python3.11
       galaxy:
         collections:
@@ -108,7 +108,7 @@ ee_list:
 
     dependencies:
       python_interpreter:
-        package_system: python311
+        package_system: python3.11
         python_path: /usr/bin/python3.11
       galaxy:
         collections:

@@ -23,7 +23,7 @@ images:
 dependencies:
   # Must match Python version with pip in base image
   python_interpreter:
-    package_system: python311
+    package_system: python3.11
     python_path: /usr/bin/python3.11
   # Exclude everything we are not adding ourselves
   exclude:
