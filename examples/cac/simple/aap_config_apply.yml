@@ -29,6 +29,18 @@
     #  - '.*creds.*'
     #  - '.*hub.*'
 
+    # Optionally reject duplicate variable definition
+    # to prevent one setting to override earlier one,
+    # with below known-good exceptions in the CaC dir
+    # Set to empty list to skip check and allow dupes
+    known_good_duplicates:
+      # For independent EE/collection syncing
+      - aap_configuration_async_delay
+      - aap_configuration_async_retries
+      - aap_request_timeout
+      # For independent gateway/controller org
+      - '^aap_organizations_test_org$'
+
     # Settings in files will override these for AAP
     aap_configuration_secure_logging: false
     aap_configuration_dispatcher_exclude_roles:
@@ -38,6 +50,22 @@
     hub_configuration_dispatcher_roles_include_publish: true
 
   tasks:
+    - name: Verify no unexpected duplicate definitions
+      vars:
+        excludes_regex: "{{ known_good_duplicates | join('|') }}"
+      ansible.builtin.shell: >
+        set -o pipefail &&
+        grep -rhP '^\w+:' "{{ config_basedir }}"
+        | sed 's/://'
+        | grep -Ev '({{ excludes_regex }})'
+        | sort
+        | uniq -d
+        | cut -d' ' -f1
+      register: shell_result
+      failed_when: shell_result.rc != 0 or shell_result.stdout_lines | length > 0
+      changed_when: false
+      when: known_good_duplicates | select | length > 0
+
     - name: Read AAP CaC files
       no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       vars:
