@@ -15,7 +15,7 @@ aap_organizations_test_org:
 #      - Automation Hub Published Repository
 
 # NB. Team names must be unique across AAP
-controller_inventories_test_org:
+controller_inventories_test_org_default:
   - name: default
     roles:
       use:
@@ -99,7 +99,7 @@ controller_projects_test_org:
     #scm_update_cache_timeout: "30"
     update_project: "{{ aap_scm_update_projects | default(false) }}"
 
-controller_inventories_test_org:
+controller_inventories_test_org_test:
   - name: Test Inventory
     description: Inventory for testing
     organization: Test Org
