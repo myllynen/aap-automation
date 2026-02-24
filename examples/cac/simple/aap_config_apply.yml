@@ -29,10 +29,9 @@
     #  - '.*creds.*'
     #  - '.*hub.*'
 
-    # Optionally reject duplicate variable definition
-    # to prevent one setting to override earlier one,
-    # with below known-good exceptions in the CaC dir
-    # Set to empty list to skip check and allow dupes
+    # Reject duplicate variable definitions to avoid
+    # a new setting to override an earlier one, with
+    # the below known-good exceptions in the CaC dir
     known_good_duplicates:
       # For independent EE/collection syncing
       - aap_configuration_async_delay
@@ -52,7 +51,7 @@
   tasks:
     - name: Verify no unexpected duplicate definitions
       vars:
-        excludes_regex: "{{ known_good_duplicates | join('|') }}"
+        excludes_regex: "{{ known_good_duplicates | default(['^force_it$}'], true) | join('|') }}"
       ansible.builtin.shell: >
         set -o pipefail &&
         grep -rhP '^\w+:' "{{ config_basedir }}"
@@ -60,10 +59,10 @@
         | grep -Ev '({{ excludes_regex }})'
         | sort
         | uniq -d
+        | awk 'BEGIN {print "Duplicate variable definitions found:\n"} 1'
       register: shell_result
-      failed_when: shell_result.rc != 0 or shell_result.stdout_lines | length > 0
+      failed_when: shell_result.rc != 0 or shell_result.stdout_lines | length > 2
       changed_when: false
-      when: known_good_duplicates | select | length > 0
 
     - name: Read AAP CaC files
       no_log: "{{ aap_configuration_secure_logging | default(false) }}"
