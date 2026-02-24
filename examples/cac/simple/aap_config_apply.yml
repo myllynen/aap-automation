@@ -56,11 +56,10 @@
       ansible.builtin.shell: >
         set -o pipefail &&
         grep -rhP '^\w+:' "{{ config_basedir }}"
-        | sed 's/://'
+        | sed 's/:.*//'
         | grep -Ev '({{ excludes_regex }})'
         | sort
         | uniq -d
-        | cut -d' ' -f1
       register: shell_result
       failed_when: shell_result.rc != 0 or shell_result.stdout_lines | length > 0
       changed_when: false
