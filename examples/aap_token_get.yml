@@ -21,7 +21,7 @@
 
     - name: Store token in file
       ansible.builtin.copy:
-        content: "{{ aap_token.token + '\n' }}"
+        content: "{{ ansible_facts.aap_token.token + '\n' }}"
         dest: "{{ token_file_local }}"
         mode: '0600'
 
