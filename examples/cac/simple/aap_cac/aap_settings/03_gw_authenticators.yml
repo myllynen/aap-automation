@@ -22,8 +22,8 @@ gateway_authenticators:
     create_objects: true
     remove_users: true
     configuration:
-      SERVER_URI:
-        - ldap://ad.example.com:389
+      # Per-environment setting example
+      SERVER_URI: "{{ aap_ad_server_uri }}"
       START_TLS: true
       #BIND_DN: "{{ aap_ad_bind_username }}"
       #BIND_PASSWORD: "{{ aap_ad_bind_password }}"

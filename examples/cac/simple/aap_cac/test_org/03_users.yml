@@ -1,4 +1,5 @@
-aap_user_accounts_test_org:
+# test_org users, all environments
+aap_user_accounts_test_org_common:
   # Administrator for organization
   - username: t_admin
     first_name: Test Org
@@ -29,7 +30,7 @@ aap_user_accounts_test_org:
     last_name: API User
     email: nobody@example.com
 
-gateway_role_user_assignments_test_org:
+gateway_role_user_assignments_test_org_common:
   - user: t_admin
     object_ids:
       - Test Org

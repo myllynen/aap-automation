@@ -1,0 +1,20 @@
+# test_org per-environment users - dev
+
+env_dev_aap_user_accounts_test_org:
+  # Administrator for organization
+  - username: t_admin_dev
+    first_name: Dev
+    last_name: Admin
+    email: nobody@example.com
+
+env_dev_gateway_role_user_assignments_test_org:
+  - user: t_admin_dev
+    object_ids:
+      - Test Org
+    role_definition: Organization Member
+
+  # Organization admin role must be assigned per-user
+  - user: t_admin_dev
+    object_ids:
+      - Test Org
+    role_definition: Organization Admin

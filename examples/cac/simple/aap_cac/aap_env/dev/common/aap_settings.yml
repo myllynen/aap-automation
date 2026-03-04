@@ -1,0 +1,14 @@
+#
+# AAP per-environment settings - dev
+#
+
+# AAP/platform definitions
+aap_hostname: aap-dev.example.com
+
+aap_validate_certs: false
+
+# AAP/environment definitions
+aap_ad_server_uri:
+  - ldap://ad-dev.example.com:389
+#aap_ad_bind_username: cn=aap-ldap,ou=services,ou=corp,dc=example,dc=com
+#aap_log_aggregator_username: aap-logger

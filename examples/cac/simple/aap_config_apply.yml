@@ -8,15 +8,15 @@
     # AAP CaC top level dir
     config_basedir: aap_cac
     # AAP CaC files or directories to read
-    #config_content: aap_config
+    #config_content: aap_settings
     #config_content: test_org
     config_content:
-      - aap_config
+      #- aap_settings
       - default_org
-      - test_org
+      #- test_org
     #config_content:
-    #  - aap_config/06_hub_collections.yml
-    #  - aap_config/07_hub_exec_envs.yml
+    #  - aap_settings/06_hub_collections.yml
+    #  - aap_settings/07_hub_execution_environments.yml
     #config_content:
     #  - test_org/02_teams.yml
     #  - test_org/03_users.yml
@@ -54,14 +54,27 @@
         excludes_regex: "{{ known_good_duplicates | default(['^force_it$}'], true) | join('|') }}"
       ansible.builtin.shell: >
         set -o pipefail &&
-        grep -rhP '^\w+:' "{{ config_basedir }}"
+        grep -Ehr '^\w+:' --exclude-dir=common "{{ config_basedir }}"
         | sed 's/:.*//'
         | grep -Ev '({{ excludes_regex }})'
         | sort
         | uniq -d
         | awk 'BEGIN {print "Duplicate variable definitions found:\n"} 1'
-      register: shell_result
-      failed_when: shell_result.rc != 0 or shell_result.stdout_lines | length > 2
+      register: duplicate_check
+      failed_when: duplicate_check.rc != 0 or duplicate_check.stdout_lines | length > 2
+      changed_when: false
+
+    - name: Verify correct form of environment-specific variables
+      ansible.builtin.shell: >
+        set -o pipefail &&
+        grep -Ehr '^\w+:' --exclude-dir=common "{{ config_basedir }}/aap_env"
+        | sed 's/:.*//'
+        | grep -v '^env_'
+        | sort
+        | uniq
+        | awk 'BEGIN {print "Forbidden variable names found:\n"} 1'
+      register: env_vars_check
+      failed_when: env_vars_check.rc == 2 or env_vars_check.stdout_lines | length > 2
       changed_when: false
 
     - name: Read AAP CaC files
@@ -70,6 +83,7 @@
         list_input: "{{ false if config_content is string else true }}"
         content_list: "{{ config_content if list_input else [config_content] }}"
         dir_input: "{{ false if item.endswith('yml') else true }}"
+        env_content: "{{ ['aap_env/' + aap_env] }}"
       ansible.builtin.include_vars:
         dir: "{{ (config_basedir + '/' + item) if dir_input else omit }}"
         depth: "{{ congig_depth if config_depth is defined and dir_input else omit }}"
@@ -77,7 +91,7 @@
         ignore_files: "{{ config_ignore if config_ignore is defined and dir_input else omit }}"
         ignore_unknown_extensions: "{{ true if dir_input else omit }}"
         file: "{{ (config_basedir + '/' + item) if not dir_input else omit }}"
-      loop: "{{ content_list }}"
+      loop: "{{ env_content + content_list }}"
 
     - name: Apply AAP configuration
       vars:
