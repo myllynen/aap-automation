@@ -17,6 +17,7 @@ aap_organizations_test_org:
 # NB. Team names must be unique across AAP
 controller_inventories_test_org_default:
   - name: default
+    organization: Test Org
     roles:
       use:
         teams:
