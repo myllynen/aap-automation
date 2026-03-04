@@ -1,11 +1,11 @@
-# test_org environment includes
+# Organization environment includes - test_org
 
-# NB. Do not set default to require environment-specific configuration
+# NB: Leave default unset to force environment-specific configuration
 
-# test_org per-environment users
+# Per-environment users - test_org
 aap_user_accounts_test_org_env: >-
   {{ lookup('vars', 'env_' + aap_env + '_aap_user_accounts_test_org', default=[]) }}
 
-# test_org per-environment roles
+# Per-environment roles - test_org
 gateway_role_user_assignments_test_org_env: >-
   {{ lookup('vars', 'env_' + aap_env + '_gateway_role_user_assignments_test_org', default=[]) }}

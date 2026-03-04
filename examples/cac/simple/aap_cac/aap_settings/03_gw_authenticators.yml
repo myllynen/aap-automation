@@ -22,7 +22,7 @@ gateway_authenticators:
     create_objects: true
     remove_users: true
     configuration:
-      # Per-environment setting example
+      # Per-environment AAP setting example
       SERVER_URI: "{{ aap_ad_server_uri }}"
       START_TLS: true
       #BIND_DN: "{{ aap_ad_bind_username }}"
