@@ -1,0 +1,57 @@
+---
+# https://www.automate.nyc/ansible/create-oauth-application-token/
+# NB. Do NOT use - see https://redhat.atlassian.net/browse/AAP-56456
+- name: Create AAP OAuth Application token for Service Account use
+  hosts: localhost
+  connection: local
+  become: false
+  gather_facts: false
+  vars:
+    aap_hostname: gateway.example.com
+    # This must be the AAP superuser for the time being,
+    # Org Admin is not enough using AAP 2.6 / Feb 25 '26
+    # and ansible.platform collection version 2.6.20260306
+    aap_username: admin
+    aap_password: Foobar_12
+    token_user_org: Test Org
+    token_user_name: t_api_user
+
+  tasks:
+    - name: Create AAP OAuth Application associated with Service Account user
+      ansible.platform.application:
+        gateway_hostname: "{{ aap_hostname }}"
+        gateway_username: "{{ aap_username }}"
+        gateway_password: "{{ aap_password }}"
+        gateway_validate_certs: false
+        name: OAuth Application for {{ token_user_name }}
+        description: OAuth Application for Service Account use
+        organization: "{{ token_user_org }}"
+        user: "{{ token_user_name }}"
+        authorization_grant_type: authorization-code
+        client_type: confidential
+        redirect_uris:
+          - https://{{ aap_hostname }}/api/gateway/v1/
+        state: present
+      register: oauth_application
+
+    - name: Display OAuth Application for {{ token_user_name }}
+      ansible.builtin.debug:
+        var: oauth_application
+
+    - name: Create OAuth Application token for Service Account use
+      ansible.platform.token:
+        gateway_hostname: "{{ aap_hostname }}"
+        gateway_username: "{{ aap_username }}"
+        gateway_password: "{{ aap_password }}"
+        gateway_validate_certs: false
+        application: OAuth Application for {{ token_user_name }}
+        description: OAuth Application token for Service Account use
+        organization: "{{ token_user_org }}"
+        scope: write
+        state: present
+      register: oauth_application_token
+      when: oauth_application_token is not defined
+
+    - name: Display Service Account OAuth Application token
+      ansible.builtin.debug:
+        var: oauth_application_token
