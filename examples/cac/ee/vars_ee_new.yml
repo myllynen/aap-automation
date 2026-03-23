@@ -44,8 +44,8 @@ ee_list:
     dependencies:
       # Must match Python version with pip in base image
       python_interpreter:
-        package_system: python3.11
-        python_path: /usr/bin/python3.11
+        package_system: python3.12
+        python_path: /usr/bin/python3.12
       # Exclude everything we are not adding ourselves
       exclude:
         # This would only consider deps from these collections
@@ -69,8 +69,9 @@ ee_list:
         - iputils
         # Packages often needed for building deps
         #- gcc [platform:rpm]
-        #- python3.11-devel [platform:rpm]
-        #- python3.11-requests [platform:rpm]
+        # Must match Python version with pip in base image
+        #- python3.12-devel [platform:rpm]
+        #- python3.12-requests [platform:rpm]
         #- systemd-devel [platform:rpm]
 
     build_files:

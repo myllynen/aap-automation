@@ -42,6 +42,7 @@ ee_list:
     base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel9:2.16"
 
     dependencies:
+      # Must match Python version with pip in base image
       python_interpreter:
         package_system: python3.11
         python_path: /usr/bin/python3.11
@@ -82,6 +83,7 @@ ee_list:
         - iputils [platform:rpm]
         # Packages often needed for building deps
         - gcc [platform:rpm]
+        # Must match Python version with pip in base image
         - python3.11-devel [platform:rpm]
         - python3.11-requests [platform:rpm]
         - systemd-devel [platform:rpm]
@@ -107,6 +109,7 @@ ee_list:
     base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel9:2.18"
 
     dependencies:
+      # Must match Python version with pip in base image
       python_interpreter:
         package_system: python3.11
         python_path: /usr/bin/python3.11
@@ -147,6 +150,7 @@ ee_list:
         - iputils [platform:rpm]
         # Packages often needed for building deps
         - gcc [platform:rpm]
+        # Must match Python version with pip in base image
         - python3.11-devel [platform:rpm]
         - python3.11-requests [platform:rpm]
         - systemd-devel [platform:rpm]
