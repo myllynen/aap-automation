@@ -1,4 +1,4 @@
-# Per-environment vault - prod env - platform
+# Per-environment vault - dev env - platform
 
 #aap_ad_bind_password: changeme
 #aap_log_aggregator_password: changeme

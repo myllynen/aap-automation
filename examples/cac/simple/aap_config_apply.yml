@@ -49,12 +49,38 @@
     hub_configuration_dispatcher_roles_include_publish: true
 
   tasks:
-    - name: Verify no unexpected duplicate definitions
-      vars:
-        excludes_regex: "{{ known_good_duplicates | default(['^force_it$}'], true) | join('|') }}"
+    - name: Verify correct form of environment-specific variables - common
       ansible.builtin.shell: >
         set -o pipefail &&
-        grep -Ehr '^\w+:' --exclude-dir=common "{{ config_basedir }}"
+        grep -Ehr '^\w+:' {{ config_basedir }}/aap_env/*/common
+        | sed 's/:.*//'
+        | grep -v '^aap_'
+        | sort
+        | uniq
+        | awk 'BEGIN {print "Incorrect variable names found:\n"} 1'
+      register: env_vars_common_check
+      failed_when: env_vars_common_check.rc == 2 or env_vars_common_check.stdout_lines | length > 2
+      changed_when: false
+
+    - name: Verify correct form of environment-specific variables - organizations
+      ansible.builtin.shell: >
+        set -o pipefail &&
+        grep -Ehr '^\w+:' --exclude-dir=common {{ config_basedir }}/aap_env
+        | sed 's/:.*//'
+        | grep -v '^env_'
+        | sort
+        | uniq
+        | awk 'BEGIN {print "Incorrect variable names found:\n"} 1'
+      register: env_vars_orgs_check
+      failed_when: env_vars_orgs_check.rc == 2 or env_vars_orgs_check.stdout_lines | length > 2
+      changed_when: false
+
+    - name: Verify no unexpected duplicate variable definitions
+      vars:
+        excludes_regex: "{{ known_good_duplicates | default(['^check_all$'], true) | join('|') }}"
+      ansible.builtin.shell: >
+        set -o pipefail &&
+        grep -Ehr '^\w+:' --exclude-dir=common {{ config_basedir }}
         | sed 's/:.*//'
         | grep -Ev '({{ excludes_regex }})'
         | sort
@@ -62,19 +88,6 @@
         | awk 'BEGIN {print "Duplicate variable definitions found:\n"} 1'
       register: duplicate_check
       failed_when: duplicate_check.rc != 0 or duplicate_check.stdout_lines | length > 2
-      changed_when: false
-
-    - name: Verify correct form of environment-specific variables
-      ansible.builtin.shell: >
-        set -o pipefail &&
-        grep -Ehr '^\w+:' --exclude-dir=common "{{ config_basedir }}/aap_env"
-        | sed 's/:.*//'
-        | grep -v '^env_'
-        | sort
-        | uniq
-        | awk 'BEGIN {print "Forbidden variable names found:\n"} 1'
-      register: env_vars_check
-      failed_when: env_vars_check.rc == 2 or env_vars_check.stdout_lines | length > 2
       changed_when: false
 
     - name: Read AAP CaC files
