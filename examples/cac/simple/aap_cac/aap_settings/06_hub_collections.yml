@@ -12,6 +12,7 @@ redhat_auth_url: https://sso.redhat.com/auth/realms/redhat-external/protocol/ope
 redhat_auth_token: "{{ aap_redhat_hub_token }}"
 
 aap_request_timeout: 5
+hub_repository: staging
 hub_auto_approve: true
 hub_overwrite_existing: true
 aap_configuration_working_dir: /var/tmp
