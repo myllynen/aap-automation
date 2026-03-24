@@ -38,10 +38,3 @@ aap_password: "{{ aap_admin_password }}"
 # Needed for configuring automation analytics
 #aap_redhat_client_id: your-rhn-client-id
 #aap_redhat_client_secret: your-rhn-client-secret
-
-#
-# AAP/environment credentials
-#
-
-#aap_ad_bind_password: changeme
-#aap_log_aggregator_password: changeme
