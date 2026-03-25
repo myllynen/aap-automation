@@ -10,10 +10,9 @@
       ansible.builtin.uri:
         url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
         method: POST
-        headers:
-          accept: application/json
         body_format: form-urlencoded
         body:
           client_id: cloud-services
           grant_type: refresh_token
           refresh_token: "{{ aap_redhat_hub_token }}"
+      changed_when: true
