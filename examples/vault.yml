@@ -18,7 +18,7 @@ aap_password: "{{ aap_admin_password }}"
 
 # AAP automation hub token
 # This needs to be added after installation
-#hub_token: "{{ lookup('file', lookup('env', 'PWD') + '/pah_token.txt') }}"
+#hub_token: "{{ lookup('file', lookup('env', 'PWD') + '/hub_token.txt') }}"
 
 #
 # AAP/Red Hat credentials

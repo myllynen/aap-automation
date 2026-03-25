@@ -13,6 +13,7 @@
     # List of PAH EE images to update
     # Set to empty list to update all
     ee_list: []
+    #  - custom/custom-base-rhel9
     #  - custom/custom-full-rhel9
 
     # This must be either:
@@ -42,7 +43,9 @@
         body_format: json
         body:
           private: "{{ ee_private }}"
-        status_code: [200, 202]
+        status_code:
+          - 200
+          - 202
         validate_certs: false
       changed_when: true
       loop: "{{ ee_images.json.results }}"
