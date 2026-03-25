@@ -28,7 +28,7 @@ hub_namespaces:
     avatar_url: https://avatars.githubusercontent.com/u/24413632
     description: Collections from myllynen's GitHub repositories
 
-# This is mutually exclusive with hub_collections
+# This is mutually exclusive with hub_custom_collections
 #hub_collection_list:
 #  - collection_name: custom.example_collection
 #    collection_local_path: /tmp/collections/custom.example_collection-1.2.3

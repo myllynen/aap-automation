@@ -71,6 +71,12 @@ controller_credential_types_test_org:
 
 controller_execution_environments_test_org:
   - name: Custom Base EE
+    image: "{{ aap_hostname }}/custom/custom-base-rhel9"
+    pull: always
+    #pull: missing
+    credential: Automation Hub Container Registry
+
+  - name: Custom Full EE
     image: "{{ aap_hostname }}/custom/custom-full-rhel9"
     pull: always
     #pull: missing

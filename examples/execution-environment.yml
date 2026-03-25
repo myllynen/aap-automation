@@ -18,7 +18,7 @@ options:
 
 images:
   base_image:
-    name: gateway.example.com/ee-supported-rhel9:latest
+    name: gateway.example.com/ansible-automation-platform-26/ee-supported-rhel9:latest
 
 dependencies:
   # Must match Python version with pip in base image
