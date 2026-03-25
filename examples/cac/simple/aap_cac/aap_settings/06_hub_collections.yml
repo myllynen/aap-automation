@@ -108,11 +108,11 @@ hub_collection_remotes:
     sync_dependencies: false
     requirements:
       - name: community.general
-        version: 11.4.2
+        version: 11.4.6
       - name: community.windows
         version: 3.1.0
       - name: containers.podman
-        version: 1.18.0
+        version: 1.19.0
 
 hub_collection_repositories:
   - name: rh-certified
