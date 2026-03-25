@@ -20,7 +20,7 @@
     # This must be either:
     # * true   - set images private and require authentcation for pulling EEs
     # * false  - set images public and thus allow unauthenticated EE image pulls
-    aap_ee_private: false
+    aap_ee_private: true
 
     container_index: /api/galaxy/pulp/api/v3/distributions/container/container/
   tasks:
