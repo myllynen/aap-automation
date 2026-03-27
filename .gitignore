@@ -6,4 +6,4 @@ examples/debug.yml
 examples/hub_token.txt
 examples/id_ed25519.machine
 examples/id_ed25519.scm
-examples/rh_token.txt
+examples/redhat_token.txt
