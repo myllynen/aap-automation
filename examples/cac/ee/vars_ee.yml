@@ -37,15 +37,16 @@ ee_update_base_images: true
 ee_pull_collections_from_hub: true
 ee_registry_dest: "{{ ah_host }}/custom"
 
-ee_list:
+ee_list_old:
   - name: custom-base-rhel9
+    tag: latest
     base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel9:2.16"
 
     dependencies:
       # Must match Python version with pip in base image
       python_interpreter:
-        package_system: python3.11
-        python_path: /usr/bin/python3.11
+        package_system: python3.12
+        python_path: /usr/bin/python3.12
       galaxy:
         collections:
           - ansible.controller
@@ -84,8 +85,8 @@ ee_list:
         # Packages often needed for building deps
         - gcc [platform:rpm]
         # Must match Python version with pip in base image
-        - python3.11-devel [platform:rpm]
-        - python3.11-requests [platform:rpm]
+        - python3.12-devel [platform:rpm]
+        - python3.12-requests [platform:rpm]
         - systemd-devel [platform:rpm]
 
     build_files:
@@ -103,16 +104,16 @@ ee_list:
       append_final:
         - RUN rm -rf /etc/yum.repos.d/* /var/{cache,lib}/{dnf,yum} /etc/pip.conf
 
-    tag: latest
-
+ee_list:
   - name: custom-base-rhel9
+    tag: latest
     base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel9:2.18"
 
     dependencies:
       # Must match Python version with pip in base image
       python_interpreter:
-        package_system: python3.11
-        python_path: /usr/bin/python3.11
+        package_system: python3.12
+        python_path: /usr/bin/python3.12
       galaxy:
         collections:
           - ansible.controller
@@ -151,8 +152,8 @@ ee_list:
         # Packages often needed for building deps
         - gcc [platform:rpm]
         # Must match Python version with pip in base image
-        - python3.11-devel [platform:rpm]
-        - python3.11-requests [platform:rpm]
+        - python3.12-devel [platform:rpm]
+        - python3.12-requests [platform:rpm]
         - systemd-devel [platform:rpm]
 
     build_files:
@@ -169,8 +170,6 @@ ee_list:
         - ADD _build/configs/ansible-ee.cfg /etc/ansible/ansible.cfg
       append_final:
         - RUN rm -rf /etc/yum.repos.d/* /var/{cache,lib}/{dnf,yum} /etc/pip.conf
-
-    tag: latest
 
 
 # https://github.com/ansible/galaxy_collection/issues/329
