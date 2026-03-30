@@ -4,7 +4,7 @@ aap_organizations_test_org:
 
     max_hosts: 10
     instance_groups:
-      - default
+      - executionplane
     default_environment: Custom Base EE
     # NB. At least one credential needs to be
     #     defined if downloading collections.
@@ -15,9 +15,8 @@ aap_organizations_test_org:
 #      - Automation Hub Published Repository
 
 # NB. Team names must be unique across AAP
-controller_inventories_test_org_default:
-  - name: default
-    organization: Test Org
+controller_instance_groups_test_org_default:
+  - name: executionplane
     roles:
       use:
         teams:
@@ -71,16 +70,14 @@ controller_credential_types_test_org:
 
 controller_execution_environments_test_org:
   - name: Custom Base EE
+    organization: Test Org
     image: "{{ aap_hostname }}/custom/custom-base-rhel9"
-    pull: always
-    #pull: missing
-    credential: Automation Hub Container Registry
+    pull: never
 
   - name: Custom Full EE
+    organization: Test Org
     image: "{{ aap_hostname }}/custom/custom-full-rhel9"
-    pull: always
-    #pull: missing
-    credential: Automation Hub Container Registry
+    pull: never
 
 controller_projects_test_org:
   - name: Test Project for Git Inventory
@@ -113,6 +110,7 @@ controller_inventories_test_org_test:
     roles:
       use:
         teams:
+          - t_developers
           - t_operators
 
 controller_inventory_sources_test_org:
@@ -139,8 +137,8 @@ controller_templates_test_org:
     #credentials: Test Credential
     #limit: localhost
     verbosity: "0"
-    extra_vars:
-      ansible_connection: local
+    #extra_vars:
+    #  ansible_connection: local
     roles:
       execute:
         teams:

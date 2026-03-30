@@ -17,6 +17,10 @@ controller_inventories_default_org:
 
 controller_credentials_default_org:
   - name: Demo Credential
+    organization: null
+    credential_type: Machine
+    state: absent
+  - name: Demo Credential
     organization: Default
     credential_type: Machine
     state: absent

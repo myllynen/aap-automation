@@ -7,7 +7,7 @@ hub_configuration_ee_image_secure_logging: false
 aap_request_timeout: 5
 
 aap_configuration_async_retries: 100
-aap_configuration_async_delay: 3
+aap_configuration_async_delay: 6
 
 
 hub_ee_registries:
@@ -18,7 +18,6 @@ hub_ee_registries:
     tls_validation: true
     download_concurrency: 100
     rate_limit: 5
-    index: true
     sync: true
     wait: true
 
