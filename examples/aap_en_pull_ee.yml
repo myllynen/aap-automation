@@ -1,0 +1,46 @@
+---
+- name: Pull execution environments to execution nodes
+  hosts: execution_nodes
+  become: false
+  gather_facts: false
+  vars:
+    # AAP admin user
+    ansible_user: admin
+    # AAP admin home
+    admin_home: /home/{{ ansible_user }}
+
+    # List of AAP EE images to remove on ENs
+    # NB. Do not remove the managed EE images
+    aap_en_ee_remove: []
+
+    # List of AAP PAH EE images to pull on ENs
+    aap_en_ee_pull:
+      - ansible-automation-platform-26/ee-minimal-rhel9:latest
+      - ansible-automation-platform-26/ee-supported-rhel9:latest
+      - custom/custom-base-rhel9:latest
+      - custom/custom-full-rhel9:latest
+
+  tasks:
+    - name: Remove EE images
+      environment:
+        CONTAINERS_STORAGE_CONF: "{{ admin_home }}/aap/containers/storage.conf"
+      containers.podman.podman_image:
+        name: "{{ item }}"
+        state: absent
+      loop: "{{ aap_en_ee_remove }}"
+
+    - name: Login to AAP automation hub container registry
+      containers.podman.podman_login:
+        registry: "{{ aap_hostname }}"
+        username: "{{ aap_username }}"
+        password: "{{ aap_password }}"
+        tlsverify: false
+
+    - name: Pull EE images
+      environment:
+        CONTAINERS_STORAGE_CONF: "{{ admin_home }}/aap/containers/storage.conf"
+      containers.podman.podman_image:
+        name: "{{ aap_hostname + '/' + item | split(':') | first }}"
+        tag: "{{ item | split(':') | last }}"
+        validate_certs: false
+      loop: "{{ aap_en_ee_pull }}"
