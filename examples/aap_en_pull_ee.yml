@@ -21,6 +21,13 @@
       - custom/custom-full-rhel9:latest
 
   tasks:
+    - name: Login to AAP automation hub container registry
+      containers.podman.podman_login:
+        registry: "{{ aap_hostname }}"
+        username: "{{ aap_username }}"
+        password: "{{ aap_password }}"
+        tlsverify: false
+
     - name: Remove EE images
       environment:
         CONTAINERS_STORAGE_CONF: "{{ admin_home }}/aap/containers/storage.conf"
@@ -28,13 +35,6 @@
         name: "{{ item }}"
         state: absent
       loop: "{{ aap_en_ee_remove }}"
-
-    - name: Login to AAP automation hub container registry
-      containers.podman.podman_login:
-        registry: "{{ aap_hostname }}"
-        username: "{{ aap_username }}"
-        password: "{{ aap_password }}"
-        tlsverify: false
 
     - name: Pull EE images
       environment:
