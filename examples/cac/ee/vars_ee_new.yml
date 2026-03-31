@@ -1,4 +1,4 @@
-# Ansible Automation Platform execution environments build definitions
+# Ansible Automation Platform execution environment image build definitions
 
 ah_host: "{{ aap_hostname }}"
 ee_ah_host: "{{ ah_host }}"
@@ -17,7 +17,7 @@ ee_build_arg_defaults:
   ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: -vvv
   #ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --ignore-certs --no-deps --upgrade -vvv
   PKGMGR_PRESERVE_CACHE: always
-#ee_builder_dir: /var/tmp/build
+#ee_builder_dir: /var/tmp/aap-ee-build
 #ee_builder_dir_clean: false
 ee_build_options:
   container_init:
@@ -35,10 +35,10 @@ ee_squash: new
 ee_prune_images: true
 ee_update_base_images: true
 ee_pull_collections_from_hub: true
-ee_registry_dest: "{{ ah_host }}/custom"
+ee_registry_dest: "{{ ah_host }}"
 
 ee_list:
-  - name: custom-full-rhel9
+  - name: custom/custom-full-rhel9
     tag: latest
     base_image: "{{ ee_ah_host }}/ansible-automation-platform-26/ee-supported-rhel9:latest"
 
@@ -84,11 +84,11 @@ ee_list:
 
     build_steps:
       prepend_base:
-        - ADD _build/configs/pip.conf /etc/ansible/pip.conf
+        - COPY _build/configs/pip.conf /etc/ansible/pip.conf
       prepend_galaxy:
-        - ADD _build/configs/ansible.cfg /etc/ansible/ansible.cfg
+        - COPY _build/configs/ansible.cfg /etc/ansible/ansible.cfg
       prepend_final:
-        - ADD _build/configs/ansible-ee.cfg /etc/ansible/ansible.cfg
+        - COPY _build/configs/ansible-ee.cfg /etc/ansible/ansible.cfg
       append_final:
         - RUN rm -rf /etc/yum.repos.d/* /var/{cache,lib}/{dnf,yum} /etc/pip.conf
 

@@ -1,5 +1,5 @@
 ---
-- name: Create execution environments
+- name: Create custom execution environment images
   hosts: all
   become: false
   gather_facts: false
