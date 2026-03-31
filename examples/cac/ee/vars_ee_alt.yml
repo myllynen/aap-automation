@@ -38,6 +38,7 @@ ee_pull_collections_from_hub: true
 ee_registry_dest: "{{ ah_host }}"
 
 ee_list:
+  # Keep in sync with DESCRIPTION!
   - name: custom/custom-full-rhel9
     tag: latest
     base_image: "{{ ee_ah_host }}/ansible-automation-platform-26/ee-supported-rhel9:latest"
@@ -62,6 +63,7 @@ ee_list:
         - COPY _build/configs/ansible-ee.cfg /etc/ansible/ansible.cfg
       append_final:
         - RUN rm -rf /etc/yum.repos.d/* /var/{cache,lib}/{dnf,yum} /etc/pip.conf
+        - ENV DESCRIPTION="custom/custom-full-rhel9"
 
 
 # https://github.com/ansible/galaxy_collection/issues/329
