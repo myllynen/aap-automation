@@ -15,10 +15,10 @@
 
     # List of AAP PAH EE images to pull on ENs
     aap_en_ee_pull:
-      - ansible-automation-platform-26/ee-minimal-rhel9:latest
-      - ansible-automation-platform-26/ee-supported-rhel9:latest
       - custom/custom-base-rhel9:latest
       - custom/custom-full-rhel9:latest
+      #- ansible-automation-platform-26/ee-minimal-rhel9:latest
+      #- ansible-automation-platform-26/ee-supported-rhel9:latest
 
   tasks:
     - name: Login to AAP automation hub container registry
@@ -42,5 +42,5 @@
       containers.podman.podman_image:
         name: "{{ aap_hostname + '/' + item | split(':') | first }}"
         tag: "{{ item | split(':') | last }}"
-        validate_certs: false
+        tlsverify: false
       loop: "{{ aap_en_ee_pull }}"
