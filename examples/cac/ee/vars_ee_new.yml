@@ -68,7 +68,7 @@ ee_list:
         - fastapi
         - flask
       system:
-        - iputils
+        - iputils [platform:rpm]
         # Packages often needed for building deps
         #- gcc [platform:rpm]
         # Must match Python version with pip in base image
@@ -86,8 +86,6 @@ ee_list:
     build_steps:
       prepend_base:
         - COPY _build/configs/pip.conf /etc/ansible/pip.conf
-      prepend_galaxy:
-        - COPY _build/configs/ansible.cfg /etc/ansible/ansible.cfg
       prepend_final:
         - COPY _build/configs/ansible-ee.cfg /etc/ansible/ansible.cfg
       append_final:

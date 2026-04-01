@@ -82,6 +82,7 @@ ee_list_old:
       #  - pyjwt
       #  - selinux
       system:
+        #- findutils [platform:rpm]
         - iputils [platform:rpm]
         # Packages often needed for building deps
         - gcc [platform:rpm]
@@ -151,6 +152,7 @@ ee_list:
       #  - pyjwt
       #  - selinux
       system:
+        #- findutils [platform:rpm]
         - iputils [platform:rpm]
         # Packages often needed for building deps
         - gcc [platform:rpm]

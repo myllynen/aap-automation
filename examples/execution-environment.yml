@@ -33,7 +33,7 @@ dependencies:
     python:
       - ~^(?!fastapi|flask).*
     system:
-      - ~^(?!iputils).*
+      - ~^(?!findutils|iputils).*
   galaxy:
     collections:
       - community.general
@@ -45,7 +45,8 @@ dependencies:
     - fastapi
     - flask
   system:
-    - iputils
+    #- findutils [platform:rpm]
+    - iputils [platform:rpm]
     # Packages often needed for building deps
     #- gcc [platform:rpm]
     #- python3.12-devel [platform:rpm]
