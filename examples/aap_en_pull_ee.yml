@@ -42,5 +42,6 @@
       containers.podman.podman_image:
         name: "{{ aap_hostname + '/' + item | split(':') | first }}"
         tag: "{{ item | split(':') | last }}"
+        force: true
         tlsverify: false
       loop: "{{ aap_en_ee_pull }}"
