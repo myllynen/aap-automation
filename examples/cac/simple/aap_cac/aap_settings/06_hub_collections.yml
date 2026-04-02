@@ -107,6 +107,8 @@ hub_collection_remotes:
     policy: immediate
     sync_dependencies: false
     requirements:
+      - name: community.crypto
+        version: 2.26.7
       - name: community.general
         version: 11.4.6
       - name: community.windows
