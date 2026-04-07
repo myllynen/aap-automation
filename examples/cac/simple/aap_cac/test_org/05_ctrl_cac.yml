@@ -8,11 +8,11 @@ aap_organizations_test_org:
     default_environment: Custom Base EE
     # NB. At least one credential needs to be
     #     defined if downloading collections.
-#    galaxy_credentials:
-#      - Automation Hub RH Certified Repository
-#      - Automation Hub Validated Repository
-#      - Automation Hub Community Repository
-#      - Automation Hub Published Repository
+    galaxy_credentials:
+      - Automation Hub Collections Certified Repository
+      - Automation Hub Collections Validated Repository
+      - Automation Hub Collections Community Repository
+      - Automation Hub Collections Published Repository
 
 # NB. Team names must be unique across AAP
 controller_instance_groups_test_org_default:
@@ -72,11 +72,13 @@ controller_execution_environments_test_org:
   - name: Custom Base EE
     organization: Test Org
     image: "{{ aap_hostname }}/custom/custom-base-rhel9"
+    #credential: Automation Hub Container Registry
     pull: never
 
   - name: Custom Full EE
     organization: Test Org
     image: "{{ aap_hostname }}/custom/custom-full-rhel9"
+    #credential: Automation Hub Container Registry
     pull: never
 
 controller_projects_test_org:
@@ -86,9 +88,9 @@ controller_projects_test_org:
     scm_type: git
     scm_url: https://github.com/myllynen/autotest.git
     #credential: Test Org SCM Credential
-    scm_clean: true
+    scm_clean: false
     scm_update_on_launch: false
-    #scm_update_cache_timeout: "30"
+    #scm_update_cache_timeout: 30
     update_project: "{{ aap_scm_update_projects | default(false) }}"
 
   - name: Test Project
@@ -97,10 +99,10 @@ controller_projects_test_org:
     default_environment: Custom Base EE
     scm_type: git
     scm_url: https://github.com/myllynen/misc.git
-    #credential: Test Org SCM Credential
-    scm_clean: true
+    credential: Test Credential
+    scm_clean: false
     scm_update_on_launch: false
-    #scm_update_cache_timeout: "30"
+    #scm_update_cache_timeout: 30
     update_project: "{{ aap_scm_update_projects | default(false) }}"
 
 controller_inventories_test_org_test:
@@ -124,7 +126,9 @@ controller_inventory_sources_test_org:
     source_path: inventory
     overwrite: true
     overwrite_vars: true
-    verbosity: 2
+    update_on_launch: false
+    #update_cache_timeout: 30
+    #verbosity: 2
 
 controller_templates_test_org:
   - name: Test Job Template
@@ -136,7 +140,7 @@ controller_templates_test_org:
     playbook: debug.yml
     #credentials: Test Credential
     #limit: localhost
-    verbosity: "0"
+    verbosity: 0
     #extra_vars:
     #  ansible_connection: local
     roles:
@@ -153,7 +157,7 @@ controller_templates_test_org:
     playbook: random_fail.yml
     #credentials: Test Credential
     #limit: localhost
-    verbosity: "0"
+    verbosity: 0
     extra_vars:
       message: This might fail
 

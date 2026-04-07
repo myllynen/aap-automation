@@ -16,6 +16,11 @@ controller_inventories_default_org:
     state: absent
 
 controller_credentials_default_org:
+  # Managed credentials cannot be deleted
+  #- name: Ansible Galaxy
+  #  organization: null
+  #  credential_type: Ansible Galaxy/Automation Hub API Token
+  #  state: absent
   - name: Demo Credential
     organization: null
     credential_type: Machine
