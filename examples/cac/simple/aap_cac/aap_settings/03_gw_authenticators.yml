@@ -35,7 +35,7 @@ gateway_authenticators:
       GROUP_SEARCH:
         - ou=groups,ou=corp,dc=example,dc=com
         - SCOPE_SUBTREE
-        - (objectClass=group)
+        - "(objectClass=group)"
       #USER_DN_TEMPLATE: sAMAccountName=%(user)s,ou=users,ou=corp,dc=example,dc=com
       USER_ATTR_MAP:
         first_name: givenName
@@ -45,7 +45,7 @@ gateway_authenticators:
         -
           - ou=users,ou=corp,dc=example,dc=com
           - SCOPE_SUBTREE
-          - (sAMAccountName=%(user)s)
+          - "(sAMAccountName=%(user)s)"
 
   - name: Red Hat IdM
     order: 3
@@ -67,7 +67,7 @@ gateway_authenticators:
       GROUP_SEARCH:
         - cn=groups,cn=accounts,dc=example,dc=com
         - SCOPE_SUBTREE
-        - (objectClass=posixgroup)
+        - "(objectClass=posixgroup)"
       #USER_DN_TEMPLATE: uid=%(user)s,cn=users,cn=accounts,dc=example,dc=com
       USER_ATTR_MAP:
         first_name: givenName
@@ -77,7 +77,7 @@ gateway_authenticators:
         -
           - cn=users,cn=accounts,dc=example,dc=com
           - SCOPE_SUBTREE
-          - (uid=%(user)s)
+          - "(uid=%(user)s)"
 
   - name: Keycloak
     order: 4
@@ -93,3 +93,43 @@ gateway_authenticators:
       KEY: aapoidc
       PUBLIC_KEY: "{{ aap_keycloak_public_key | default('changeme') }}"
       SECRET: "{{ aap_keycloak_secret | default('changeme') }}"
+
+  - name: Okta
+    type: ansible_base.authentication.authenticator_plugins.saml
+    slug: okta
+    order: 5
+    enabled: false
+    create_objects: true
+    remove_users: true
+    configuration:
+      ADDITIONAL_UNVERIFIED_ARGS:
+        GET_ALL_EXTRA_DATA: true
+      CALLBACK_URL: https://gateway.example.com/api/gateway/social/complete/ansible_base-authentication-authenticator_plugins-saml__okta/
+      EXTRA_DATA: []
+      IDP_ATTR_EMAIL: email
+      IDP_ATTR_FIRST_NAME: firstName
+      IDP_ATTR_LAST_NAME: lastName
+      IDP_ATTR_USERNAME: login
+      IDP_ATTR_USER_PERMANENT_ID: login
+      IDP_ENTITY_ID: http://www.okta.com/0123456789abcdefg
+      IDP_GROUPS: member-of
+      IDP_URL: https://okta.example.com/app/aap/0123456789abcdefg/sso/saml
+      IDP_X509_CERT: "{{ aap_okta_idp_cert }}"
+      ORG_INFO:
+        en-US:
+          displayname: Acme AAP
+          name: Ansible Automation Platform
+          url: https://gateway.example.com
+      SECURITY_CONFIG:
+        requestedAuthnContext: false
+      SP_ENTITY_ID: https://gateway.example.com
+      SP_EXTRA:
+        requestedAuthnContext: false
+      SP_PRIVATE_KEY: "{{ aap_okta_sp_private_key }}"
+      SP_PUBLIC_CERT: "{{ aap_okta_sp_cert }}"
+      SUPPORT_CONTACT:
+        emailAddress: admin@example.com
+        givenName: Admin User
+      TECHNICAL_CONTACT:
+        emailAddress: admin@example.com
+        givenName: Admin User
