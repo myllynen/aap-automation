@@ -9,10 +9,10 @@
   tasks:
     - name: Create new AAP hub token
       ansible.hub.ah_token:
-        aap_hostname: "{{ aap_hostname | default(omit) }}"
-        aap_username: "{{ aap_username | default(omit) }}"
-        aap_password: "{{ aap_password | default(omit) }}"
-        validate_certs: "{{ aap_validate_certs | default(omit) }}"
+        aap_hostname: "{{ aap_hostname }}"
+        aap_username: "{{ aap_username }}"
+        aap_password: "{{ aap_password }}"
+        validate_certs: "{{ aap_validate_certs }}"
 
     - name: Store token in file
       ansible.builtin.copy:
