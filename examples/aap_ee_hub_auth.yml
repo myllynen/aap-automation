@@ -1,32 +1,33 @@
 ---
-- name: Configure AAP EE image authentication mode
+- name: Configure AAP EE container image authentication
   hosts: localhost
   connection: local
   become: false
   gather_facts: false
   vars:
-    base_url: "https://{{ aap_hostname }}"
+    hostname: "{{ aap_hostname }}"
 
     # These should come from vault
     username: "{{ aap_username }}"
     password: "{{ aap_password }}"
 
-    # List of PAH EE images to update
-    # Set to empty list to update all
-    aap_ee_list: []
-    #  - custom/custom-base-rhel9
-    #  - custom/custom-full-rhel9
+    # List of public AAP EE images
+    aap_ee_public:
+      - custom/custom-base-rhel9
+      - custom/custom-full-rhel9
+      - ansible-automation-platform/ee-minimal-rhel9
+      - ansible-automation-platform-26/ee-minimal-rhel9
+      - ansible-automation-platform-26/ee-supported-rhel9
 
-    # This must be either:
-    # * true   - set images private and require authentcation for pulling EEs
-    # * false  - set images public and thus allow unauthenticated EE image pulls
-    aap_ee_private: true
+    # List of private AAP EE images
+    aap_ee_private:
+      - custom/custom-secret-rhel9
 
     container_index: /api/galaxy/pulp/api/v3/distributions/container/container/
   tasks:
-    - name: Get list of EE image containers at private automation hub
+    - name: Get list of AAP EE container images
       ansible.builtin.uri:
-        url: "{{ base_url + container_index }}"
+        url: https://{{ hostname + container_index }}
         user: "{{ username }}"
         password: "{{ password }}"
         validate_certs: false
@@ -34,9 +35,9 @@
         method: GET
       register: aap_ee_images
 
-    - name: Configure EE authentication mode
+    - name: Configure EEs public
       ansible.builtin.uri:
-        url: "{{ base_url + item.pulp_href }}"
+        url: https://{{ hostname + item.pulp_href }}
         user: "{{ username }}"
         password: "{{ password }}"
         validate_certs: false
@@ -44,14 +45,32 @@
         method: PATCH
         body_format: json
         body:
-          private: "{{ aap_ee_private }}"
+          private: false
         status_code:
           - 200
           - 202
       changed_when: true
-      loop: "{{ aap_ee_images.json.results }}"
+      loop: "{{ aap_ee_images.json.results | selectattr('name', 'in', aap_ee_public) }}"
       loop_control:
         label: "{{ item.name }}"
-      when:
-        - aap_ee_list | length == 0 or item.name in aap_ee_list
-        - item.private != aap_ee_private
+      when: item.private != false
+
+    - name: Configure EEs private
+      ansible.builtin.uri:
+        url: https://{{ hostname + item.pulp_href }}
+        user: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: false
+        force_basic_auth: true
+        method: PATCH
+        body_format: json
+        body:
+          private: true
+        status_code:
+          - 200
+          - 202
+      changed_when: true
+      loop: "{{ aap_ee_images.json.results | selectattr('name', 'in', aap_ee_private) }}"
+      loop_control:
+        label: "{{ item.name }}"
+      when: item.private != true
