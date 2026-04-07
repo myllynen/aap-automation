@@ -1,0 +1,65 @@
+---
+- name: Sync AAP SCM inventory sources and projects
+  hosts: localhost
+  connection: local
+  become: false
+  gather_facts: false
+  vars:
+    hostname: "{{ aap_hostname }}"
+
+    # These should come from vault
+    username: "{{ aap_username }}"
+    password: "{{ aap_password }}"
+
+  tasks:
+    - name: Get list of inventory sources
+      ansible.builtin.set_fact:
+        aap_inventory_sources: >-
+          {{ query('ansible.platform.gateway_api', 'api/controller/v2/inventory_sources/',
+             host=hostname, username=username, password=password, verify_ssl=false,
+             query_params={'order_by': 'organization,id'},
+             return_all=true, max_objects=10000) }}
+
+    - name: Get list of projects
+      ansible.builtin.set_fact:
+        aap_projects: >-
+          {{ query('ansible.platform.gateway_api', 'api/controller/v2/projects/',
+             host=hostname, username=username, password=password, verify_ssl=false,
+             query_params={'order_by': 'organization,id'},
+             return_all=true, max_objects=10000) }}
+
+    - name: Sync inventory sources
+      ansible.builtin.uri:
+        url: https://{{ hostname }}/api/controller/v2/inventory_sources/{{ item.id }}/update/
+        url_username: "{{ username }}"
+        url_password: "{{ password }}"
+        validate_certs: false
+        force_basic_auth: true
+        method: POST
+        status_code:
+          - 200
+          - 202
+      register: aap_inventory_sync
+      loop: "{{ aap_inventory_sources }}"
+      loop_control:
+        label: "{{ item.name }}"
+      when: item.source == 'scm'
+
+    - name: Sync projects
+      ansible.builtin.uri:
+        url: https://{{ hostname }}/api/controller/v2/projects/{{ item.id }}/update/
+        url_username: "{{ username }}"
+        url_password: "{{ password }}"
+        validate_certs: false
+        force_basic_auth: true
+        method: POST
+        status_code:
+          - 200
+          - 202
+      register: aap_project_sync
+      loop: "{{ aap_projects }}"
+      loop_control:
+        label: "{{ item.name }}"
+      when:
+        - item.scm_type != ''
+        - item.id not in aap_inventory_sources | map(attribute='source_project')
