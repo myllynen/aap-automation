@@ -60,9 +60,6 @@ receptor_peers=''
 receptor_type=execution
 receptor_peers='["aap-ctrl-1.example.com","aap-ctrl-2.example.com"]'
 
-[automationeda:vars]
-eda_safe_plugins='["ansible.eda.file","ansible.eda.webhook"]'
-
 [all:vars]
 
 # Common variables
@@ -176,7 +173,7 @@ eda_pg_username=admin
 eda_pg_password=Foobar_12
 eda_redis_username=eda
 eda_redis_password=Foobar_12
-#eda_safe_plugins=
+eda_safe_plugins='["ansible.eda.file","ansible.eda.webhook"]'
 
 # AAP Lightspeed
 # https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/html/containerized_installation/appendix-inventory-files-vars#lightspeed-variables
@@ -189,10 +186,6 @@ eda_redis_password=Foobar_12
 #lightspeed_chatbot_model_url=
 #lightspeed_chatbot_model_api_key=
 #lightspeed_chatbot_model_id=
+#lightspeed_chatbot_default_provider=
 #lightspeed_mcp_controller_enabled=true
 #lightspeed_mcp_lightspeed_enabled=true
-#lightspeed_wca_model_type=wca-onprem
-#lightspeed_wca_model_username=
-#lightspeed_wca_model_url=
-#lightspeed_wca_model_api_key=
-#lightspeed_wca_model_id=
