@@ -63,7 +63,9 @@ ee_list:
         - COPY _build/configs/ansible-ee.cfg /etc/ansible/ansible.cfg
       append_final:
         - RUN rm -rf /etc/yum.repos.d/* /var/{cache,lib}/{dnf,yum} /etc/pip.conf
-        - ENV DESCRIPTION="custom/custom-full-rhel9"
+        - ENV DESCRIPTION="custom/custom-full-rhel9
+              built on {{ '%Y-%m-%d %H:%M:%S' | strftime }}
+              from commit {{ lookup('pipe', 'git rev-parse --short HEAD || echo N/A') }}"
 
 
 # https://github.com/ansible/galaxy_collection/issues/329
