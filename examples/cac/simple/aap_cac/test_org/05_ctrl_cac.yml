@@ -24,6 +24,30 @@ controller_instance_groups_test_org_default:
           - t_operators
 
 controller_credential_types_test_org:
+  - name: Generic API Token
+    inputs:
+      fields:
+        - id: url
+          type: string
+          label: API Service URL
+          help_text: The URL of the API service to connect to.
+        - id: auth_url
+          type: string
+          label: Auth Server URL
+          help_text: The URL of an authentication server, optional.
+        - id: token
+          type: string
+          label: API Token
+          secret: true
+          help_text: A token to use for authentication, optional.
+      required:
+        - url
+    injectors:
+      env:
+        GENERIC_API_URL: "{% raw %}{{ url }}{% endraw %}"
+        GENERIC_API_AUTH_URL: "{% raw %}{{ auth_url }}{% endraw %}"
+        GENERIC_API_TOKEN: "{% raw %}{{ token }}{% endraw %}"
+
   - name: Kerberos
     inputs:
       fields:
@@ -105,7 +129,18 @@ controller_projects_test_org:
     #scm_update_cache_timeout: 30
     update_project: "{{ aap_scm_update_projects | default(false) }}"
 
+controller_hosts_test_org:
+  - name: localhost
+    inventory: EE localhost
+    enabled: true
+    variables:
+      ansible_connection: local
+
 controller_inventories_test_org_test:
+  - name: EE localhost
+    description: EE localhost inventory
+    organization: Test Org
+
   - name: Test Inventory
     description: Inventory for testing
     organization: Test Org
@@ -131,6 +166,15 @@ controller_inventory_sources_test_org:
     #verbosity: 2
 
 controller_templates_test_org:
+  - name: Refresh Red Hat token
+    description: Refresh Red Hat Hybrid Cloud Console authentication token
+    job_type: run
+    organization: Test Org
+    inventory: EE localhost
+    project: Test Project
+    playbook: redhat_token_refresh.yml
+    credentials: Red Hat Automation Hub
+
   - name: Test Job Template
     description: Job template for testing
     job_type: run
@@ -190,3 +234,10 @@ controller_workflows_test_org:
         unified_job_template: Test Job Template
       - identifier: node20
         unified_job_template: Test Random Failure
+
+controller_schedules_test_org:
+  - name: Refresh Red Hat token
+    unified_job_template: Refresh Red Hat token
+    inventory: EE localhost
+    rrule: "DTSTART;TZID=Europe/Helsinki:20260101T020202 RRULE:FREQ=WEEKLY;INTERVAL=1"
+    enabled: true
