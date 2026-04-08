@@ -94,6 +94,8 @@ gateway_authenticators:
       PUBLIC_KEY: "{{ aap_keycloak_public_key | default('changeme') }}"
       SECRET: "{{ aap_keycloak_secret | default('changeme') }}"
 
+# Additional examples, unused by default
+additional_gateway_authenticators:
   - name: Okta
     type: ansible_base.authentication.authenticator_plugins.saml
     slug: okta
@@ -102,18 +104,15 @@ gateway_authenticators:
     create_objects: true
     remove_users: true
     configuration:
-      ADDITIONAL_UNVERIFIED_ARGS:
-        GET_ALL_EXTRA_DATA: true
       CALLBACK_URL: https://gateway.example.com/api/gateway/social/complete/ansible_base-authentication-authenticator_plugins-saml__okta/
-      EXTRA_DATA: []
-      IDP_ATTR_EMAIL: email
+      IDP_ENTITY_ID: http://www.okta.com/0123456789abcdefg
+      IDP_URL: https://okta.example.com/app/aap/0123456789abcdefg/sso/saml
+      IDP_ATTR_USER_PERMANENT_ID: login
+      IDP_ATTR_USERNAME: login
       IDP_ATTR_FIRST_NAME: firstName
       IDP_ATTR_LAST_NAME: lastName
-      IDP_ATTR_USERNAME: login
-      IDP_ATTR_USER_PERMANENT_ID: login
-      IDP_ENTITY_ID: http://www.okta.com/0123456789abcdefg
+      IDP_ATTR_EMAIL: email
       IDP_GROUPS: member-of
-      IDP_URL: https://okta.example.com/app/aap/0123456789abcdefg/sso/saml
       IDP_X509_CERT: "{{ aap_okta_idp_cert }}"
       ORG_INFO:
         en-US:
@@ -122,11 +121,14 @@ gateway_authenticators:
           url: https://gateway.example.com
       SECURITY_CONFIG:
         requestedAuthnContext: false
+      ADDITIONAL_UNVERIFIED_ARGS:
+        GET_ALL_EXTRA_DATA: true
+      EXTRA_DATA: []
       SP_ENTITY_ID: https://gateway.example.com
+      SP_PUBLIC_CERT: "{{ aap_okta_sp_cert }}"
+      SP_PRIVATE_KEY: "{{ aap_okta_sp_private_key }}"
       SP_EXTRA:
         requestedAuthnContext: false
-      SP_PRIVATE_KEY: "{{ aap_okta_sp_private_key }}"
-      SP_PUBLIC_CERT: "{{ aap_okta_sp_cert }}"
       SUPPORT_CONTACT:
         emailAddress: admin@example.com
         givenName: Admin User
