@@ -1,6 +1,34 @@
 ---
+- name: Set available execution nodes
+  hosts: localhost
+  connection: local
+  become: false
+  gather_facts: false
+  vars:
+    hostname: "{{ aap_hostname }}"
+
+    # These should come from vault
+    username: "{{ aap_username }}"
+    password: "{{ aap_password }}"
+
+  tasks:
+    - name: Get list of instances
+      ansible.builtin.set_fact:
+        aap_instances: >-
+          {{ query('ansible.platform.gateway_api', 'api/controller/v2/instances/',
+             host=hostname, username=username, password=password, verify_ssl=false,
+             query_params={'order_by': 'hostname'},
+             return_all=true, max_objects=10000) }}
+
+    - name: Add execution nodes to new host group
+      ansible.builtin.add_host:
+        groups: aap_execution_nodes
+        name: "{{ item }}"
+      changed_when: false
+      loop: "{{ aap_instances | selectattr('node_type', 'ne', 'control') | map(attribute='hostname') }}"
+
 - name: Pull execution environments to execution nodes
-  hosts: execution_nodes
+  hosts: aap_execution_nodes
   become: false
   gather_facts: false
   vars:
