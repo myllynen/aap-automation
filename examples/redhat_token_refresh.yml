@@ -5,7 +5,7 @@
   become: false
   gather_facts: false
   tasks:
-    - name: Refresh RH token
+    - name: Refresh Red Hat token
       no_log: true
       ansible.builtin.uri:
         url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token

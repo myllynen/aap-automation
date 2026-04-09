@@ -40,6 +40,11 @@ controller_credential_types_test_org:
           label: API Token
           secret: true
           help_text: A token to use for authentication, optional.
+        - id: refresh_token
+          type: string
+          label: API Refresh Token
+          secret: true
+          help_text: A refresh token for renewing the token, optional.
       required:
         - url
     injectors:
@@ -47,6 +52,7 @@ controller_credential_types_test_org:
         GENERIC_API_URL: "{% raw %}{{ url }}{% endraw %}"
         GENERIC_API_AUTH_URL: "{% raw %}{{ auth_url }}{% endraw %}"
         GENERIC_API_TOKEN: "{% raw %}{{ token }}{% endraw %}"
+        GENERIC_API_REFRESH_TOKEN: "{% raw %}{{ refresh_token }}{% endraw %}"
 
   - name: Kerberos
     inputs:
