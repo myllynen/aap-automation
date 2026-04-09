@@ -1,7 +1,13 @@
 ---
 # https://www.automate.nyc/ansible/create-oauth-application-token/
 # NB. Do NOT use - see https://redhat.atlassian.net/browse/AAP-56456
-- name: Create AAP OAuth Application token for Service Account use
+#
+# $ curl -k -s -X GET -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" https://$AAP_HOSTNAME/api/gateway/v1/me/ | jq -r '.results[0].username'
+# $ curl -k -s -X POST -u $CLIENT_ID:$CLIENT_SECRET -d "grant_type=refresh_token&refresh_token=$REFRESH_TOKEN" https://$AAP_HOSTNAME/o/token/ | jq .
+# $ TOKEN=...
+# $ curl -k -s -X GET -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" https://$AAP_HOSTNAME/api/gateway/v1/me/ | jq -r '.results[0].username'
+#
+- name: Create AAP OAuth Application token for service account use
   hosts: localhost
   connection: local
   become: false
@@ -9,7 +15,7 @@
   vars:
     aap_hostname: gateway.example.com
     # This must be the AAP superuser for the time being,
-    # Org Admin is not enough using AAP 2.6 / Feb 25 '26
+    # Org Admin is not enough using AAP 2.6 / Mar 25 '26
     # and ansible.platform collection version 2.6.20260306
     aap_username: admin
     aap_password: Foobar_12
@@ -17,7 +23,7 @@
     token_user_name: t_api_user
 
   tasks:
-    - name: Create AAP OAuth Application associated with Service Account user
+    - name: Create AAP OAuth Application associated with service account user
       ansible.platform.application:
         gateway_hostname: "{{ aap_hostname }}"
         gateway_username: "{{ aap_username }}"
@@ -34,11 +40,11 @@
         state: present
       register: oauth_application
 
-    - name: Display OAuth Application for {{ token_user_name }}
+    - name: Display AAP OAuth Application for {{ token_user_name }}
       ansible.builtin.debug:
         var: oauth_application
 
-    - name: Create OAuth Application token for Service Account use
+    - name: Create AAP OAuth Application token for service account user
       ansible.platform.token:
         gateway_hostname: "{{ aap_hostname }}"
         gateway_username: "{{ aap_username }}"
@@ -52,6 +58,6 @@
       register: oauth_application_token
       when: oauth_application_token is not defined
 
-    - name: Display Service Account OAuth Application token
+    - name: Display AAP OAuth Application token for {{ token_user_name }}
       ansible.builtin.debug:
         var: oauth_application_token
