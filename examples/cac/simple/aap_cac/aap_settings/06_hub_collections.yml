@@ -18,7 +18,7 @@ hub_overwrite_existing: true
 aap_configuration_working_dir: /var/tmp
 
 aap_configuration_async_retries: 100
-aap_configuration_async_delay: 3
+aap_configuration_async_delay: 6
 
 
 hub_namespaces:
@@ -59,20 +59,20 @@ hub_collection_remotes:
     rate_limit: 8
     signed_only: true
     policy: immediate
-    sync_dependencies: false
+    sync_dependencies: true
     requirements:
       - name: ansible.controller
       - name: ansible.eda
       - name: ansible.hub
+      - name: ansible.mcp
       - name: ansible.platform
       - name: ansible.posix
       - name: ansible.utils
       - name: ansible.windows
-      - name: azure.azcollection
       - name: chocolatey.chocolatey
       - name: kubernetes.core
       - name: microsoft.ad
-      - name: redhat.ai
+      - name: microsoft.mecm
       - name: redhat.rhel_idm
       - name: redhat.rhel_system_roles
       - name: redhat.satellite
@@ -88,15 +88,17 @@ hub_collection_remotes:
     rate_limit: 8
     signed_only: true
     policy: immediate
+    # XXX Dependency sycn is not supported/working
+    # XXX across different repositories as of now.
     sync_dependencies: false
     requirements:
+      - name: ansible.mcp_builder
       - name: infra.aap_configuration
-      - name: infra.aap_configuration_extended
       - name: infra.aap_utilities
-      #- name: infra.ai
       - name: infra.ee_utilities
       - name: infra.leapp
       - name: infra.lvm_snapshots
+      - name: infra.mecm_ops
       - name: infra.windows_ops
 
   - name: community
@@ -107,16 +109,18 @@ hub_collection_remotes:
     rate_limit: 8
     signed_only: false
     policy: immediate
-    sync_dependencies: false
+    sync_dependencies: true
     requirements:
+      # Define versions to avoid syncing
+      # hundreds of prehistoric versions
       - name: community.crypto
-        version: 2.26.7
+        version: '>=2.26.7'
       - name: community.general
-        version: 11.4.6
+        version: '>=11.4.6'
       - name: community.windows
-        version: 3.1.0
+        version: '>=3.1.0'
       - name: containers.podman
-        version: 1.19.0
+        version: '>=1.19.2'
 
 hub_collection_repositories:
   - name: rh-certified
