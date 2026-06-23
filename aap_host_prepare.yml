@@ -43,15 +43,16 @@
       - bash-completion
       - bind-utils
       - curl
+      - dnf-plugins-core
       - firewalld
       - man-pages
+      - mokutil
       - nano
       - openssh-clients
       - psmisc
       - rsync
       - sos
       - tar
-      - tpm2-tools
       - zstd
       - libpq
       - podman
@@ -65,6 +66,7 @@
       - puppet-agent
       - rhn*
       - telnet-server
+      - bluez
       - flashrom
       #- '*fonts*'
       - gawk-all-langpacks
