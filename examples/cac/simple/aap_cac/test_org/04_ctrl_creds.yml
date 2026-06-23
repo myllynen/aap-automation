@@ -1,5 +1,5 @@
 controller_credentials_test_org:
-  - name: Red Hat Automation Hub
+  - name: Test Org - Red Hat Automation Hub
     organization: Test Org
     credential_type: Generic API Token
     inputs:
@@ -7,32 +7,32 @@ controller_credentials_test_org:
       auth_url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
       token: "{{ aap_redhat_hub_token }}"
 
-  - name: Automation Hub Collections Certified Repository
+  - name: Test Org - Automation Hub Collections Certified Repository
     organization: Test Org
     credential_type: Ansible Galaxy/Automation Hub API Token
     inputs:
       url: https://{{ aap_hostname }}/api/galaxy/content/rh-certified/
       token: "{{ hub_token }}"
-  - name: Automation Hub Collections Validated Repository
+  - name: Test Org - Automation Hub Collections Validated Repository
     organization: Test Org
     credential_type: Ansible Galaxy/Automation Hub API Token
     inputs:
       url: https://{{ aap_hostname }}/api/galaxy/content/validated/
       token: "{{ hub_token }}"
-  - name: Automation Hub Collections Community Repository
+  - name: Test Org - Automation Hub Collections Community Repository
     organization: Test Org
     credential_type: Ansible Galaxy/Automation Hub API Token
     inputs:
       url: https://{{ aap_hostname }}/api/galaxy/content/community/
       token: "{{ hub_token }}"
-  - name: Automation Hub Collections Published Repository
+  - name: Test Org - Automation Hub Collections Published Repository
     organization: Test Org
     credential_type: Ansible Galaxy/Automation Hub API Token
     inputs:
       url: https://{{ aap_hostname }}/api/galaxy/content/published/
       token: "{{ hub_token }}"
 
-  - name: Automation Hub Container Registry
+  - name: Test Org - Automation Hub Container Registry
     organization: Test Org
     credential_type: Container Registry
     inputs:
@@ -40,7 +40,7 @@ controller_credentials_test_org:
       username: "{{ aap_username }}"
       password: "{{ aap_password }}"
 
-  - name: Test Org SCM Credential
+  - name: Test Org - SCM Credential
     organization: Test Org
     credential_type: Source Control
     inputs:
@@ -49,7 +49,7 @@ controller_credentials_test_org:
       #ssh_key_data: "{{ lookup('file', lookup('env', 'AAP_KEYS') + '/id_ed25519.scm') }}"
       #ssh_key_unlock: "{{ ssh_key_passphrase | default(omit) }}"
 
-  - name: Test Credential
+  - name: Test Org - Machine Credential
     organization: Test Org
     credential_type: Machine
     inputs:

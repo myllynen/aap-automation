@@ -5,14 +5,14 @@ aap_organizations_test_org:
     max_hosts: 10
     instance_groups:
       - executionplane
-    default_environment: Custom Base EE
+    default_environment: Test Org - Custom Base EE
     # NB. At least one credential needs to be
     #     defined if downloading collections.
     galaxy_credentials:
-      - Automation Hub Collections Certified Repository
-      - Automation Hub Collections Validated Repository
-      - Automation Hub Collections Community Repository
-      - Automation Hub Collections Published Repository
+      - Test Org - Automation Hub Collections Certified Repository
+      - Test Org - Automation Hub Collections Validated Repository
+      - Test Org - Automation Hub Collections Community Repository
+      - Test Org - Automation Hub Collections Published Repository
 
 # NB. Team names must be unique across AAP
 controller_instance_groups_test_org_default:
@@ -24,49 +24,49 @@ controller_instance_groups_test_org_default:
           - t_operators
 
 controller_execution_environments_test_org:
-  - name: Custom Base EE
+  - name: Test Org - Custom Base EE
     organization: Test Org
     image: "{{ aap_hostname }}/custom/custom-base-rhel9"
-    #credential: Automation Hub Container Registry
+    #credential: Test Org - Automation Hub Container Registry
     pull: never
 
-  - name: Custom Full EE
+  - name: Test Org - Custom Full EE
     organization: Test Org
     image: "{{ aap_hostname }}/custom/custom-full-rhel9"
-    #credential: Automation Hub Container Registry
+    #credential: Test Org - Automation Hub Container Registry
     pull: never
 
 controller_projects_test_org:
-  - name: Test Project for Git Inventory
+  - name: Test Org - Test Project for Git Inventory
     description: Inventory project for testing
     organization: Test Org
     default_environment: Control Plane Execution Environment
     scm_type: git
     scm_url: https://github.com/myllynen/autotest.git
-    #credential: Test Org SCM Credential
+    #credential: Test Org - SCM Credential
     scm_clean: false
     scm_update_on_launch: false
     #scm_update_cache_timeout: 30
     update_project: "{{ aap_scm_update_projects | default(false) }}"
 
-  - name: Test Project
+  - name: Test Org - Test Project
     description: Project for testing
     organization: Test Org
-    default_environment: Custom Base EE
+    default_environment: Test Org - Custom Base EE
     scm_type: git
     scm_url: https://github.com/myllynen/misc.git
-    #credential: Test Org SCM Credential
+    #credential: Test Org - SCM Credential
     scm_clean: false
     scm_update_on_launch: false
     #scm_update_cache_timeout: 30
     update_project: "{{ aap_scm_update_projects | default(false) }}"
 
 controller_inventories_test_org_test:
-  - name: EE localhost
+  - name: Test Org - EE localhost
     description: EE localhost inventory
     organization: Test Org
 
-  - name: Test Inventory
+  - name: Test Org - Test Inventory
     description: Inventory for testing
     organization: Test Org
     roles:
@@ -77,19 +77,19 @@ controller_inventories_test_org_test:
 
 controller_hosts_test_org:
   - name: localhost
-    inventory: EE localhost
+    inventory: Test Org - EE localhost
     enabled: true
     variables:
       ansible_connection: local
 
 controller_inventory_sources_test_org:
-  - name: Test Git Inventory Source
+  - name: Test Org - Test Git Inventory Source
     description: Inventory Source for testing
     organization: Test Org
     execution_environment: Control Plane Execution Environment
-    inventory: Test Inventory
+    inventory: Test Org - Test Inventory
     source: scm
-    source_project: Test Project for Git Inventory
+    source_project: Test Org - Test Project for Git Inventory
     source_path: inventory
     overwrite: true
     overwrite_vars: true
@@ -98,23 +98,23 @@ controller_inventory_sources_test_org:
     #verbosity: 2
 
 controller_templates_test_org:
-  - name: Refresh Red Hat token
+  - name: Test Org - Refresh Red Hat token
     description: Refresh Red Hat Hybrid Cloud Console authentication token
     job_type: run
     organization: Test Org
-    inventory: EE localhost
-    project: Test Project
+    inventory: Test Org - EE localhost
+    project: Test Org - Test Project
     playbook: redhat_token_refresh.yml
-    credentials: Red Hat Automation Hub
+    credentials: Test Org - Red Hat Automation Hub
 
-  - name: Test Job Template
+  - name: Test Org - Test Job Template
     description: Job template for testing
     job_type: run
     organization: Test Org
-    inventory: Test Inventory
-    project: Test Project
+    inventory: Test Org - Test Inventory
+    project: Test Org - Test Project
     playbook: debug.yml
-    #credentials: Test Credential
+    #credentials: Test Org - Machine Credential
     #limit: localhost
     verbosity: 0
     #extra_vars:
@@ -124,31 +124,32 @@ controller_templates_test_org:
         teams:
           - t_api_users
 
-  - name: Test Random Failure
+  - name: Test Org - Test Random Failure
     description: Random failure for testing
     job_type: run
     organization: Test Org
-    inventory: Test Inventory
-    project: Test Project
+    inventory: Test Org - Test Inventory
+    project: Test Org - Test Project
     playbook: random_fail.yml
-    #credentials: Test Credential
+    #credentials: Test Org - Machine Credential
     #limit: localhost
     verbosity: 0
     extra_vars:
       message: This might fail
 
 controller_workflows_test_org:
-  - name: Test Workflow Job Template
+  - name: Test Org - Test Workflow Job Template
     description: Workflow for testing
     organization: Test Org
-    inventory: Test Inventory
+    inventory: Test Org - Test Inventory
     #limit: localhost
     extra_vars:
       message: Message from workflow
     simplified_workflow_nodes:
       - identifier: node1
         all_parents_must_converge: false
-        unified_job_template: Test Random Failure
+        unified_job_template: Test Org - Test Random Failure
+        lookup_organization: Test Org
         credentials: []
         success_nodes:
           - node10
@@ -163,13 +164,17 @@ controller_workflows_test_org:
         success_nodes:
           - node11
       - identifier: node11
-        unified_job_template: Test Job Template
+        unified_job_template: Test Org - Test Job Template
+        lookup_organization: Test Org
       - identifier: node20
-        unified_job_template: Test Random Failure
+        unified_job_template: Test Org - Test Random Failure
+        lookup_organization: Test Org
 
 controller_schedules_test_org:
-  - name: Refresh Red Hat token
-    unified_job_template: Refresh Red Hat token
-    inventory: EE localhost
+  - name: Test Org - Refresh Red Hat token
+    description: Scheduled Red Hat token refresh
+    unified_job_template: Test Org - Refresh Red Hat token
+    organization: Test Org
+    inventory: Test Org - EE localhost
     rrule: "DTSTART;TZID=Europe/Helsinki:20260101T020202 RRULE:FREQ=WEEKLY;INTERVAL=1"
     enabled: true
