@@ -1,4 +1,4 @@
-# Ansible Automation Platform controller configuration - defaults deletion
+# Ansible Automation Platform configuration - defaults deletion
 
 controller_templates_default_org:
   - name: Demo Job Template
@@ -30,7 +30,8 @@ controller_credentials_default_org:
     credential_type: Machine
     state: absent
 
-controller_execution_environments_default_org:
+# https://redhat.atlassian.net/browse/AAP-79944
+tbd_controller_execution_environments_default_org:
   - name: Default execution environment
     organization: Default
     image: null
@@ -46,6 +47,20 @@ controller_execution_environments_default_org:
   - name: Hub Minimal execution environment
     organization: Default
     image: null
+    state: absent
+
+tbd_eda_credentials_default_org:
+  - name: Hub Decision Environment Container Registry
+    organization: Default
+    credential_type: Container Registry
+    state: absent
+
+tbd_eda_decision_environments_default_org:
+  - name: Default Decision Environment
+    organization: Default
+    state: absent
+  - name: Hub Default Decision Environment
+    organization: Default
     state: absent
 
 # Managed organizations cannot be deleted
