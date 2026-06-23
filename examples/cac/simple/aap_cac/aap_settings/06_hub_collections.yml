@@ -36,15 +36,15 @@ hub_namespaces:
 hub_custom_collections:
   - collection_name: myllynen.rhel_ansible_roles
     git_url: https://github.com/myllynen/rhel-ansible-roles
-    version: v3.3.1
+    version: v3.4.10
 
   - collection_name: myllynen.rhel_image
     git_url: https://github.com/myllynen/rhel-image
-    version: v2.2.1
+    version: v2.2.2
 
   - collection_name: myllynen.windows_ansible_roles
     git_url: https://github.com/myllynen/windows-ansible-roles
-    version: v5.2.3
+    version: v6.0.1
     #key_file:
     #ssh_opts:
 
@@ -88,7 +88,7 @@ hub_collection_remotes:
     rate_limit: 8
     signed_only: true
     policy: immediate
-    # XXX Dependency sycn is not supported/working
+    # XXX Dependency sync is not supported/working
     # XXX across different repositories as of now.
     sync_dependencies: false
     requirements:
@@ -114,13 +114,13 @@ hub_collection_remotes:
       # Define versions to avoid syncing
       # hundreds of prehistoric versions
       - name: community.crypto
-        version: '>=2.26.7'
+        version: '>=2.26.8'
       - name: community.general
-        version: '>=11.4.6'
+        version: '>=11.4.8'
       - name: community.windows
-        version: '>=3.1.0'
+        version: '>=3.2.0'
       - name: containers.podman
-        version: '>=1.19.2'
+        version: '>=1.20.2'
 
 hub_collection_repositories:
   - name: rh-certified
