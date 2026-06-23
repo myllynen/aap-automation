@@ -23,81 +23,6 @@ controller_instance_groups_test_org_default:
           - t_developers
           - t_operators
 
-controller_credential_types_test_org:
-  - name: Generic API Token
-    inputs:
-      fields:
-        - id: url
-          type: string
-          label: API Service URL
-          help_text: The URL of the API service to connect to.
-        - id: auth_url
-          type: string
-          label: Auth Server URL
-          help_text: The URL of an authentication server, optional.
-        - id: token
-          type: string
-          label: API Token
-          secret: true
-          help_text: A token to use for authentication, optional.
-        - id: refresh_token
-          type: string
-          label: API Refresh Token
-          secret: true
-          help_text: A refresh token for renewing the token, optional.
-      required:
-        - url
-    injectors:
-      env:
-        GENERIC_API_URL: "{% raw %}{{ url }}{% endraw %}"
-        GENERIC_API_AUTH_URL: "{% raw %}{{ auth_url }}{% endraw %}"
-        GENERIC_API_TOKEN: "{% raw %}{{ token }}{% endraw %}"
-        GENERIC_API_REFRESH_TOKEN: "{% raw %}{{ refresh_token }}{% endraw %}"
-
-  - name: Kerberos
-    inputs:
-      fields:
-        - id: username
-          type: string
-          label: Username
-        - id: password
-          type: string
-          label: Password
-          secret: true
-        - id: default_realm
-          type: string
-          label: Default Realm
-        - id: kdc
-          type: string
-          label: KDC
-          help_text: Optional KDC, use only if KDC DNS lookup not working
-      required:
-        - username
-        - password
-        - default_realm
-    injectors:
-      env:
-        KRB5_CONFIG: "{% raw %}{{ tower.filename }}{% endraw %}"
-      file:
-        template: |-
-          {% raw %}[libdefaults]
-          default_realm = {{ default_realm | upper }}
-          dns_canonicalize_hostname = fallback
-          dns_lookup_kdc = {% if kdc %}false{% else %}true{% endif %}
-          dns_lookup_realm = true
-          forwardable = true
-          rdns = false
-          #udp_preference_limit = 1
-          [realms]
-          {{ default_realm | upper }} = {
-            {% if kdc %}kdc = {{ kdc }}{% endif %}
-          }
-          [domain_realm]
-            {{ default_realm | lower }} = {{ default_realm | upper }}{% endraw %}
-      extra_vars:
-        ansible_user: "{% raw %}{{ username }}{% endraw %}"
-        ansible_password: "{% raw %}{{ password }}{% endraw %}"
-
 controller_execution_environments_test_org:
   - name: Custom Base EE
     organization: Test Org
@@ -115,6 +40,7 @@ controller_projects_test_org:
   - name: Test Project for Git Inventory
     description: Inventory project for testing
     organization: Test Org
+    default_environment: Control Plane Execution Environment
     scm_type: git
     scm_url: https://github.com/myllynen/autotest.git
     #credential: Test Org SCM Credential
@@ -135,13 +61,6 @@ controller_projects_test_org:
     #scm_update_cache_timeout: 30
     update_project: "{{ aap_scm_update_projects | default(false) }}"
 
-controller_hosts_test_org:
-  - name: localhost
-    inventory: EE localhost
-    enabled: true
-    variables:
-      ansible_connection: local
-
 controller_inventories_test_org_test:
   - name: EE localhost
     description: EE localhost inventory
@@ -155,6 +74,13 @@ controller_inventories_test_org_test:
         teams:
           - t_developers
           - t_operators
+
+controller_hosts_test_org:
+  - name: localhost
+    inventory: EE localhost
+    enabled: true
+    variables:
+      ansible_connection: local
 
 controller_inventory_sources_test_org:
   - name: Test Git Inventory Source
