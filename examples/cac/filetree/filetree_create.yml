@@ -1,5 +1,5 @@
 ---
-- name: Create filetree configuration structure
+- name: Export AAP configuration in filetree format
   hosts: localhost
   connection: local
   become: false
@@ -7,16 +7,19 @@
   vars:
     aap_oauthtoken: "{{ aap_token }}"
 
+    gateway_configuration_filetree_create_secure_logging: false
     controller_configuration_filetree_create_secure_logging: false
+    hub_configuration_filetree_create_secure_logging: false
+    eda_configuration_filetree_create_secure_logging: false
 
     output_path: ./filetree_export
     flatten_output: false
 
   roles:
     - name: infra.aap_configuration_extended.filetree_create
-      # For now, see https://github.com/redhat-cop/aap_configuration_extended/issues/198
       vars:
         input_tag:
           - gateway
           - controller
-          - eda
+          - hub
+          #- eda
