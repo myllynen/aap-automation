@@ -14,6 +14,9 @@ callback_format_pretty = True
 show_task_path_on_failure = True
 callbacks_enabled = ansible.posix.profile_tasks
 
+[callback_profile_tasks]
+datetime_format = %Y-%m-%d  %H:%M:%S %z
+
 [colors]
 debug = bright gray
 verbose = bright gray
