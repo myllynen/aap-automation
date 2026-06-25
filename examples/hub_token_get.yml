@@ -1,4 +1,6 @@
 ---
+# This example playbook is not useable with AAP 2.7+ anymore,
+# use aap_token_get.yml to retrieve gw token for ansible.cfg.
 - name: Get AAP hub token
   hosts: localhost
   connection: local

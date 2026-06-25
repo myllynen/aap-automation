@@ -62,10 +62,15 @@ hub_collection_remotes:
     sync_dependencies: true
     requirements:
       - name: ansible.controller
+        version: '>=4.8.2'
       - name: ansible.eda
+        version: '>=2.12.1'
       - name: ansible.hub
+        version: '>=1.0.6'
       - name: ansible.mcp
+        version: '>=1.1.0'
       - name: ansible.platform
+        version: '>=2.7.20260615'
       - name: ansible.posix
       - name: ansible.utils
       - name: ansible.windows

@@ -10,9 +10,7 @@ gateway_authenticators:
     enabled: true
     create_objects: true
     remove_users: false
-    configuration:
-      fallback_authentication:
-        - aap_gateway_api.authentication.fallbacks.controller
+    configuration: {}
 
   - name: Microsoft Active Directory
     order: 2
@@ -79,6 +77,8 @@ gateway_authenticators:
           - SCOPE_SUBTREE
           - "(uid=%(user)s)"
 
+# Additional examples, unused by default
+additional_gateway_authenticators:
   - name: Keycloak
     order: 4
     type: ansible_base.authentication.authenticator_plugins.keycloak
@@ -94,8 +94,6 @@ gateway_authenticators:
       PUBLIC_KEY: "{{ aap_keycloak_public_key | default('changeme') }}"
       SECRET: "{{ aap_keycloak_secret | default('changeme') }}"
 
-# Additional examples, unused by default
-additional_gateway_authenticators:
   - name: Okta
     type: ansible_base.authentication.authenticator_plugins.saml
     slug: okta

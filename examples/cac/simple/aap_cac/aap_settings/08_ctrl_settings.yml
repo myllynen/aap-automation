@@ -15,7 +15,6 @@ controller_settings:
       - ping
       - win_ping
     ALLOW_JINJA_IN_EXTRA_VARS: template
-    ALLOW_OAUTH2_FOR_EXTERNAL_USERS: false
     ANSIBLE_FACT_CACHE_TIMEOUT: 0
     AUTH_BASIC_ENABLED: true
     AUTOMATION_ANALYTICS_GATHER_INTERVAL: 14400

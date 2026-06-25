@@ -12,11 +12,11 @@ aap_admin_password: Foobar_12
 aap_username: "{{ aap_admin_username }}"
 aap_password: "{{ aap_admin_password }}"
 
-# AAP gateway token
+# AAP gateway token for generic use
 # This needs to be added after installation
 #aap_token: "{{ lookup('file', lookup('env', 'PWD') + '/aap_token.txt') }}"
 
-# AAP automation hub token
+# AAP gateway token to access automation hub
 # This needs to be added after installation
 #hub_token: "{{ lookup('file', lookup('env', 'PWD') + '/hub_token.txt') }}"
 
