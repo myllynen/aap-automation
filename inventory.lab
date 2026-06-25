@@ -2,7 +2,7 @@
 # Please consult the docs if you're unsure what to add
 # For all optional variables please consult the included README.md
 # or the Red Hat documentation:
-# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/install-con_aap_containerized_installation_intro
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-con_aap_containerized_installation_intro
 
 # This section is for your AAP Gateway host(s)
 # -----------------------------------------------------
@@ -14,7 +14,7 @@ app-gw-2.example.com
 # -----------------------------------------------------
 [automationcontroller]
 aap-ctrl-1.example.com
-aap-ctrl-2.example.com
+aap-ctrl-2.example.com receptor_type=hybrid
 
 # This section is for your AAP Execution host(s)
 # -----------------------------------------------------
@@ -57,7 +57,7 @@ aap-db.example.com
 [redis]
 
 # This section is for your automation mesh
-# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/install-ref_receptor_inventory_variables
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-receptor_variables
 [automationcontroller:vars]
 receptor_type=control
 receptor_peers=''
@@ -66,9 +66,11 @@ receptor_type=execution
 receptor_peers='["aap-ctrl-1.example.com","aap-ctrl-2.example.com"]'
 
 [all:vars]
+# For a comprehensive list of all inventory file variables, see:
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-assembly_appendix_inventory_file_vars
 
 # Common variables
-# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/install-ref_general_inventory_variables
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-general_variables
 # -----------------------------------------------------
 
 # Bundle
@@ -77,13 +79,13 @@ bundle_install=true
 bundle_dir='{{ lookup("ansible.builtin.env", "PWD") }}/bundle'
 
 # Red Hat registry authentication for the non-bundle installer
-# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/install-proc_set_registry_username_password_1
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-proc_set_registry_username_password
 #registry_url=registry.redhat.io
 #registry_username=your-rhn-username
 #registry_password=your-rhn-password
 
 # Certificates
-# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/install-ref_general_inventory_variables
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-general_variables
 #custom_ca_cert=/tmp/ca.crt
 # To manually provide certificates for services,
 # set the corresponding # *_{,pg,redis}_{cert,key}
@@ -96,25 +98,28 @@ bundle_dir='{{ lookup("ansible.builtin.env", "PWD") }}/bundle'
 # Set the *_firewall_zone variable for each service.
 
 # Manifest
-# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/install-proc_aap_activate_with_manifest
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-assembly_aap_activate_1
 controller_license_file=/home/admin/aap_manifest.zip
 
 # MCP
-# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/install-mcp_server_variables
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-mcp_server_variables
 mcp_ignore_certificate_errors=false
 mcp_allow_write_operations=true
+
+# Metrics
+#automationmetrics_skip_install=true
 
 # Monitoring
 #setup_monitoring=true
 
 # Receptor
-# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/install-ref_receptor_inventory_variables
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-receptor_variables
 receptor_port=27199
 receptor_protocol=tcp
 receptor_log_level=info
 
 # Redis
-# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/install-ref_redis_inventory_variables
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-redis_variables
 redis_mode=standalone
 
 # Misc
@@ -125,12 +130,12 @@ images_tmp_dir=/var/tmp
 # enabling mTLS, see the AAP Containerized installation guide.
 
 # AAP Database
-# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/install-ref_database_inventory_variables
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-database_variables
 postgresql_admin_username=postgres
 postgresql_admin_password=Foobar_12
 
 # AAP Gateway
-# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/install-ref_gateway_variables
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-platform_gateway_variables
 # -----------------------------------------------------
 gateway_admin_email=root@localhost
 gateway_admin_password=Foobar_12
@@ -144,7 +149,7 @@ gateway_redis_password=Foobar_12
 #gateway_main_url=
 
 # AAP Controller
-# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/install-ref_controller_variables
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-automation_controller_variables
 # -----------------------------------------------------
 controller_admin_email=root@localhost
 controller_admin_password=Foobar_12
@@ -154,7 +159,7 @@ controller_pg_username=admin
 controller_pg_password=Foobar_12
 
 # AAP Automation Hub
-# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/install-ref_hub_variables
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-automation_hub_variables
 # -----------------------------------------------------
 hub_admin_password=Foobar_12
 hub_pg_host=aap-db.example.com
@@ -169,7 +174,7 @@ hub_seed_collections=false
 hub_galaxy_importer={"run_ansible_lint": True, "offline_ansible_lint": True}
 
 # AAP EDA
-# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/install-ref_eda_controller_variables
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-event_driven_ansible_controller_variables
 # -----------------------------------------------------
 eda_admin_email=root@localhost
 eda_admin_password=Foobar_12
@@ -182,6 +187,7 @@ eda_redis_password=Foobar_12
 eda_safe_plugins='["ansible.eda.file","ansible.eda.webhook"]'
 
 # AAP Automation Metrics Service
+#
 # -----------------------------------------------------
 #automationmetrics_pg_host=aap-db.example.com
 #automationmetrics_pg_database=metrics
@@ -193,7 +199,7 @@ eda_safe_plugins='["ansible.eda.file","ansible.eda.webhook"]'
 #automationmetrics_controller_read_pg_password=Foobar_12
 
 # AAP Lightspeed
-# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.6/install-ref_lightspeed_variables
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-ref_lightspeed_variables
 # -----------------------------------------------------
 #lightspeed_admin_password=Foobar_12
 #lightspeed_pg_host=aap-db.example.org
