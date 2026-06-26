@@ -29,7 +29,7 @@ ee_build_options:
   skip_pip_install: true
 ee_verbosity: 1
 
-ee_aap_version: 2.6
+ee_aap_version: 2.7
 ee_image_push: true
 ee_squash: new
 ee_prune_images: true

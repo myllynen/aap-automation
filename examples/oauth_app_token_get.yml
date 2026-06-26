@@ -15,8 +15,8 @@
   vars:
     aap_hostname: gateway.example.com
     # This must be the AAP superuser for the time being,
-    # Org Admin is not enough using AAP 2.6 / Mar 25 '26
-    # and ansible.platform collection version 2.6.20260306
+    # Org Admin is not enough using AAP 2.7 / Jun 26 '26
+    # and ansible.platform collection version 2.7.20260615
     aap_username: admin
     aap_password: Foobar_12
     token_user_org: Test Org

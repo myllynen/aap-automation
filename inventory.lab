@@ -101,7 +101,7 @@ feature_flags={"FEATURE_DASHBOARD_COLLECTION_ENABLED": True}
 # Set the *_firewall_zone variable for each service.
 
 # Manifest
-# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-assembly_aap_activate_1
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-assembly_aap_manifest_files
 controller_license_file=/home/admin/aap_manifest.zip
 
 # MCP
