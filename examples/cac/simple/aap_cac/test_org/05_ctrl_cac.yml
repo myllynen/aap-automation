@@ -176,5 +176,5 @@ controller_schedules_test_org:
     unified_job_template: Test Org - Refresh Red Hat token
     organization: Test Org
     inventory: Test Org - EE localhost
-    rrule: "DTSTART;TZID=Europe/Helsinki:20260101T020202 RRULE:FREQ=WEEKLY;INTERVAL=1"
+    rrule: DTSTART;TZID=Europe/Helsinki:20260101T020202 RRULE:FREQ=WEEKLY;INTERVAL=1
     enabled: true
