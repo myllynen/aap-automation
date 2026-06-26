@@ -94,6 +94,9 @@ bundle_dir='{{ lookup("ansible.builtin.env", "PWD") }}/bundle'
 #ca_tls_key=/home/admin/ca.key
 #ca_tls_key_passphrase=Foobar_12
 
+# Dashboard
+feature_flags={"FEATURE_DASHBOARD_COLLECTION_ENABLED": True}
+
 # Firewall
 # Set the *_firewall_zone variable for each service.
 
@@ -187,7 +190,7 @@ eda_redis_password=Foobar_12
 eda_safe_plugins='["ansible.eda.file","ansible.eda.webhook"]'
 
 # AAP Automation Metrics Service
-#
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-ref_metrics_service_configuration_variables
 # -----------------------------------------------------
 #automationmetrics_pg_host=aap-db.example.com
 #automationmetrics_pg_database=metrics
