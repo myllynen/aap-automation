@@ -16,8 +16,8 @@
       - custom/custom-base-rhel9
       - custom/custom-full-rhel9
       - ansible-automation-platform/ee-minimal-rhel9
-      - ansible-automation-platform-26/ee-minimal-rhel9
-      - ansible-automation-platform-26/ee-supported-rhel9
+      - ansible-automation-platform-27/ee-minimal-rhel9
+      - ansible-automation-platform-27/ee-supported-rhel9
 
     # List of private AAP EE images
     aap_ee_private:

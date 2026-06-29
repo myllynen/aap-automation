@@ -45,8 +45,8 @@
     aap_en_ee_pull:
       - custom/custom-base-rhel9:latest
       - custom/custom-full-rhel9:latest
-      #- ansible-automation-platform-26/ee-minimal-rhel9:latest
-      #- ansible-automation-platform-26/ee-supported-rhel9:latest
+      #- ansible-automation-platform-27/ee-minimal-rhel9:latest
+      #- ansible-automation-platform-27/ee-supported-rhel9:latest
 
   tasks:
     - name: Login to AAP automation hub container registry

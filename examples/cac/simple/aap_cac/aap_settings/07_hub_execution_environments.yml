@@ -31,17 +31,17 @@ hub_ee_repositories:
     sync: true
     wait: true
 
-  - name: ansible-automation-platform-26/ee-minimal-rhel9
+  - name: ansible-automation-platform-27/ee-minimal-rhel9
     registry: redhat
-    upstream_name: ansible-automation-platform-26/ee-minimal-rhel9
+    upstream_name: ansible-automation-platform-27/ee-minimal-rhel9
     include_tags:
       - latest
     sync: true
     wait: true
 
-  - name: ansible-automation-platform-26/ee-supported-rhel9
+  - name: ansible-automation-platform-27/ee-supported-rhel9
     registry: redhat
-    upstream_name: ansible-automation-platform-26/ee-supported-rhel9
+    upstream_name: ansible-automation-platform-27/ee-supported-rhel9
     include_tags:
       - latest
     sync: true

@@ -41,7 +41,7 @@ ee_list:
   # Keep in sync with DESCRIPTION!
   - name: custom/custom-full-rhel9
     tag: latest
-    base_image: "{{ ee_ah_host }}/ansible-automation-platform-26/ee-supported-rhel9:latest"
+    base_image: "{{ ee_ah_host }}/ansible-automation-platform-27/ee-supported-rhel9:latest"
 
     dependencies:
       # Must match Python version with pip in base image
