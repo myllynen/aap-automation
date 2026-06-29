@@ -72,16 +72,27 @@ hub_collection_remotes:
       - name: ansible.platform
         version: '>=2.7.20260615'
       - name: ansible.posix
+        version: '>=2.2.0'
       - name: ansible.utils
+        version: '>=6.0.3'
       - name: ansible.windows
+        version: '>=3.6.1'
       - name: chocolatey.chocolatey
+        version: '>=1.6.0'
       - name: kubernetes.core
+        version: '>=6.4.0'
       - name: microsoft.ad
+        version: '>=1.11.0'
       - name: microsoft.mecm
+        version: '>=1.0.0'
       - name: redhat.rhel_idm
+        version: '>=1.16.0'
       - name: redhat.rhel_system_roles
+        version: '>=1.120.5'
       - name: redhat.satellite
+        version: '>=5.11.0'
       - name: redhat.satellite_operations
+        version: '>=4.0.0'
 
   - name: validated
     url: https://console.redhat.com/api/automation-hub/content/validated/
@@ -98,13 +109,21 @@ hub_collection_remotes:
     sync_dependencies: false
     requirements:
       - name: ansible.mcp_builder
+        version: '>=1.0.3'
       - name: infra.aap_configuration
+        version: '>=4.6.1'
       - name: infra.aap_utilities
+        version: '>=3.4.0'
       - name: infra.ee_utilities
+        version: '>=4.4.0'
       - name: infra.leapp
+        version: '>=1.7.3'
       - name: infra.lvm_snapshots
+        version: '>=2.1.3'
       - name: infra.mecm_ops
+        version: '>=1.0.2'
       - name: infra.windows_ops
+        version: '>=2.0.1'
 
   - name: community
     url: https://galaxy.ansible.com/api/
@@ -119,9 +138,9 @@ hub_collection_remotes:
       # Define versions to avoid syncing
       # hundreds of prehistoric versions
       - name: community.crypto
-        version: '>=2.26.8'
+        version: '>=2.26.9'
       - name: community.general
-        version: '>=11.4.8'
+        version: '>=11.4.9'
       - name: community.windows
         version: '>=3.2.0'
       - name: containers.podman
