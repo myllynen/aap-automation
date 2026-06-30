@@ -1,6 +1,12 @@
 ---
+# Create AAP OAuth application token for service account use
+#
 # https://www.automate.nyc/ansible/create-oauth-application-token/
-# NB. Do NOT use - see https://redhat.atlassian.net/browse/AAP-56456
+#
+# NB. Safe to use only with AAP 2.7-2 + ansible.platform 2.7.20260630
+# which hide refresh_token; https://redhat.atlassian.net/browse/AAP-56456
+#
+# Refresh token would elevate the user as the AAP superuser:
 #
 # $ curl -k -s -X GET -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" https://$AAP_HOSTNAME/api/gateway/v1/me/ | jq -r '.results[0].username'
 # $ curl -k -s -X POST -u $CLIENT_ID:$CLIENT_SECRET -d "grant_type=refresh_token&refresh_token=$REFRESH_TOKEN" https://$AAP_HOSTNAME/o/token/ | jq .
@@ -15,8 +21,8 @@
   vars:
     aap_hostname: gateway.example.com
     # This must be the AAP superuser for the time being,
-    # Org Admin is not enough using AAP 2.7 / Jun 26 '26
-    # and ansible.platform collection version 2.7.20260615
+    # Org Admin is not enough using AAP 2.7 / Jun 30 '26
+    # and ansible.platform collection version 2.7.20260630
     aap_username: admin
     aap_password: Foobar_12
     token_user_org: Test Org
@@ -30,7 +36,7 @@
         gateway_password: "{{ aap_password }}"
         gateway_validate_certs: false
         name: OAuth Application for {{ token_user_name }}
-        description: OAuth Application for Service Account use
+        description: OAuth Application for service account use
         organization: "{{ token_user_org }}"
         user: "{{ token_user_name }}"
         authorization_grant_type: authorization-code
@@ -51,7 +57,7 @@
         gateway_password: "{{ aap_password }}"
         gateway_validate_certs: false
         application: OAuth Application for {{ token_user_name }}
-        description: OAuth Application token for Service Account use
+        description: OAuth Application token for service account use
         organization: "{{ token_user_org }}"
         scope: write
         state: present
