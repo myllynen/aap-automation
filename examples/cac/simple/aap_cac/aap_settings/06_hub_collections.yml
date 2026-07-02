@@ -111,7 +111,7 @@ hub_collection_remotes:
       - name: ansible.mcp_builder
         version: '>=1.0.3'
       - name: infra.aap_configuration
-        version: '>=4.6.1'
+        version: '>=4.7.0'
       - name: infra.aap_utilities
         version: '>=3.4.0'
       - name: infra.ee_utilities
