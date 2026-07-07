@@ -14,6 +14,7 @@
 
     output_path: ./filetree_export
     flatten_output: false
+    omit_id: true
 
   roles:
     - name: infra.aap_configuration_extended.filetree_create
