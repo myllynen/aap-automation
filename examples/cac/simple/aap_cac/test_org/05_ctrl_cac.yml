@@ -115,8 +115,8 @@ controller_templates_test_org:
     inventory: Test Org - Test Inventory
     project: Test Org - Test Project
     playbook: debug.yml
-    credentials:
-      - Test Org - Machine Credential
+    #credentials:
+    #  - Test Org - Machine Credential
     #limit: localhost
     verbosity: 0
     #extra_vars:
@@ -133,8 +133,8 @@ controller_templates_test_org:
     inventory: Test Org - Test Inventory
     project: Test Org - Test Project
     playbook: random_fail.yml
-    credentials:
-      - Test Org - Machine Credential
+    #credentials:
+    #  - Test Org - Machine Credential
     #limit: localhost
     verbosity: 0
     extra_vars:
