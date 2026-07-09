@@ -1,6 +1,7 @@
 .ansible-lint
 examples/aap_token.txt
 examples/build/
+examples/cac/diff/filter_plugins/__pycache__
 examples/collections/
 examples/debug.yml
 examples/hub_token.txt
