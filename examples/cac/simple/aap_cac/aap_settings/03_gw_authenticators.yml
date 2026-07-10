@@ -78,7 +78,7 @@ gateway_authenticators:
           - "(uid=%(user)s)"
 
 # Additional examples, unused by default
-additional_gateway_authenticators:
+tbd_gateway_authenticators:
   - name: Keycloak
     order: 4
     type: ansible_base.authentication.authenticator_plugins.keycloak
@@ -111,7 +111,7 @@ additional_gateway_authenticators:
       IDP_ATTR_LAST_NAME: lastName
       IDP_ATTR_EMAIL: email
       IDP_GROUPS: member-of
-      IDP_X509_CERT: "{{ aap_okta_idp_cert }}"
+      IDP_X509_CERT: "{{ aap_okta_idp_cert | default('changeme') }}"
       ORG_INFO:
         en-US:
           displayname: Acme AAP
@@ -123,8 +123,8 @@ additional_gateway_authenticators:
         GET_ALL_EXTRA_DATA: true
       EXTRA_DATA: []
       SP_ENTITY_ID: https://gateway.example.com
-      SP_PUBLIC_CERT: "{{ aap_okta_sp_cert }}"
-      SP_PRIVATE_KEY: "{{ aap_okta_sp_private_key }}"
+      SP_PUBLIC_CERT: "{{ aap_okta_sp_cert | default('changeme') }}"
+      SP_PRIVATE_KEY: "{{ aap_okta_sp_private_key | default('changeme') }}"
       SP_EXTRA:
         requestedAuthnContext: false
       SUPPORT_CONTACT:
