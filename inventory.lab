@@ -95,7 +95,7 @@ bundle_dir='{{ lookup("ansible.builtin.env", "PWD") }}/bundle'
 #ca_tls_key_passphrase=Foobar_12
 
 # Dashboard
-feature_flags={"FEATURE_DASHBOARD_COLLECTION_ENABLED": True}
+feature_flags={"FEATURE_DASHBOARD_COLLECTION_ENABLED": True, "FEATURE_OIDC_WORKLOAD_IDENTITY_ENABLED": True}
 
 # Firewall
 # Set the *_firewall_zone variable for each service.
