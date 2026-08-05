@@ -101,6 +101,7 @@ controller_templates_test_org:
   - name: Test Org - Refresh Red Hat token
     description: Refresh Red Hat Hybrid Cloud Console authentication token
     job_type: run
+    job_slice_count: 1
     organization: Test Org
     inventory: Test Org - EE localhost
     project: Test Org - Test Project
@@ -111,6 +112,7 @@ controller_templates_test_org:
   - name: Test Org - Test Job Template
     description: Job template for testing
     job_type: run
+    job_slice_count: 1
     organization: Test Org
     inventory: Test Org - Test Inventory
     project: Test Org - Test Project
@@ -129,6 +131,7 @@ controller_templates_test_org:
   - name: Test Org - Test Random Failure
     description: Random failure for testing
     job_type: run
+    job_slice_count: 1
     organization: Test Org
     inventory: Test Org - Test Inventory
     project: Test Org - Test Project
@@ -180,4 +183,5 @@ controller_schedules_test_org:
     organization: Test Org
     inventory: Test Org - EE localhost
     rrule: DTSTART;TZID=Europe/Helsinki:20260101T020202 RRULE:FREQ=WEEKLY;INTERVAL=1
+    timezone: Europe/Helsinki
     enabled: true

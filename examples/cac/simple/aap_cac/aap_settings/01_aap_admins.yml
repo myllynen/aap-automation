@@ -1,6 +1,15 @@
 # Ansible Automation Platform access configuration - local AAP admin accounts
 
 aap_user_accounts_admins:
+  # The built-in superuser, defined to minimize live/repo config diff
+  - username: admin
+    is_superuser: true
+    email: root@localhost
+    authenticator_uid: admin
+    # 1 - Local Database Authenticator
+    authenticators:
+      - 1
+
   # Superuser type must be set at user account level
   - username: aap_admin
     is_superuser: true

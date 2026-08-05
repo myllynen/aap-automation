@@ -64,6 +64,12 @@ tbd_eda_decision_environments_default_org:
     state: absent
 
 # Managed organizations cannot be deleted
-#aap_organizations_default_org:
-#  - name: Default
-#    state: absent
+# This definition matches the default AAP configuration
+# to minimize diffence when comparing live/repo configs
+aap_organizations_default_org:
+  - name: Default
+    #state: absent
+    description: The default organization for Ansible Automation Platform
+    max_hosts: 0
+    galaxy_credentials:
+      - Ansible Galaxy
