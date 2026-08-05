@@ -5,11 +5,7 @@
   become: false
   gather_facts: false
   vars:
-    aap_oauthtoken: "{{ aap_token }}"
-
     aap_configuration_secure_logging: false
-    controller_configuration_filetree_read_secure_logging: false
-    controller_configuration_filetree_object_diff_secure_logging: false
 
     config_repo_path: filetree_export
 

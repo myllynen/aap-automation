@@ -1,18 +1,36 @@
 ---
-- name: Apply filetree configuration structure
+- name: Import AAP configuration from filetree format
   hosts: localhost
   connection: local
   become: false
   gather_facts: false
   vars:
-    aap_oauthtoken: "{{ aap_token }}"
+    aap_configuration_secure_logging: false
 
-    controller_configuration_filetree_read_secure_logging: false
-
-    dir_orgs_vars: ./filetree_import
+    dir_orgs_vars: ./filetree_export
     orgs: Test Org
     env: common
 
   roles:
     - infra.aap_configuration_extended.filetree_read
     - infra.aap_configuration.dispatch
+
+#  post_tasks:
+#    - name: Set variable names to display
+#      ansible.builtin.set_fact:
+#        var_names: "{{ lookup('ansible.builtin.varnames', '.+', wantlist=true)
+#                       | reject('in', ['ansible_facts', 'hostvars', 'play_hosts', 'vars'])
+#                       | sort }}"
+#
+#    - name: Display variable names
+#      ansible.builtin.debug:
+#        msg: "{{ var_names }}"
+#
+#    - name: Display variable values
+#      vars:
+#        var_values: |
+#          {% for key in var_names %}
+#          {{ key }}: {{ lookup('ansible.builtin.vars', key) }}
+#          {% endfor %}
+#      ansible.builtin.debug:
+#        msg: "{{ var_values | from_yaml }}"
