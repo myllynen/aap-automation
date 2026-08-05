@@ -5,12 +5,7 @@
   become: false
   gather_facts: false
   vars:
-    aap_oauthtoken: "{{ aap_token }}"
-
-    gateway_configuration_filetree_create_secure_logging: false
-    controller_configuration_filetree_create_secure_logging: false
-    hub_configuration_filetree_create_secure_logging: false
-    eda_configuration_filetree_create_secure_logging: false
+    aap_configuration_secure_logging: false
 
     output_path: ./filetree_export
     flatten_output: false
@@ -22,5 +17,5 @@
         input_tag:
           - gateway
           - controller
-          - hub
+          #- hub
           #- eda
