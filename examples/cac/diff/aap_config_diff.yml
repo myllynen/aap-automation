@@ -5,19 +5,15 @@
   become: false
   gather_facts: false
   vars:
-    aap_oauthtoken: "{{ aap_token }}"
+    export_aap_configuration: false
 
-    export_aap_configuration: true
-
-    gateway_configuration_filetree_create_secure_logging: false
-    controller_configuration_filetree_create_secure_logging: false
-    hub_configuration_filetree_create_secure_logging: false
-    eda_configuration_filetree_create_secure_logging: false
+    aap_configuration_secure_logging: false
 
     output_path: ./filetree_export
     flatten_output: true
     secrets_as_variables: false
     #organization_filter: Default
+    export_inline_object_roles: true
 
   tasks:
     - name: Remove previous export directory
@@ -44,8 +40,6 @@
         cmd: >
           sed -i
           -e '/LICENSE:/,/INSTALL_UUID:/d'
-          -e '/CLEANUP_HOST_METRICS_LAST_TS/d'
-          -e '/HOST_METRIC_SUMMARY_TASK_LAST_TS/d'
           controller_settings.yaml
       changed_when: true
       when: export_aap_configuration | bool
@@ -62,6 +56,30 @@
     config_repo_path: ./aap_cac
 
     fail_if_different: true
+
+    compare_ignore:
+      gateway_http_ports: '*'
+      gateway_organizations: '*'
+      gateway_routes: '*'
+      gateway_service_clusters: '*'
+      gateway_service_keys: '*'
+      gateway_service_nodes: '*'
+      gateway_services: '*'
+      controller_execution_environments:
+        - Control Plane Execution Environment
+        - Default execution environment
+        - Hub Default execution environment
+        - Hub Minimal execution environment
+        - Minimal execution environment
+      controller_instance_groups:
+        - controlplane
+        - default
+      controller_instances: '*'
+      controller_roles: '*'
+      controller_schedules:
+        - Cleanup Activity Schedule
+        - Cleanup Expired Sessions
+        - Cleanup Job Schedule
 
   tasks:
     - name: Fail if configuration directories not found
@@ -88,7 +106,7 @@
     - name: Combine AAP in-repo wildcard variables
       no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       vars:
-        var_name: "{{ item | regex_replace('^(' + __aap_cac_vars | join('|') + ')_.*', '\\1') }}"
+        var_name: "{{ item | regex_replace('^(' + aap_configuration_all_vars | join('|') + ')_.*', '\\1') }}"
         curr_val: "{{ config_repo[item] }}"
         is_dict: "{{ curr_val is mapping }}"
         prev_val: "{{ (config_repo_merged | default({})).get(var_name)
@@ -98,7 +116,7 @@
                                   | dict2items
                                   | rejectattr('key',
                                                'match',
-                                               '^(' + __aap_cac_vars | join('|') + ')_.*|.*secure_logging|^tbd_.*')
+                                               '^(' + aap_configuration_all_vars | join('|') + ')_.*|.*secure_logging|^tbd_.*')
                                   | items2dict }}"
       ansible.builtin.set_fact:
         config_repo_merged: >-
@@ -109,7 +127,7 @@
                             if is_dict else
                             (prev_val + curr_val) | unique)
                }, recursive=true) }}
-      loop: "{{ (config_repo | default({})).keys() | select('match', '^(' + __aap_cac_vars | join('|') + ')_.*') }}"
+      loop: "{{ (config_repo | default({})).keys() | select('match', '^(' + aap_configuration_all_vars | join('|') + ')_.*') }}"
       when: not item.endswith('_secure_logging')
 
     - name: Read AAP in-use configuration
@@ -119,15 +137,20 @@
         ignore_unknown_extensions: true
         name: config_live
 
+    - name: Sanitize live configuration
+      ansible.builtin.set_fact:
+        config_live_clean: "{{ (config_live | normalize_lists)
+                               | omit_ignored(compare_ignore | default({})) }}"
+
     - name: Merge configurations for comparison
       ansible.builtin.set_fact:
-        config_merged: "{{ (config_live | normalize_lists)
-                           | ansible.builtin.combine(config_repo_merged | normalize_lists, recursive=true) }}"
+        config_merged: "{{ (config_repo_merged | normalize_lists)
+                           | merge_configs(config_live_clean) }}"
 
     - name: Compare in-cac vs in-use configurations
       ansible.utils.fact_diff:
         before: "{{ config_merged | normalize_brackets | omit_deletions }}"
-        after: "{{ config_live | normalize_lists }}"
+        after: "{{ config_live_clean }}"
       register: config_diff
 
     - name: Fail on difference if requested
