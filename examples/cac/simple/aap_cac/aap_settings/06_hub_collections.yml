@@ -141,6 +141,9 @@ hub_collection_remotes:
         version: '>=2.26.9'
       - name: community.general
         version: '>=11.4.9'
+      # Required by recent community.general versions
+      - name: community.library_inventory_filtering_v1
+        version: '>=1.1.5'
       - name: community.windows
         version: '>=3.2.0'
       - name: containers.podman
