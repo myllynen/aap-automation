@@ -65,6 +65,12 @@
       gateway_service_keys: '*'
       gateway_service_nodes: '*'
       gateway_services: '*'
+      gateway_settings:
+        - gateway_proxy_url
+        - gateway_token_name
+        - AAP_DEPLOYMENT_TYPE
+        - NOTIFICATION_RSS_FEED_URL
+        - RED_HAT_CONSOLE_URL
       controller_execution_environments:
         - Control Plane Execution Environment
         - Default execution environment
@@ -72,14 +78,25 @@
         - Hub Minimal execution environment
         - Minimal execution environment
       controller_instance_groups:
-        - controlplane
-        - default
+        controlplane: '*'
+        default: '*'
+        executionplane:
+          - instances
       controller_instances: '*'
+      # Rule for all sub-entities
+      controller_inventories:
+        - variables
       controller_roles: '*'
       controller_schedules:
         - Cleanup Activity Schedule
         - Cleanup Expired Sessions
         - Cleanup Job Schedule
+        - dtstart
+        - timezone
+      # Rule for fixed nested key
+      controller_settings:
+        settings:
+          - TOWER_URL_BASE
 
   tasks:
     - name: Fail if configuration directories not found
