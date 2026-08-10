@@ -183,5 +183,4 @@ controller_schedules_test_org:
     organization: Test Org
     inventory: Test Org - EE localhost
     rrule: DTSTART;TZID=Europe/Helsinki:20260101T020202 RRULE:FREQ=WEEKLY;INTERVAL=1
-    timezone: Europe/Helsinki
     enabled: true

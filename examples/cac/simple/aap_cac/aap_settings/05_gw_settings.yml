@@ -18,7 +18,6 @@ gateway_settings:
   gateway_access_token_expiration: 600
   gateway_basic_auth_enabled: true
   gateway_proxy_url_ignore_cert: false
-  gateway_token_name: X-DAB-JW-TOKEN
   idle_timeout: 15
   jwt_default_ttl_seconds: 300
   jwt_expiration_buffer_in_seconds: 15
@@ -34,10 +33,8 @@ gateway_settings:
   MAX_PAGE_SIZE: 200
   MANAGE_ORGANIZATION_AUTH: false
   NOTIFICATION_RSS_FEED_ENABLED: false
-  NOTIFICATION_RSS_FEED_URL: https://announcements.ansiblecloud.redhat.com/feed.atom
   ORG_ADMINS_CAN_SEE_ALL_USERS: false
   #REDHAT_PASSWORD: null
-  RED_HAT_CONSOLE_URL: https://console.redhat.com
   RUNTIME_FEATURE_FLAGS: true
   RUNTIME_FEATURE_FLAGS_UI: false
   SESSION_COOKIE_AGE: 900
