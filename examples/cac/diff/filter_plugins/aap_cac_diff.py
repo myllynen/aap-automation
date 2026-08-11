@@ -5,7 +5,7 @@
 from ansible.utils.unsafe_proxy import wrap_var
 
 # May be used in infra.aap_configuration CaC but not exported or compared
-KEYS_TO_IGNORE = {'lookup_organization', 'password', 'slug', 'token'}
+KEYS_TO_IGNORE = {'password', 'slug', 'token'}
 
 # Default values to ignore to prevent noise in output
 DEFAULTS_TO_IGNORE = (False, "", 0, "0", [], {}, None)
