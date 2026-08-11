@@ -1,0 +1,36 @@
+---
+- name: Configure AAP manifest
+  hosts: localhost
+  connection: local
+  become: false
+  gather_facts: false
+  vars:
+    aap_configuration_secure_logging: false
+
+    # Manifest file
+    controller_license:
+      force: false
+      # Local manifest file
+      manifest_file: /home/admin/aap_manifest.zip
+      #manifest_file: "{{ lookup('ansible.builtin.env', 'PWD') }}/aap_manifest.zip"
+      # Remote manifest file
+      #manifest_url: https://intra.example.com/private/aap_manifest.zip
+      #manifest_username: "{{ intra_repo_private_username }}"
+      #manifest_password: "{{ intra_repo_private_password }}"
+
+    # Subscription lookup
+    # Red Hat user account credentials
+    #redhat_subscription_username: "{{ aap_redhat_registry_username }}"
+    #redhat_subscription_password: "{{ aap_redhat_registry_password }}"
+    # Red Hat service account credentials
+    #redhat_subscription_client_id: "{{ aap_redhat_client_id }}"
+    #redhat_subscription_client_secret: "{{ aap_redhat_client_secret }}"
+    #controller_license:
+    #  force: false
+    #  use_lookup: true
+    #  filters:
+    #    product_name: Red Hat Ansible Automation Platform
+    #    support_level: Self-Support
+
+  roles:
+    - infra.aap_configuration.controller_license
