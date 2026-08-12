@@ -22,10 +22,6 @@ controller_credentials_default_org:
   #  credential_type: Ansible Galaxy/Automation Hub API Token
   #  state: absent
   - name: Demo Credential
-    organization: null
-    credential_type: Machine
-    state: absent
-  - name: Demo Credential
     organization: Default
     credential_type: Machine
     state: absent
