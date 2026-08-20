@@ -1,7 +1,10 @@
 # Ansible Automation Platform execution environment image build definitions
 
-ah_host: "{{ aap_hostname }}"
-ee_ah_host: "{{ ah_host }}"
+# FQDN for collection download
+ee_ah_host: "{{ aap_hostname }}"
+
+# FQDN for pushing images
+ee_registry_dest: "{{ ee_ah_host }}"
 
 ee_base_registry_username: "{{ aap_username }}"
 ee_base_registry_password: "{{ aap_password }}"
@@ -35,13 +38,12 @@ ee_squash: new
 ee_prune_images: true
 ee_update_base_images: true
 ee_pull_collections_from_hub: true
-ee_registry_dest: "{{ ah_host }}"
 
 ee_list_old:
   # Keep in sync with DESCRIPTION!
   - name: custom/custom-base-rhel9
     tag: latest
-    base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel9:2.16"
+    base_image: "{{ ee_registry_dest }}/ansible-automation-platform/ee-minimal-rhel9:2.16"
 
     dependencies:
       # Must match Python version with pip in base image
@@ -113,7 +115,7 @@ ee_list:
   # Keep in sync with DESCRIPTION!
   - name: custom/custom-base-rhel9
     tag: latest
-    base_image: "{{ ee_ah_host }}/ansible-automation-platform/ee-minimal-rhel9:2.18"
+    base_image: "{{ ee_registry_dest }}/ansible-automation-platform/ee-minimal-rhel9:2.18"
 
     dependencies:
       # Must match Python version with pip in base image
