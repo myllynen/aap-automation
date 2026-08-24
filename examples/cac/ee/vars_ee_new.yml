@@ -43,6 +43,7 @@ ee_list:
   # Keep in sync with DESCRIPTION!
   - name: custom/custom-full-rhel9
     tag: latest
+    #base_image: "{{ ee_registry_dest }}/ansible-automation-platform-27/ee-supported-rhel9@sha256:123123abcabc"
     base_image: "{{ ee_registry_dest }}/ansible-automation-platform-27/ee-supported-rhel9:latest"
 
     dependencies:
