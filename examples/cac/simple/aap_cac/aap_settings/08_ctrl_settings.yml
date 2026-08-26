@@ -27,8 +27,7 @@ controller_settings:
       - /usr/share/pki:/usr/share/pki:O
     AWX_ROLES_ENABLED: false
     AWX_SHOW_PLAYBOOK_LINKS: false
-    #AWX_TASK_ENV:
-    #  HTTP_PROXY: ...
+    AWX_TASK_ENV: {}
     DEFAULT_EXECUTION_ENVIRONMENT: null
     DEFAULT_JOB_TIMEOUT: 3600
     DEFAULT_JOB_IDLE_TIMEOUT: 0
