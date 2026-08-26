@@ -7,6 +7,8 @@ log_path = ./aap_install.log
 #remote_user = aapadmin
 forks = 30
 
+deprecation_warnings = False
+
 stdout_callback = ansible.builtin.default
 callback_result_format = yaml
 callback_result_indentation = 2
