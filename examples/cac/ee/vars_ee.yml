@@ -3,6 +3,9 @@
 # FQDN for collection download
 ee_ah_host: "{{ aap_hostname }}"
 
+# FQDN for pulling images
+ee_registry_from: "{{ ee_ah_host }}"
+
 # FQDN for pushing images
 ee_registry_dest: "{{ ee_ah_host }}"
 
@@ -17,8 +20,8 @@ ee_validate_certs: "{{ aap_validate_certs }}"
 # https://ansible.readthedocs.io/projects/builder/en/stable/definition/
 ee_version: 3
 ee_build_arg_defaults:
-  ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: -vvv
   #ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --ignore-certs --no-deps --upgrade -vvv
+  ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: -vvv
   PKGMGR_PRESERVE_CACHE: always
 #ee_builder_dir: /var/tmp/aap-ee-build
 #ee_builder_dir_clean: false
@@ -43,8 +46,8 @@ ee_list_old:
   # Keep in sync with DESCRIPTION!
   - name: custom/custom-base-rhel9
     tag: latest
-    #base_image: "{{ ee_registry_dest }}/ansible-automation-platform/ee-minimal-rhel9@sha256:123123abcabc"
-    base_image: "{{ ee_registry_dest }}/ansible-automation-platform/ee-minimal-rhel9:2.16"
+    #base_image: "{{ ee_registry_from }}/ansible-automation-platform/ee-minimal-rhel9@sha256:123123abcabc"
+    base_image: "{{ ee_registry_from }}/ansible-automation-platform/ee-minimal-rhel9:2.16"
 
     dependencies:
       # Must match Python version with pip in base image
@@ -116,8 +119,8 @@ ee_list:
   # Keep in sync with DESCRIPTION!
   - name: custom/custom-base-rhel9
     tag: latest
-    #base_image: "{{ ee_registry_dest }}/ansible-automation-platform/ee-minimal-rhel9@sha256:123123abcabc"
-    base_image: "{{ ee_registry_dest }}/ansible-automation-platform/ee-minimal-rhel9:2.18"
+    #base_image: "{{ ee_registry_from }}/ansible-automation-platform/ee-minimal-rhel9@sha256:123123abcabc"
+    base_image: "{{ ee_registry_from }}/ansible-automation-platform/ee-minimal-rhel9:2.18"
 
     dependencies:
       # Must match Python version with pip in base image
