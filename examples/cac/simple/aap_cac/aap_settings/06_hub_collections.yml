@@ -14,7 +14,7 @@ redhat_auth_token: "{{ aap_redhat_hub_token }}"
 aap_request_timeout: 5
 hub_repository: staging
 hub_auto_approve: true
-hub_overwrite_existing: true
+hub_skip_existing_collections: true
 aap_configuration_working_dir: /var/tmp
 
 aap_configuration_async_retries: 100
@@ -37,16 +37,28 @@ hub_custom_collections:
   - collection_name: myllynen.rhel_ansible_roles
     git_url: https://github.com/myllynen/rhel-ansible-roles
     version: v3.4.10
+    # These are for use with hub_skip_existing_collections
+    namespace: myllynen
+    name: rhel_ansible_roles
+    collection_version: "3.4.10"
 
   - collection_name: myllynen.rhel_image
     git_url: https://github.com/myllynen/rhel-image
     version: v2.2.2
+    # These are for use with hub_skip_existing_collections
+    namespace: myllynen
+    name: rhel_image
+    collection_version: "2.2.2"
 
   - collection_name: myllynen.windows_ansible_roles
     git_url: https://github.com/myllynen/windows-ansible-roles
     version: v6.0.1
     #key_file:
     #ssh_opts:
+    # These are for use with hub_skip_existing_collections
+    namespace: myllynen
+    name: windows_ansible_roles
+    collection_version: "6.0.1"
 
 hub_collection_remotes:
   - name: rh-certified
@@ -62,7 +74,7 @@ hub_collection_remotes:
     sync_dependencies: true
     requirements:
       - name: ansible.controller
-        version: '>=4.8.4'
+        version: '>=4.8.6'
       - name: ansible.eda
         version: '>=2.13.0'
       - name: ansible.hub
@@ -76,7 +88,7 @@ hub_collection_remotes:
       - name: ansible.utils
         version: '>=6.1.0'
       - name: ansible.windows
-        version: '>=3.7.0'
+        version: '>=3.8.0'
       - name: chocolatey.chocolatey
         version: '>=1.6.0'
       - name: kubernetes.core
