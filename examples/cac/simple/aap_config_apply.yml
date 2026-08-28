@@ -11,9 +11,10 @@
     # Use . to read everything in basedir
     #config_content: aap_settings
     #config_content: test_org
-    config_content:
+    config_content: []
+    #config_content:
       #- aap_settings
-      - default_org
+      #- default_org
       #- test_org
     #config_content:
     #  - aap_settings/06_hub_collections.yml
@@ -94,8 +95,6 @@
     - name: Read AAP CaC files
       no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       vars:
-        list_input: "{{ false if config_content is string else true }}"
-        content_list: "{{ config_content if list_input else [config_content] }}"
         dir_input: "{{ false if item.endswith('yml') else true }}"
         env_content: "{{ ['aap_env/' + aap_env] }}"
       ansible.builtin.include_vars:
@@ -105,10 +104,11 @@
         ignore_files: "{{ config_ignore if config_ignore is defined and dir_input else omit }}"
         ignore_unknown_extensions: "{{ true if dir_input else omit }}"
         file: "{{ (config_basedir + '/' + item) if not dir_input else omit }}"
-      loop: "{{ env_content + content_list }}"
+      loop: "{{ env_content + ([config_content] | flatten | select) }}"
 
     - name: Apply AAP configuration
       vars:
         dispatch_include_wildcard_vars: true
       ansible.builtin.include_role:
         name: infra.aap_configuration.dispatch
+      when: ([config_content] | flatten | select | length) > 0
