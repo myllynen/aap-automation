@@ -12,7 +12,7 @@ aap_configuration_async_delay: 6
 
 hub_ee_registries:
   - name: redhat
-    url: https://registry.redhat.io
+    url: https://{{ aap_redhat_registry_hostname }}
     username: "{{ aap_redhat_registry_username }}"
     password: "{{ aap_redhat_registry_password }}"
     tls_validation: true

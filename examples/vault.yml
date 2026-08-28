@@ -29,8 +29,9 @@ aap_password: "{{ aap_admin_password }}"
 # https://console.redhat.com/ansible/automation-hub/token
 #aap_redhat_hub_token: "{{ lookup('file', lookup('env', 'PWD') + '/redhat_token.txt') }}"
 
-# Red Hat registry credentials
+# Red Hat EE registry credentials
 # Needed for configuring automation hub
+aap_redhat_registry_hostname: registry.redhat.io
 #aap_redhat_registry_username: your-rhn-username
 #aap_redhat_registry_password: your-rhn-password
 

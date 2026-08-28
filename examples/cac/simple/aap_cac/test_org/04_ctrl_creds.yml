@@ -19,17 +19,17 @@ controller_credentials_test_org:
     inputs:
       url: https://{{ aap_hostname }}/api/galaxy/content/validated/
       token: "{{ hub_token }}"
-  - name: Test Org - Automation Hub Collections Community Repository
-    organization: Test Org
-    credential_type: Ansible Galaxy/Automation Hub API Token
-    inputs:
-      url: https://{{ aap_hostname }}/api/galaxy/content/community/
-      token: "{{ hub_token }}"
   - name: Test Org - Automation Hub Collections Published Repository
     organization: Test Org
     credential_type: Ansible Galaxy/Automation Hub API Token
     inputs:
       url: https://{{ aap_hostname }}/api/galaxy/content/published/
+      token: "{{ hub_token }}"
+  - name: Test Org - Automation Hub Collections Community Repository
+    organization: Test Org
+    credential_type: Ansible Galaxy/Automation Hub API Token
+    inputs:
+      url: https://{{ aap_hostname }}/api/galaxy/content/community/
       token: "{{ hub_token }}"
 
   - name: Test Org - Automation Hub Container Registry

@@ -11,8 +11,8 @@ aap_organizations_test_org:
     galaxy_credentials:
       - Test Org - Automation Hub Collections Certified Repository
       - Test Org - Automation Hub Collections Validated Repository
-      - Test Org - Automation Hub Collections Community Repository
       - Test Org - Automation Hub Collections Published Repository
+      - Test Org - Automation Hub Collections Community Repository
 
 # NB. Team names must be unique across AAP
 controller_instance_groups_test_org_default:
