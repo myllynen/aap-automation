@@ -21,6 +21,10 @@ gateway_settings:
   idle_timeout: 15
   jwt_default_ttl_seconds: 300
   jwt_expiration_buffer_in_seconds: 15
+  password_min_digits: 0
+  password_min_length: 0
+  password_min_special: 0
+  password_min_upper: 0
   request_timeout: 15
   resource_client_request_timeout: 10.0
   status_endpoint_backend_timeout_seconds: 5
@@ -30,12 +34,13 @@ gateway_settings:
   AUTOMATION_ANALYTICS_GATHER_INTERVAL: 14400
   DEFAULT_PAGE_SIZE: 50
   INSIGHTS_TRACKING_STATE: false
+  MANAGE_ORGANIZATION_AUTH: false
   MAX_EXTRA_SESSIONS_PER_USER: -1
   MAX_PAGE_SIZE: 200
-  MANAGE_ORGANIZATION_AUTH: false
   NOTIFICATION_RSS_FEED_ENABLED: false
   ORG_ADMINS_CAN_SEE_ALL_USERS: false
   #REDHAT_PASSWORD: null
   RUNTIME_FEATURE_FLAGS: true
   SESSION_COOKIE_AGE: 900
+  SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL: false
   #SUBSCRIPTIONS_PASSWORD: null
