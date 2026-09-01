@@ -39,8 +39,8 @@
       - aap_configuration_async_delay
       - aap_configuration_async_retries
       - aap_request_timeout
-      # For independent gateway/controller org
-      - '^aap_organizations_test_org$'
+      # For independent gateway/controller orgs
+      - '^aap_organizations_'
 
     # Known-good variables in addition to all recognized
     # wildcard variables. Unknown vars must either be added
@@ -52,8 +52,8 @@
       - aap_request_timeout
       - 'env_.*'
       - hub_auto_approve
-      - hub_skip_existing_collections
       - hub_repository
+      - hub_skip_existing_collections
       - redhat_auth_token
       - redhat_auth_url
       - '.*secure_logging$'
