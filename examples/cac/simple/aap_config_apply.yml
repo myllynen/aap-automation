@@ -42,6 +42,23 @@
       # For independent gateway/controller org
       - '^aap_organizations_test_org$'
 
+    # Known-good variables in addition to all recognized
+    # wildcard variables. Unknown vars must either be added
+    # below or have their names fixed for the check to pass
+    known_good_variables:
+      - aap_configuration_async_delay
+      - aap_configuration_async_retries
+      - aap_configuration_working_dir
+      - aap_request_timeout
+      - 'env_.*'
+      - hub_auto_approve
+      - hub_skip_existing_collections
+      - hub_repository
+      - redhat_auth_token
+      - redhat_auth_url
+      - '.*secure_logging$'
+      - 'tbd_.*'
+
     # Settings in files will override these for AAP
     aap_configuration_secure_logging: false
     aap_configuration_dispatcher_exclude_roles:
@@ -75,6 +92,26 @@
         | awk 'BEGIN {print "Incorrect variable names found:\n"} 1'
       register: env_vars_orgs_check
       failed_when: env_vars_orgs_check.rc == 2 or env_vars_orgs_check.stdout_lines | length > 2
+      changed_when: false
+
+    - name: Read list of known AAP CaC wildcard variables
+      ansible.builtin.include_role:
+        name: infra.aap_configuration.dispatch
+        tasks_from: vars_only
+        public: true
+
+    - name: Verify no unknown variable definitions
+      vars:
+        excludes_regex: "{{ (aap_configuration_all_vars + known_good_variables) | join('|') }}"
+      ansible.builtin.shell: >
+        set -o pipefail &&
+        grep -Ehr '^\w+:' --exclude-dir=common {{ config_basedir }}
+        | sed 's/:.*//'
+        | grep -Ev '^({{ excludes_regex }})'
+        | sort -u
+        | awk 'BEGIN {print "Unknown variable definitions found:\n"} 1'
+      register: unknown_check
+      failed_when: unknown_check.rc == 2 or unknown_check.stdout_lines | length > 2
       changed_when: false
 
     - name: Verify no unexpected duplicate variable definitions
