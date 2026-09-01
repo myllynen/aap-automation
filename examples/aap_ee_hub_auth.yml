@@ -8,8 +8,10 @@
     hostname: "{{ aap_hostname }}"
 
     # These should come from vault
-    username: "{{ aap_username }}"
-    password: "{{ aap_password }}"
+    # use either or, prefer token
+    #username: "{{ aap_username }}"
+    #password: "{{ aap_password }}"
+    token: "{{ aap_token }}"
 
     # List of public AAP EE images
     aap_ee_public:
@@ -28,21 +30,25 @@
     - name: Get list of AAP EE container images
       ansible.builtin.uri:
         url: https://{{ hostname + container_index }}
-        user: "{{ username }}"
-        password: "{{ password }}"
+        #url_username: "{{ username }}"
+        #url_password: "{{ password }}"
         validate_certs: false
         force_basic_auth: true
         method: GET
+        headers:
+          Authorization: Bearer {{ token }}
       register: aap_ee_images
 
     - name: Configure EEs public
       ansible.builtin.uri:
         url: https://{{ hostname + item.pulp_href }}
-        user: "{{ username }}"
-        password: "{{ password }}"
+        #url_username: "{{ username }}"
+        #url_password: "{{ password }}"
         validate_certs: false
         force_basic_auth: true
         method: PATCH
+        headers:
+          Authorization: Bearer {{ token }}
         body_format: json
         body:
           private: false
@@ -58,11 +64,13 @@
     - name: Configure EEs private
       ansible.builtin.uri:
         url: https://{{ hostname + item.pulp_href }}
-        user: "{{ username }}"
-        password: "{{ password }}"
+        #url_username: "{{ username }}"
+        #url_password: "{{ password }}"
         validate_certs: false
         force_basic_auth: true
         method: PATCH
+        headers:
+          Authorization: Bearer {{ token }}
         body_format: json
         body:
           private: true

@@ -9,23 +9,26 @@
     hostname: "{{ aap_hostname }}"
 
     # These should come from vault
-    username: "{{ aap_username }}"
-    password: "{{ aap_password }}"
+    # use either or, prefer token
+    #username: "{{ aap_username }}"
+    #password: "{{ aap_password }}"
+    token: "{{ aap_token }}"
 
   tasks:
     - name: Clean up orphaned AAP hub content
       ansible.builtin.uri:
         url: "https://{{ hostname }}/api/galaxy/pulp/api/v3/orphans/cleanup/"
-        user: "{{ username }}"
-        password: "{{ password }}"
+        #url_username: "{{ username }}"
+        #url_password: "{{ password }}"
         validate_certs: false
         force_basic_auth: true
         method: POST
+        headers:
+          Authorization: Bearer {{ token }}
         body_format: json
         body:
           orphan_protection_time: 0
         status_code:
           - 200
           - 202
-        validate_certs: false
       changed_when: true

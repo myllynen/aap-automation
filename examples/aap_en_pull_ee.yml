@@ -8,12 +8,17 @@
     hostname: "{{ aap_hostname }}"
 
     # These should come from vault
+    # use either or, prefer token
     username: "{{ aap_username }}"
+    # Tokens do not work for the time being with PAH,
+    # https://redhat.atlassian.net/browse/AAPRFE-2386
     password: "{{ aap_password }}"
+    #token: "{{ aap_token }}"
 
   tasks:
     - name: Get list of instances
       ansible.builtin.set_fact:
+        #    host=hostname, oauth_token=token, verify_ssl=false,
         aap_instances: >-
           {{ query('ansible.platform.gateway_api', 'api/controller/v2/instances/',
              host=hostname, username=username, password=password, verify_ssl=false,

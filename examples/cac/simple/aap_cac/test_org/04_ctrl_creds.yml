@@ -37,8 +37,10 @@ controller_credentials_test_org:
     credential_type: Container Registry
     inputs:
       host: "{{ aap_hostname }}"
-      username: "{{ aap_username }}"
-      password: "{{ aap_password }}"
+      # Tokens do not work for the time being with PAH,
+      # https://redhat.atlassian.net/browse/AAPRFE-2386
+      username: "{{ aap_username | default('admin') }}"
+      password: "{{ aap_password | default('Foobar_12') }}"
 
   - name: Test Org - SCM Credential
     organization: Test Org

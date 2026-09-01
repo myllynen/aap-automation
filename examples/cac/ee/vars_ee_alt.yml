@@ -9,6 +9,8 @@ ee_registry_from: "{{ ee_ah_host }}"
 # FQDN for pushing images
 ee_registry_dest: "{{ ee_ah_host }}"
 
+# Tokens do not work for the time being with PAH,
+# https://redhat.atlassian.net/browse/AAPRFE-2386
 ee_base_registry_username: "{{ aap_username }}"
 ee_base_registry_password: "{{ aap_password }}"
 ee_registry_username: "{{ aap_username }}"

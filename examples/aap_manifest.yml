@@ -23,6 +23,7 @@
     #redhat_subscription_username: "{{ aap_redhat_registry_username }}"
     #redhat_subscription_password: "{{ aap_redhat_registry_password }}"
     # Red Hat service account credentials
+    # This may be impacted by https://redhat.atlassian.net/browse/AAP-87423
     #redhat_subscription_client_id: "{{ aap_redhat_client_id }}"
     #redhat_subscription_client_secret: "{{ aap_redhat_client_secret }}"
     #controller_license:
