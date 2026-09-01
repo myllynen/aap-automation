@@ -82,6 +82,7 @@
         default: '*'
         executionplane:
           - instances
+          - policy_instance_list
       controller_instances: '*'
       # Rule for all sub-entities
       controller_inventories:

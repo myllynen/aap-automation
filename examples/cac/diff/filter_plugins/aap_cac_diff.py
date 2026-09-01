@@ -135,8 +135,8 @@ def omit_ignored(data, ignore_map):
                 if isinstance(item_v, dict):
                     item_v = {k: v for k, v in item_v.items() if k not in rule}
 
-                if item_v or not isinstance(item_v, dict):
-                    sub_dict[item_k] = item_v
+                # Retain intentionally empty settings
+                sub_dict[item_k] = item_v
 
             if sub_dict:
                 cleaned[key] = sub_dict
