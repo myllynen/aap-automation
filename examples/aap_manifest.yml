@@ -11,6 +11,7 @@
     controller_license:
       force: false
       # Local manifest file
+      #manifest_file: "{{ aap_manifest_file }}"
       manifest_file: /home/admin/aap_manifest.zip
       #manifest_file: "{{ lookup('ansible.builtin.env', 'PWD') }}/aap_manifest.zip"
       # Remote manifest file
