@@ -9,19 +9,19 @@
 
     # These should come from vault
     # use either or, prefer token
-    username: "{{ aap_username }}"
+    #username: "{{ aap_username }}"
     # Tokens do not work for the time being with PAH,
     # https://redhat.atlassian.net/browse/AAPRFE-2386
-    password: "{{ aap_password }}"
-    #token: "{{ aap_token }}"
+    #password: "{{ aap_password }}"
+    token: "{{ aap_token }}"
 
   tasks:
     - name: Get list of instances
       ansible.builtin.set_fact:
-        #    host=hostname, oauth_token=token, verify_ssl=false,
+        #    host=hostname, username=username, password=password, verify_ssl=false,
         aap_instances: >-
           {{ query('ansible.platform.gateway_api', 'api/controller/v2/instances/',
-             host=hostname, username=username, password=password, verify_ssl=false,
+             host=hostname, oauth_token=token, verify_ssl=false,
              query_params={'order_by': 'hostname'},
              return_all=true, max_objects=10000) }}
 
@@ -42,6 +42,9 @@
     # AAP admin home
     admin_home: /home/{{ ansible_user }}
 
+    # Skip registry login if not needed
+    images_public: true
+
     # List of AAP EE images to remove on ENs
     # NB. Do not remove the managed EE images
     aap_en_ee_remove: []
@@ -60,6 +63,7 @@
         username: "{{ aap_username }}"
         password: "{{ aap_password }}"
         tlsverify: false
+      when: not images_public | bool
 
     - name: Remove EE images
       environment:
