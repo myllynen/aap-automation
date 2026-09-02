@@ -13,16 +13,15 @@
     #config_content: test_org
     config_content: []
     #config_content:
-      #- aap_settings
-      #- default_org
-      #- test_org
+    #  - aap_settings
+    #  - default_org
+    #  - test_org
     #config_content:
     #  - aap_settings/06_hub_collections.yml
     #  - aap_settings/07_hub_execution_environments.yml
     #config_content:
     #  - test_org/02_teams.yml
     #  - test_org/03_users.yml
-    #config_content:
     #  - test_org/05_ctrl_cac.yml
 
     # Optional list of files to ignore
@@ -30,17 +29,6 @@
     #config_ignore:
     #  - '.*creds.*'
     #  - '.*hub.*'
-
-    # Reject duplicate variable definitions to avoid
-    # a new setting to override an earlier one, with
-    # the below known-good exceptions in the CaC dir
-    known_good_duplicates:
-      # For independent EE/collection syncing
-      - aap_configuration_async_delay
-      - aap_configuration_async_retries
-      - aap_request_timeout
-      # For independent gateway/controller orgs
-      - '^aap_organizations_'
 
     # Known-good variables in addition to all recognized
     # wildcard variables. Unknown vars must either be added
@@ -59,6 +47,17 @@
       - '.*secure_logging$'
       - 'tbd_.*'
 
+    # Reject duplicate variable definitions to avoid
+    # a new setting to override an earlier one, with
+    # the below known-good exceptions in the CaC dir
+    known_good_duplicates:
+      # For independent EE/collection syncing
+      - aap_configuration_async_delay
+      - aap_configuration_async_retries
+      - aap_request_timeout
+      # For independent gateway/controller orgs
+      - '^aap_organizations_'
+
     # Settings in files will override these for AAP
     aap_configuration_secure_logging: false
     aap_configuration_dispatcher_exclude_roles:
@@ -68,32 +67,6 @@
     hub_configuration_dispatcher_roles_include_publish: true
 
   tasks:
-    - name: Verify correct form of environment-specific variables - common
-      ansible.builtin.shell: >
-        set -o pipefail &&
-        grep -Ehr '^\w+:' {{ config_basedir }}/aap_env/*/common
-        | sed 's/:.*//'
-        | grep -v '^aap_'
-        | sort
-        | uniq
-        | awk 'BEGIN {print "Incorrect variable names found:\n"} 1'
-      register: env_vars_common_check
-      failed_when: env_vars_common_check.rc == 2 or env_vars_common_check.stdout_lines | length > 2
-      changed_when: false
-
-    - name: Verify correct form of environment-specific variables - organizations
-      ansible.builtin.shell: >
-        set -o pipefail &&
-        grep -Ehr '^\w+:' --exclude-dir=common {{ config_basedir }}/aap_env
-        | sed 's/:.*//'
-        | grep -v '^env_'
-        | sort
-        | uniq
-        | awk 'BEGIN {print "Incorrect variable names found:\n"} 1'
-      register: env_vars_orgs_check
-      failed_when: env_vars_orgs_check.rc == 2 or env_vars_orgs_check.stdout_lines | length > 2
-      changed_when: false
-
     - name: Read list of known AAP CaC wildcard variables
       ansible.builtin.include_role:
         name: infra.aap_configuration.dispatch
@@ -129,10 +102,39 @@
       failed_when: duplicate_check.rc != 0 or duplicate_check.stdout_lines | length > 2
       changed_when: false
 
+    # Remove if not using environment-specific variables
+    - name: Verify correct form of environment-specific variables - common
+      ansible.builtin.shell: >
+        set -o pipefail &&
+        grep -Ehr '^\w+:' {{ config_basedir }}/aap_env/*/common
+        | sed 's/:.*//'
+        | grep -v '^aap_'
+        | sort
+        | uniq
+        | awk 'BEGIN {print "Incorrect variable names found:\n"} 1'
+      register: env_vars_common_check
+      failed_when: env_vars_common_check.rc == 2 or env_vars_common_check.stdout_lines | length > 2
+      changed_when: false
+
+    # Remove if not using environment-specific variables
+    - name: Verify correct form of environment-specific variables - organizations
+      ansible.builtin.shell: >
+        set -o pipefail &&
+        grep -Ehr '^\w+:' --exclude-dir=common {{ config_basedir }}/aap_env
+        | sed 's/:.*//'
+        | grep -v '^env_'
+        | sort
+        | uniq
+        | awk 'BEGIN {print "Incorrect variable names found:\n"} 1'
+      register: env_vars_orgs_check
+      failed_when: env_vars_orgs_check.rc == 2 or env_vars_orgs_check.stdout_lines | length > 2
+      changed_when: false
+
     - name: Read AAP CaC files
       no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       vars:
         dir_input: "{{ false if item.endswith('yml') else true }}"
+        # Remove if not using environment-specific variables
         env_content: "{{ ['aap_env/' + aap_env] }}"
       ansible.builtin.include_vars:
         dir: "{{ (config_basedir + '/' + item) if dir_input else omit }}"
