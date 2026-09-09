@@ -78,7 +78,7 @@
         excludes_regex: "{{ (aap_configuration_all_vars + known_good_variables) | join('|') }}"
       ansible.builtin.shell: >
         set -o pipefail &&
-        grep -Ehr '^\w+:' --exclude-dir=common {{ config_basedir }}
+        grep -Ehr '^\w+:' --exclude-dir=common --include='*.yml' {{ config_basedir }}
         | sed 's/:.*//'
         | grep -Ev '^({{ excludes_regex }})'
         | sort -u
@@ -92,7 +92,7 @@
         excludes_regex: "{{ known_good_duplicates | default(['^check_all$'], true) | join('|') }}"
       ansible.builtin.shell: >
         set -o pipefail &&
-        grep -Ehr '^\w+:' --exclude-dir=common {{ config_basedir }}
+        grep -Ehr '^\w+:' --exclude-dir=common --include='*.yml' {{ config_basedir }}
         | sed 's/:.*//'
         | grep -Ev '({{ excludes_regex }})'
         | sort
@@ -106,7 +106,7 @@
     - name: Verify correct form of environment-specific variables - common
       ansible.builtin.shell: >
         set -o pipefail &&
-        grep -Ehr '^\w+:' {{ config_basedir }}/aap_env/*/common
+        grep -Ehr '^\w+:' --include='*.yml' {{ config_basedir }}/aap_env/*/common
         | sed 's/:.*//'
         | grep -v '^aap_'
         | sort
@@ -120,7 +120,7 @@
     - name: Verify correct form of environment-specific variables - organizations
       ansible.builtin.shell: >
         set -o pipefail &&
-        grep -Ehr '^\w+:' --exclude-dir=common {{ config_basedir }}/aap_env
+        grep -Ehr '^\w+:' --exclude-dir=common --include='*.yml'{{ config_basedir }}/aap_env
         | sed 's/:.*//'
         | grep -v '^env_'
         | sort
