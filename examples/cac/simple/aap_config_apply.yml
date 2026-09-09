@@ -9,26 +9,26 @@
     config_basedir: aap_cac
     # AAP CaC files or directories to read
     # Use . to read everything in basedir
-    #config_content: aap_settings
-    #config_content: test_org
+    # config_content: aap_settings
+    # config_content: test_org
     config_content: []
-    #config_content:
-    #  - aap_settings
-    #  - default_org
-    #  - test_org
-    #config_content:
-    #  - aap_settings/06_hub_collections.yml
-    #  - aap_settings/07_hub_execution_environments.yml
-    #config_content:
-    #  - test_org/02_teams.yml
-    #  - test_org/03_users.yml
-    #  - test_org/05_ctrl_cac.yml
+    # config_content:
+    #   - aap_settings
+    #   - default_org
+    #   - test_org
+    # config_content:
+    #   - aap_settings/06_hub_collections.yml
+    #   - aap_settings/07_hub_execution_environments.yml
+    # config_content:
+    #   - test_org/02_teams.yml
+    #   - test_org/03_users.yml
+    #   - test_org/05_ctrl_cac.yml
 
     # Optional list of files to ignore
     # when reading contents of directories
-    #config_ignore:
-    #  - '.*creds.*'
-    #  - '.*hub.*'
+#    config_ignore:
+#      - '.*creds.*'
+#      - '.*hub.*'
 
     # Known-good variables in addition to all recognized
     # wildcard variables. Unknown vars must either be added
@@ -129,6 +129,33 @@
       register: env_vars_orgs_check
       failed_when: env_vars_orgs_check.rc == 2 or env_vars_orgs_check.stdout_lines | length > 2
       changed_when: false
+
+    - name: Determine AAP CaC files to apply from webhook payload
+      vars:
+        commit_branch: "{{ tower_webhook_payload.ref | regex_replace('^refs/heads/', '') }}"
+        env_map:
+          main: dev
+          master: dev
+          dev: dev
+          test: test
+          prod: prod
+      ansible.builtin.set_fact:
+        aap_env: "{{ env_map[commit_branch] | default(commit_branch) }}"
+        config_branch: "{{ commit_branch }}"
+        config_content: >-
+          {{ ((tower_webhook_payload.commits | default([]) | map(attribute='added')) +
+              (tower_webhook_payload.commits | default([]) | map(attribute='modified')))
+             | flatten | unique | sort | map('regex_replace', '^.*?' + config_basedir + '/', '')
+          }}
+      when: tower_webhook_payload.commits is defined
+
+    - name: Display AAP CaC files determined from webhook payload
+      ansible.builtin.debug:
+        msg: |
+          - aap_env: {{ aap_env }}
+          - config_branch: {{ config_branch }}
+          - config_content: {{ config_content }}
+      when: tower_webhook_payload.commits is defined
 
     - name: Read AAP CaC files
       no_log: "{{ aap_configuration_secure_logging | default(false) }}"
