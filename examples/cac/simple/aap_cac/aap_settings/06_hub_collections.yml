@@ -29,9 +29,9 @@ hub_namespaces:
     description: Collections from myllynen's GitHub repositories
 
 # This is mutually exclusive with hub_custom_collections
-#hub_collection_list:
-#  - collection_name: custom.example_collection
-#    collection_local_path: /tmp/collections/custom.example_collection-1.2.3
+# hub_collection_list:
+#   - collection_name: custom.example_collection
+#     collection_local_path: /tmp/collections/custom.example_collection-1.2.3
 
 hub_custom_collections:
   - collection_name: myllynen.rhel_ansible_roles
@@ -53,8 +53,8 @@ hub_custom_collections:
   - collection_name: myllynen.windows_ansible_roles
     git_url: https://github.com/myllynen/windows-ansible-roles
     version: v6.0.1
-    #key_file:
-    #ssh_opts:
+    # key_file:
+    # ssh_opts:
     # These are for use with hub_skip_existing_collections
     namespace: myllynen
     name: windows_ansible_roles
@@ -96,7 +96,7 @@ hub_collection_remotes:
       - name: microsoft.ad
         version: '>=1.12.1'
       - name: microsoft.mecm
-        version: '>=2.0.0'
+        version: '>=2.1.0'
       - name: redhat.rhel_idm
         version: '>=1.16.0'
       - name: redhat.rhel_system_roles
