@@ -22,11 +22,11 @@ ee_validate_certs: "{{ aap_validate_certs }}"
 # https://ansible.readthedocs.io/projects/builder/en/stable/definition/
 ee_version: 3
 ee_build_arg_defaults:
-  #ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --ignore-certs --no-deps --upgrade -vvv
+  # ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --ignore-certs --no-deps --upgrade -vvv
   ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: -vvv
   PKGMGR_PRESERVE_CACHE: always
-#ee_builder_dir: /var/tmp/aap-ee-build
-#ee_builder_dir_clean: false
+# ee_builder_dir: /var/tmp/aap-ee-build
+# ee_builder_dir_clean: false
 ee_build_options:
   container_init:
     entrypoint: '["/opt/builder/bin/entrypoint"]'
@@ -48,7 +48,7 @@ ee_list_old:
   # Keep in sync with DESCRIPTION!
   - name: custom/custom-base-rhel9
     tag: latest
-    #base_image: "{{ ee_registry_from }}/ansible-automation-platform/ee-minimal-rhel9@sha256:123123abcabc"
+    # base_image: "{{ ee_registry_from }}/ansible-automation-platform/ee-minimal-rhel9@sha256:123123abcabc"
     base_image: "{{ ee_registry_from }}/ansible-automation-platform/ee-minimal-rhel9:2.16"
 
     dependencies:
@@ -64,33 +64,33 @@ ee_list_old:
           - ansible.platform
           - ansible.posix
           - ansible.utils
-          #- ansible.windows
-          #- azure.azcollection
-          #- chocolatey.chocolatey
-          #- kubernetes.core
-          #- microsoft.ad
+          # - ansible.windows
+          # - azure.azcollection
+          # - chocolatey.chocolatey
+          # - kubernetes.core
+          # - microsoft.ad
           - redhat.rhel_idm
           - redhat.rhel_system_roles
           - redhat.satellite
           - redhat.satellite_operations
           - infra.aap_configuration
-          #- infra.aap_utilities
-          #- infra.ee_utilities
-          #- infra.leapp
+          # - infra.aap_utilities
+          # - infra.ee_utilities
+          # - infra.leapp
           - community.general
-          #- community.windows
-          #- containers.podman
+          # - community.windows
+          # - containers.podman
           - myllynen.rhel_ansible_roles
-          #- myllynen.rhel_image
-          #- myllynen.windows_ansible_roles
-      #python:
-      #  - dnspython
-      #  - netaddr
-      #  - psutil
-      #  - pyjwt
-      #  - selinux
+          # - myllynen.rhel_image
+          # - myllynen.windows_ansible_roles
+#      python:
+#        - dnspython
+#        - netaddr
+#        - psutil
+#        - pyjwt
+#        - selinux
       system:
-        #- findutils [platform:rpm]
+        # - findutils [platform:rpm]
         - iputils [platform:rpm]
         # Packages often needed for building deps
         - gcc [platform:rpm]
@@ -121,7 +121,7 @@ ee_list:
   # Keep in sync with DESCRIPTION!
   - name: custom/custom-base-rhel9
     tag: latest
-    #base_image: "{{ ee_registry_from }}/ansible-automation-platform/ee-minimal-rhel9@sha256:123123abcabc"
+    # base_image: "{{ ee_registry_from }}/ansible-automation-platform/ee-minimal-rhel9@sha256:123123abcabc"
     base_image: "{{ ee_registry_from }}/ansible-automation-platform/ee-minimal-rhel9:2.18"
 
     dependencies:
@@ -138,32 +138,32 @@ ee_list:
           - ansible.posix
           - ansible.utils
           - ansible.windows
-          #- azure.azcollection
+          # - azure.azcollection
           - chocolatey.chocolatey
-          #- kubernetes.core
+          # - kubernetes.core
           - microsoft.ad
           - redhat.rhel_idm
           - redhat.rhel_system_roles
           - redhat.satellite
           - redhat.satellite_operations
           - infra.aap_configuration
-          #- infra.aap_utilities
-          #- infra.ee_utilities
-          #- infra.leapp
+          # - infra.aap_utilities
+          # - infra.ee_utilities
+          # - infra.leapp
           - community.general
           - community.windows
           - containers.podman
           - myllynen.rhel_ansible_roles
-          #- myllynen.rhel_image
+          # - myllynen.rhel_image
           - myllynen.windows_ansible_roles
-      #python:
-      #  - dnspython
-      #  - netaddr
-      #  - psutil
-      #  - pyjwt
-      #  - selinux
+#      python:
+#        - dnspython
+#        - netaddr
+#        - psutil
+#        - pyjwt
+#        - selinux
       system:
-        #- findutils [platform:rpm]
+        # - findutils [platform:rpm]
         - iputils [platform:rpm]
         # Packages often needed for building deps
         - gcc [platform:rpm]
@@ -192,10 +192,10 @@ ee_list:
 
 
 # https://github.com/ansible/galaxy_collection/issues/329
-#hub_ee_images:
-#  - name: custom/test
-#    state: absent
+# hub_ee_images:
+#   - name: custom/test
+#     state: absent
 
-#hub_ee_repositories:
-#  - name: custom/test
-#    state: absent
+# hub_ee_repositories:
+#   - name: custom/test
+#     state: absent

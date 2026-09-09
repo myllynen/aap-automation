@@ -1,7 +1,7 @@
 # https://ansible.readthedocs.io/projects/navigator/settings/
 ansible-navigator:
-  #ansible:
-  #  cmdline: --user ansible
+#  ansible:
+#    cmdline: --user ansible
   execution-environment:
     enabled: true
     container-engine: podman
@@ -13,17 +13,17 @@ ansible-navigator:
       # https://github.com/ansible/ansible-navigator/issues/1741
       policy: missing
     image: gateway.example.com/custom/custom-base-rhel9
-    #environment-variables:
-    #  set:
-    #    KRB5CCNAME: /share/krb5cc
-    #volume-mounts:
-    #  - src: /etc/pki/ca-trust
-    #    dest: /etc/pki/ca-trust
-    #    options: ro
-    # src is in the work directory
-    #  - src: ee-share
-    #    dest: /share
-    #    options: Z
+#    environment-variables:
+#      set:
+#        KRB5CCNAME: /share/krb5cc
+#    volume-mounts:
+#      - src: /etc/pki/ca-trust
+#        dest: /etc/pki/ca-trust
+#        options: ro
+#     src is in the work directory
+#      - src: ee-share
+#        dest: /share
+#        options: Z
   logging:
     level: warning
     append: true

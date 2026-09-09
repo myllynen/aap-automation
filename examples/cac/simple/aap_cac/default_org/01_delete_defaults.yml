@@ -17,10 +17,10 @@ controller_inventories_default_org:
 
 controller_credentials_default_org:
   # Managed credentials cannot be deleted
-  #- name: Ansible Galaxy
-  #  organization: null
-  #  credential_type: Ansible Galaxy/Automation Hub API Token
-  #  state: absent
+#  - name: Ansible Galaxy
+#    organization: null
+#    credential_type: Ansible Galaxy/Automation Hub API Token
+#    state: absent
   - name: Demo Credential
     organization: Default
     credential_type: Machine
@@ -64,7 +64,7 @@ tbd_eda_decision_environments_default_org:
 # to minimize diffence when comparing live/repo configs
 aap_organizations_default_org:
   - name: Default
-    #state: absent
+#    state: absent
     description: The default organization for Ansible Automation Platform
     max_hosts: 0
     galaxy_credentials:

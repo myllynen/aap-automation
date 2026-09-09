@@ -27,13 +27,13 @@ controller_execution_environments_test_org:
   - name: Test Org - Custom Base EE
     organization: Test Org
     image: "{{ aap_hostname }}/custom/custom-base-rhel9"
-    #credential: Test Org - Automation Hub Container Registry
+    # credential: Test Org - Automation Hub Container Registry
     pull: never
 
   - name: Test Org - Custom Full EE
     organization: Test Org
     image: "{{ aap_hostname }}/custom/custom-full-rhel9"
-    #credential: Test Org - Automation Hub Container Registry
+    # credential: Test Org - Automation Hub Container Registry
     pull: never
 
 controller_projects_test_org:
@@ -43,10 +43,10 @@ controller_projects_test_org:
     default_environment: Control Plane Execution Environment
     scm_type: git
     scm_url: https://github.com/myllynen/autotest.git
-    #credential: Test Org - SCM Credential
+    # credential: Test Org - SCM Credential
     scm_clean: false
     scm_update_on_launch: false
-    #scm_update_cache_timeout: 30
+    # scm_update_cache_timeout: 30
     update_project: "{{ aap_scm_update_projects | default(false) }}"
 
   - name: Test Org - Test Project
@@ -55,10 +55,10 @@ controller_projects_test_org:
     default_environment: Test Org - Custom Base EE
     scm_type: git
     scm_url: https://github.com/myllynen/misc.git
-    #credential: Test Org - SCM Credential
+    # credential: Test Org - SCM Credential
     scm_clean: false
     scm_update_on_launch: false
-    #scm_update_cache_timeout: 30
+    # scm_update_cache_timeout: 30
     update_project: "{{ aap_scm_update_projects | default(false) }}"
 
 controller_inventories_test_org_test:
@@ -94,8 +94,8 @@ controller_inventory_sources_test_org:
     overwrite: true
     overwrite_vars: true
     update_on_launch: false
-    #update_cache_timeout: 30
-    #verbosity: 2
+    # update_cache_timeout: 30
+    # verbosity: 2
 
 controller_templates_test_org:
   - name: Test Org - Refresh Red Hat token
@@ -117,12 +117,12 @@ controller_templates_test_org:
     inventory: Test Org - Test Inventory
     project: Test Org - Test Project
     playbook: debug.yml
-    #credentials:
-    #  - Test Org - Machine Credential
-    #limit: localhost
+    # credentials:
+    #   - Test Org - Machine Credential
+    # limit: localhost
     verbosity: 0
-    #extra_vars:
-    #  ansible_connection: local
+    # extra_vars:
+    #   ansible_connection: local
     roles:
       execute:
         teams:
@@ -136,9 +136,9 @@ controller_templates_test_org:
     inventory: Test Org - Test Inventory
     project: Test Org - Test Project
     playbook: random_fail.yml
-    #credentials:
-    #  - Test Org - Machine Credential
-    #limit: localhost
+    # credentials:
+    #   - Test Org - Machine Credential
+    # limit: localhost
     verbosity: 0
     extra_vars:
       message: This might fail
@@ -148,7 +148,7 @@ controller_workflows_test_org:
     description: Workflow for testing
     organization: Test Org
     inventory: Test Org - Test Inventory
-    #limit: localhost
+    # limit: localhost
     extra_vars:
       message: Message from workflow
     simplified_workflow_nodes:

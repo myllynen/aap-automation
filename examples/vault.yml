@@ -10,16 +10,16 @@ aap_admin_password: Foobar_12
 
 # AAP username and password for automation and creating tokens
 # NB. It is recommended to use suitable gateway tokens instead
-#aap_username: "{{ aap_admin_username }}"
-#aap_password: "{{ aap_admin_password }}"
+# aap_username: "{{ aap_admin_username }}"
+# aap_password: "{{ aap_admin_password }}"
 
 # AAP gateway rw token for generic use
 # This needs to be added after installation
-#aap_token: "{{ lookup('file', lookup('env', 'PWD') + '/aap_token.txt') }}"
+# aap_token: "{{ lookup('file', lookup('env', 'PWD') + '/aap_token.txt') }}"
 
 # AAP gateway rw token for automation hub
 # This needs to be added after installation
-#hub_token: "{{ lookup('file', lookup('env', 'PWD') + '/hub_token.txt') }}"
+# hub_token: "{{ lookup('file', lookup('env', 'PWD') + '/hub_token.txt') }}"
 
 #
 # AAP/Red Hat credentials
@@ -28,15 +28,15 @@ aap_admin_password: Foobar_12
 # Red Hat Automation Hub token
 # Needed for configuring automation hub collection sync
 # https://console.redhat.com/ansible/automation-hub/token
-#aap_redhat_hub_token: "{{ lookup('file', lookup('env', 'PWD') + '/redhat_token.txt') }}"
+# aap_redhat_hub_token: "{{ lookup('file', lookup('env', 'PWD') + '/redhat_token.txt') }}"
 
 # Red Hat EE registry credentials
 # Needed for configuring automation hub EE sync
 aap_redhat_registry_hostname: registry.redhat.io
-#aap_redhat_registry_username: your-rhn-username
-#aap_redhat_registry_password: your-rhn-password
+# aap_redhat_registry_username: your-rhn-username
+# aap_redhat_registry_password: your-rhn-password
 
 # Red Hat service account credentials
 # Needed for configuring automation analytics, optional
-#aap_redhat_client_id: your-rhn-client-id
-#aap_redhat_client_secret: your-rhn-client-secret
+# aap_redhat_client_id: your-rhn-client-id
+# aap_redhat_client_secret: your-rhn-client-secret

@@ -9,8 +9,8 @@
 
     # These should come from vault
     # use either or, prefer token
-    #username: "{{ aap_username }}"
-    #password: "{{ aap_password }}"
+    # username: "{{ aap_username }}"
+    # password: "{{ aap_password }}"
     token: "{{ aap_token }}"
 
   tasks:
@@ -34,8 +34,8 @@
     - name: Sync inventory sources
       ansible.builtin.uri:
         url: https://{{ hostname }}/api/controller/v2/inventory_sources/{{ item.id }}/update/
-        #url_username: "{{ username }}"
-        #url_password: "{{ password }}"
+        # url_username: "{{ username }}"
+        # url_password: "{{ password }}"
         validate_certs: false
         force_basic_auth: true
         method: POST
@@ -54,8 +54,8 @@
     - name: Sync projects
       ansible.builtin.uri:
         url: https://{{ hostname }}/api/controller/v2/projects/{{ item.id }}/update/
-        #url_username: "{{ username }}"
-        #url_password: "{{ password }}"
+        # url_username: "{{ username }}"
+        # url_password: "{{ password }}"
         validate_certs: false
         force_basic_auth: true
         method: POST

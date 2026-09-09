@@ -22,11 +22,11 @@ ee_validate_certs: "{{ aap_validate_certs }}"
 # https://ansible.readthedocs.io/projects/builder/en/stable/definition/
 ee_version: 3
 ee_build_arg_defaults:
-  #ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --ignore-certs --no-deps --upgrade -vvv
+  # ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --ignore-certs --no-deps --upgrade -vvv
   ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: -vvv
   PKGMGR_PRESERVE_CACHE: always
-#ee_builder_dir: /var/tmp/aap-ee-build
-#ee_builder_dir_clean: false
+# ee_builder_dir: /var/tmp/aap-ee-build
+# ee_builder_dir_clean: false
 ee_build_options:
   container_init:
     entrypoint: '["/opt/builder/bin/entrypoint"]'
@@ -48,7 +48,7 @@ ee_list:
   # Keep in sync with DESCRIPTION!
   - name: custom/custom-full-rhel9
     tag: latest
-    #base_image: "{{ ee_registry_from }}/ansible-automation-platform-27/ee-supported-rhel9@sha256:123123abcabc"
+    # base_image: "{{ ee_registry_from }}/ansible-automation-platform-27/ee-supported-rhel9@sha256:123123abcabc"
     base_image: "{{ ee_registry_from }}/ansible-automation-platform-27/ee-supported-rhel9:latest"
 
     dependencies:
@@ -59,8 +59,8 @@ ee_list:
       # Exclude everything we are not adding ourselves
       exclude:
         # This would only consider deps from these collections
-        #all_from_collections:
-        #  - ~^(?!community|infra|myllynen).*
+#        all_from_collections:
+#          - ~^(?!community|infra|myllynen).*
         python:
           - ~^(?!fastapi|flask).*
         system:
@@ -68,21 +68,21 @@ ee_list:
       galaxy:
         collections:
           - community.general
-          #- community.windows
+          # - community.windows
           - infra.aap_configuration
           - myllynen.rhel_ansible_roles
-          #- myllynen.windows_ansible_roles
+          # - myllynen.windows_ansible_roles
       python:
         - fastapi
         - flask
       system:
         - iputils [platform:rpm]
         # Packages often needed for building deps
-        #- gcc [platform:rpm]
+#        - gcc [platform:rpm]
         # Must match Python version with pip in base image
-        #- python3.12-devel [platform:rpm]
-        #- python3.12-requests [platform:rpm]
-        #- systemd-devel [platform:rpm]
+#        - python3.12-devel [platform:rpm]
+#        - python3.12-requests [platform:rpm]
+#        - systemd-devel [platform:rpm]
 
     build_files:
       # ee_pull_collections_from_hub: true adds ansible.cfg
@@ -104,10 +104,10 @@ ee_list:
 
 
 # https://github.com/ansible/galaxy_collection/issues/329
-#hub_ee_images:
-#  - name: custom/test
-#    state: absent
+# hub_ee_images:
+#   - name: custom/test
+#     state: absent
 
-#hub_ee_repositories:
-#  - name: custom/test
-#    state: absent
+# hub_ee_repositories:
+#   - name: custom/test
+#     state: absent

@@ -23,8 +23,8 @@ gateway_authenticators:
       # Per-environment AAP setting example
       SERVER_URI: "{{ aap_ad_server_uri }}"
       START_TLS: true
-      #BIND_DN: "{{ aap_ad_bind_username }}"
-      #BIND_PASSWORD: "{{ aap_ad_bind_password }}"
+      # BIND_DN: "{{ aap_ad_bind_username }}"
+      # BIND_PASSWORD: "{{ aap_ad_bind_password }}"
       CONNECTION_OPTIONS: {}
       # https://access.redhat.com/solutions/7093912
       GROUP_TYPE: ActiveDirectoryGroupType
@@ -34,7 +34,7 @@ gateway_authenticators:
         - ou=groups,ou=corp,dc=example,dc=com
         - SCOPE_SUBTREE
         - "(objectClass=group)"
-      #USER_DN_TEMPLATE: sAMAccountName=%(user)s,ou=users,ou=corp,dc=example,dc=com
+#      USER_DN_TEMPLATE: sAMAccountName=%(user)s,ou=users,ou=corp,dc=example,dc=com
       USER_ATTR_MAP:
         first_name: givenName
         last_name: sn
@@ -56,8 +56,8 @@ gateway_authenticators:
       SERVER_URI:
         - ldap://idm.example.com:389
       START_TLS: false
-      #BIND_DN: "{{ aap_idm_bind_username }}"
-      #BIND_PASSWORD: "{{ aap_idm_bind_password }}"
+      # BIND_DN: "{{ aap_idm_bind_username }}"
+      # BIND_PASSWORD: "{{ aap_idm_bind_password }}"
       CONNECTION_OPTIONS: {}
       GROUP_TYPE: PosixGroupType
       GROUP_TYPE_PARAMS:
@@ -66,7 +66,7 @@ gateway_authenticators:
         - cn=groups,cn=accounts,dc=example,dc=com
         - SCOPE_SUBTREE
         - "(objectClass=posixgroup)"
-      #USER_DN_TEMPLATE: uid=%(user)s,cn=users,cn=accounts,dc=example,dc=com
+#      USER_DN_TEMPLATE: uid=%(user)s,cn=users,cn=accounts,dc=example,dc=com
       USER_ATTR_MAP:
         first_name: givenName
         last_name: sn

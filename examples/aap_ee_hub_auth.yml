@@ -9,12 +9,13 @@
 
     # These should come from vault
     # use either or, prefer token
-    #username: "{{ aap_username }}"
-    #password: "{{ aap_password }}"
+    # username: "{{ aap_username }}"
+    # password: "{{ aap_password }}"
     token: "{{ aap_token }}"
 
     # List of public AAP EE images
     aap_ee_public:
+      - custom/custom-aap-gitops
       - custom/custom-base-rhel9
       - custom/custom-full-rhel9
       - ansible-automation-platform/ee-minimal-rhel9
@@ -30,8 +31,8 @@
     - name: Get list of AAP EE container images
       ansible.builtin.uri:
         url: https://{{ hostname + container_index }}
-        #url_username: "{{ username }}"
-        #url_password: "{{ password }}"
+        # url_username: "{{ username }}"
+        # url_password: "{{ password }}"
         validate_certs: false
         force_basic_auth: true
         method: GET
@@ -42,8 +43,8 @@
     - name: Configure EEs public
       ansible.builtin.uri:
         url: https://{{ hostname + item.pulp_href }}
-        #url_username: "{{ username }}"
-        #url_password: "{{ password }}"
+        # url_username: "{{ username }}"
+        # url_password: "{{ password }}"
         validate_certs: false
         force_basic_auth: true
         method: PATCH
@@ -59,13 +60,13 @@
       loop: "{{ aap_ee_images.json.results | selectattr('name', 'in', aap_ee_public) }}"
       loop_control:
         label: "{{ item.name }}"
-      when: item.private != false
+      when: item.private
 
     - name: Configure EEs private
       ansible.builtin.uri:
         url: https://{{ hostname + item.pulp_href }}
-        #url_username: "{{ username }}"
-        #url_password: "{{ password }}"
+        # url_username: "{{ username }}"
+        # url_password: "{{ password }}"
         validate_certs: false
         force_basic_auth: true
         method: PATCH
@@ -81,4 +82,4 @@
       loop: "{{ aap_ee_images.json.results | selectattr('name', 'in', aap_ee_private) }}"
       loop_control:
         label: "{{ item.name }}"
-      when: item.private != true
+      when: not item.private

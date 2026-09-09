@@ -42,4 +42,4 @@
           - {name: controller_credential_types, var: controller_credential_types, tags: controller_credential_types}
           - {name: controller_organizations, var: aap_organizations, tags: controller_organizations}
           - {name: controller_instance_groups, var: controller_instance_groups, tags: controller_instance_groups}
-    #- role: infra.aap_configuration.dispatch
+#    - role: infra.aap_configuration.dispatch

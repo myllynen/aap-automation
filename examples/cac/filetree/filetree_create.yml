@@ -12,10 +12,10 @@
     omit_id: true
 
   roles:
-    - name: infra.aap_configuration_extended.filetree_create
+    - role: infra.aap_configuration_extended.filetree_create
       vars:
         input_tag:
           - gateway
           - controller
-          #- hub
-          #- eda
+          # - hub
+          # - eda

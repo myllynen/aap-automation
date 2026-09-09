@@ -7,5 +7,5 @@
     - infra.ee_utilities.ee_builder
 
     # https://github.com/ansible/galaxy_collection/issues/329
-    #- infra.aap_configuration.hub_ee_image
-    #- infra.aap_configuration.hub_ee_repository
+#    - infra.aap_configuration.hub_ee_image
+#    - infra.aap_configuration.hub_ee_repository

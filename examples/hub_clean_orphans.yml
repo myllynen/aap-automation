@@ -10,16 +10,16 @@
 
     # These should come from vault
     # use either or, prefer token
-    #username: "{{ aap_username }}"
-    #password: "{{ aap_password }}"
+    # username: "{{ aap_username }}"
+    # password: "{{ aap_password }}"
     token: "{{ aap_token }}"
 
   tasks:
     - name: Clean up orphaned AAP hub content
       ansible.builtin.uri:
         url: "https://{{ hostname }}/api/galaxy/pulp/api/v3/orphans/cleanup/"
-        #url_username: "{{ username }}"
-        #url_password: "{{ password }}"
+        # url_username: "{{ username }}"
+        # url_password: "{{ password }}"
         validate_certs: false
         force_basic_auth: true
         method: POST

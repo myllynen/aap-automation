@@ -22,11 +22,11 @@ ee_validate_certs: "{{ aap_validate_certs }}"
 # https://ansible.readthedocs.io/projects/builder/en/stable/definition/
 ee_version: 3
 ee_build_arg_defaults:
-  #ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --ignore-certs --no-deps --upgrade -vvv
+  # ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --ignore-certs --no-deps --upgrade -vvv
   ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: -vvv
   PKGMGR_PRESERVE_CACHE: always
-#ee_builder_dir: /var/tmp/aap-ee-build
-#ee_builder_dir_clean: false
+# ee_builder_dir: /var/tmp/aap-ee-build
+# ee_builder_dir_clean: false
 ee_build_options:
   container_init:
     entrypoint: '["/opt/builder/bin/entrypoint"]'
@@ -48,7 +48,7 @@ ee_list:
   # Keep in sync with DESCRIPTION!
   - name: custom/custom-full-rhel9
     tag: latest
-    #base_image: "{{ ee_registry_from }}/ansible-automation-platform-27/ee-supported-rhel9@sha256:123123abcabc"
+    # base_image: "{{ ee_registry_from }}/ansible-automation-platform-27/ee-supported-rhel9@sha256:123123abcabc"
     base_image: "{{ ee_registry_from }}/ansible-automation-platform-27/ee-supported-rhel9:latest"
 
     build_files:
@@ -62,12 +62,12 @@ ee_list:
       prepend_final:
         - COPY _build/configs/ansible.cfg /etc/ansible/ansible.cfg
         - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv community.general
-        #- RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv community.windows
+        # - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv community.windows
         - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv infra.aap_configuration
         - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv myllynen.rhel_ansible_roles
-        #- RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv myllynen.windows_ansible_roles
-        #- RUN ansible-galaxy collection install -p /usr/share/ansible/collections -n -U -vvv redhat.satellite
-        #- RUN ansible-galaxy collection install -p /usr/share/ansible/collections -n -U -vvv redhat.satellite_operations
+        # - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv myllynen.windows_ansible_roles
+        # - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -n -U -vvv redhat.satellite
+        # - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -n -U -vvv redhat.satellite_operations
         - COPY _build/configs/ansible-ee.cfg /etc/ansible/ansible.cfg
       append_final:
         - RUN rm -rf /etc/yum.repos.d/* /var/{cache,lib}/{dnf,yum} /etc/pip.conf
@@ -77,10 +77,10 @@ ee_list:
 
 
 # https://github.com/ansible/galaxy_collection/issues/329
-#hub_ee_images:
-#  - name: custom/test
-#    state: absent
+# hub_ee_images:
+#   - name: custom/test
+#     state: absent
 
-#hub_ee_repositories:
-#  - name: custom/test
-#    state: absent
+# hub_ee_repositories:
+#   - name: custom/test
+#     state: absent

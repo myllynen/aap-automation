@@ -12,7 +12,7 @@
     output_path: ./filetree_export
     flatten_output: true
     secrets_as_variables: false
-    #organization_filter: Default
+    # organization_filter: Default
     export_inline_object_roles: true
 
   tasks:
@@ -27,13 +27,14 @@
         input_tag:
           - gateway
           - controller
-          #- hub
-          #- eda
+          # - hub
+          # - eda
       ansible.builtin.include_role:
         name: infra.aap_configuration_extended.filetree_create
         public: true
       when: export_aap_configuration | bool
 
+    # noqa: command-instead-of-module
     - name: Remove instance data from exported configuration
       ansible.builtin.command:
         chdir: "{{ output_path }}"
@@ -84,19 +85,20 @@
           - instances
           - policy_instance_list
       controller_instances: '*'
-      # Rule for all sub-entities
       controller_inventories:
         - variables
+      # Remove after export is 2.7+ only
       controller_roles: '*'
       controller_schedules:
+        - dtstart
+        - timezone
         - Cleanup Activity Schedule
         - Cleanup Expired Sessions
         - Cleanup Job Schedule
-        - dtstart
-        - timezone
-      # Rule for fixed nested key
       controller_settings:
         settings:
+          - CLEANUP_HOST_METRICS_LAST_TS
+          - HOST_METRIC_SUMMARY_TASK_LAST_TS
           - TOWER_URL_BASE
 
   tasks:

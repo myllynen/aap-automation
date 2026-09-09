@@ -8,10 +8,13 @@
 #
 # Refresh token would elevate the user as the AAP superuser:
 #
-# $ curl -k -s -X GET -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" https://$AAP_HOSTNAME/api/gateway/v1/me/ | jq -r '.results[0].username'
-# $ curl -k -s -X POST -u $CLIENT_ID:$CLIENT_SECRET -d "grant_type=refresh_token&refresh_token=$REFRESH_TOKEN" https://$AAP_HOSTNAME/o/token/ | jq .
+# $ curl -k -s -X GET -H "Content-Type: application/json" \
+#     -H "Authorization: Bearer $TOKEN" https://$AAP_HOSTNAME/api/gateway/v1/me/ | jq -r '.results[0].username'
+# $ curl -k -s -X POST -u "$CLIENT_ID:$CLIENT_SECRET" \
+#     -d "grant_type=refresh_token&refresh_token=$REFRESH_TOKEN" https://$AAP_HOSTNAME/o/token/ | jq .
 # $ TOKEN=...
-# $ curl -k -s -X GET -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" https://$AAP_HOSTNAME/api/gateway/v1/me/ | jq -r '.results[0].username'
+# $ curl -k -s -X GET -H "Content-Type: application/json" \
+#     -H "Authorization: Bearer $TOKEN" https://$AAP_HOSTNAME/api/gateway/v1/me/ | jq -r '.results[0].username'
 #
 - name: Create AAP OAuth Application token for service account use
   hosts: localhost
