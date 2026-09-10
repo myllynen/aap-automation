@@ -1,0 +1,52 @@
+---
+- name: Display job template webhook URLs and keys
+  hosts: localhost
+  connection: local
+  become: false
+  gather_facts: false
+  vars:
+    hostname: "{{ aap_hostname | regex_replace('^https?://', '') }}"
+
+    # These should come from vault
+    # use either or, prefer token
+    # username: "{{ aap_username }}"
+    # password: "{{ aap_password }}"
+    token: "{{ aap_token }}"
+
+  tasks:
+    - name: Get list of job templates
+      #    host=hostname, username=username, password=password, verify_ssl=false,
+      ansible.builtin.set_fact:
+        aap_job_templates: >-
+          {{ query('ansible.platform.gateway_api', 'api/controller/v2/job_templates/',
+                   host=hostname, oauth_token=token, verify_ssl=false,
+                   query_params={'order_by': 'name'},
+                   return_all=true, max_objects=10000) }}
+
+    - name: Fetch webhook key for job templates with webhooks enabled
+      ansible.builtin.uri:
+        url: "https://{{ hostname }}/api/controller/v2/job_templates/{{ item.id }}/webhook_key/"
+        # url_username: "{{ username }}"
+        # url_password: "{{ password }}"
+        validate_certs: false
+        force_basic_auth: true
+        method: GET
+        headers:
+          Authorization: Bearer {{ token }}
+        status_code:
+          - 200
+      register: aap_webhook_keys
+      loop: "{{ aap_job_templates | selectattr('webhook_service', 'defined') | selectattr('webhook_service') }}"
+      loop_control:
+        label: "{{ item.name }}"
+
+    - name: Display job template webhook URLs and keys
+      ansible.builtin.debug:
+        msg: |
+          Job Template : {{ item.item.id }} / {{ item.item.name }}
+          Service      : {{ item.item.webhook_service }}
+          Webhook URL  : https://{{ hostname }}{{ item.item.related.webhook_receiver }}
+          Webhook Key  : {{ item.json.webhook_key }}
+      loop: "{{ aap_webhook_keys.results }}"
+      loop_control:
+        label: "{{ item.item.name }}"
