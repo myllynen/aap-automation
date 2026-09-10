@@ -1,7 +1,7 @@
 # Ansible Automation Platform execution environment image build definitions
 
 # FQDN for collection download
-ee_ah_host: "{{ aap_hostname }}"
+ee_ah_host: "{{ aap_hostname | regex_replace('^https?://', '') }}"
 
 # FQDN for pulling images
 ee_registry_from: "{{ ee_ah_host }}"

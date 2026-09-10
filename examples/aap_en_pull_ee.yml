@@ -5,7 +5,7 @@
   become: false
   gather_facts: false
   vars:
-    hostname: "{{ aap_hostname }}"
+    hostname: "{{ aap_hostname | regex_replace('^https?://', '') }}"
 
     # These should come from vault
     # use either or, prefer token
@@ -37,7 +37,7 @@
   become: false
   gather_facts: false
   vars:
-    hostname: "{{ aap_hostname }}"
+    hostname: "{{ aap_hostname | regex_replace('^https?://', '') }}"
 
     # These should come from vault
     # use either or, prefer token
@@ -88,7 +88,7 @@
       environment:
         CONTAINERS_STORAGE_CONF: "{{ admin_home }}/aap/containers/storage.conf"
       containers.podman.podman_image:
-        name: "{{ aap_hostname + '/' + item | split(':') | first }}"
+        name: "{{ hostname + '/' + item | split(':') | first }}"
         tag: "{{ item | split(':') | last }}"
         force: true
         tlsverify: false

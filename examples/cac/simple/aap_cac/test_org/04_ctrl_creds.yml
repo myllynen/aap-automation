@@ -11,32 +11,32 @@ controller_credentials_test_org:
     organization: Test Org
     credential_type: Ansible Galaxy/Automation Hub API Token
     inputs:
-      url: https://{{ aap_hostname }}/api/galaxy/content/rh-certified/
+      url: https://{{ aap_hostname | regex_replace('^https?://', '') }}/api/galaxy/content/rh-certified/
       token: "{{ hub_token }}"
   - name: Test Org - Automation Hub Collections Validated Repository
     organization: Test Org
     credential_type: Ansible Galaxy/Automation Hub API Token
     inputs:
-      url: https://{{ aap_hostname }}/api/galaxy/content/validated/
+      url: https://{{ aap_hostname | regex_replace('^https?://', '') }}/api/galaxy/content/validated/
       token: "{{ hub_token }}"
   - name: Test Org - Automation Hub Collections Published Repository
     organization: Test Org
     credential_type: Ansible Galaxy/Automation Hub API Token
     inputs:
-      url: https://{{ aap_hostname }}/api/galaxy/content/published/
+      url: https://{{ aap_hostname | regex_replace('^https?://', '') }}/api/galaxy/content/published/
       token: "{{ hub_token }}"
   - name: Test Org - Automation Hub Collections Community Repository
     organization: Test Org
     credential_type: Ansible Galaxy/Automation Hub API Token
     inputs:
-      url: https://{{ aap_hostname }}/api/galaxy/content/community/
+      url: https://{{ aap_hostname | regex_replace('^https?://', '') }}/api/galaxy/content/community/
       token: "{{ hub_token }}"
 
   - name: Test Org - Automation Hub Container Registry
     organization: Test Org
     credential_type: Container Registry
     inputs:
-      host: "{{ aap_hostname }}"
+      host: "{{ aap_hostname | regex_replace('^https?://', '') }}"
       # Tokens do not work for the time being with PAH,
       # https://redhat.atlassian.net/browse/AAPRFE-2386
       username: "{{ aap_username | default('admin') }}"
