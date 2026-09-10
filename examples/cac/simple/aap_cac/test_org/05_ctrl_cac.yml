@@ -100,25 +100,25 @@ controller_inventory_sources_test_org:
 controller_templates_test_org:
   - name: Test Org - Refresh Red Hat token
     description: Refresh Red Hat Hybrid Cloud Console authentication token
-    job_type: run
-    job_slice_count: 1
     organization: Test Org
     inventory: Test Org - EE localhost
     project: Test Org - Test Project
     playbook: redhat_token_refresh.yml
     credentials:
       - Test Org - Red Hat Automation Hub
+    job_type: run
+    job_slice_count: 1
 
   - name: Test Org - Test Job Template
     description: Job template for testing
-    job_type: run
-    job_slice_count: 1
     organization: Test Org
     inventory: Test Org - Test Inventory
     project: Test Org - Test Project
     playbook: debug.yml
     # credentials:
     #   - Test Org - Machine Credential
+    job_type: run
+    job_slice_count: 1
     # limit: localhost
     verbosity: 0
     # extra_vars:
@@ -130,14 +130,14 @@ controller_templates_test_org:
 
   - name: Test Org - Test Random Failure
     description: Random failure for testing
-    job_type: run
-    job_slice_count: 1
     organization: Test Org
     inventory: Test Org - Test Inventory
     project: Test Org - Test Project
     playbook: random_fail.yml
     # credentials:
     #   - Test Org - Machine Credential
+    job_type: run
+    job_slice_count: 1
     # limit: localhost
     verbosity: 0
     extra_vars:
@@ -153,9 +153,10 @@ controller_workflows_test_org:
       message: Message from workflow
     simplified_workflow_nodes:
       - identifier: node1
-        all_parents_must_converge: false
-        unified_job_template: Test Org - Test Random Failure
+        organization: Test Org
         lookup_organization: Test Org
+        unified_job_template: Test Org - Test Random Failure
+        all_parents_must_converge: false
         credentials: []
         success_nodes:
           - node10
@@ -170,17 +171,17 @@ controller_workflows_test_org:
         success_nodes:
           - node11
       - identifier: node11
+        lookup_organization: Test Org
         unified_job_template: Test Org - Test Job Template
-        lookup_organization: Test Org
       - identifier: node20
-        unified_job_template: Test Org - Test Random Failure
         lookup_organization: Test Org
+        unified_job_template: Test Org - Test Random Failure
 
 controller_schedules_test_org:
   - name: Test Org - Refresh Red Hat token
     description: Scheduled Red Hat token refresh
-    unified_job_template: Test Org - Refresh Red Hat token
     organization: Test Org
+    unified_job_template: Test Org - Refresh Red Hat token
     inventory: Test Org - EE localhost
     rrule: DTSTART;TZID=Europe/Helsinki:20260101T020202 RRULE:FREQ=WEEKLY;INTERVAL=1
     enabled: true
