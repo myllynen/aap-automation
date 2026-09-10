@@ -9,9 +9,10 @@
     config_basedir: aap_cac
     # AAP CaC files or directories to read
     # Use . to read everything in basedir
+    # config_content: .
+    config_content: []
     # config_content: aap_settings
     # config_content: test_org
-    config_content: []
     # config_content:
     #   - aap_settings
     #   - default_org
@@ -120,7 +121,7 @@
     - name: Verify correct form of environment-specific variables - organizations
       ansible.builtin.shell: >
         set -o pipefail &&
-        grep -Ehr '^\w+:' --exclude-dir=common --include='*.yml'{{ config_basedir }}/aap_env
+        grep -Ehr '^\w+:' --exclude-dir=common --include='*.yml' {{ config_basedir }}/aap_env
         | sed 's/:.*//'
         | grep -v '^env_'
         | sort
