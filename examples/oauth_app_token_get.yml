@@ -22,21 +22,21 @@
   become: false
   gather_facts: false
   vars:
-    aap_hostname: gateway.example.com
+    hostname: "{{ aap_hostname | regex_replace('^https?://', '') }}"
     # This must be the AAP superuser for the time being,
     # Org Admin is not enough using AAP 2.7 / Jun 30 '26
     # and ansible.platform collection version 2.7.20260630
-    aap_username: admin
-    aap_password: Foobar_12
+    username: "{{ aap_username }}"
+    password: "{{ aap_password }}"
     token_user_org: Test Org
     token_user_name: t_api_user
 
   tasks:
     - name: Create AAP OAuth Application associated with service account user
       ansible.platform.application:
-        gateway_hostname: "{{ aap_hostname }}"
-        gateway_username: "{{ aap_username }}"
-        gateway_password: "{{ aap_password }}"
+        gateway_hostname: "{{ hostname }}"
+        gateway_username: "{{ username }}"
+        gateway_password: "{{ password }}"
         gateway_validate_certs: false
         name: OAuth Application for {{ token_user_name }}
         description: OAuth Application for service account use
@@ -45,7 +45,7 @@
         authorization_grant_type: authorization-code
         client_type: confidential
         redirect_uris:
-          - https://{{ aap_hostname }}/api/gateway/v1/
+          - https://{{ hostname }}/api/gateway/v1/
         state: present
       register: oauth_application
 
@@ -55,9 +55,9 @@
 
     - name: Create AAP OAuth Application token for service account user
       ansible.platform.token:
-        gateway_hostname: "{{ aap_hostname }}"
-        gateway_username: "{{ aap_username }}"
-        gateway_password: "{{ aap_password }}"
+        gateway_hostname: "{{ hostname }}"
+        gateway_username: "{{ username }}"
+        gateway_password: "{{ password }}"
         gateway_validate_certs: false
         application: OAuth Application for {{ token_user_name }}
         description: OAuth Application token for service account use
