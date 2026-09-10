@@ -26,13 +26,13 @@ controller_instance_groups_test_org_default:
 controller_execution_environments_test_org:
   - name: Test Org - Custom Base EE
     organization: Test Org
-    image: "{{ aap_hostname }}/custom/custom-base-rhel9"
+    image: "{{ aap_hostname | regex_replace('^https?://', '') }}/custom/custom-base-rhel9"
     # credential: Test Org - Automation Hub Container Registry
     pull: never
 
   - name: Test Org - Custom Full EE
     organization: Test Org
-    image: "{{ aap_hostname }}/custom/custom-full-rhel9"
+    image: "{{ aap_hostname | regex_replace('^https?://', '') }}/custom/custom-full-rhel9"
     # credential: Test Org - Automation Hub Container Registry
     pull: never
 
