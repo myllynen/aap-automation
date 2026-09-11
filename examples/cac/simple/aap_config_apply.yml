@@ -85,7 +85,9 @@
         | sort -u
         | awk 'BEGIN {print "Unknown variable definitions found:\n"} 1'
       register: unknown_check
-      failed_when: unknown_check.rc == 2 or unknown_check.stdout_lines | length > 2
+      failed_when: >
+        (unknown_check.rc != 0 and unknown_check.stderr_lines | length > 0) or
+        unknown_check.stdout_lines | length > 2
       changed_when: false
 
     - name: Verify no unexpected duplicate variable definitions
@@ -114,7 +116,9 @@
         | uniq
         | awk 'BEGIN {print "Incorrect variable names found:\n"} 1'
       register: env_vars_common_check
-      failed_when: env_vars_common_check.rc == 2 or env_vars_common_check.stdout_lines | length > 2
+      failed_when: >
+        (env_vars_common_check.rc != 0 and env_vars_common_check.stderr_lines | length > 0) or
+        env_vars_common_check.stdout_lines | length > 2
       changed_when: false
 
     # Remove if not using environment-specific variables
@@ -128,7 +132,9 @@
         | uniq
         | awk 'BEGIN {print "Incorrect variable names found:\n"} 1'
       register: env_vars_orgs_check
-      failed_when: env_vars_orgs_check.rc == 2 or env_vars_orgs_check.stdout_lines | length > 2
+      failed_when: >
+        (env_vars_orgs_check.rc != 0 and env_vars_orgs_check.stderr_lines | length > 0) or
+        env_vars_orgs_check.stdout_lines | length > 2
       changed_when: false
 
     - name: Determine AAP CaC files to apply from webhook payload
