@@ -4,6 +4,7 @@ aap_organizations_test_org:
 
     max_hosts: 10
     instance_groups:
+      # - Test Org - Common Instance Group
       - executionplane
     default_environment: Test Org - Custom Base EE
     # NB. At least one credential needs to be
@@ -69,11 +70,10 @@ controller_inventories_test_org_test:
   - name: Test Org - Test Inventory
     description: Inventory for testing
     organization: Test Org
-    roles:
-      use:
-        teams:
-          - t_developers
-          - t_operators
+#    roles:
+#      use:
+#        teams:
+#          - t_api_user
 
 controller_hosts_test_org:
   - name: localhost
