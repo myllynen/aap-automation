@@ -36,7 +36,7 @@ controller_settings:
     DEFAULT_JOB_IDLE_TIMEOUT: 0
     DEFAULT_INVENTORY_UPDATE_TIMEOUT: 0
     DEFAULT_PROJECT_UPDATE_TIMEOUT: 0
-    GALAXY_IGNORE_CERTS: false
+    GALAXY_IGNORE_CERTS: "{{ aap_validate_certs | bool }}"
     GALAXY_TASK_ENV:
       ANSIBLE_FORCE_COLOR: "false"
       GIT_SSH_COMMAND: ssh -o StrictHostKeyChecking=no
