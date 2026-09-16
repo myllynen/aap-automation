@@ -77,7 +77,7 @@ gateway_authenticators:
           - SCOPE_SUBTREE
           - "(uid=%(user)s)"
 
-# Additional examples, unused by default
+# Additional examples, not configured by default
 tbd_gateway_authenticators:
   - name: Keycloak
     order: 4
