@@ -14,7 +14,11 @@ gateway_settings:
   ## The logo file must use the data URI scheme:
   ##   convert orig-logo.png -transparent white logo.png
   ##   echo "data:image/png;base64,$(base64 -w0 < logo.png)" > logo.data
-#  custom_logo: "{{ lookup('file', './logo.data') }}"
+#  custom_logo: >-
+#    {{ lookup('file',
+#         lookup('first_found',
+#           [config_basedir | default('') + '/aap_settings/logo.data',
+#            lookup('env', 'PWD') + '/aap_cac/aap_settings/logo.data'])) }}
   gateway_access_token_expiration: 600
   gateway_basic_auth_enabled: true
   gateway_proxy_url_ignore_cert: false
