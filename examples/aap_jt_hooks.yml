@@ -13,6 +13,11 @@
     # password: "{{ aap_password }}"
     token: "{{ aap_token }}"
 
+    # GitHub parameters
+    github_hostname: api.github.com
+    github_token: "{{ lookup('file', lookup('env', 'PWD') + '/github_token.txt') }}"
+    github_repo: myllynen/aap-automation
+
   tasks:
     - name: Get list of job templates
       #    host=hostname, username=username, password=password, verify_ssl=false,
@@ -24,6 +29,7 @@
                    return_all=true, max_objects=10000) }}
 
     - name: Fetch webhook key for job templates with webhooks enabled
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.uri:
         url: "https://{{ hostname }}/api/controller/v2/job_templates/{{ item.id }}/webhook_key/"
         # url_username: "{{ username }}"
@@ -46,7 +52,61 @@
           Job Template : {{ item.item.id }} / {{ item.item.name }}
           Service      : {{ item.item.webhook_service }}
           Webhook URL  : https://{{ hostname }}{{ item.item.related.webhook_receiver }}
-          Webhook Key  : {{ item.json.webhook_key }}
+          Webhook Key  : {{ '$REDACTED$' if aap_configuration_secure_logging | default(false)
+                                         else item.json.webhook_key }}
+      loop: "{{ aap_webhook_keys.results }}"
+      loop_control:
+        label: "{{ item.item.name }}"
+
+    # Disable webhook creation by default
+    - name: End play
+      ansible.builtin.meta: end_play
+
+    - name: Fetch existing GitHub webhooks
+      ansible.builtin.uri:
+        url: https://{{ github_hostname }}/repos/{{ github_repo }}/hooks
+        method: GET
+        headers:
+          Authorization: Bearer {{ github_token }}
+        status_code:
+          - 200
+      register: existing_hooks
+
+    - name: Configure GitHub webhook
+      vars:
+        target_url: https://{{ hostname }}{{ item.item.related.webhook_receiver }}
+        existing_hook: >-
+          {{ (existing_hooks.json | selectattr('config.url', 'defined')
+             | selectattr('config.url', 'equalto', target_url) | first) | default({}, true) }}
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
+      ansible.builtin.uri:
+        url: >-
+          {% if existing_hook.id is defined %}
+          https://{{ github_hostname }}/repos/{{ github_repo }}/hooks/{{ existing_hook.id }}
+          {% else %}
+          https://{{ github_hostname }}/repos/{{ github_repo }}/hooks
+          {% endif %}
+        method: "{{ 'PATCH' if existing_hook.id is defined else 'POST' }}"
+        headers:
+          Authorization: Bearer {{ github_token }}
+        body_format: json
+        body:
+          name: web
+          config:
+            url: "{{ target_url }}"
+            content_type: json
+            secret: "{{ item.json.webhook_key }}"
+            insecure_ssl: "1"
+          events:
+            - push
+          active: true
+        status_code:
+          - 200
+          - 201
+      register: hook_status
+      changed_when: >
+        existing_hook.updated_at is not defined or
+        hook_status.json.updated_at != existing_hook.updated_at
       loop: "{{ aap_webhook_keys.results }}"
       loop_control:
         label: "{{ item.item.name }}"
