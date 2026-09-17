@@ -51,13 +51,15 @@
         label: "{{ item.name }}"
 
     - name: Display job template webhook URLs and keys
+      vars:
+        hide_key: "{{ true if not aap_jt_hooks_debug | default(false) | bool or
+                              aap_configuration_secure_logging | default(false) else false }}"
       ansible.builtin.debug:
         msg: |
           Job Template : {{ item.item.id }} / {{ item.item.name }}
           Service      : {{ item.item.webhook_service }}
           Webhook URL  : https://{{ hostname }}{{ item.item.related.webhook_receiver }}
-          Webhook Key  : {{ '$REDACTED$' if aap_configuration_secure_logging | default(false)
-                                         else item.json.webhook_key }}
+          Webhook Key  : {{ '$REDACTED$' if hide_key else item.json.webhook_key }}
       loop: "{{ aap_webhook_keys.results }}"
       loop_control:
         label: "{{ item.item.name }}"
