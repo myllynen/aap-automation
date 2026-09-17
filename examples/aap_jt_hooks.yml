@@ -1,5 +1,5 @@
 ---
-- name: Display job template webhook URLs and keys
+- name: Configure AAP webhooks in GitHub repositories
   hosts: localhost
   connection: local
   become: false
@@ -16,7 +16,11 @@
     # GitHub parameters
     github_hostname: api.github.com
     github_token: "{{ lookup('file', lookup('env', 'PWD') + '/github_token.txt') }}"
-    github_repo: myllynen/aap-automation
+    github_repos:
+      - myllynen/aap-automation
+
+    # Delete stale GitHub AAP webhook
+    github_delete_stale_aap_hooks: true
 
   tasks:
     - name: Get list of job templates
@@ -28,7 +32,7 @@
                    query_params={'order_by': 'name'},
                    return_all=true, max_objects=10000) }}
 
-    - name: Fetch webhook key for job templates with webhooks enabled
+    - name: Fetch webhook key for webhook enabled job template
       no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.uri:
         url: "https://{{ hostname }}/api/controller/v2/job_templates/{{ item.id }}/webhook_key/"
@@ -58,33 +62,67 @@
       loop_control:
         label: "{{ item.item.name }}"
 
-    # Disable webhook creation by default
+    # Comment out to enable GitHub AAP webhook updates
     - name: End play
       ansible.builtin.meta: end_play
 
-    - name: Fetch existing GitHub webhooks
+    - name: Fetch existing GitHub webhooks for repositories
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.uri:
-        url: https://{{ github_hostname }}/repos/{{ github_repo }}/hooks
+        url: https://{{ github_hostname }}/repos/{{ item }}/hooks
         method: GET
         headers:
           Authorization: Bearer {{ github_token }}
         status_code:
           - 200
       register: existing_hooks
+      loop: "{{ github_repos }}"
+
+    - name: Delete stale GitHub AAP webhooks
+      vars:
+        target_urls: >-
+          {{ aap_webhook_keys.results
+             | map(attribute='item.related.webhook_receiver')
+             | map('regex_replace', '^', 'https://' + hostname) }}
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
+      ansible.builtin.uri:
+        url: https://{{ github_hostname }}/repos/{{ item.0.item }}/hooks/{{ item.1.id }}
+        method: DELETE
+        headers:
+          Authorization: Bearer {{ github_token }}
+        status_code:
+          - 204
+      changed_when: true
+      loop: "{{ existing_hooks.results | subelements('json', skip_missing=True) }}"
+      loop_control:
+        label: "{{ item.0.item }} -> {{ item.1.config.url | default('no-url') }}"
+      when:
+        - github_delete_stale_aap_hooks | bool
+        - hostname in (item.1.config.url | default(''))
+        - item.1.config.url not in target_urls
 
     - name: Configure GitHub webhook
       vars:
-        target_url: https://{{ hostname }}{{ item.item.related.webhook_receiver }}
+        current_repo: "{{ item.0 }}"
+        key_item: "{{ item.1 }}"
+        target_url: https://{{ hostname }}{{ key_item.item.related.webhook_receiver }}
+        repo_hooks: >-
+          {{ (existing_hooks.results
+              | selectattr('item', 'eq', current_repo)
+              | map(attribute='json')
+              | first) | default([]) }}
         existing_hook: >-
-          {{ (existing_hooks.json | selectattr('config.url', 'defined')
-             | selectattr('config.url', 'equalto', target_url) | first) | default({}, true) }}
+          {{ (repo_hooks
+              | selectattr('config.url', 'defined')
+              | selectattr('config.url', 'equalto', target_url)
+              | first) | default({}, true) }}
       no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.uri:
         url: >-
           {% if existing_hook.id is defined %}
-          https://{{ github_hostname }}/repos/{{ github_repo }}/hooks/{{ existing_hook.id }}
+          https://{{ github_hostname }}/repos/{{ current_repo }}/hooks/{{ existing_hook.id }}
           {% else %}
-          https://{{ github_hostname }}/repos/{{ github_repo }}/hooks
+          https://{{ github_hostname }}/repos/{{ current_repo }}/hooks
           {% endif %}
         method: "{{ 'PATCH' if existing_hook.id is defined else 'POST' }}"
         headers:
@@ -95,7 +133,7 @@
           config:
             url: "{{ target_url }}"
             content_type: json
-            secret: "{{ item.json.webhook_key }}"
+            secret: "{{ key_item.json.webhook_key }}"
             insecure_ssl: "1"
           events:
             - push
@@ -107,6 +145,6 @@
       changed_when: >
         existing_hook.updated_at is not defined or
         hook_status.json.updated_at != existing_hook.updated_at
-      loop: "{{ aap_webhook_keys.results }}"
+      loop: "{{ github_repos | product(aap_webhook_keys.results) }}"
       loop_control:
-        label: "{{ item.item.name }}"
+        label: "{{ item.0 }} -> {{ item.1.item.name }}"
