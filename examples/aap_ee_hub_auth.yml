@@ -1,5 +1,5 @@
 ---
-- name: Configure AAP EE container image authentication
+- name: Configure AAP EE image pull authentication
   hosts: localhost
   connection: local
   become: false
