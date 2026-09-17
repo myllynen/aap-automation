@@ -7,6 +7,7 @@
   vars:
     token_description: AAP gateway API token
     token_file_local: "{{ lookup('env', 'PWD') + '/aap_token.txt' }}"
+    token_scope: write
   tasks:
     - name: Create new AAP gateway API token
       ansible.platform.token:
@@ -15,7 +16,7 @@
         aap_password: "{{ aap_password }}"
         validate_certs: "{{ aap_validate_certs }}"
         description: "{{ token_description }}"
-        scope: write
+        scope: "{{ token_scope }}"
 
     - name: Store token in file
       ansible.builtin.copy:
@@ -25,4 +26,6 @@
 
     - name: Display token file name
       ansible.builtin.debug:
-        msg: "Token stored on {{ ansible_host }} in '{{ token_file_local }}'."
+        msg: >-
+          PAT ({{ token_scope }}) for {{ aap_username }}
+          stored at {{ ansible_host }}:{{ token_file_local }}
