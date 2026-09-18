@@ -14,7 +14,8 @@
     token: "{{ aap_token }}"
 
     # GitHub parameters
-    github_hostname: api.github.com
+    # github_api: github.example.com/api/v3
+    github_api: api.github.com
     github_token: "{{ lookup('file', lookup('env', 'PWD') + '/github_token.txt') }}"
     github_repos:
       - myllynen/aap-automation
@@ -71,7 +72,7 @@
     - name: Fetch existing GitHub webhooks for repositories
       no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.uri:
-        url: https://{{ github_hostname }}/repos/{{ item }}/hooks
+        url: https://{{ github_api }}/repos/{{ item }}/hooks
         method: GET
         headers:
           Authorization: Bearer {{ github_token }}
@@ -88,7 +89,7 @@
              | map('regex_replace', '^', 'https://' + hostname) }}
       no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.uri:
-        url: https://{{ github_hostname }}/repos/{{ item.0.item }}/hooks/{{ item.1.id }}
+        url: https://{{ github_api }}/repos/{{ item.0.item }}/hooks/{{ item.1.id }}
         method: DELETE
         headers:
           Authorization: Bearer {{ github_token }}
@@ -122,9 +123,9 @@
       ansible.builtin.uri:
         url: >-
           {% if existing_hook.id is defined %}
-          https://{{ github_hostname }}/repos/{{ current_repo }}/hooks/{{ existing_hook.id }}
+          https://{{ github_api }}/repos/{{ current_repo }}/hooks/{{ existing_hook.id }}
           {% else %}
-          https://{{ github_hostname }}/repos/{{ current_repo }}/hooks
+          https://{{ github_api }}/repos/{{ current_repo }}/hooks
           {% endif %}
         method: "{{ 'PATCH' if existing_hook.id is defined else 'POST' }}"
         headers:
