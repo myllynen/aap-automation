@@ -16,6 +16,7 @@
 
   tasks:
     - name: Clean up orphaned AAP hub content
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.uri:
         url: "https://{{ hostname }}/api/galaxy/pulp/api/v3/orphans/cleanup/"
         # url_username: "{{ username }}"

@@ -32,6 +32,7 @@
              return_all=true, max_objects=10000) }}
 
     - name: Sync inventory sources
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.uri:
         url: https://{{ hostname }}/api/controller/v2/inventory_sources/{{ item.id }}/update/
         # url_username: "{{ username }}"
@@ -52,6 +53,7 @@
       when: item.source == 'scm'
 
     - name: Sync projects
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.uri:
         url: https://{{ hostname }}/api/controller/v2/projects/{{ item.id }}/update/
         # url_username: "{{ username }}"

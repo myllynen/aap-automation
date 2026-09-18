@@ -27,8 +27,10 @@
       - custom/custom-secret-rhel9
 
     container_index: /api/galaxy/pulp/api/v3/distributions/container/container/
+
   tasks:
     - name: Get list of AAP EE container images
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.uri:
         url: https://{{ hostname + container_index }}
         # url_username: "{{ username }}"
@@ -41,6 +43,7 @@
       register: aap_ee_images
 
     - name: Configure EEs public
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.uri:
         url: https://{{ hostname + item.pulp_href }}
         # url_username: "{{ username }}"
@@ -63,6 +66,7 @@
       when: item.private
 
     - name: Configure EEs private
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.uri:
         url: https://{{ hostname + item.pulp_href }}
         # url_username: "{{ username }}"
