@@ -33,7 +33,7 @@
                    query_params={'order_by': 'name'},
                    return_all=true, max_objects=10000) }}
 
-    - name: Fetch webhook key for webhook enabled job template
+    - name: Fetch webhook keys for webhook enabled job templates
       no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.uri:
         url: "https://{{ hostname }}/api/controller/v2/job_templates/{{ item.id }}/webhook_key/"
@@ -119,6 +119,8 @@
               | selectattr('config.url', 'defined')
               | selectattr('config.url', 'equalto', target_url)
               | first) | default({}, true) }}
+        repo_keyword: "{{ current_repo | regex_replace('^(.*?-cac-|cac-)', '') | replace('-', '_') | lower }}"
+        template_name: "{{ key_item.item.name | replace(' ', '_') | lower }}"
       no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.uri:
         url: >-
@@ -151,3 +153,6 @@
       loop: "{{ github_repos | product(aap_webhook_keys.results) }}"
       loop_control:
         label: "{{ item.0 }} -> {{ item.1.item.name }}"
+      when:
+        - repo_keyword in template_name
+        - "'gitops' in template_name"
