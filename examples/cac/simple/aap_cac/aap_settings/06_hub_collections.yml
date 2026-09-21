@@ -50,16 +50,6 @@ hub_custom_collections:
     name: rhel_image
     collection_version: "2.2.2"
 
-  - collection_name: myllynen.windows_ansible_roles
-    git_url: https://github.com/myllynen/windows-ansible-roles
-    version: v6.0.1
-    # key_file:
-    # ssh_opts:
-    # These are for use with hub_skip_existing_collections
-    namespace: myllynen
-    name: windows_ansible_roles
-    collection_version: "6.0.1"
-
 hub_collection_remotes:
   - name: rh-certified
     url: https://console.redhat.com/api/automation-hub/content/published/
@@ -86,13 +76,13 @@ hub_collection_remotes:
       - name: ansible.posix
         version: '>=2.2.2'
       - name: ansible.utils
-        version: '>=6.1.0'
+        version: '>=6.1.1'
       - name: ansible.windows
         version: '>=3.8.0'
       - name: chocolatey.chocolatey
         version: '>=1.6.0'
       - name: kubernetes.core
-        version: '>=6.5.0'
+        version: '>=6.6.0'
       - name: microsoft.ad
         version: '>=1.12.1'
       - name: microsoft.mecm
