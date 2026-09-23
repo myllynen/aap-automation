@@ -87,6 +87,8 @@ hub_collection_remotes:
         version: '>=1.12.1'
       - name: microsoft.mecm
         version: '>=2.1.0'
+      - name: redhat.openshift
+        version: '>=6.0.0'
       - name: redhat.rhel_idm
         version: '>=1.16.0'
       - name: redhat.rhel_system_roles
