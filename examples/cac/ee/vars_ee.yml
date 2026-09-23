@@ -155,7 +155,6 @@ ee_list:
           - containers.podman
           - myllynen.rhel_ansible_roles
           # - myllynen.rhel_image
-          - myllynen.windows_ansible_roles
 #      python:
 #        - dnspython
 #        - netaddr
