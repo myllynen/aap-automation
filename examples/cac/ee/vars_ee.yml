@@ -69,6 +69,7 @@ ee_list_old:
           # - chocolatey.chocolatey
           # - kubernetes.core
           # - microsoft.ad
+          # - microsoft.iis
           # - redhat.openshift
           - redhat.rhel_idm
           - redhat.rhel_system_roles
@@ -143,6 +144,7 @@ ee_list:
           - chocolatey.chocolatey
           # - kubernetes.core
           - microsoft.ad
+          - microsoft.iis
           # - redhat.openshift
           - redhat.rhel_idm
           - redhat.rhel_system_roles
