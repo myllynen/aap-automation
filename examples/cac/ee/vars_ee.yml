@@ -69,6 +69,7 @@ ee_list_old:
           # - chocolatey.chocolatey
           # - kubernetes.core
           # - microsoft.ad
+          # - redhat.openshift
           - redhat.rhel_idm
           - redhat.rhel_system_roles
           - redhat.satellite
@@ -77,12 +78,12 @@ ee_list_old:
           # - infra.aap_utilities
           # - infra.ee_utilities
           # - infra.leapp
+          # - infra.windows_ops
           - community.general
           # - community.windows
           # - containers.podman
           - myllynen.rhel_ansible_roles
           # - myllynen.rhel_image
-          # - myllynen.windows_ansible_roles
 #      python:
 #        - dnspython
 #        - netaddr
@@ -142,6 +143,7 @@ ee_list:
           - chocolatey.chocolatey
           # - kubernetes.core
           - microsoft.ad
+          # - redhat.openshift
           - redhat.rhel_idm
           - redhat.rhel_system_roles
           - redhat.satellite
@@ -150,6 +152,7 @@ ee_list:
           # - infra.aap_utilities
           # - infra.ee_utilities
           # - infra.leapp
+          - infra.windows_ops
           - community.general
           - community.windows
           - containers.podman
