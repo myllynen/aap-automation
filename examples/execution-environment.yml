@@ -38,9 +38,9 @@ dependencies:
     collections:
       - community.general
       # - community.windows
+      # - infra.windows_ops
       - infra.aap_configuration
       - myllynen.rhel_ansible_roles
-      # - myllynen.windows_ansible_roles
   python:
     - fastapi
     - flask
