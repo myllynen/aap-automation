@@ -40,7 +40,7 @@ hub_custom_collections:
     # These are for use with hub_skip_existing_collections
     namespace: myllynen
     name: rhel_ansible_roles
-    collection_version: "3.4.10"
+    collection_version: "3.4.11"
 
   - collection_name: myllynen.rhel_image
     git_url: https://github.com/myllynen/rhel-image
@@ -48,7 +48,7 @@ hub_custom_collections:
     # These are for use with hub_skip_existing_collections
     namespace: myllynen
     name: rhel_image
-    collection_version: "2.2.2"
+    collection_version: "2.2.3"
 
 hub_collection_remotes:
   - name: rh-certified

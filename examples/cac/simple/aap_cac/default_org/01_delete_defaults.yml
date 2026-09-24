@@ -61,7 +61,7 @@ tbd_eda_decision_environments_default_org:
 
 # Managed organizations cannot be deleted
 # This definition matches the default AAP configuration
-# to minimize diffence when comparing live/repo configs
+# to minimize difference when comparing live/repo configs
 aap_organizations_default_org:
   - name: Default
 #    state: absent

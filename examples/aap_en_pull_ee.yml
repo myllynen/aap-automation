@@ -41,7 +41,7 @@
 
     # These should come from vault
     # use either or, prefer token
-    # username: "{{ aap_username }}"
+    username: "{{ aap_username }}"
     # Tokens do not work for the time being with PAH,
     # https://redhat.atlassian.net/browse/AAPRFE-2386
     # password: "{{ aap_token }}"

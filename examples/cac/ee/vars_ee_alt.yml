@@ -55,8 +55,6 @@ ee_list:
       # ee_pull_collections_from_hub: true adds ansible.cfg
       - src: "{{ lookup('env', 'PWD') + '/ansible-ee.cfg' }}"
         dest: configs
-      - src: "{{ lookup('env', 'PWD') + '/pip.conf' }}"
-        dest: configs
 
     build_steps:
       prepend_final:

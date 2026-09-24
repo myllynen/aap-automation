@@ -93,7 +93,7 @@ ee_list:
 
     build_steps:
       prepend_base:
-        - COPY _build/configs/pip.conf /etc/ansible/pip.conf
+        - COPY _build/configs/pip.conf /etc/pip.conf
       prepend_final:
         - COPY _build/configs/ansible-ee.cfg /etc/ansible/ansible.cfg
       append_final:
