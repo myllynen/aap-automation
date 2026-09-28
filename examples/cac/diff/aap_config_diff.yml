@@ -90,8 +90,6 @@
       # Remove after export is 2.7+ only
       controller_roles: '*'
       controller_schedules:
-        - dtstart
-        - timezone
         - Cleanup Activity Schedule
         - Cleanup Expired Sessions
         - Cleanup Job Schedule

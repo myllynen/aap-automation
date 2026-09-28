@@ -36,7 +36,7 @@
     - name: Fetch webhook keys for webhook enabled job templates
       no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.uri:
-        url: "https://{{ hostname }}/api/controller/v2/job_templates/{{ item.id }}/webhook_key/"
+        url: https://{{ hostname }}/api/controller/v2/job_templates/{{ item.id }}/webhook_key/
         # url_username: "{{ username }}"
         # url_password: "{{ password }}"
         validate_certs: false

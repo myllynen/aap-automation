@@ -153,16 +153,16 @@ controller_workflows_test_org:
       message: Message from workflow
     simplified_workflow_nodes:
       - identifier: node1
-        organization: Test Org
-        lookup_organization: Test Org
         unified_job_template: Test Org - Test Random Failure
+        unified_job_type: job
+        lookup_organization: Test Org
         all_parents_must_converge: false
-        credentials: []
+        # credentials: []
         success_nodes:
           - node10
         failure_nodes:
           - node20
-        always_nodes: []
+        # always_nodes: []
       - identifier: node10
         approval_node:
           name: Test Approval
@@ -171,17 +171,20 @@ controller_workflows_test_org:
         success_nodes:
           - node11
       - identifier: node11
-        lookup_organization: Test Org
         unified_job_template: Test Org - Test Job Template
-      - identifier: node20
+        unified_job_type: job
         lookup_organization: Test Org
+      - identifier: node20
         unified_job_template: Test Org - Test Random Failure
+        unified_job_type: job
+        lookup_organization: Test Org
 
 controller_schedules_test_org:
   - name: Test Org - Refresh Red Hat token
     description: Scheduled Red Hat token refresh
     organization: Test Org
     unified_job_template: Test Org - Refresh Red Hat token
+    unified_job_type: job
     inventory: Test Org - EE localhost
     rrule: DTSTART;TZID=Europe/Helsinki:20260101T020202 RRULE:FREQ=WEEKLY;INTERVAL=1
     enabled: true
