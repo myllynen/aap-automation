@@ -105,9 +105,10 @@ feature_flags={"FEATURE_DASHBOARD_COLLECTION_ENABLED": True, "FEATURE_OIDC_WORKL
 controller_license_file=/home/admin/aap_manifest.zip
 
 # MCP
-# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-mcp_server_variables
+# https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/extend-assembly_deploying_ansible_mcp_server
 mcp_ignore_certificate_errors=false
 mcp_allow_write_operations=true
+mcp_extra_settings=[{"setting": "OAUTH2_ENABLED", "value": True}]
 
 # Metrics
 #automationmetrics_skip_install=true
@@ -174,7 +175,7 @@ hub_pg_password=Foobar_12
 #hub_shared_data_mount_opts=rw,sync,hard
 
 hub_seed_collections=false
-hub_extra_settings=[{'setting': 'ANALYTICS', 'value': False}]
+hub_extra_settings=[{"setting": "ANALYTICS", "value": False}]
 hub_galaxy_importer={"run_ansible_lint": True, "offline_ansible_lint": True}
 
 # AAP EDA
