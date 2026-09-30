@@ -70,6 +70,7 @@
         - gateway_proxy_url
         - gateway_token_name
         - AAP_DEPLOYMENT_TYPE
+        - CSRF_TRUSTED_ORIGINS
         - NOTIFICATION_RSS_FEED_URL
         - RED_HAT_CONSOLE_URL
       controller_execution_environments:
@@ -122,7 +123,6 @@
         public: true
 
     - name: Combine AAP in-repo wildcard variables
-      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       vars:
         var_name: "{{ item | regex_replace('^(' + aap_configuration_all_vars | join('|') + ')_.*', '\\1') }}"
         curr_val: "{{ config_repo[item] }}"
@@ -136,6 +136,7 @@
                                                'match',
                                                '^(' + aap_configuration_all_vars | join('|') + ')_.*|.*secure_logging|^tbd_.*')
                                   | items2dict }}"
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.set_fact:
         config_repo_merged: >-
           {{ config_repo_merged

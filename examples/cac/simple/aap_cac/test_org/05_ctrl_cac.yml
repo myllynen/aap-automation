@@ -44,7 +44,7 @@ controller_projects_test_org:
     default_environment: Control Plane Execution Environment
     scm_type: git
     scm_url: https://github.com/myllynen/autotest.git
-    # credential: Test Org - SCM Credential
+    # scm_credential: Test Org - SCM Credential
     scm_clean: false
     scm_update_on_launch: false
     # scm_update_cache_timeout: 30
@@ -56,7 +56,7 @@ controller_projects_test_org:
     default_environment: Test Org - Custom Base EE
     scm_type: git
     scm_url: https://github.com/myllynen/misc.git
-    # credential: Test Org - SCM Credential
+    # scm_credential: Test Org - SCM Credential
     scm_clean: false
     scm_update_on_launch: false
     # scm_update_cache_timeout: 30

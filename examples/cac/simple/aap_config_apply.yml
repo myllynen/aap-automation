@@ -165,11 +165,11 @@
       when: tower_webhook_payload.commits is defined
 
     - name: Read AAP CaC files
-      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       vars:
         dir_input: "{{ false if item.endswith('yml') else true }}"
         # Remove if not using environment-specific variables
         env_content: "{{ ['aap_env/' + aap_env] }}"
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.include_vars:
         dir: "{{ (config_basedir + '/' + item) if dir_input else omit }}"
         depth: "{{ config_depth if config_depth is defined and dir_input else omit }}"
