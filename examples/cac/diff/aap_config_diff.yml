@@ -59,6 +59,9 @@
     fail_if_different: true
 
     compare_ignore:
+      aap_user_accounts:
+        - authenticators
+        - authenticator_uid
       gateway_http_ports: '*'
       gateway_organizations: '*'
       gateway_routes: '*'
