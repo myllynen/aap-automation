@@ -1,6 +1,6 @@
 # Ansible Automation Platform Automation Examples
 
-[![License: GPLv3](https://img.shields.io/badge/license-GPLv3-brightgreen.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License: GPLv3+](https://img.shields.io/badge/license-GPLv3%2B-brightgreen.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 Examples how to automate the automation when using Ansible Automation
 Platform (AAP).
