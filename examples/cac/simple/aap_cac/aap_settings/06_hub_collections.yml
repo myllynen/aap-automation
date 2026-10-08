@@ -44,11 +44,11 @@ hub_custom_collections:
 
   - collection_name: myllynen.rhel_image
     git_url: https://github.com/myllynen/rhel-image
-    version: v2.2.5
+    version: v2.2.6
     # These are for use with hub_skip_existing_collections
     namespace: myllynen
     name: rhel_image
-    collection_version: "2.2.5"
+    collection_version: "2.2.6"
 
 hub_collection_remotes:
   - name: rh-certified
@@ -155,7 +155,7 @@ hub_collection_remotes:
       - name: community.windows
         version: '>=3.3.0'
       - name: containers.podman
-        version: '>=1.20.2'
+        version: '>=1.21.0'
 
 hub_collection_repositories:
   - name: rh-certified

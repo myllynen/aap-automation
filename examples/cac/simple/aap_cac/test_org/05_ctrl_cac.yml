@@ -151,10 +151,11 @@ controller_workflows_test_org:
     # limit: localhost
     extra_vars:
       message: Message from workflow
+
     simplified_workflow_nodes:
       - identifier: node1
-        unified_job_template: Test Org - Test Random Failure
         unified_job_type: job
+        unified_job_template: Test Org - Test Random Failure
         lookup_organization: Test Org
         all_parents_must_converge: false
         # credentials: []
@@ -163,20 +164,30 @@ controller_workflows_test_org:
         failure_nodes:
           - node20
         # always_nodes: []
+
       - identifier: node10
+        unified_job_type: job
+        unified_job_template: Test Org - Test Job Template
+        lookup_organization: Test Org
+        success_nodes:
+          - node11
+
+      - identifier: node11
         approval_node:
           name: Test Approval
           description: Approval step for testing
           timeout: 0
         success_nodes:
-          - node11
-      - identifier: node11
+          - node12
+
+      - identifier: node12
+        unified_job_type: job
         unified_job_template: Test Org - Test Job Template
-        unified_job_type: job
         lookup_organization: Test Org
+
       - identifier: node20
-        unified_job_template: Test Org - Test Random Failure
         unified_job_type: job
+        unified_job_template: Test Org - Test Random Failure
         lookup_organization: Test Org
 
 controller_schedules_test_org:
