@@ -1,5 +1,5 @@
 ---
-# https://access.redhat.com/solutions/7072302
+# https://access.redhat.com/articles/7148460
 - name: Clean up orphaned AAP hub content
   hosts: localhost
   connection: local
@@ -28,7 +28,8 @@
           Authorization: Bearer {{ token }}
         body_format: json
         body:
-          orphan_protection_time: 0
+          retain_repo_versions: 3
+          orphan_protection_time: 3
         status_code:
           - 200
           - 202
