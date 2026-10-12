@@ -64,7 +64,7 @@ hub_collection_remotes:
     sync_dependencies: true
     requirements:
       - name: ansible.controller
-        version: '>=4.8.9'
+        version: '>=4.8.11'
       - name: ansible.eda
         version: '>=2.13.0'
       - name: ansible.hub
@@ -155,7 +155,7 @@ hub_collection_remotes:
       - name: community.windows
         version: '>=3.3.0'
       - name: containers.podman
-        version: '>=1.21.0'
+        version: '>=1.21.1'
 
 hub_collection_repositories:
   - name: rh-certified

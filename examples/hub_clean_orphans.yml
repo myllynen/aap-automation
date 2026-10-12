@@ -28,8 +28,10 @@
           Authorization: Bearer {{ token }}
         body_format: json
         body:
+          # Old layers/versions to retain
           retain_repo_versions: 3
-          orphan_protection_time: 3
+          # Grace period for cleanup, in minutes
+          orphan_protection_time: 1440
         status_code:
           - 200
           - 202
