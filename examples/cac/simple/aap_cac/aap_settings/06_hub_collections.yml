@@ -36,11 +36,11 @@ hub_namespaces:
 hub_custom_collections:
   - collection_name: myllynen.rhel_ansible_roles
     git_url: https://github.com/myllynen/rhel-ansible-roles
-    version: v3.5.0
+    version: v4.0.0
     # These are for use with hub_skip_existing_collections
     namespace: myllynen
     name: rhel_ansible_roles
-    collection_version: "3.5.0"
+    collection_version: "4.0.0"
 
   - collection_name: myllynen.rhel_image
     git_url: https://github.com/myllynen/rhel-image
@@ -56,12 +56,13 @@ hub_collection_remotes:
     auth_url: "{{ redhat_auth_url if redhat_auth_token is defined else omit }}"
     token: "{{ redhat_auth_token | default(omit) }}"
     tls_validation: true
-    download_concurrency: 10
-    max_retries: 1
-    rate_limit: 8
     signed_only: true
     policy: immediate
     sync_dependencies: true
+    sync_highest_versions: 3
+    download_concurrency: 10
+    max_retries: 3
+    rate_limit: 8
     requirements:
       - name: ansible.controller
         version: '>=4.8.11'
@@ -107,21 +108,22 @@ hub_collection_remotes:
     auth_url: "{{ redhat_auth_url if redhat_auth_token is defined else omit }}"
     token: "{{ redhat_auth_token | default(omit) }}"
     tls_validation: true
-    download_concurrency: 10
-    max_retries: 1
-    rate_limit: 8
     signed_only: true
     policy: immediate
     # XXX Dependency sync is not supported/working
     # XXX across different repositories as of now.
     sync_dependencies: false
+    sync_highest_versions: 3
+    download_concurrency: 10
+    max_retries: 3
+    rate_limit: 8
     requirements:
       - name: ansible.mcp_builder
         version: '>=1.0.3'
       - name: infra.aap_configuration
         version: '>=4.10.0'
       - name: infra.aap_configuration_extended
-        version: '>=4.12.1'
+        version: '>=4.12.0'
       - name: infra.aap_utilities
         version: '>=4.0.0'
       - name: infra.ee_utilities
@@ -136,12 +138,13 @@ hub_collection_remotes:
   - name: community
     url: https://galaxy.ansible.com/api/
     tls_validation: true
-    download_concurrency: 10
-    max_retries: 1
-    rate_limit: 8
     signed_only: false
     policy: immediate
     sync_dependencies: true
+    sync_highest_versions: 3
+    download_concurrency: 10
+    max_retries: 3
+    rate_limit: 8
     requirements:
       # Define versions to avoid syncing
       # hundreds of prehistoric versions
