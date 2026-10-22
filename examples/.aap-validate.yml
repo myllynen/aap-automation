@@ -1,0 +1,84 @@
+---
+# Example configuration for aap-config-validate
+# Copy this file as .aap-validate.yml in your project root.
+# All settings are optional — omit anything you don't need.
+
+# ── File/directory exclusions ─────────────────────────────────────
+# Glob patterns matched against file/directory paths (including nested
+# relative paths such as tests/fixtures). Directory scans also skip
+# secrets.yml, .git, .github, .svn, __pycache__, and .tox by default.
+
+exclude_files:
+  - "*.bak"
+  - "secrets.yml"
+  - "generated/**/*.yml"
+  # Avoid duplicate var name warning due to org's
+  # base definition vs controller configuration
+  - organization.yml
+  # Remove after https://github.com/redhat-cop/aap_configuration_extended/issues/423 is fixed
+  - controller_instance_groups.yml
+
+exclude_dirs:
+  - ".git"
+  - "scratch"
+  - "tests/fixtures"
+
+# ── Variable ignoring ────────────────────────────────────────────
+# Variable names to suppress "unknown variable" warnings for.
+# Supports glob patterns (e.g. "my_custom_*").
+
+ignore_vars:
+  - tbd_*
+  # Remove if these settings are moved to vault
+  - redhat_*
+  # Remove after https://github.com/redhat-cop/aap_configuration_extended/issues/423 is fixed
+  - hub_repository
+  - hub_auto_approve
+  - hub_skip_existing_collections
+#   - my_custom_var
+#   - env_*
+#   - ansible_*
+
+# ── Per-variable field ignoring ──────────────────────────────────
+# Suppress "field not recognised" warnings for specific fields
+# on specific resource variables.  Use "*" to apply to all vars.
+
+ignore_fields:
+  # Remove after https://redhat.atlassian.net/browse/AAP-89100 is fixed
+  hub_collection_remotes:
+    - sync_highest_versions
+#   controller_templates:
+#     - custom_field
+#     - my_extra_*
+#   "*":
+#     - _internal_field
+
+# ── Disable checks ──────────────────────────────────────────────
+# Completely disable specific validation checks.
+# Valid names: var_names, structure, required_fields, types,
+#              unknown_fields, state, choices, xref, duplicates
+
+# disable_checks:
+#   - xref
+#   - unknown_fields
+
+# ── Extra known variables ────────────────────────────────────────
+# Additional variable names to treat as valid (no unknown-var warning).
+# Unlike ignore_vars, these don't support glob patterns — they're
+# added directly to the known-variable set.
+
+# extra_known_vars:
+#   - my_org_base_url
+#   - deployment_environment
+
+# ── CLI defaults ─────────────────────────────────────────────────
+# These can all be overridden by CLI flags.
+
+# strict: true
+# show_info: false
+# wildcard_vars: auto        # auto | always | never
+# output_format: text        # text | json
+# components:                # limit to specific component(s)
+#   - controller
+#   - gateway
+...
