@@ -34,17 +34,6 @@
         public: true
       when: export_aap_configuration | bool
 
-    # noqa: command-instead-of-module
-    - name: Remove instance data from exported configuration
-      ansible.builtin.command:
-        chdir: "{{ output_path }}"
-        cmd: >
-          sed -i
-          -e '/LICENSE:/,/INSTALL_UUID:/d'
-          controller_settings.yaml
-      changed_when: true
-      when: export_aap_configuration | bool
-
 - name: Compare AAP in-cac vs in-use configuration
   hosts: localhost
   connection: local
@@ -99,8 +88,6 @@
         - Cleanup Job Schedule
       controller_settings:
         settings:
-          - CLEANUP_HOST_METRICS_LAST_TS
-          - HOST_METRIC_SUMMARY_TASK_LAST_TS
           - TOWER_URL_BASE
 
   tasks:
@@ -137,7 +124,8 @@
                                   | dict2items
                                   | rejectattr('key',
                                                'match',
-                                               '^(' + aap_configuration_all_vars | join('|') + ')_.*|.*secure_logging|^tbd_.*')
+                                               '^(' + aap_configuration_all_vars | join('|')
+                                                    + ')_.*|.*_(secure_logging|async_retries|async_delay|loop_delay|enforce_defaults)$|^tbd_.*')
                                   | items2dict }}"
       no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.set_fact:
