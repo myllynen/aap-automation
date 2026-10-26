@@ -1,7 +1,7 @@
 ---
 # https://access.redhat.com/articles/7148460
 - name: Clean up orphaned AAP hub content
-  hosts: localhost
+  hosts: all
   connection: local
   become: false
   gather_facts: false

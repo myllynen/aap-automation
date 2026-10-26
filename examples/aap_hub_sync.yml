@@ -1,0 +1,49 @@
+---
+- name: Sync AAP collection repositories and EE registries
+  hosts: all
+  connection: local
+  become: false
+  gather_facts: false
+  vars:
+    hostname: "{{ aap_hostname | regex_replace('^https?://', '') }}"
+
+    # These should come from vault
+    # use either or, prefer token
+    # username: "{{ aap_username }}"
+    # password: "{{ aap_password }}"
+    token: "{{ aap_token }}"
+
+    aap_configuration_async_retries: 100
+    aap_configuration_async_delay: 6
+
+    sync_collection_repositories: true
+    sync_ee_registries: true
+
+    # Specifying Mirror or Optimize options is not possible yet, see
+    # https://github.com/redhat-cop/infra.aap_configuration/issues/1413
+    hub_collection_repositories:
+      - name: rh-certified
+        sync: true
+        wait: true
+      - name: validated
+        sync: true
+        wait: true
+      - name: community
+        sync: true
+        wait: true
+
+    hub_ee_registries:
+      - name: redhat
+        sync: true
+        wait: true
+
+  tasks:
+    - name: Sync collection repositories
+      ansible.builtin.include_role:
+        name: infra.aap_configuration.hub_collection_repository_sync
+      when: sync_collection_repositories | bool
+
+    - name: Sync container registries
+      ansible.builtin.include_role:
+        name: infra.aap_configuration.hub_ee_registry_sync
+      when: sync_ee_registries | bool

@@ -1,6 +1,6 @@
 ---
 - name: Configure AAP EE image pull authentication
-  hosts: localhost
+  hosts: all
   connection: local
   become: false
   gather_facts: false
