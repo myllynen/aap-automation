@@ -1,6 +1,6 @@
 ---
-- name: Set available execution nodes
-  hosts: localhost
+- name: Pull EEs to AAP execution nodes
+  hosts: all
   connection: local
   become: false
   gather_facts: false

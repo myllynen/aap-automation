@@ -1,6 +1,6 @@
 ---
 - name: Get AAP gateway API token
-  hosts: localhost
+  hosts: all
   connection: local
   become: false
   gather_facts: false

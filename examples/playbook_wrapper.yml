@@ -1,3 +1,4 @@
 ---
 - name: Import playbook
+  # noqa: syntax-check[specific]
   ansible.builtin.import_playbook: "{{ ee_playbook_execute }}"

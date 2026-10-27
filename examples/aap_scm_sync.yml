@@ -1,6 +1,6 @@
 ---
 - name: Sync AAP SCM inventory sources and projects
-  hosts: localhost
+  hosts: all
   connection: local
   become: false
   gather_facts: false

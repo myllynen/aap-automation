@@ -17,7 +17,7 @@
 #     -H "Authorization: Bearer $TOKEN" https://$AAP_HOSTNAME/api/gateway/v1/me/ | jq -r '.results[0].username'
 #
 - name: Create AAP OAuth Application token for service account use
-  hosts: localhost
+  hosts: all
   connection: local
   become: false
   gather_facts: false

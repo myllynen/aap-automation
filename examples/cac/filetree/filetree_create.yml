@@ -9,7 +9,9 @@
 
     output_path: ./filetree_export
     flatten_output: false
-    omit_id: true
+    secrets_as_variables: false
+    # organization_filter: Test Org
+    export_inline_object_roles: true
 
   roles:
     - role: infra.aap_configuration_extended.filetree_create

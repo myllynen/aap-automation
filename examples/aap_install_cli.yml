@@ -1,5 +1,5 @@
 ---
-- name: Install automation controller cli package
+- name: Install automation-controller-cli package
   hosts: all
   become: false
   gather_facts: true

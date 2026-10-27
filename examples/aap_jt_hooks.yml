@@ -1,6 +1,6 @@
 ---
 - name: Configure AAP webhooks in GitHub repositories
-  hosts: localhost
+  hosts: all
   connection: local
   become: false
   gather_facts: false
