@@ -1,0 +1,115 @@
+---
+- name: Check AAP connection and access
+  hosts: all
+  connection: local
+  become: false
+  gather_facts: false
+  vars:
+    hostname: "{{ aap_hostname | regex_replace('^https?://', '') }}"
+
+    # These should come from vault
+    # use either or, prefer token
+    # username: "{{ aap_username }}"
+    # password: "{{ aap_password }}"
+    token: "{{ aap_token }}"
+
+    # This just "reads" AAP status,
+    # required for display/verify
+    status_check: true
+
+    # Always shown if verification fails
+    status_display: false
+
+    #
+    # AAP status verification
+    #
+    status_verify: true
+
+    # Statuses to allow
+    status_verify_expect:
+      - good
+      - degraded
+
+    # Components to ignore
+    status_verify_ignore:
+      - redis
+
+  tasks:
+    - name: Check AAP connection
+      ansible.builtin.uri:
+        url: https://{{ hostname }}/api/gateway/v1/ping/
+        validate_certs: "{{ aap_validate_certs | bool }}"
+        method: GET
+        status_code:
+          - 200
+
+    - name: Check AAP access
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
+      ansible.builtin.uri:
+        url: https://{{ hostname }}/api/gateway/v1/me/
+        # url_username: "{{ username }}"
+        # url_password: "{{ password }}"
+        validate_certs: "{{ aap_validate_certs | bool }}"
+        force_basic_auth: true
+        method: GET
+        headers:
+          Authorization: Bearer {{ token }}
+        status_code:
+          - 200
+
+    - name: Check AAP status
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
+      ansible.builtin.uri:
+        url: https://{{ hostname }}/api/gateway/v1/status/
+        # url_username: "{{ username }}"
+        # url_password: "{{ password }}"
+        validate_certs: "{{ aap_validate_certs | bool }}"
+        force_basic_auth: true
+        method: GET
+        headers:
+          Authorization: Bearer {{ token }}
+        status_code:
+          - 200
+      register: aap_status
+      when: status_check | bool
+
+    - name: Display AAP status
+      ansible.builtin.debug:
+        var: aap_status
+      when:
+        - aap_status is not skipped
+        - status_display | bool
+
+    - name: Verify AAP status
+      block:
+        - name: Verify AAP service and node status
+          ansible.builtin.assert:
+            that:
+              - aap_status.json.services
+                | rejectattr('service_name', 'in', status_verify_ignore)
+                | rejectattr('status', 'undefined')
+                | rejectattr('status', 'in', status_verify_expect)
+                | length == 0
+              - aap_status.json.services
+                | rejectattr('service_name', 'in', status_verify_ignore)
+                | map(attribute='nodes') | map('dict2items') | flatten
+                | rejectattr('value.status', 'in', status_verify_expect)
+                | length == 0
+            fail_msg: "AAP is not healthy."
+            quiet: true
+          when:
+            - aap_status is not skipped
+            - status_verify | bool
+
+      rescue:
+        - name: Display AAP status
+          ansible.builtin.debug:
+            msg: |
+              AAP status verification FAILED.
+              Full AAP {{ hostname }} status:
+
+              {{ aap_status | to_nice_yaml(indent=2) }}
+
+        - name: Fail if verification failed
+          ansible.builtin.fail:
+            msg: "AAP status verification failed."
