@@ -13,8 +13,10 @@
     # password: "{{ aap_password }}"
     token: "{{ aap_token }}"
 
+    do_status_check: true
+
   tasks:
-    - name: Test AAP connection
+    - name: Check AAP connection
       ansible.builtin.uri:
         url: https://{{ hostname }}/api/gateway/v1/ping/
         validate_certs: "{{ aap_validate_certs | bool }}"
@@ -22,7 +24,7 @@
         status_code:
           - 200
 
-    - name: Test AAP access
+    - name: Check AAP access
       no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.uri:
         url: https://{{ hostname }}/api/gateway/v1/me/
@@ -35,3 +37,24 @@
           Authorization: Bearer {{ token }}
         status_code:
           - 200
+
+    - name: Check AAP status
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
+      ansible.builtin.uri:
+        url: https://{{ hostname }}/api/gateway/v1/status/
+        # url_username: "{{ username }}"
+        # url_password: "{{ password }}"
+        validate_certs: "{{ aap_validate_certs | bool }}"
+        force_basic_auth: true
+        method: GET
+        headers:
+          Authorization: Bearer {{ token }}
+        status_code:
+          - 200
+      register: aap_status
+      when: do_status_check | bool
+
+    - name: Display AAP status
+      ansible.builtin.debug:
+        var: aap_status
+      when: aap_status is not skipped
