@@ -77,6 +77,7 @@ ee_list_old:
           - redhat.satellite
           - redhat.satellite_operations
           - infra.aap_configuration
+          - infra.aap_configuration_extended
           # - infra.aap_utilities
           # - infra.ee_utilities
           # - infra.windows_ops
@@ -152,6 +153,7 @@ ee_list:
           - redhat.satellite
           - redhat.satellite_operations
           - infra.aap_configuration
+          - infra.aap_configuration_extended
           # - infra.aap_utilities
           # - infra.ee_utilities
           - infra.windows_ops

@@ -71,6 +71,7 @@ ee_list:
           # - community.windows
           # - infra.windows_ops
           - infra.aap_configuration
+          - infra.aap_configuration_extended
           - myllynen.rhel_ansible_roles
       python:
         - fastapi
