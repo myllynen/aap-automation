@@ -28,9 +28,8 @@ exclude_dirs:
 # Supports glob patterns (e.g. "my_custom_*").
 
 ignore_vars:
+  - env_*
   - tbd_*
-  # Remove if these settings are moved to vault
-  - redhat_*
   # Remove after https://github.com/redhat-cop/aap_configuration_extended/issues/423 is fixed
   - hub_repository
   - hub_auto_approve

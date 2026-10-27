@@ -1,29 +1,24 @@
 ---
 - name: Configure Ansible Automation Platform
-  hosts: localhost
+  hosts: all
   connection: local
   become: false
   gather_facts: false
   vars:
     # AAP CaC top level dir
-    config_basedir: aap_cac
+    config_basedir: cac/simple/aap_cac
     # AAP CaC files or directories to read
     # Use . to read everything in basedir
     # config_content: .
     config_content: []
-    # config_content: aap_settings
-    # config_content: test_org
     # config_content:
     #   - aap_settings
-    #   - default_org
-    #   - test_org
     # config_content:
-    #   - aap_settings/06_hub_collections.yml
-    #   - aap_settings/07_hub_execution_environments.yml
+    #   - aap_settings/gateway_settings.yml
+    #   - aap_settings/controller_settings.yml
+    #
     # config_content:
-    #   - test_org/02_teams.yml
-    #   - test_org/03_users.yml
-    #   - test_org/05_ctrl_cac.yml
+    #   - org_test/testing.yml
 
     # Optional list of files to ignore
     # when reading contents of directories
@@ -43,8 +38,6 @@
       - hub_auto_approve
       - hub_repository
       - hub_skip_existing_collections
-      - redhat_auth_token
-      - redhat_auth_url
       - '.*secure_logging$'
       - 'tbd_.*'
 
@@ -56,8 +49,6 @@
       - aap_configuration_async_delay
       - aap_configuration_async_retries
       - aap_request_timeout
-      # For independent gateway/controller orgs
-      - '^aap_organizations_'
 
     # Settings in files will override these for AAP
     aap_configuration_secure_logging: false
@@ -74,12 +65,13 @@
         tasks_from: vars_only
         public: true
 
+    # This should also be included in pre-commit / pre-merge checks
     - name: Verify no unknown variable definitions
       vars:
         excludes_regex: "{{ (aap_configuration_all_vars + known_good_variables) | join('|') }}"
       ansible.builtin.shell: >
         set -o pipefail &&
-        grep -Ehr '^\w+:' --exclude-dir=common --include='*.yml' {{ config_basedir }}
+        grep -Ehr '^\w+:' --include='*.yml' {{ config_basedir }}
         | sed 's/:.*//'
         | grep -Ev '^({{ excludes_regex }})'
         | sort -u
@@ -90,12 +82,13 @@
         unknown_check.stdout_lines | length > 2
       changed_when: false
 
+    # This should also be included in pre-commit / pre-merge checks
     - name: Verify no unexpected duplicate variable definitions
       vars:
         excludes_regex: "{{ known_good_duplicates | default(['^check_all$'], true) | join('|') }}"
       ansible.builtin.shell: >
         set -o pipefail &&
-        grep -Ehr '^\w+:' --exclude-dir=common --include='*.yml' {{ config_basedir }}
+        grep -Ehr '^\w+:' --include='*.yml' {{ config_basedir }}
         | sed 's/:.*//'
         | grep -Ev '({{ excludes_regex }})'
         | sort
@@ -106,26 +99,11 @@
       changed_when: false
 
     # Remove if not using environment-specific variables
-    - name: Verify correct form of environment-specific variables - common
-      ansible.builtin.shell: >
-        set -o pipefail &&
-        grep -Ehr '^\w+:' --include='*.yml' {{ config_basedir }}/aap_env/*/common
-        | sed 's/:.*//'
-        | grep -v '^aap_'
-        | sort
-        | uniq
-        | awk 'BEGIN {print "Incorrect variable names found:\n"} 1'
-      register: env_vars_common_check
-      failed_when: >
-        (env_vars_common_check.rc != 0 and env_vars_common_check.stderr_lines | length > 0) or
-        env_vars_common_check.stdout_lines | length > 2
-      changed_when: false
-
-    # Remove if not using environment-specific variables
+    # This should also be included in pre-commit / pre-merge checks
     - name: Verify correct form of environment-specific variables - organizations
       ansible.builtin.shell: >
         set -o pipefail &&
-        grep -Ehr '^\w+:' --exclude-dir=common --include='*.yml' {{ config_basedir }}/aap_env
+        grep -Ehr '^\w+:' --include='*.yml' {{ config_basedir }}/aap_env
         | sed 's/:.*//'
         | grep -v '^env_'
         | sort
@@ -139,22 +117,22 @@
 
     - name: Determine AAP CaC files to apply from webhook payload
       vars:
-        commit_branch: "{{ tower_webhook_payload.ref | regex_replace('^refs/heads/', '') }}"
         env_map:
-          main: dev
-          master: dev
-          dev: dev
+          devel: dev
           test: test
           prod: prod
+        commit_branch: "{{ tower_webhook_payload.ref | regex_replace('^refs/heads/', '') }}"
       ansible.builtin.set_fact:
-        aap_env: "{{ env_map[commit_branch] | default(commit_branch) }}"
         config_branch: "{{ commit_branch }}"
         config_content: >-
           {{ ((tower_webhook_payload.commits | default([]) | map(attribute='added')) +
               (tower_webhook_payload.commits | default([]) | map(attribute='modified')))
-             | flatten | unique | sort | map('regex_replace', '^.*?' + config_basedir + '/', '')
+             | flatten | unique | sort
+             | map('regex_replace', '^.*' + (config_basedir | basename) + '/', '')
           }}
-      when: tower_webhook_payload.commits is defined
+      when:
+        - tower_webhook_payload.commits is defined
+        - aap_env == env_map[commit_branch] | default('')
 
     - name: Display AAP CaC files determined from webhook payload
       ansible.builtin.debug:
@@ -162,7 +140,9 @@
           - aap_env: {{ aap_env }}
           - config_branch: {{ config_branch }}
           - config_content: {{ config_content }}
-      when: tower_webhook_payload.commits is defined
+      when:
+        - tower_webhook_payload.commits is defined
+        - config_content | length > 0
 
     - name: Read AAP CaC files
       vars:
