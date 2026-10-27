@@ -1,5 +1,5 @@
 ---
-- name: Check AAP connection and access
+- name: Check AAP status
   hosts: all
   connection: local
   become: false
