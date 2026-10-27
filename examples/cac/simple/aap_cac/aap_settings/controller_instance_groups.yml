@@ -1,0 +1,32 @@
+#
+# AAP controller configuration - instance groups
+#
+
+controller_configuration_credentials_secure_logging: false
+controller_configuration_instance_groups_secure_logging: false
+
+tbd_controller_credentials_instance_groups:
+  - name: Infra - Kubernetes API Credential
+    organization: Default
+    credential_type: OpenShift or Kubernetes API Bearer Token
+    inputs:
+      host: https://api.k8s.example.com
+      bearer_token: "{{ aap_kubernetes_token }}"
+      verify_ssl: "{{ aap_validate_certs | bool }}"
+
+tbd_controller_instance_groups:
+  - name: Infra - Instance Group - Kubernetes
+    is_container_group: true
+    credential: Infra - Kubernetes API
+    max_concurrent_jobs: 0
+    max_forks: 0
+    pod_spec_override:
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        namespace: aap-execution
+      spec:
+        serviceAccountName: aap-container-group
+        imagePullSecrets:
+          - name: artifactory-pull-secret
+        restartPolicy: Never
