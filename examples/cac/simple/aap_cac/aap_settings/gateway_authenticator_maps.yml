@@ -1,0 +1,121 @@
+#
+# AAP gateway configuration - authentication mappings
+#
+
+gateway_authenticator_maps_secure_logging: false
+
+# AD/LDAP mapping example
+# See organization.yml and teams.yml in aap_cac/org_test
+
+# NB. Names are used as IDs, changing name creates new mapping
+gateway_authenticator_maps:
+  - name: Require access group membership - AAP
+    authenticator: Microsoft Active Directory
+    map_type: allow
+    revoke: true
+    order: 1
+    triggers:
+      groups:
+        has_and:
+          - cn=aap-access,ou=groups,ou=corp,dc=example,dc=com
+
+  - name: Grant superuser permissions - AAP
+    authenticator: Microsoft Active Directory
+    map_type: is_superuser
+    revoke: true
+    order: 2
+    triggers:
+      groups:
+        has_and:
+          - cn=aap-admins,ou=groups,ou=corp,dc=example,dc=com
+
+  - name: Grant platform auditor permissions - AAP
+    authenticator: Microsoft Active Directory
+    map_type: role
+    role: Platform Auditor
+    revoke: true
+    order: 3
+    triggers:
+      groups:
+        has_and:
+          - cn=aap-auditors,ou=groups,ou=corp,dc=example,dc=com
+
+  - name: Assign organization members - Test Org
+    authenticator: Microsoft Active Directory
+    map_type: organization
+    role: Organization Member
+    organization: Test Org
+    revoke: true
+    order: 4
+    triggers:
+      groups:
+        has_or:
+          - cn=test-org-admins,ou=groups,ou=corp,dc=example,dc=com
+          - cn=test-org-auditors,ou=groups,ou=corp,dc=example,dc=com
+          - cn=test-org-operators,ou=groups,ou=corp,dc=example,dc=com
+          - cn=test-org-developers,ou=groups,ou=corp,dc=example,dc=com
+          - cn=test-org-api-users,ou=groups,ou=corp,dc=example,dc=com
+
+  - name: Grant organization admin permissions - Test Org
+    authenticator: Microsoft Active Directory
+    map_type: organization
+    role: Organization Admin
+    organization: Test Org
+    revoke: true
+    order: 5
+    triggers:
+      groups:
+        has_and:
+          - cn=test-org-admins,ou=groups,ou=corp,dc=example,dc=com
+
+  - name: Assign team members - Test Org - auditors
+    authenticator: Microsoft Active Directory
+    map_type: team
+    role: Team Member
+    organization: Test Org
+    team: t_auditors
+    revoke: true
+    order: 6
+    triggers:
+      groups:
+        has_and:
+          - cn=test-org-auditors,ou=groups,ou=corp,dc=example,dc=com
+
+  - name: Assign team members - Test Org - operators
+    authenticator: Microsoft Active Directory
+    map_type: team
+    role: Team Member
+    organization: Test Org
+    team: t_operators
+    revoke: true
+    order: 7
+    triggers:
+      groups:
+        has_and:
+          - cn=test-org-operators,ou=groups,ou=corp,dc=example,dc=com
+
+  - name: Assign team members - Test Org - developers
+    authenticator: Microsoft Active Directory
+    map_type: team
+    role: Team Member
+    organization: Test Org
+    team: t_developers
+    revoke: true
+    order: 8
+    triggers:
+      groups:
+        has_and:
+          - cn=test-org-developers,ou=groups,ou=corp,dc=example,dc=com
+
+  - name: Assign team members - Test Org - API users
+    authenticator: Microsoft Active Directory
+    map_type: team
+    role: Team Member
+    organization: Test Org
+    team: t_api_users
+    revoke: true
+    order: 9
+    triggers:
+      groups:
+        has_and:
+          - cn=test-org-api-users,ou=groups,ou=corp,dc=example,dc=com

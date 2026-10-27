@@ -1,0 +1,51 @@
+#
+# AAP hub configuration - execution environments
+#
+
+hub_configuration_ee_registry_secure_logging: false
+hub_configuration_ee_repository_secure_logging: false
+hub_configuration_ee_image_secure_logging: false
+
+aap_request_timeout: 5
+
+aap_configuration_async_retries: 100
+aap_configuration_async_delay: 6
+
+
+hub_ee_registries:
+  - name: redhat
+    url: https://{{ aap_redhat_registry_hostname }}
+    username: "{{ aap_redhat_registry_username }}"
+    password: "{{ aap_redhat_registry_password }}"
+    tls_validation: true
+    download_concurrency: 100
+    rate_limit: 5
+    sync: true
+    wait: true
+
+hub_ee_repositories:
+  - name: ansible-automation-platform-27/ee-minimal-rhel9
+    registry: redhat
+    upstream_name: ansible-automation-platform-27/ee-minimal-rhel9
+    include_tags:
+      - '2.16'
+      - '2.20'
+    sync: true
+    wait: true
+
+  - name: ansible-automation-platform-27/ee-supported-rhel9
+    registry: redhat
+    upstream_name: ansible-automation-platform-27/ee-supported-rhel9
+    include_tags:
+      - latest
+    sync: true
+    wait: true
+
+  - name: ansible-automation-platform/ee-minimal-rhel9
+    registry: redhat
+    upstream_name: ansible-automation-platform/ee-minimal-rhel9
+    include_tags:
+      - '2.16'
+      - '2.18'
+    sync: true
+    wait: true

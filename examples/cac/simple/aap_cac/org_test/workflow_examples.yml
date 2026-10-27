@@ -1,0 +1,73 @@
+#
+# AAP organization - controller configuration - workflow examples
+#
+
+# Uses AAP/organization common EEs
+# Uses Test Org - Test Inventory
+# Uses Test Org - Test Project
+# Uses Test Org - Machine Credential
+# Uses Test Org - Linux Target Connectivity
+# Uses Test Org - Linux Target Debug
+
+controller_templates_org_test_workflow_examples:
+  - name: Test Org - Random Failure
+    description: A randomly failing playbook for workflow testing purposes
+    organization: Test Org
+    inventory: Test Org - Test Inventory
+    project: Test Org - Test Project
+    playbook: random_fail.yml
+    credentials:
+      - Test Org - Machine Credential
+    job_type: run
+    job_slice_count: 1
+    verbosity: 0
+    extra_vars:
+      message: This might fail
+    # instance_groups:
+    #   - Test Org - Instance Group - Common
+
+controller_workflows_org_test_testing:
+  - name: Test Org - Test Workflow Job Template
+    description: Workflow for testing
+    organization: Test Org
+    inventory: Test Org - Test Inventory
+    extra_vars:
+      message: Message from workflow
+
+    simplified_workflow_nodes:
+      - identifier: node1
+        unified_job_type: job
+        unified_job_template: Test Org - Random Failure
+        lookup_organization: Test Org
+        all_parents_must_converge: false
+        # credentials: []
+        success_nodes:
+          - node10
+        failure_nodes:
+          - node20
+        # always_nodes: []
+
+      - identifier: node10
+        unified_job_type: job
+        unified_job_template: Test Org - Linux Target Connectivity
+        lookup_organization: Test Org
+        success_nodes:
+          - node11
+
+      - identifier: node11
+        approval_node:
+          name: Test Approval
+          description: Example approval step
+          timeout: 0
+        success_nodes:
+          - node12
+
+      - identifier: node12
+        unified_job_type: job
+        unified_job_template: Test Org - Linux Target Debug
+        lookup_organization: Test Org
+
+      - identifier: node20
+        unified_job_type: job
+        unified_job_template: Test Org - Random Failure
+        lookup_organization: Test Org

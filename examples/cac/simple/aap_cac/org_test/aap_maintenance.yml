@@ -1,0 +1,49 @@
+#
+# AAP organization - controller configuration - AAP ops and maintenance
+#
+
+# Uses Test Org - AAP CaC Credential
+# Uses Test Org - EE localhost
+# Uses Test Org - Test Project
+
+controller_templates_org_test_aap_maintenance:
+  - name: Test Org - AAP Hub Cleanup
+    description: Clean up orphaned AAP hub content
+    organization: Test Org
+    inventory: Test Org - EE localhost
+    project: Test Org - Test Project
+    playbook: aap_hub_cleanup.yml
+    credentials:
+      - Test Org - AAP CaC Credential
+    job_type: run
+    job_slice_count: 1
+
+  - name: Test Org - AAP Hub Sync
+    description: Sync AAP collection repositories and EE registries
+    organization: Test Org
+    inventory: Test Org - EE localhost
+    project: Test Org - Test Project
+    playbook: aap_hub_sync.yml
+    credentials:
+      - Test Org - AAP CaC Credential
+    job_type: run
+    job_slice_count: 1
+
+controller_schedules_org_test_aap_maintenance:
+  - name: Test Org - AAP Hub Cleanup
+    description: Scheduled AAP hub cleanup
+    organization: Test Org
+    unified_job_template: Test Org - AAP Hub Cleanup
+    job_type: run
+    inventory: Test Org - EE localhost
+    rrule: DTSTART;TZID=Europe/Helsinki:20260101T030303 RRULE:FREQ=DAILY;INTERVAL=1
+    enabled: true
+
+  - name: Test Org - AAP Hub Sync
+    description: Scheduled AAP hub sync
+    organization: Test Org
+    unified_job_template: Test Org - AAP Hub Sync
+    job_type: run
+    inventory: Test Org - EE localhost
+    rrule: DTSTART;TZID=Europe/Helsinki:20260101T020202 RRULE:FREQ=DAILY;INTERVAL=1
+    enabled: true

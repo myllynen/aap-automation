@@ -1,0 +1,30 @@
+#
+# AAP per-instance vault - unencrypted example
+#
+
+#
+# AAP instance credentials
+#
+
+# AAP superuser credentials
+aap_admin_username: admin
+aap_admin_password: Foobar_12
+
+# AAP username and password for automation and creating tokens
+# NB. It is recommended to use suitable gateway tokens instead
+aap_username: "{{ aap_admin_username }}"
+aap_password: "{{ aap_admin_password }}"
+
+# AAP gateway rw token for generic use
+# This needs to be added after installation
+aap_token: "{{ lookup('file', lookup('env', 'PWD') + '/aap_token.txt') }}"
+
+# AAP gateway rw token for automation hub
+# This needs to be added after installation
+hub_token: "{{ lookup('file', lookup('env', 'PWD') + '/hub_token.txt') }}"
+
+#
+# AAP environment credentials
+#
+# aap_ad_bind_password: changeme
+# aap_log_aggregator_password: changeme

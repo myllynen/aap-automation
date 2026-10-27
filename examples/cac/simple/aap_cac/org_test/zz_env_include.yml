@@ -1,0 +1,13 @@
+#
+# AAP organization - environment includes
+#
+
+# NB. Omit default=[] below to require environment-specific configuration
+
+# Per-environment users
+aap_user_accounts_org_test_env: >-
+  {{ lookup('vars', 'env_' + aap_env + '_aap_user_accounts_org_test', default=[]) }}
+
+# Per-environment roles
+gateway_role_user_assignments_org_test_env: >-
+  {{ lookup('vars', 'env_' + aap_env + '_gateway_role_user_assignments_org_test', default=[]) }}

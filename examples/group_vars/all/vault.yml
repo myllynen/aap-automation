@@ -1,0 +1,23 @@
+#
+# AAP common vault - unencrypted example
+#
+
+#
+# AAP Red Hat credentials
+#
+
+# Red Hat Automation Hub token
+# Needed for configuring automation hub collection sync
+# https://console.redhat.com/ansible/automation-hub/token
+# aap_redhat_hub_token: "{{ lookup('file', lookup('env', 'PWD') + '/redhat_token.txt') }}"
+
+# Red Hat EE registry credentials
+# Needed for configuring automation hub EE sync
+aap_redhat_registry_hostname: registry.redhat.io
+# aap_redhat_registry_username: your-rhn-username
+# aap_redhat_registry_password: your-rhn-password
+
+# Red Hat service account credentials
+# Needed for configuring automation analytics, optional
+# aap_redhat_client_id: your-rhn-client-id
+# aap_redhat_client_secret: your-rhn-client-secret

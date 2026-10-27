@@ -1,0 +1,7 @@
+#
+# AAP organization - base definition
+#
+
+aap_organizations_org_test_base:
+  - name: Test Org
+    description: Test organization

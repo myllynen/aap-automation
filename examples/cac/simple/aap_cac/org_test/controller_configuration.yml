@@ -1,0 +1,53 @@
+#
+# AAP organization - controller configuration - common base definitions
+#
+
+aap_organizations_org_test_controller:
+  - name: Test Org
+    description: Test organization
+
+    max_hosts: 10
+    instance_groups:
+      # - Test Org - Common Instance Group
+      - executionplane
+    default_environment: Test Org - Custom Base EE
+    # NB. At least one credential needs to be
+    #     defined if downloading collections.
+    galaxy_credentials:
+      - Test Org - Automation Hub Collections Certified Repository
+      - Test Org - Automation Hub Collections Validated Repository
+      - Test Org - Automation Hub Collections Published Repository
+      - Test Org - Automation Hub Collections Community Repository
+
+controller_instance_groups_org_test_common:
+  - name: executionplane
+    roles:
+      use:
+        teams:
+          - t_developers
+          - t_operators
+
+controller_execution_environments_org_test_common:
+  - name: Test Org - Custom Base EE
+    organization: Test Org
+    image: "{{ aap_hostname | regex_replace('^https?://', '') }}/custom/custom-base-rhel9"
+    # credential: Test Org - Automation Hub Container Registry
+    pull: never
+
+  - name: Test Org - Custom Full EE
+    organization: Test Org
+    image: "{{ aap_hostname | regex_replace('^https?://', '') }}/custom/custom-full-rhel9"
+    # credential: Test Org - Automation Hub Container Registry
+    pull: never
+
+controller_inventories_org_test_ee_localhost:
+  - name: Test Org - EE localhost
+    description: EE localhost inventory
+    organization: Test Org
+
+controller_hosts_org_test_ee_localhost:
+  - name: localhost
+    inventory: Test Org - EE localhost
+    enabled: true
+    variables:
+      ansible_connection: local
