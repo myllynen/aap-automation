@@ -1,5 +1,5 @@
 #
-# AAP defaults configuration - defaults deletion
+# AAP defaults configuration - delete defaults
 #
 
 controller_templates_org_default:
