@@ -15,8 +15,6 @@ exclude_files:
   # Avoid duplicate var name warning due to org's
   # base definition vs controller configuration
   - organization.yml
-  # Remove after https://github.com/redhat-cop/aap_configuration_extended/issues/423 is fixed
-  - controller_instance_groups.yml
 
 exclude_dirs:
   - ".git"
@@ -30,10 +28,6 @@ exclude_dirs:
 ignore_vars:
   - env_*
   - tbd_*
-  # Remove after https://github.com/redhat-cop/aap_configuration_extended/issues/423 is fixed
-  - hub_repository
-  - hub_auto_approve
-  - hub_skip_existing_collections
 #   - my_custom_var
 #   - env_*
 #   - ansible_*
@@ -73,7 +67,7 @@ ignore_fields:
 # ── CLI defaults ─────────────────────────────────────────────────
 # These can all be overridden by CLI flags.
 
-# strict: true
+strict: true
 # show_info: false
 # wildcard_vars: auto        # auto | always | never
 # output_format: text        # text | json
