@@ -4,45 +4,58 @@
 
 # Uses Test Org - AAP CaC Credential
 # Uses Test Org - EE localhost
-# Uses Test Org - Test Project
+
+controller_projects_org_test_aap_maintenance:
+  - name: Test Org - AAP Maintenance
+    description: Project for AAP maintenance
+    organization: Test Org
+    # default_environment: Control Plane Execution Environment
+    default_environment: Test Org - Custom Base EE
+    scm_type: git
+    scm_url: https://github.com/myllynen/aap-automation.git
+    # scm_credential: Test Org - SCM Credential
+    scm_clean: false
+    scm_update_on_launch: false
+    # scm_update_cache_timeout: 30
+    update_project: "{{ aap_scm_update_projects | default(false) }}"
 
 controller_templates_org_test_aap_maintenance:
-  - name: Test Org - AAP Hub Cleanup
+  - name: AAP Ops - Hub Cleanup
     description: Clean up orphaned AAP hub content
     organization: Test Org
     inventory: Test Org - EE localhost
-    project: Test Org - Test Project
-    playbook: aap_hub_cleanup.yml
+    project: Test Org - AAP Maintenance
+    playbook: examples/aap_hub_cleanup.yml
     credentials:
       - Test Org - AAP CaC Credential
     job_type: run
     job_slice_count: 1
 
-  - name: Test Org - AAP Hub Sync
+  - name: AAP Ops - Hub Sync
     description: Sync AAP collection repositories and EE registries
     organization: Test Org
     inventory: Test Org - EE localhost
-    project: Test Org - Test Project
-    playbook: aap_hub_sync.yml
+    project: Test Org - AAP Maintenance
+    playbook: examples/aap_hub_sync.yml
     credentials:
       - Test Org - AAP CaC Credential
     job_type: run
     job_slice_count: 1
 
 controller_schedules_org_test_aap_maintenance:
-  - name: Test Org - AAP Hub Cleanup
+  - name: AAP Ops - Hub Cleanup
     description: Scheduled AAP hub cleanup
     organization: Test Org
-    unified_job_template: Test Org - AAP Hub Cleanup
+    unified_job_template: AAP Ops - Hub Cleanup
     job_type: run
     inventory: Test Org - EE localhost
     rrule: DTSTART;TZID=Europe/Helsinki:20260101T030303 RRULE:FREQ=DAILY;INTERVAL=1
     enabled: true
 
-  - name: Test Org - AAP Hub Sync
+  - name: AAP Ops - Hub Sync
     description: Scheduled AAP hub sync
     organization: Test Org
-    unified_job_template: Test Org - AAP Hub Sync
+    unified_job_template: AAP Ops - Hub Sync
     job_type: run
     inventory: Test Org - EE localhost
     rrule: DTSTART;TZID=Europe/Helsinki:20260101T020202 RRULE:FREQ=DAILY;INTERVAL=1

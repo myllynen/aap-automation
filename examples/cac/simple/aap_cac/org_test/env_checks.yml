@@ -1,0 +1,29 @@
+#
+# AAP organization - controller configuration - AAP env checks
+#
+
+# Uses Test Org - AAP CaC Credential
+# Uses Test Org - EE localhost
+# Uses Test Org - AAP Maintenance
+
+controller_templates_org_test_env_checks:
+  - name: AAP Ops - Check AAP Status
+    description: Check AAP service and node status
+    organization: Test Org
+    inventory: Test Org - EE localhost
+    project: Test Org - AAP Maintenance
+    playbook: examples/aap_status_check.yml
+    credentials:
+      - Test Org - AAP CaC Credential
+    job_type: run
+    job_slice_count: 1
+
+controller_schedules_org_test_env_checks:
+  - name: AAP Ops - Check AAP Status
+    description: Scheduled AAP status check
+    organization: Test Org
+    unified_job_template: AAP Ops - Check AAP Status
+    job_type: run
+    inventory: Test Org - EE localhost
+    rrule: DTSTART;TZID=Europe/Helsinki:20260101T000000 RRULE:FREQ=HOURLY;INTERVAL=1
+    enabled: true

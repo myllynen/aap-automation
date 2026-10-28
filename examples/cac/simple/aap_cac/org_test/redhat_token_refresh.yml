@@ -19,7 +19,7 @@ controller_credentials_org_test_redhat_token:
 # Uses Test Org - Test Project
 
 controller_templates_org_test_redhat_token:
-  - name: Test Org - Refresh Red Hat token
+  - name: AAP Ops - Refresh Red Hat Token
     description: Refresh Red Hat Hybrid Cloud Console authentication token
     organization: Test Org
     inventory: Test Org - EE localhost
@@ -31,10 +31,10 @@ controller_templates_org_test_redhat_token:
     job_slice_count: 1
 
 controller_schedules_org_test_redhat_token:
-  - name: Test Org - Refresh Red Hat token
+  - name: AAP Ops - Refresh Red Hat Token
     description: Scheduled Red Hat token refresh
     organization: Test Org
-    unified_job_template: Test Org - Refresh Red Hat token
+    unified_job_template: AAP Ops - Refresh Red Hat Token
     job_type: run
     inventory: Test Org - EE localhost
     rrule: DTSTART;TZID=Europe/Helsinki:20260101T010101 RRULE:FREQ=WEEKLY;INTERVAL=1
