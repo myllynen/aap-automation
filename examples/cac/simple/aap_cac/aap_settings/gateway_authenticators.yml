@@ -6,18 +6,18 @@ gateway_authenticators_secure_logging: false
 
 gateway_authenticators:
   - name: Local Database Authenticator
-    order: 1
     type: ansible_base.authentication.authenticator_plugins.local
     slug: local-database-authenticator
+    order: 1
     enabled: true
     create_objects: true
     remove_users: false
     configuration: {}
 
   - name: Microsoft Active Directory
-    order: 2
     type: ansible_base.authentication.authenticator_plugins.ldap
     slug: microsoft-active-directory
+    order: 2
     enabled: false
     create_objects: true
     remove_users: true
@@ -48,9 +48,9 @@ gateway_authenticators:
           - "(sAMAccountName=%(user)s)"
 
   - name: Red Hat IdM
-    order: 3
     type: ansible_base.authentication.authenticator_plugins.ldap
     slug: redhat-idm
+    order: 3
     enabled: false
     create_objects: true
     remove_users: true
@@ -82,9 +82,9 @@ gateway_authenticators:
 # Additional examples, not configured by default
 tbd_gateway_authenticators:
   - name: Keycloak
-    order: 4
     type: ansible_base.authentication.authenticator_plugins.keycloak
     slug: keycloak-auth
+    order: 4
     enabled: false
     create_objects: true
     remove_users: true
@@ -135,3 +135,19 @@ tbd_gateway_authenticators:
       TECHNICAL_CONTACT:
         emailAddress: admin@example.com
         givenName: Admin User
+
+  - name: Azure Active Directory
+    type: ansible_base.authentication.authenticator_plugins.azuread
+    slug: azure-ad
+    order: 6
+    enabled: false
+    create_objects: true
+    remove_users: true
+    configuration:
+      CALLBACK_URL: https://{{ aap_hostname }}/api/gateway/social/complete/{{ aap_azure_ad_uuid | default('changeme') }}/
+      GROUPS_CLAIM: groups
+      KEY: "{{ aap_azure_ad_client_key | default('changeme') }}"
+      SECRET: "{{ aap_azure_ad_client_secret | default('changeme') }}"
+      # USERNAME_FIELD: email
+      # ADDITIONAL_UNVERIFIED_ARGS:
+      #   additional_field: some_value
