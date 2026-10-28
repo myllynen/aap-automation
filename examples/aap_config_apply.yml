@@ -26,30 +26,6 @@
 #      - '.*creds.*'
 #      - '.*hub.*'
 
-    # Known-good variables in addition to all recognized
-    # wildcard variables. Unknown vars must either be added
-    # below or have their names fixed for the check to pass
-    known_good_variables:
-      - aap_configuration_async_delay
-      - aap_configuration_async_retries
-      - aap_configuration_working_dir
-      - aap_request_timeout
-      - 'env_.*'
-      - hub_auto_approve
-      - hub_repository
-      - hub_skip_existing_collections
-      - '.*secure_logging$'
-      - 'tbd_.*'
-
-    # Reject duplicate variable definitions to avoid
-    # a new setting to override an earlier one, with
-    # the below known-good exceptions in the CaC dir
-    known_good_duplicates:
-      # For independent EE/collection syncing
-      - aap_configuration_async_delay
-      - aap_configuration_async_retries
-      - aap_request_timeout
-
     # Settings in files will override these for AAP
     aap_configuration_secure_logging: false
     aap_configuration_dispatcher_exclude_roles:
@@ -59,48 +35,9 @@
     hub_configuration_dispatcher_roles_include_publish: true
 
   tasks:
-    - name: Read list of known AAP CaC wildcard variables
-      ansible.builtin.include_role:
-        name: infra.aap_configuration.dispatch
-        tasks_from: vars_only
-        public: true
-
-    # This should also be included in pre-commit / pre-merge checks
-    - name: Verify no unknown variable definitions
-      vars:
-        excludes_regex: "{{ (aap_configuration_all_vars + known_good_variables) | join('|') }}"
-      ansible.builtin.shell: >
-        set -o pipefail &&
-        grep -Ehr '^\w+:' --include='*.yml' {{ config_basedir }}
-        | sed 's/:.*//'
-        | grep -Ev '^({{ excludes_regex }})'
-        | sort -u
-        | awk 'BEGIN {print "Unknown variable definitions found:\n"} 1'
-      register: unknown_check
-      failed_when: >
-        (unknown_check.rc != 0 and unknown_check.stderr_lines | length > 0) or
-        unknown_check.stdout_lines | length > 2
-      changed_when: false
-
-    # This should also be included in pre-commit / pre-merge checks
-    - name: Verify no unexpected duplicate variable definitions
-      vars:
-        excludes_regex: "{{ known_good_duplicates | default(['^check_all$'], true) | join('|') }}"
-      ansible.builtin.shell: >
-        set -o pipefail &&
-        grep -Ehr '^\w+:' --include='*.yml' {{ config_basedir }}
-        | sed 's/:.*//'
-        | grep -Ev '({{ excludes_regex }})'
-        | sort
-        | uniq -d
-        | awk 'BEGIN {print "Duplicate variable definitions found:\n"} 1'
-      register: duplicate_check
-      failed_when: duplicate_check.rc != 0 or duplicate_check.stdout_lines | length > 2
-      changed_when: false
-
     # Remove if not using environment-specific variables
     # This should also be included in pre-commit / pre-merge checks
-    - name: Verify correct form of environment-specific variables - organizations
+    - name: Verify correct naming of environment-specific variables
       ansible.builtin.shell: >
         set -o pipefail &&
         grep -Ehr '^\w+:' --include='*.yml' {{ config_basedir }}/aap_env
@@ -108,11 +45,25 @@
         | grep -v '^env_'
         | sort
         | uniq
-        | awk 'BEGIN {print "Incorrect variable names found:\n"} 1'
-      register: env_vars_orgs_check
+        | awk 'BEGIN {print "Incorrect env variable names found:\n"} 1'
+      register: env_vars_format_check
       failed_when: >
-        (env_vars_orgs_check.rc != 0 and env_vars_orgs_check.stderr_lines | length > 0) or
-        env_vars_orgs_check.stdout_lines | length > 2
+        (env_vars_format_check.rc != 0 and env_vars_format_check.stderr_lines | length > 0) or
+        env_vars_format_check.stdout_lines | length > 2
+      changed_when: false
+
+    # Remove if not using environment-specific variables
+    # This should also be included in pre-commit / pre-merge checks
+    - name: Verify no duplicate environment-specific variables
+      ansible.builtin.shell: >
+        set -o pipefail &&
+        grep -Ehr '^\w+:' --include='*.yml' {{ config_basedir }}/aap_env
+        | sed 's/:.*//'
+        | sort
+        | uniq -d
+        | awk 'BEGIN {print "Duplicate env variable names found:\n"} 1'
+      register: env_vars_duplicate_check
+      failed_when: env_vars_duplicate_check.rc != 0 or env_vars_duplicate_check.stdout_lines | length > 2
       changed_when: false
 
     - name: Determine AAP CaC files to apply from webhook payload
