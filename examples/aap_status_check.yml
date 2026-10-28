@@ -82,12 +82,11 @@
 
     - name: Verify AAP status
       block:
-        - name: Verify AAP service and node status
+        - name: Verify AAP service and node statuses
           ansible.builtin.assert:
             that:
               - aap_status.json.services
                 | rejectattr('service_name', 'in', status_verify_ignore)
-                | rejectattr('status', 'undefined')
                 | rejectattr('status', 'in', status_verify_expect)
                 | length == 0
               - aap_status.json.services
