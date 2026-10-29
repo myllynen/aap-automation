@@ -132,12 +132,12 @@
 
     - name: Ping container registry
       ansible.builtin.uri:
-        # url: https://artifactory.example.com/artifactory/api/system/ping
         url: https://registry.redhat.io/v2/
+        # url: https://artifactory.example.com/artifactory/api/system/ping
         method: GET
         status_code:
-          - 200
           - 401
+          # - 200
       when:
         - status_check | bool
         - container_registry_ping | bool
