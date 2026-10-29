@@ -34,23 +34,29 @@
     status_verify_ignore:
       - redis
 
+    #
+    # Ping external services
+    #
+    redhat_hub_ping: true
+    container_registry_ping: true
+
   tasks:
     - name: Check AAP connection
       ansible.builtin.uri:
         url: https://{{ hostname }}/api/gateway/v1/ping/
-        validate_certs: "{{ aap_validate_certs | bool }}"
+        validate_certs: "{{ aap_validate_certs }}"
         method: GET
         status_code:
           - 200
 
     - name: Check AAP access
-      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
+      no_log: "{{ aap_status_check_secure_logging | default(false) }}"
       ansible.builtin.uri:
         url: https://{{ hostname }}/api/gateway/v1/me/
         # url_username: "{{ username }}"
         # url_password: "{{ password }}"
-        validate_certs: "{{ aap_validate_certs | bool }}"
-        force_basic_auth: true
+        # force_basic_auth: true
+        validate_certs: "{{ aap_validate_certs }}"
         method: GET
         headers:
           Authorization: Bearer {{ token }}
@@ -58,13 +64,13 @@
           - 200
 
     - name: Check AAP status
-      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
+      no_log: "{{ aap_status_check_secure_logging | default(false) }}"
       ansible.builtin.uri:
         url: https://{{ hostname }}/api/gateway/v1/status/
         # url_username: "{{ username }}"
         # url_password: "{{ password }}"
-        validate_certs: "{{ aap_validate_certs | bool }}"
-        force_basic_auth: true
+        # force_basic_auth: true
+        validate_certs: "{{ aap_validate_certs }}"
         method: GET
         headers:
           Authorization: Bearer {{ token }}
@@ -112,3 +118,26 @@
         - name: Fail if verification failed
           ansible.builtin.fail:
             msg: "AAP status verification failed."
+
+    - name: Ping Red Hat Automation Hub
+      ansible.builtin.uri:
+        url: https://console.redhat.com/api/automation-hub/status/healthz
+        validate_certs: true
+        method: GET
+        status_code:
+          - 401
+      when:
+        - status_check | bool
+        - redhat_hub_ping | bool
+
+    - name: Ping container registry
+      ansible.builtin.uri:
+        # url: https://artifactory.example.com/artifactory/api/system/ping
+        url: https://registry.redhat.io/v2/
+        method: GET
+        status_code:
+          - 200
+          - 401
+      when:
+        - status_check | bool
+        - container_registry_ping | bool
