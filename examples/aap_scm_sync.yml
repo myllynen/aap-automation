@@ -37,8 +37,8 @@
         url: https://{{ hostname }}/api/controller/v2/inventory_sources/{{ item.id }}/update/
         # url_username: "{{ username }}"
         # url_password: "{{ password }}"
+        # force_basic_auth: true
         validate_certs: false
-        force_basic_auth: true
         method: POST
         headers:
           Authorization: Bearer {{ token }}
@@ -58,8 +58,8 @@
         url: https://{{ hostname }}/api/controller/v2/projects/{{ item.id }}/update/
         # url_username: "{{ username }}"
         # url_password: "{{ password }}"
+        # force_basic_auth: true
         validate_certs: false
-        force_basic_auth: true
         method: POST
         headers:
           Authorization: Bearer {{ token }}

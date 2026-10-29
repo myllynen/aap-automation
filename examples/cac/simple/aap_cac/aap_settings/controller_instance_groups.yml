@@ -12,7 +12,7 @@ tbd_controller_credentials_instance_groups:
     inputs:
       host: https://api.k8s.example.com
       bearer_token: "{{ aap_kubernetes_token }}"
-      verify_ssl: "{{ aap_validate_certs | bool }}"
+      verify_ssl: "{{ aap_validate_certs }}"
 
 tbd_controller_instance_groups:
   - name: Infra - Instance Group - Kubernetes

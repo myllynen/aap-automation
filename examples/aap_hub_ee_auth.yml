@@ -35,8 +35,8 @@
         url: https://{{ hostname + container_index }}
         # url_username: "{{ username }}"
         # url_password: "{{ password }}"
+        # force_basic_auth: true
         validate_certs: false
-        force_basic_auth: true
         method: GET
         headers:
           Authorization: Bearer {{ token }}
