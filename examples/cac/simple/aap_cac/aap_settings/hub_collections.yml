@@ -10,6 +10,9 @@ hub_configuration_collection_remote_secure_logging: false
 hub_configuration_collection_repository_secure_logging: false
 hub_configuration_collection_repository_sync_secure_logging: false
 
+redhat_auth_url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
+redhat_auth_token: "{{ aap_redhat_hub_token }}"
+
 aap_request_timeout: 5
 hub_repository: staging
 hub_auto_approve: true
@@ -52,13 +55,13 @@ hub_custom_collections:
 hub_collection_remotes:
   - name: rh-certified
     url: https://console.redhat.com/api/automation-hub/content/published/
-    auth_url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
-    token: "{{ aap_redhat_hub_token }}"
+    auth_url: "{{ redhat_auth_url if redhat_auth_token is defined else omit }}"
+    token: "{{ redhat_auth_token | default(omit) }}"
     tls_validation: true
     signed_only: true
     policy: immediate
     sync_dependencies: true
-    sync_highest_versions: 3
+    # sync_highest_versions: 3
     download_concurrency: 10
     max_retries: 3
     rate_limit: 8
@@ -75,7 +78,7 @@ hub_collection_remotes:
         version: '>=2.7.20260930'
       - name: ansible.posix
         version: '>=2.2.2'
-      # Must match the bundle requirement
+      # Must include the bundle requirement
       - name: ansible.receptor
         version: '>=2.0.8'
       - name: ansible.utils
@@ -109,15 +112,15 @@ hub_collection_remotes:
 
   - name: validated
     url: https://console.redhat.com/api/automation-hub/content/validated/
-    auth_url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
-    token: "{{ aap_redhat_hub_token }}"
+    auth_url: "{{ redhat_auth_url if redhat_auth_token is defined else omit }}"
+    token: "{{ redhat_auth_token | default(omit) }}"
     tls_validation: true
     signed_only: true
     policy: immediate
     # XXX Dependency sync is not supported/working
     # XXX across different repositories as of now.
     sync_dependencies: false
-    sync_highest_versions: 3
+    # sync_highest_versions: 3
     download_concurrency: 10
     max_retries: 3
     rate_limit: 8
@@ -145,7 +148,7 @@ hub_collection_remotes:
     signed_only: false
     policy: immediate
     sync_dependencies: true
-    sync_highest_versions: 3
+    # sync_highest_versions: 3
     download_concurrency: 10
     max_retries: 3
     rate_limit: 8

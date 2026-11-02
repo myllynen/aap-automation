@@ -28,6 +28,7 @@ exclude_dirs:
 ignore_vars:
   - env_*
   - tbd_*
+  - redhat_*
 #   - my_custom_var
 #   - env_*
 #   - ansible_*
