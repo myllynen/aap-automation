@@ -33,6 +33,12 @@ controller_workflows_org_test_testing:
     inventory: Test Org - Test Inventory
     extra_vars:
       message: Message from workflow
+    # notification_templates_started: []
+    # notification_templates_success: []
+    # notification_templates_error:
+    #   - Test Org - Webhook Notifier
+    # notification_templates_approvals:
+    #   - Test Org - Webhook Notifier
 
     simplified_workflow_nodes:
       - identifier: node1

@@ -114,3 +114,20 @@ controller_templates_org_test_testing:
     verbosity: 0
     # instance_groups:
     #   - Test Org - Instance Group - Common
+    # survey_enabled: true
+    # survey_spec:
+    #   name: ''
+    #   description: ''
+    #   spec:
+    #     - type: multiplechoice
+    #       question_name: A choice
+    #       question_description: Must select one
+    #       new_question: true
+    #       variable: foo
+    #       choices:
+    #         - bar
+    #         - baz
+    #       min: 0
+    #       max: 1024
+    #       required: true
+    #       default: ''

@@ -1,0 +1,34 @@
+#
+# AAP organization - controller configuration - notifier examples
+#
+
+controller_notifications_org_test_notifier_examples:
+  - name: Test Org - Webhook Notifier
+    description: Example webhook notifier
+    organization: Test Org
+    notification_type: webhook
+    notification_configuration:
+      url: https://www.example.com/api/v1/webhook/123
+      username: "{{ aap_notifier_webhook_username | default('changeme') }}"
+      # password: "{{ aap_notifier_webhook_password | default('changeme') }}"
+      disable_ssl_verification: true
+      http_method: POST
+      headers:
+        # Authorization: Bearer {{ aap_notifier_webhook_token | default('changeme') }}
+        Content-Type: application/json
+    messages:
+      error:
+        body: "{  { job_metadata }}"
+      started:
+        body: "{  { job_metadata }}"
+      success:
+        body: "{  { job_metadata }}"
+      workflow_approval:
+        approved:
+          body: '{"body": "The approval node "{  { approval_node_name }}" was approved. {  { workflow_url }}"}'
+        denied:
+          body: '{"body": "The approval node "{  { approval_node_name }}" was denied. {  { workflow_url }}"}'
+        running:
+          body: '{"body": "The approval node "{  { approval_node_name }}" needs review. This node can be viewed at: {  { workflow_url }}"}'
+        timed_out:
+          body: '{"body": "The approval node "{  { approval_node_name }}" has timed out. {  { workflow_url }}"}'
