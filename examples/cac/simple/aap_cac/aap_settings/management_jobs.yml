@@ -1,0 +1,26 @@
+#
+# AAP management configuration - scheduled jobs
+#
+
+controller_schedules_management_jobs:
+  - name: AAP Ops - Cleanup Activity Stream
+    description: Cleans up activity stream
+    unified_job_template: Cleanup Activity Stream
+    rrule: DTSTART;TZID=Europe/Helsinki:20260101T000000 RRULE:FREQ=DAILY;INTERVAL=1
+    enabled: true
+    extra_data:
+      days: 30
+
+  - name: AAP Ops - Cleanup Expired Sessions
+    description: Cleans up expired browser sessions
+    unified_job_template: Cleanup Expired Sessions
+    rrule: DTSTART;TZID=Europe/Helsinki:20260101T000000 RRULE:FREQ=DAILY;INTERVAL=1
+    enabled: true
+
+  - name: AAP Ops - Cleanup Job Details
+    description: Cleans up job details
+    unified_job_template: Cleanup Job Details
+    rrule: DTSTART;TZID=Europe/Helsinki:20260101T000000 RRULE:FREQ=DAILY;INTERVAL=1
+    enabled: true
+    extra_data:
+      days: 30
