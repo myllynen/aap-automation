@@ -2,6 +2,21 @@
 # AAP defaults configuration - delete defaults
 #
 
+# Management job schedules are not associated with
+# organizations but are handled here for convenience
+controller_schedules_org_default:
+  - name: Cleanup Activity Schedule
+    unified_job_template: Cleanup Activity Stream
+    state: absent
+
+  - name: Cleanup Expired Sessions
+    unified_job_template: Cleanup Expired Sessions
+    state: absent
+
+  - name: Cleanup Job Schedule
+    unified_job_template: Cleanup Job Details
+    state: absent
+
 controller_templates_org_default:
   - name: Demo Job Template
     organization: Default

@@ -37,5 +37,5 @@ controller_schedules_org_test_redhat_token:
     unified_job_template: AAP Ops - Refresh Red Hat Token
     job_type: run
     inventory: Test Org - EE localhost
-    rrule: DTSTART;TZID=Europe/Helsinki:20260101T010101 RRULE:FREQ=WEEKLY;INTERVAL=1
+    rrule: DTSTART;TZID=Europe/Helsinki:20260101T003000 RRULE:FREQ=WEEKLY;INTERVAL=1
     enabled: true

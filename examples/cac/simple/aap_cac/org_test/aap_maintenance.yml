@@ -49,7 +49,7 @@ controller_schedules_org_test_aap_maintenance:
     unified_job_template: AAP Ops - Hub Cleanup
     job_type: run
     inventory: Test Org - EE localhost
-    rrule: DTSTART;TZID=Europe/Helsinki:20260101T030303 RRULE:FREQ=DAILY;INTERVAL=1
+    rrule: DTSTART;TZID=Europe/Helsinki:20260101T001000 RRULE:FREQ=DAILY;INTERVAL=1
     enabled: true
 
   - name: AAP Ops - Hub Sync
@@ -58,5 +58,5 @@ controller_schedules_org_test_aap_maintenance:
     unified_job_template: AAP Ops - Hub Sync
     job_type: run
     inventory: Test Org - EE localhost
-    rrule: DTSTART;TZID=Europe/Helsinki:20260101T020202 RRULE:FREQ=DAILY;INTERVAL=1
+    rrule: DTSTART;TZID=Europe/Helsinki:20260101T002000 RRULE:FREQ=DAILY;INTERVAL=1
     enabled: true

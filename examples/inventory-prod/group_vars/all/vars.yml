@@ -7,7 +7,7 @@ aap_env: prod
 #
 # AAP instance definitions
 #
-aap_hostname: aap-gw.prod.example.com
+aap_hostname: https://aap-gw.prod.example.com
 aap_validate_certs: true
 
 #

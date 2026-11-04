@@ -31,8 +31,10 @@
     aap_configuration_dispatcher_exclude_roles:
       - controller_inventory_source_update
       - hub_ee_registry_index
-    aap_scm_update_projects: false
     hub_configuration_dispatcher_roles_include_publish: true
+    hub_sync_collections: "{{ aap_configuration_sync_content | bool | default(true) }}"
+    hub_sync_execution_environments: "{{ aap_configuration_sync_content | bool | default(true) }}"
+    aap_scm_update_projects: "{{ aap_configuration_sync_content | bool | default(true) }}"
 
   tasks:
     # Remove if not using environment-specific variables

@@ -6,18 +6,18 @@ controller_configuration_credentials_secure_logging: false
 controller_configuration_instance_groups_secure_logging: false
 
 tbd_controller_credentials_instance_groups:
-  - name: Infra - Kubernetes API Credential
+  - name: Infra - Kubernetes API Credential - Local
     organization: Default
     credential_type: OpenShift or Kubernetes API Bearer Token
     inputs:
-      host: https://api.k8s.example.com
+      host: https://api.k8s.local.example.com
       bearer_token: "{{ aap_kubernetes_token }}"
       verify_ssl: "{{ aap_validate_certs }}"
 
 tbd_controller_instance_groups:
   - name: Infra - Instance Group - Kubernetes
     is_container_group: true
-    credential: Infra - Kubernetes API
+    credential: Infra - Kubernetes API - Local
     max_concurrent_jobs: 0
     max_forks: 0
     pod_spec_override:

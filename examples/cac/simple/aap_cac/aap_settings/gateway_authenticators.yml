@@ -144,7 +144,7 @@ tbd_gateway_authenticators:
     create_objects: true
     remove_users: true
     configuration:
-      CALLBACK_URL: https://{{ aap_hostname }}/api/gateway/social/complete/{{ aap_azure_ad_uuid | default('changeme') }}/
+      CALLBACK_URL: https://{{ aap_hostname | regex_replace('^https?://', '') }}/api/gateway/social/complete/{{ aap_azure_ad_uuid | default('changeme') }}/
       GROUPS_CLAIM: groups
       KEY: "{{ aap_azure_ad_client_key | default('changeme') }}"
       SECRET: "{{ aap_azure_ad_client_secret | default('changeme') }}"

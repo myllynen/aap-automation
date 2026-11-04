@@ -171,15 +171,15 @@ hub_collection_repositories:
   - name: rh-certified
     remote: rh-certified
     retain_repo_versions: 3
-    sync: true
+    sync: "{{ hub_sync_collections | default(false) }}"
     wait: true
   - name: validated
     remote: validated
     retain_repo_versions: 3
-    sync: true
+    sync: "{{ hub_sync_collections | default(false) }}"
     wait: true
   - name: community
     remote: community
     retain_repo_versions: 3
-    sync: true
+    sync: "{{ hub_sync_collections | default(false) }}"
     wait: true
