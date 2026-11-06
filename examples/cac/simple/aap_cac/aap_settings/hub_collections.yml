@@ -128,7 +128,7 @@ hub_collection_remotes:
       - name: ansible.mcp_builder
         version: '>=1.0.3'
       - name: infra.aap_configuration
-        version: '>=4.10.0'
+        version: '>=4.11.0'
       - name: infra.aap_configuration_extended
         version: '>=4.12.1'
       - name: infra.aap_utilities
@@ -173,13 +173,26 @@ hub_collection_repositories:
     retain_repo_versions: 3
     sync: "{{ hub_sync_collections | default(false) }}"
     wait: true
+
   - name: validated
     remote: validated
     retain_repo_versions: 3
     sync: "{{ hub_sync_collections | default(false) }}"
     wait: true
+
   - name: community
     remote: community
     retain_repo_versions: 3
     sync: "{{ hub_sync_collections | default(false) }}"
     wait: true
+
+# These definitions match the default AAP configuration
+# to minimize difference when comparing live/repo configs
+  - name: staging
+    sync: false
+
+  - name: published
+    sync: false
+
+  - name: rejected
+    sync: false
