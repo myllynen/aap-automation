@@ -51,6 +51,7 @@
       aap_user_accounts:
         - authenticators
         - authenticator_uid
+
       gateway_http_ports: '*'
       gateway_organizations: '*'
       gateway_routes: '*'
@@ -65,6 +66,7 @@
         - CSRF_TRUSTED_ORIGINS
         - NOTIFICATION_RSS_FEED_URL
         - RED_HAT_CONSOLE_URL
+
       controller_execution_environments:
         - Control Plane Execution Environment
         - Default execution environment
@@ -90,6 +92,45 @@
         settings:
           - TOWER_URL_BASE
 
+      hub_collection_remotes:
+        - auth_url
+        - prn
+      hub_collection_repositories:
+        - base_path
+        - client_url
+        - content_guard
+        - hidden
+        - prn
+        - retain_repo_versions
+        - sync
+        - wait
+      hub_collections: '*'
+      hub_custom_collections: '*'
+      hub_ee_images: '*'
+      hub_ee_registries:
+        - is_indexable
+        - password
+        - policy
+        - sync
+        - username
+        - wait
+      hub_ee_repositories:
+        - base_path
+        - content_guard
+        - hidden
+        - include_tags
+        - exclude_tags
+        - namespace
+        - private
+        - prn
+        - registry
+        - registry_path
+        - repository
+        - sync
+        - upstream_name
+        - wait
+      hub_namespaces: '*'
+
   tasks:
     - name: Fail if configuration directories not found
       ansible.builtin.fail:
@@ -114,31 +155,23 @@
 
     - name: Combine AAP in-repo wildcard variables
       vars:
-        var_name: "{{ item | regex_replace('^(' + aap_configuration_all_vars | join('|') + ')_.*', '\\1') }}"
+        var_name: "{{ item | regex_replace('^(' + aap_configuration_all_vars | join('|') + ')(_.*)?$', '\\1') }}"
         curr_val: "{{ config_repo[item] }}"
         is_dict: "{{ curr_val is mapping }}"
         prev_val: "{{ (config_repo_merged | default({})).get(var_name)
-                      | default(config_repo.get(var_name))
                       | default({} if is_dict else [], true) }}"
-        config_repo_filtered: "{{ config_repo
-                                  | dict2items
-                                  | rejectattr('key',
-                                               'match',
-                                               '^(' + aap_configuration_all_vars | join('|')
-                                                    + ')_.*|.*_(secure_logging|async_retries|async_delay|loop_delay|enforce_defaults)$|^tbd_.*')
-                                  | items2dict }}"
       no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.set_fact:
         config_repo_merged: >-
-          {{ config_repo_merged
-             | default(config_repo_filtered, true)
+          {{ (config_repo_merged | default({}))
              | combine({
                  var_name: (prev_val | combine(curr_val, list_merge='append', recursive=true)
                             if is_dict else
                             (prev_val + curr_val) | unique)
                }, recursive=true) }}
-      loop: "{{ (config_repo | default({})).keys() | select('match', '^(' + aap_configuration_all_vars | join('|') + ')_.*') }}"
-      when: not item.endswith('_secure_logging')
+      loop: "{{ (config_repo | default({})).keys()
+                | select('match', '^(' + aap_configuration_all_vars | join('|') + ')(_.*)?$')
+                | reject('match', '.*_(secure_logging|async_retries|async_delay|loop_delay|enforce_defaults)$') }}"
 
     - name: Read AAP in-use configuration
       no_log: "{{ aap_configuration_secure_logging | default(false) }}"
@@ -155,6 +188,7 @@
     - name: Merge configurations for comparison
       ansible.builtin.set_fact:
         config_merged: "{{ (config_repo_merged | normalize_lists)
+                           | omit_ignored(compare_ignore | default({}))
                            | merge_configs(config_live_clean) }}"
 
     - name: Compare in-cac vs in-use configurations
