@@ -94,6 +94,7 @@
           - TOWER_URL_BASE
 
       hub_collection_remotes:
+        # Dynamically set in CaC, but required vars are out of scope
         - auth_url
         - prn
       hub_collection_repositories:
