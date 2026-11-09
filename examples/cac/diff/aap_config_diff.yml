@@ -9,10 +9,12 @@
 
     aap_configuration_secure_logging: false
 
+    # organization_filter: Default
+
     output_path: ./filetree_export
+
     flatten_output: true
     secrets_as_variables: false
-    # organization_filter: Default
     export_inline_object_roles: true
 
   tasks:
@@ -39,6 +41,9 @@
   connection: local
   become: false
   gather_facts: false
+  vars_files:
+    - diff_fallbacks.yml
+
   vars:
     aap_configuration_secure_logging: false
 

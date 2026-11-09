@@ -1,0 +1,40 @@
+#
+# Fallback values for aap_config_diff.yml
+#
+
+aap_env: dev
+aap_hostname: https://idm1.sub.example.com
+aap_validate_certs: false
+
+aap_redhat_registry_hostname: registry.redhat.io
+
+aap_ad_server_uri:
+  - https://ad.example.com
+
+
+aap_token: diff-fallback-token
+hub_token: diff-fallback-token
+aap_kubernetes_token: diff-fallback-token
+aap_redhat_hub_token: diff-fallback-token
+
+
+# PAH defaults not configured in CaC
+hub_collection_repositories_defaults:
+  - name: staging
+    sync: false
+
+  - name: published
+    sync: false
+
+  - name: rejected
+    sync: false
+
+# PAH default and custom images
+hub_ee_repositories_defaults:
+  - name: de-minimal-rhel9
+  - name: de-supported-rhel9
+  - name: ee-minimal-rhel9
+  - name: ee-supported-rhel9
+  - name: custom/custom-aap-gitops
+  - name: custom/custom-base-rhel9
+  - name: custom/custom-full-rhel9

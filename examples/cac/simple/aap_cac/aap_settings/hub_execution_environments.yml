@@ -49,21 +49,3 @@ hub_ee_repositories:
       - '2.18'
     sync: "{{ hub_sync_execution_environments | default(false) }}"
     wait: true
-
-tbd_hub_ee_repositories_additional:
-  # Custom and default images in PAH, these are listed here
-  # to minimize difference when comparing live/repo configs
-  - name: custom/custom-aap-gitops
-    sync: false
-  - name: custom/custom-base-rhel9
-    sync: false
-  - name: custom/custom-full-rhel9
-    sync: false
-  - name: de-minimal-rhel9
-    sync: false
-  - name: de-supported-rhel9
-    sync: false
-  - name: ee-minimal-rhel9
-    sync: false
-  - name: ee-supported-rhel9
-    sync: false
