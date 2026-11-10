@@ -23,8 +23,8 @@
     # Optional list of files to ignore
     # when reading contents of directories
 #    config_ignore:
-#      - '.*creds.*'
-#      - '.*hub.*'
+#      - '.*cred.*'
+#      - '.*vault.*'
 
     # Settings in files will override these for AAP
     aap_configuration_secure_logging: false
