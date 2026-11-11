@@ -9,7 +9,7 @@ aap_validate_certs: false
 aap_redhat_registry_hostname: registry.redhat.io
 
 aap_ad_server_uri:
-  - https://ad.example.com
+  - ldap://ad.dev.example.com:389
 
 
 aap_token: diff-fallback-token

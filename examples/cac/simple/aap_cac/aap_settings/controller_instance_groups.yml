@@ -11,13 +11,13 @@ tbd_controller_credentials_instance_groups:
     credential_type: OpenShift or Kubernetes API Bearer Token
     inputs:
       host: https://api.k8s.local.example.com
-      bearer_token: "{{ aap_kubernetes_token }}"
+      bearer_token: "{{ aap_kubernetes_token | default('changeme') }}"
       verify_ssl: "{{ aap_validate_certs }}"
 
 tbd_controller_instance_groups:
   - name: Infra - Instance Group - Kubernetes - Local
     is_container_group: true
-    credential: Infra - Kubernetes API - Local
+    credential: Infra - Kubernetes API Credential - Local
     max_concurrent_jobs: 0
     max_forks: 0
     pod_spec_override:
