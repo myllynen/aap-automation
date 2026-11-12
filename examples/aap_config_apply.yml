@@ -71,8 +71,9 @@
 
     - name: Determine AAP CaC files to apply from webhook payload
       vars:
+        # These are as environment: branch
         env_map:
-          devel: dev
+          dev: master
           test: test
           prod: prod
         commit_branch: "{{ tower_webhook_payload.ref | regex_replace('^refs/heads/', '') }}"
@@ -86,7 +87,7 @@
           }}
       when:
         - tower_webhook_payload.commits is defined
-        - aap_env == env_map[commit_branch] | default('')
+        - commit_branch == env_map[aap_env] | default('')
 
     - name: Display AAP CaC files determined from webhook payload
       ansible.builtin.debug:
