@@ -83,6 +83,7 @@
           {{ ((tower_webhook_payload.commits | default([]) | map(attribute='added')) +
               (tower_webhook_payload.commits | default([]) | map(attribute='modified')))
              | flatten | unique | sort
+             | select('match', '^' + (config_basedir | basename) + '/')
              | map('regex_replace', '^.*' + (config_basedir | basename) + '/', '')
           }}
       when:
