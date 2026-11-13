@@ -1,21 +1,4 @@
 ---
-# Create AAP OAuth application token for service account use
-#
-# https://www.automate.nyc/ansible/create-oauth-application-token/
-#
-# NB. Safe to use only with AAP 2.7-2 + ansible.platform 2.7.20260630
-# which hide refresh_token; https://redhat.atlassian.net/browse/AAP-56456
-#
-# Refresh token would elevate the user as the AAP superuser:
-#
-# $ curl -k -s -X GET -H "Content-Type: application/json" \
-#     -H "Authorization: Bearer $TOKEN" https://$AAP_HOSTNAME/api/gateway/v1/me/ | jq -r '.results[0].username'
-# $ curl -k -s -X POST -u "$CLIENT_ID:$CLIENT_SECRET" \
-#     -d "grant_type=refresh_token&refresh_token=$REFRESH_TOKEN" https://$AAP_HOSTNAME/o/token/ | jq .
-# $ TOKEN=...
-# $ curl -k -s -X GET -H "Content-Type: application/json" \
-#     -H "Authorization: Bearer $TOKEN" https://$AAP_HOSTNAME/api/gateway/v1/me/ | jq -r '.results[0].username'
-#
 - name: Create AAP OAuth Application token for service account use
   hosts: all
   connection: local
@@ -23,27 +6,36 @@
   gather_facts: false
   vars:
     hostname: "{{ aap_hostname | regex_replace('^https?://', '') }}"
-    # This must be the AAP superuser for the time being,
-    # Org Admin is not enough using AAP 2.7 / Jun 30 '26
-    # and ansible.platform collection version 2.7.20260630
+
+    # An AAP superuser is required
+    # to manage OAuth Applications
     username: "{{ aap_username }}"
     password: "{{ aap_password }}"
+
     token_user_org: Test Org
     token_user_name: t_api_user
+    token_scope: write
+
+    token_force_new: false
+
+    aap_validate_certs: false
 
   tasks:
     - name: Create AAP OAuth Application associated with service account user
       ansible.platform.application:
-        gateway_hostname: "{{ hostname }}"
-        gateway_username: "{{ username }}"
-        gateway_password: "{{ password }}"
-        gateway_validate_certs: false
+        aap_hostname: "{{ hostname }}"
+        aap_username: "{{ username }}"
+        aap_password: "{{ password }}"
+        aap_validate_certs: "{{ aap_validate_certs }}"
         name: OAuth Application for {{ token_user_name }}
         description: OAuth Application for service account use
         organization: "{{ token_user_org }}"
         user: "{{ token_user_name }}"
         authorization_grant_type: authorization-code
+        skip_authorization: false
         client_type: confidential
+        pkce_required: true
+        algorithm: RS256
         redirect_uris:
           - https://{{ hostname }}/api/gateway/v1/
         state: present
@@ -52,21 +44,25 @@
     - name: Display AAP OAuth Application for {{ token_user_name }}
       ansible.builtin.debug:
         var: oauth_application
+      when: oauth_application is changed
 
     - name: Create AAP OAuth Application token for service account user
       ansible.platform.token:
-        gateway_hostname: "{{ hostname }}"
-        gateway_username: "{{ username }}"
-        gateway_password: "{{ password }}"
-        gateway_validate_certs: false
+        aap_hostname: "{{ hostname }}"
+        aap_username: "{{ username }}"
+        aap_password: "{{ password }}"
+        aap_validate_certs: "{{ aap_validate_certs }}"
         application: OAuth Application for {{ token_user_name }}
         description: OAuth Application token for service account use
         organization: "{{ token_user_org }}"
-        scope: write
+        scope: "{{ token_scope }}"
         state: present
       register: oauth_application_token
-      when: oauth_application_token is not defined
+      when: >
+        oauth_application is changed or
+        token_force_new | bool
 
     - name: Display AAP OAuth Application token for {{ token_user_name }}
       ansible.builtin.debug:
         var: oauth_application_token
+      when: oauth_application_token is changed
