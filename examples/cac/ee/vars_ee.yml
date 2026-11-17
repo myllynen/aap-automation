@@ -25,8 +25,8 @@ ee_build_arg_defaults:
   # ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --ignore-certs --no-deps --upgrade -vvv
   ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: -vvv
   PKGMGR_PRESERVE_CACHE: always
-# ee_builder_dir: /var/tmp/aap-ee-build
-# ee_builder_dir_clean: false
+ee_builder_dir: /var/tmp/aap-ee-build
+ee_builder_dir_clean: true
 ee_build_options:
   container_init:
     entrypoint: '["/opt/builder/bin/entrypoint"]'
