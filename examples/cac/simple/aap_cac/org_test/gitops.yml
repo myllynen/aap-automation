@@ -1,0 +1,99 @@
+#
+# AAP organization - controller configuration - GitOps
+#
+
+controller_credentials_org_test_gitops:
+  - name: Test Org - AAP CaC Credential
+    organization: Test Org
+    credential_type: Red Hat Ansible Automation Platform
+    inputs:
+      host: https://{{ aap_hostname | regex_replace('^https?://', '') }}
+      oauth_token: "{{ aap_token }}"
+      verify_ssl: "{{ aap_validate_certs }}"
+
+controller_execution_environments_org_test_gitops:
+  - name: Test Org - AAP GitOps EE
+    organization: Test Org
+    image: "{{ aap_hostname | regex_replace('^https?://', '') }}/custom/custom-aap-gitops"
+    # credential: Test Org - Automation Hub Container Registry
+    pull: never
+
+controller_projects_org_test_gitops:
+  - name: Test Org - GitOps Project
+    description: Project for GitOps
+    organization: Test Org
+    default_environment: Test Org - AAP GitOps EE
+    scm_type: git
+    scm_url: https://github.com/myllynen/aap-automation.git
+    # scm_credential: Test Org - SCM Credential
+    # scm_branch: "{{ aap_env }}"
+    scm_branch: master
+    scm_clean: false
+    scm_update_on_launch: true
+    # scm_update_cache_timeout: 30
+    update_project: "{{ aap_scm_update_projects | default(false) }}"
+
+controller_templates_org_test_gitops:
+  - name: Test Org - GitOps Job Template
+    description: Job template for GitOps
+    organization: Test Org
+    inventory: Test Org - EE localhost
+    project: Test Org - GitOps Project
+    playbook: examples/playbook_wrapper.yml
+    credentials:
+      - Test Org - AAP CaC Credential
+    job_type: run
+    job_slice_count: 1
+    extra_vars:
+      aap_env: "{{ aap_env }}"
+      ee_playbook_execute: /aap_config_apply.yml
+      config_basedir: /runner/project/examples/cac/simple/aap_cac
+      # This should be removed after vault setup
+      aap_configuration_dispatcher_exclude_roles:
+        - controller_credentials
+    webhook_service: github
+    # webhook_credential: Test Org - SCM Credential
+    instance_groups:
+      - controlplane
+    prevent_instance_group_fallback: true
+
+  - name: Test Org - GitOps Consistency Check Job Template
+    description: Job template for GitOps consistency check
+    organization: Test Org
+    inventory: Test Org - EE localhost
+    project: Test Org - GitOps Project
+    playbook: examples/playbook_wrapper.yml
+    credentials:
+      - Test Org - AAP CaC Credential
+    job_type: run
+    job_slice_count: 1
+    extra_vars:
+      ee_playbook_execute: /aap_config_diff.yml
+      export_aap_configuration: true
+      fail_if_different: true
+
+      # organization_filter: Test Org
+      aap_configuration_secure_logging: false
+
+      output_path: /runner/project/examples/cac/simple/export_cac
+      config_live_path: /runner/project/examples/cac/simple/export_cac
+      config_repo_path: /runner/project/examples/cac/simple/aap_cac
+      diff_fallbacks: /runner/project/examples/cac/diff/diff_fallbacks.yml
+
+    instance_groups:
+      - controlplane
+    prevent_instance_group_fallback: true
+
+controller_schedules_org_test_gitops:
+  - name: Test Org - GitOps Consistency Check
+    description: Scheduled GitOps consistency check
+    organization: Test Org
+    unified_job_template: Test Org - GitOps Consistency Check Job Template
+    job_type: run
+    inventory: Test Org - EE localhost
+    # Deterministic pseudo-random daily time based on organization name
+    rrule: >-
+      DTSTART;TZID=Europe/Helsinki:20260101T{{
+        '%H%M%S' | strftime(('Test Org' | hash)[:8] | int(base=16) % 86400)
+      }} RRULE:FREQ=DAILY;INTERVAL=1
+    enabled: true

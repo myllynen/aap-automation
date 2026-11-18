@@ -1,0 +1,95 @@
+# Ansible Automation Platform execution environment image build definitions
+
+# FQDN for collection download
+ee_ah_host: "{{ aap_hostname | regex_replace('^https?://', '') }}"
+
+# FQDN for pulling images
+ee_registry_from: "{{ ee_ah_host }}"
+
+# FQDN for pushing images
+ee_registry_dest: "{{ ee_ah_host }}"
+
+# Tokens do not work for the time being with PAH,
+# https://redhat.atlassian.net/browse/AAPRFE-2386
+ee_base_registry_username: "{{ aap_username }}"
+ee_base_registry_password: "{{ aap_password }}"
+ee_registry_username: "{{ aap_username }}"
+ee_registry_password: "{{ aap_password }}"
+ee_ah_token: "{{ hub_token }}"
+
+ee_validate_certs: "{{ aap_validate_certs }}"
+
+# https://ansible.readthedocs.io/projects/builder/en/stable/definition/
+ee_version: 3
+ee_build_arg_defaults:
+  # ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --ignore-certs --no-deps --upgrade -vvv
+  ANSIBLE_GALAXY_CLI_COLLECTION_OPTS: --ignore-certs --no-deps -vvv
+  PKGMGR_PRESERVE_CACHE: always
+ee_builder_dir: /var/tmp/aap-ee-build
+ee_builder_dir_clean: true
+ee_build_options:
+  container_init:
+    entrypoint: '["/opt/builder/bin/entrypoint"]'
+    package_pip: ''
+  package_manager_path: /usr/bin/microdnf
+  # We can expect these being ok with AAP images
+  skip_ansible_check: true
+  skip_pip_install: true
+ee_verbosity: 1
+
+ee_aap_version: 2.7
+ee_image_push: true
+ee_squash: new
+ee_prune_images: true
+ee_update_base_images: true
+ee_pull_collections_from_hub: true
+
+ee_list:
+  # Keep in sync with DESCRIPTION!
+  - name: custom/custom-aap-gitops
+    tag: latest
+    # base_image: "{{ ee_registry_from }}/ansible-automation-platform-27/ee-supported-rhel9@sha256:123123abcabc"
+    base_image: "{{ ee_registry_from }}/ansible-automation-platform-27/ee-supported-rhel9:latest"
+
+    build_files:
+      # ee_pull_collections_from_hub: true adds ansible.cfg
+      - src: "{{ lookup('env', 'PWD') + '/aap_config_apply.yml' }}"
+        dest: configs
+      - src: "{{ lookup('env', 'PWD') + '/cac/diff/aap_config_diff.yml' }}"
+        dest: configs
+      - src: "{{ lookup('env', 'PWD') + '/cac/diff/filter_plugins/aap_cac_diff.py' }}"
+        dest: configs
+      - src: "{{ lookup('env', 'PWD') + '/ansible-ee.cfg' }}"
+        dest: configs
+      - src: "{{ lookup('env', 'PWD') + '/pip.conf' }}"
+        dest: configs
+
+    build_steps:
+      prepend_base:
+        - COPY _build/configs/pip.conf /etc/pip.conf
+      prepend_final:
+        - COPY _build/configs/ansible.cfg /etc/ansible/ansible.cfg
+        - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv ansible.receptor:==2.0.8
+        - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv infra.aap_configuration
+        - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv infra.aap_configuration_extended
+        - RUN ansible-galaxy collection install -p /usr/share/ansible/collections -vvv infra.aap_utilities
+        - COPY _build/configs/ansible-ee.cfg /etc/ansible/ansible.cfg
+        - COPY _build/configs/aap_config_apply.yml /
+        - RUN mkdir -p /filter_plugins
+        - COPY _build/configs/aap_cac_diff.py /filter_plugins/
+        - COPY _build/configs/aap_config_diff.yml /
+      append_final:
+        - RUN rm -rf /etc/yum.repos.d/* /var/{cache,lib}/{dnf,yum} /etc/pip.conf
+        - ENV DESCRIPTION="custom/custom-aap-gitops
+              built on {{ '%Y-%m-%d %H:%M:%S' | strftime }}
+              from commit {{ lookup('pipe', 'git rev-parse --short HEAD || echo N/A') }}"
+
+
+# https://github.com/ansible/galaxy_collection/issues/329
+# hub_ee_images:
+#   - name: custom/test
+#     state: absent
+
+# hub_ee_repositories:
+#   - name: custom/test
+#     state: absent
