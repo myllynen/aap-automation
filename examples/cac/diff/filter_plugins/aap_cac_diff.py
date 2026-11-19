@@ -2,13 +2,14 @@
 
 # pylint: disable=line-too-long,too-few-public-methods
 
+import re
 from ansible.utils.unsafe_proxy import wrap_var
 
 # May be used in infra.aap_configuration CaC but not exported or compared
-KEYS_TO_IGNORE = {'bearer_token', 'oauth_token', 'password', 'secret_id', 'slug', 'token'}
+KEYS_TO_IGNORE = {'.*_id', 'password', 'slug', '.*token'}
 
 # Default and hidden values to ignore to prevent noise in output
-DEFAULTS_TO_IGNORE = (False, "", 0, "0", [], {}, None, "$encrypted$")
+DEFAULTS_TO_IGNORE = (False, '', 0, '0', [], {}, None, '$encrypted$')
 
 
 class FilterModule():
@@ -61,28 +62,25 @@ def merge_configs(repo, live):
     return _safe_wrap(merged)
 
 
-# Handle infra.aap_configuration credential types injector syntax
-def normalize_brackets(data, in_injectors=False):
+# Handle infra.aap_configuration '{  {' and '{  %' special syntax where needed
+def normalize_brackets(data, in_target=False):
     """Normalize brackets in AAP CaC"""
-    if not in_injectors:
-        if isinstance(data, dict):
-            return _safe_wrap({k: normalize_brackets(v, k == 'injectors') for k, v in data.items()})
-        return _safe_wrap(data)
-
     if isinstance(data, dict):
-        return _safe_wrap({k: normalize_brackets(v, True) for k, v in data.items()})
+        return {
+            k: normalize_brackets(v, in_target or k in ('injectors', 'messages'))
+            for k, v in data.items()
+        }
 
-    if isinstance(data, str) and '{' in data:
-        fixed = data.replace('{  {', '{{').replace('{  %', '{%')
-        return _safe_wrap(fixed)
+    if in_target and isinstance(data, str) and '{  ' in data:
+        data = data.replace('{  {', '{{').replace('{  %', '{%')
 
     return _safe_wrap(data)
 
-
+_IGNORE_RE = re.compile('|'.join(KEYS_TO_IGNORE))
 def normalize_lists(data):
     """Normalize lists in AAP CaC"""
     if isinstance(data, dict):
-        return _safe_wrap({k: normalize_lists(v) for k, v in data.items() if k not in KEYS_TO_IGNORE})
+        return _safe_wrap({k: normalize_lists(v) for k, v in data.items() if not _IGNORE_RE.fullmatch(k)})
 
     if isinstance(data, list):
         if data and isinstance(data[0], dict):
