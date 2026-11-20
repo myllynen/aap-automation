@@ -67,7 +67,7 @@ hub_collection_remotes:
     rate_limit: 8
     requirements:
       - name: ansible.controller
-        version: '>=4.8.12'
+        version: '>=4.8.14'
       - name: ansible.eda
         version: '>=2.13.0'
       - name: ansible.hub

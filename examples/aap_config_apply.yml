@@ -24,7 +24,7 @@
     # when reading contents of directories
 #    config_ignore:
 #      - '.*cred.*'
-#      - '.*vault.*'
+#      - '.*lookup.*'
 
     # Settings in files will override these for AAP
     aap_configuration_secure_logging: false
