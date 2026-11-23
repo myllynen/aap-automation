@@ -60,10 +60,10 @@ aap-db.example.com
 # https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-receptor_variables
 [automationcontroller:vars]
 receptor_type=control
-receptor_peers=''
+receptor_peers=[]
 [execution_nodes:vars]
 receptor_type=execution
-receptor_peers='["aap-ctrl-1.example.com","aap-ctrl-2.example.com"]'
+receptor_peers=["aap-ctrl-1.example.com", "aap-ctrl-2.example.com"]
 
 [all:vars]
 # For a comprehensive list of all inventory file variables, see:
@@ -74,7 +74,7 @@ receptor_peers='["aap-ctrl-1.example.com","aap-ctrl-2.example.com"]'
 # -----------------------------------------------------
 
 # Bundle
-bundle_install=true
+bundle_install=True
 # The bundle directory must include /bundle in the path
 bundle_dir='{{ lookup("ansible.builtin.env", "PWD") }}/bundle'
 
@@ -106,15 +106,15 @@ controller_license_file=/home/admin/aap_manifest.zip
 
 # MCP
 # https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/extend-assembly_deploying_ansible_mcp_server
-mcp_ignore_certificate_errors=false
-mcp_allow_write_operations=true
+mcp_ignore_certificate_errors=False
+mcp_allow_write_operations=True
 mcp_extra_settings=[{"setting": "OAUTH2_ENABLED", "value": True}]
 
 # Metrics
-#automationmetrics_skip_install=true
+#automationmetrics_skip_install=True
 
 # Monitoring
-#setup_monitoring=true
+#setup_monitoring=True
 
 # Receptor
 # https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-receptor_variables
@@ -150,6 +150,7 @@ gateway_pg_password=Foobar_12
 gateway_redis_username=gateway
 gateway_redis_password=Foobar_12
 
+gateway_extra_settings=[{"setting": "ENHANCED_INPUT_VALIDATION_ENABLED", "value": True}]
 #gateway_main_url=
 
 # AAP Controller
@@ -161,6 +162,8 @@ controller_pg_host=aap-db.example.com
 controller_pg_database=controller
 controller_pg_username=admin
 controller_pg_password=Foobar_12
+
+controller_extra_settings=[{"setting": "ENHANCED_INPUT_VALIDATION_ENABLED", "value": True}]
 
 # AAP Automation Hub
 # https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-automation_hub_variables
@@ -174,8 +177,8 @@ hub_pg_password=Foobar_12
 #hub_shared_data_path=nfs.example.com:/exports/hub
 #hub_shared_data_mount_opts=rw,sync,hard
 
-hub_seed_collections=false
-hub_extra_settings=[{"setting": "ANALYTICS", "value": False}]
+hub_seed_collections=False
+hub_extra_settings=[{"setting": "ANALYTICS", "value": False}, {"setting": "ENHANCED_INPUT_VALIDATION_ENABLED", "value": True}]
 hub_galaxy_importer={"run_ansible_lint": True, "offline_ansible_lint": True}
 
 # AAP EDA
@@ -189,7 +192,9 @@ eda_pg_username=admin
 eda_pg_password=Foobar_12
 eda_redis_username=eda
 eda_redis_password=Foobar_12
-eda_safe_plugins='["ansible.eda.file","ansible.eda.webhook"]'
+
+eda_extra_settings=[{"setting": "ENHANCED_INPUT_VALIDATION_ENABLED", "value": True}]
+eda_safe_plugins=["ansible.eda.file", "ansible.eda.webhook"]
 
 # AAP Automation Metrics Service
 # https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-ref_metrics_service_configuration_variables
@@ -211,9 +216,11 @@ eda_safe_plugins='["ansible.eda.file","ansible.eda.webhook"]'
 #lightspeed_pg_database=lightspeed
 #lightspeed_pg_username=admin
 #lightspeed_pg_password=Foobar_12
+
 #lightspeed_chatbot_model_url=
 #lightspeed_chatbot_model_api_key=
 #lightspeed_chatbot_model_id=
 #lightspeed_chatbot_default_provider=
-#lightspeed_mcp_controller_enabled=true
-#lightspeed_mcp_lightspeed_enabled=true
+
+#lightspeed_mcp_controller_enabled=True
+#lightspeed_mcp_lightspeed_enabled=True
