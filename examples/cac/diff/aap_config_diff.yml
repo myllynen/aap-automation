@@ -22,7 +22,7 @@
       ansible.builtin.file:
         path: "{{ output_path }}"
         state: absent
-      when: export_aap_configuration | bool
+      when: export_aap_configuration
 
     - name: Export AAP configuration in filetree format
       vars:
@@ -34,9 +34,9 @@
       ansible.builtin.include_role:
         name: infra.aap_configuration_extended.filetree_create
         public: true
-      when: export_aap_configuration | bool
+      when: export_aap_configuration
 
-- name: Compare AAP in-cac vs in-use configuration
+- name: Compare and reconcile AAP in-cac vs in-use configuration
   hosts: all
   connection: local
   become: false
@@ -49,6 +49,9 @@
 
     config_live_path: ./filetree_export
     config_repo_path: ./aap_cac
+
+    reconcile_config: false
+    reconcile_credentials: false
 
     fail_if_different: true
 
@@ -188,25 +191,80 @@
         name: config_live
 
     - name: Sanitize live configuration
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.set_fact:
         config_live_clean: "{{ (config_live | normalize_lists)
                                | omit_ignored(compare_ignore | default({})) }}"
 
     - name: Merge configurations for comparison
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
       ansible.builtin.set_fact:
         config_merged: "{{ (config_repo_merged | normalize_lists)
                            | omit_ignored(compare_ignore | default({}))
                            | merge_configs(config_live_clean) }}"
 
     - name: Compare in-cac vs in-use configurations
-      ansible.utils.fact_diff:
-        before: "{{ config_merged | normalize_brackets | omit_deletions }}"
-        after: "{{ config_live_clean }}"
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
+      ansible.builtin.debug:
+        msg: "{{ config_merged | normalize_brackets | omit_deletions
+                 | cac_diff(config_live_clean) }}"
       register: config_diff
+
+    - name: Generate AAP CaC reconciliation patch
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
+      ansible.builtin.set_fact:
+        cac_patch_yaml: "{{ config_merged | normalize_brackets | omit_deletions
+                            | cac_patch(config_live_clean, config_repo_merged,
+                                        include_credentials=reconcile_credentials) }}"
+
+    - name: Display AAP CaC reconciliation patch
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
+      ansible.builtin.debug:
+        msg: "{{ cac_patch_yaml }}"
+
+    - name: Set CaC removal variables
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
+      ansible.builtin.set_fact:
+        "{{ item.key }}": "{{ item.value }}"
+        aap_configuration_dispatcher_roles_reversed: "{{ aap_configuration_dispatcher_roles | reverse | list }}"
+      loop: "{{ cac_patch_yaml | from_yaml | dict2items }}"
+      loop_control:
+        label: "{{ item.key }}"
+      when:
+        - reconcile_config
+        - not item.key.endswith('_updates')
+
+    - name: Reconcile AAP configuration - removals
+      vars:
+        dispatch_include_wildcard_vars: true
+        aap_configuration_dispatcher_roles: "{{ aap_configuration_dispatcher_roles_reversed }}"
+      ansible.builtin.include_role:
+        name: infra.aap_configuration.dispatch
+      when:
+        - reconcile_config and false
+        - config_item_removals | int > 0
+
+    - name: Set CaC update variables
+      no_log: "{{ aap_configuration_secure_logging | default(false) }}"
+      ansible.builtin.set_fact:
+        "{{ item.key }}": "{{ [] if item.key.endswith('_removals') else item.value }}"
+      loop: "{{ cac_patch_yaml | from_yaml | dict2items }}"
+      loop_control:
+        label: "{{ item.key }}"
+      when: reconcile_config
+
+    - name: Reconcile AAP configuration - updates
+      vars:
+        dispatch_include_wildcard_vars: true
+      ansible.builtin.include_role:
+        name: infra.aap_configuration.dispatch
+      when:
+        - reconcile_config
+        - config_item_updates | int > 0
 
     - name: Fail on difference if requested
       ansible.builtin.fail:
         msg: "Configurations differ."
       when:
-        - config_diff is changed
-        - fail_if_different | bool
+        - fail_if_different
+        - "'inconsistent' in config_diff.msg"
