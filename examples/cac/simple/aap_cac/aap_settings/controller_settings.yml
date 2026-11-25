@@ -81,8 +81,8 @@ controller_settings:
 #    LOG_AGGREGATOR_HOST: https://splunk.example.com:8088/services/collector/event/1.0?channel=1111-2222-3333
 #    LOG_AGGREGATOR_PORT: null
 #    LOG_AGGREGATOR_PROTOCOL: https
-#    LOG_AGGREGATOR_USERNAME: "{{ aap_log_aggregator_username | default(null) }}"
-#    LOG_AGGREGATOR_PASSWORD: "{{ aap_log_aggregator_password | default(null) }}"
+#    LOG_AGGREGATOR_USERNAME: "{{ aap_log_aggregator_username | default(omit, true) }}"
+#    LOG_AGGREGATOR_PASSWORD: "{{ aap_log_aggregator_password | default(omit, true) }}"
 #    LOG_AGGREGATOR_TOWER_UUID: aap-test
 #    LOG_AGGREGATOR_TCP_TIMEOUT: 5
 #    LOG_AGGREGATOR_VERIFY_CERT: true
