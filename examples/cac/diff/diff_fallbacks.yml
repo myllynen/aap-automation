@@ -19,7 +19,7 @@ aap_redhat_hub_token: diff-fallback-token
 
 
 # PAH defaults not configured in CaC
-hub_collection_repositories_defaults:
+tbd_hub_collection_repositories_defaults:
   - name: staging
     sync: false
 
@@ -30,7 +30,7 @@ hub_collection_repositories_defaults:
     sync: false
 
 # PAH default and custom images
-hub_ee_repositories_defaults:
+tbd_hub_ee_repositories_defaults:
   - name: de-minimal-rhel9
   - name: de-supported-rhel9
   - name: ee-minimal-rhel9
