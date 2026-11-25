@@ -72,9 +72,6 @@
         - gateway_proxy_url
         - gateway_token_name
         - AAP_DEPLOYMENT_TYPE
-        - CSRF_TRUSTED_ORIGINS
-        - NOTIFICATION_RSS_FEED_URL
-        - RED_HAT_CONSOLE_URL
 
       controller_execution_environments:
         - Control Plane Execution Environment

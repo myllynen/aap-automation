@@ -21,12 +21,16 @@ gateway_settings:
 #         lookup('first_found',
 #           [config_basedir | default('') + '/aap_settings/logo.data',
 #            lookup('env', 'PWD') + '/aap_cac/aap_settings/logo.data'])) }}
-  gateway_access_token_expiration: 600
+  # gateway_token_name: X-DAB-JW-TOKEN
+  gateway_access_token_expiration: 900
   gateway_basic_auth_enabled: true
+  # gateway_proxy_url: https://{{ aap_hostname | regex_replace('^https?://', '') }}:443
   gateway_proxy_url_ignore_cert: false
   idle_timeout: 15
   jwt_default_ttl_seconds: 300
   jwt_expiration_buffer_in_seconds: 15
+  # jwt_public_key:
+  # jwt_private_key:
   password_min_digits: 0
   password_min_length: 0
   password_min_special: 0
@@ -37,17 +41,21 @@ gateway_settings:
   status_endpoint_backend_verify: true
   trusted_header_timeout: 1000
   ALLOW_OAUTH2_FOR_EXTERNAL_USERS: false
-  # ALLOW_USER_USERNAME_SELF_EDIT: false
   AUTOMATION_ANALYTICS_GATHER_INTERVAL: 14400
+  # CSRF_TRUSTED_ORIGINS: []
   DEFAULT_PAGE_SIZE: 50
   INSIGHTS_TRACKING_STATE: false
+  # LOGIN_REDIRECT_OVERRIDE: ""
   MANAGE_ORGANIZATION_AUTH: false
   MAX_EXTRA_SESSIONS_PER_USER: -1
   MAX_PAGE_SIZE: 200
   NOTIFICATION_RSS_FEED_ENABLED: false
+  NOTIFICATION_RSS_FEED_URL: https://announcements.ansiblecloud.redhat.com/feed.atom
   ORG_ADMINS_CAN_SEE_ALL_USERS: false
-#  REDHAT_PASSWORD: null
+#  REDHAT_USERNAME: ""
+#  REDHAT_PASSWORD: ""
   RUNTIME_FEATURE_FLAGS: true
-  SESSION_COOKIE_AGE: 1800
+  SESSION_COOKIE_AGE: 900
   SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL: false
-#  SUBSCRIPTIONS_PASSWORD: null
+#  SUBSCRIPTIONS_USERNAME: ""
+#  SUBSCRIPTIONS_PASSWORD: ""

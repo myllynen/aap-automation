@@ -4,69 +4,85 @@
 
 controller_configuration_settings_secure_logging: false
 
-# NB. Some settings are defined for both the gateway
-#     and the controller, they must be kept in sync.
-
 # For available settings and their current default values see:
 # https://gateway.example.com/api/controller/v2/settings/all/
 controller_settings:
   settings:
+    # Legacy settings, these must be kept in sync with
+    # gateway settings when defined for both components
+    AUTH_BASIC_ENABLED: true
+    MAX_UI_JOB_EVENTS: 4000
+    PENDO_TRACKING_STATE: detailed
+    SESSION_COOKIE_AGE: 900
+    SESSIONS_PER_USER: -1
+    UI_LIVE_UPDATES_ENABLED: true
+
+    # System settings
     ACTIVITY_STREAM_ENABLED: true
     ACTIVITY_STREAM_ENABLED_FOR_INVENTORY_SYNC: false
+    ALLOW_METRICS_FOR_ANONYMOUS_USERS: false
+    AUTOMATION_ANALYTICS_GATHER_INTERVAL: 14400
+    # AUTOMATION_ANALYTICS_URL: https://cloud.redhat.com/api/ingress/v1/upload
+    AWX_ANALYTICS_CANDLEPIN_CA: /etc/rhsm/ca/redhat-uep.pem
+    # AWX_ANALYTICS_CANDLEPIN_PROXY_URL:
+    AWX_ANALYTICS_CANDLEPIN_RENEWAL_THRESHOLD_DAYS: 90
+    INDIRECT_NODE_COUNTING_ENABLED: true
+    MANAGE_ORGANIZATION_AUTH: false
+    ORG_ADMINS_CAN_SEE_ALL_USERS: false
+    # NOTIFICATION_IP_ALLOW_LIST: []
+    # PROXY_IP_ALLOWED_LIST: []
+    # https://access.redhat.com/articles/7112649
+    # SUBSCRIPTIONS_CLIENT_ID: "{{ aap_redhat_client_id }}"
+    # SUBSCRIPTIONS_CLIENT_SECRET: "{{ aap_redhat_client_secret }}"
+
+    # Job settings
     AD_HOC_COMMANDS:
       - ping
       - win_ping
     ALLOW_JINJA_IN_EXTRA_VARS: template
     ANSIBLE_FACT_CACHE_TIMEOUT: 0
-    AUTH_BASIC_ENABLED: true
-    AUTOMATION_ANALYTICS_GATHER_INTERVAL: 14400
     AWX_ANSIBLE_CALLBACK_PLUGINS: []
-    AWX_CLEANUP_PATHS: true
     AWX_COLLECTIONS_ENABLED: true
-#    AWX_ISOLATION_BASE_PATH:
+    # AWX_ISOLATION_BASE_PATH:
     AWX_ISOLATION_SHOW_PATHS:
       - /etc/pki/ca-trust:/etc/pki/ca-trust:O
       - /usr/share/pki:/usr/share/pki:O
     AWX_ROLES_ENABLED: false
+    AWX_RUNNER_KEEPALIVE_SECONDS: 0
     AWX_SHOW_PLAYBOOK_LINKS: false
     AWX_TASK_ENV: {}
-    BULK_JOB_MAX_LAUNCH: 100
     BULK_HOST_MAX_CREATE: 100
     BULK_HOST_MAX_DELETE: 250
+    BULK_JOB_MAX_LAUNCH: 100
+    # CUSTOM_VENV_PATHS: []
     DEFAULT_EXECUTION_ENVIRONMENT: null
-    DEFAULT_JOB_TIMEOUT: 0
-    DEFAULT_JOB_IDLE_TIMEOUT: 0
     DEFAULT_INVENTORY_UPDATE_TIMEOUT: 0
+    DEFAULT_JOB_IDLE_TIMEOUT: 0
+    DEFAULT_JOB_TIMEOUT: 0
     DEFAULT_PROJECT_UPDATE_TIMEOUT: 0
+    EVENT_STDOUT_MAX_BYTES_DISPLAY: 1024
     GALAXY_IGNORE_CERTS: "{{ not aap_validate_certs }}"
     GALAXY_TASK_ENV:
-      ANSIBLE_FORCE_COLOR: "false"
+      ANSIBLE_FORCE_COLOR: 'false'
       GIT_SSH_COMMAND: ssh -o StrictHostKeyChecking=no
     INCLUDE_DEPRECATED_AWX_VAR_PREFIX: false
     INSIGHTS_TRACKING_STATE: false
-    MANAGE_ORGANIZATION_AUTH: false
     MAX_FORKS: 200
-    MAX_UI_JOB_EVENTS: 4000
-    ORG_ADMINS_CAN_SEE_ALL_USERS: false
-    PENDO_TRACKING_STATE: detailed
+    MAX_WEBSOCKET_EVENT_RATE: 30
     PROJECT_UPDATE_VVV: false
-    # https://access.redhat.com/articles/7112649
-#    SUBSCRIPTIONS_CLIENT_ID: "{{ aap_redhat_client_id }}"
-#    SUBSCRIPTIONS_CLIENT_SECRET: "{{ aap_redhat_client_secret }}"
+    REMOTE_HOST_HEADERS:
+      - HTTP_X_FORWARDED_FOR
     SCHEDULE_MAX_JOBS: 10
-    SESSION_COOKIE_AGE: 1800
-    SESSIONS_PER_USER: -1
     STDOUT_MAX_BYTES_DISPLAY: 1048576
-    UI_LIVE_UPDATES_ENABLED: true
 
-    # Log aggregator configuration
+    # Logging settings
 #    LOG_AGGREGATOR_ENABLED: true
 #    LOG_AGGREGATOR_TYPE: splunk
 #    LOG_AGGREGATOR_HOST: https://splunk.example.com:8088/services/collector/event/1.0?channel=1111-2222-3333
 #    LOG_AGGREGATOR_PORT: null
 #    LOG_AGGREGATOR_PROTOCOL: https
-#    LOG_AGGREGATOR_USERNAME: "{{ aap_log_aggregator_username }}"
-#    LOG_AGGREGATOR_PASSWORD: "{{ aap_log_aggregator_password }}"
+#    LOG_AGGREGATOR_USERNAME: "{{ aap_log_aggregator_username | default(null) }}"
+#    LOG_AGGREGATOR_PASSWORD: "{{ aap_log_aggregator_password | default(null) }}"
 #    LOG_AGGREGATOR_TOWER_UUID: aap-test
 #    LOG_AGGREGATOR_TCP_TIMEOUT: 5
 #    LOG_AGGREGATOR_VERIFY_CERT: true
@@ -80,7 +96,26 @@ controller_settings:
 #      - job_lifecycle
 #      - system_tracking
 #    LOG_AGGREGATOR_ACTION_QUEUE_SIZE: 131072
-#    LOG_AGGREGATOR_ACTION_MAX_DISK_USAGE_GB: 2
+#    LOG_AGGREGATOR_ACTION_MAX_DISK_USAGE_GB: 1
 #    LOG_AGGREGATOR_MAX_DISK_USAGE_PATH: /var/lib/awx
 #    LOG_AGGREGATOR_RSYSLOGD_DEBUG: false
 #    API_400_ERROR_LOG_FORMAT: "status {status_code} received by user {user_name} attempting to access {url_path} from {remote_addr}"
+
+    # Policy settings
+#    OPA_HOST: opa.example.com
+#    OPA_PORT: 8181
+#    OPA_SSL: true
+#    OPA_AUTH_TYPE: "None"
+#    OPA_AUTH_TOKEN: ""
+#    OPA_AUTH_CA_CERT: ""
+#    OPA_AUTH_CLIENT_CERT: ""
+#    OPA_AUTH_CLIENT_KEY: ""
+#    OPA_AUTH_CUSTOM_HEADERS: {}
+#    OPA_REQUEST_TIMEOUT: 1.5
+#    OPA_REQUEST_RETRIES: 2
+
+    # Troubleshooting settings
+    AWX_CLEANUP_PATHS: true
+    AWX_REQUEST_PROFILE: false
+    RECEPTOR_KEEP_WORK_ON_ERROR: false
+    RECEPTOR_RELEASE_WORK: true
