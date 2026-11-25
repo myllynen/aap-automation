@@ -47,15 +47,15 @@ def _safe_wrap(val):
     return wrap_var(val) if isinstance(val, str) else val
 
 
-def merge_configs(repo, live):
+def merge_configs(repo, live, is_root=True):
     """Merge live config to repo config while pruning unmanaged entities"""
     if not repo or not isinstance(repo, dict) or not isinstance(live, dict):
         return _safe_wrap(repo)
 
     # Merge only entities present in repo
-    if all(isinstance(v, dict) for v in repo.values()):
+    if not is_root and all(isinstance(v, dict) for v in repo.values()):
         return _safe_wrap({
-            k: merge_configs(v, live[k]) if k in live else v
+            k: merge_configs(v, live[k], is_root=False) if k in live else v
             for k, v in repo.items()
         })
 
@@ -63,7 +63,7 @@ def merge_configs(repo, live):
     merged = dict(repo)
     for k, v in repo.items():
         if k in live and isinstance(v, dict) and isinstance(live[k], dict):
-            merged[k] = merge_configs(v, live[k])
+            merged[k] = merge_configs(v, live[k], is_root=False)
         else:
             merged[k] = v
 
