@@ -11,11 +11,16 @@ controller_settings:
     # Legacy settings, these must be kept in sync with
     # gateway settings when defined for both components
     AUTH_BASIC_ENABLED: true
-    MAX_UI_JOB_EVENTS: 4000
+    # CSRF_TRUSTED_ORIGINS: []
+    DISABLE_LOCAL_AUTH: false
+    # LOGIN_REDIRECT_OVERRIDE: ""
     PENDO_TRACKING_STATE: detailed
+    # REDHAT_USERNAME: ""
+    # REDHAT_PASSWORD: ""
     SESSION_COOKIE_AGE: 900
     SESSIONS_PER_USER: -1
-    UI_LIVE_UPDATES_ENABLED: true
+    # SUBSCRIPTIONS_USERNAME: ""
+    # SUBSCRIPTIONS_PASSWORD: ""
 
     # System settings
     ACTIVITY_STREAM_ENABLED: true
@@ -47,6 +52,7 @@ controller_settings:
     AWX_ISOLATION_SHOW_PATHS:
       - /etc/pki/ca-trust:/etc/pki/ca-trust:O
       - /usr/share/pki:/usr/share/pki:O
+    AWX_MOUNT_ISOLATED_PATHS_ON_K8S: false
     AWX_ROLES_ENABLED: false
     AWX_RUNNER_KEEPALIVE_SECONDS: 0
     AWX_SHOW_PLAYBOOK_LINKS: false
@@ -69,11 +75,13 @@ controller_settings:
     INSIGHTS_TRACKING_STATE: false
     MAX_FORKS: 200
     MAX_WEBSOCKET_EVENT_RATE: 30
+    MAX_UI_JOB_EVENTS: 4000
     PROJECT_UPDATE_VVV: false
     REMOTE_HOST_HEADERS:
       - HTTP_X_FORWARDED_FOR
     SCHEDULE_MAX_JOBS: 10
     STDOUT_MAX_BYTES_DISPLAY: 1048576
+    UI_LIVE_UPDATES_ENABLED: true
 
     # Logging settings
 #    LOG_AGGREGATOR_ENABLED: true
