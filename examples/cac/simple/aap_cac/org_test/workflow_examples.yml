@@ -23,6 +23,7 @@ controller_templates_org_test_workflow_examples:
     verbosity: 0
     extra_vars:
       message: This might fail
+    ask_variables_on_launch: true
     # instance_groups:
     #   - Test Org - Instance Group - Common
 

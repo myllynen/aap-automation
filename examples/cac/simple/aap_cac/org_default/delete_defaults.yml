@@ -47,19 +47,15 @@ controller_credentials_org_default:
 tbd_controller_execution_environments_org_default:
   - name: Default execution environment
     organization: Default
-    image: null
     state: absent
   - name: Minimal execution environment
     organization: Default
-    image: null
     state: absent
   - name: Hub Default execution environment
     organization: Default
-    image: null
     state: absent
   - name: Hub Minimal execution environment
     organization: Default
-    image: null
     state: absent
 
 tbd_eda_credentials_org_default:
@@ -68,7 +64,13 @@ tbd_eda_credentials_org_default:
     credential_type: Container Registry
     state: absent
 
-tbd_eda_decision_environments_org_default:
+eda_decision_environments_org_default:
+  - name: Default Decision Environment
+    organization: Default
+    state: absent
+  - name: Minimal Decision Environment
+    organization: Default
+    state: absent
   - name: Hub Default Decision Environment
     organization: Default
     state: absent

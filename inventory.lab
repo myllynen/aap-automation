@@ -194,7 +194,7 @@ eda_redis_username=eda
 eda_redis_password=Foobar_12
 
 eda_extra_settings=[{"setting": "ENHANCED_INPUT_VALIDATION_ENABLED", "value": True}]
-eda_safe_plugins=["ansible.eda.file", "ansible.eda.webhook"]
+eda_safe_plugins=["ansible.eda.alertmanager", "ansible.eda.pg_listener", "ansible.eda.webhook"]
 
 # AAP Automation Metrics Service
 # https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.7/install-ref_metrics_service_configuration_variables
