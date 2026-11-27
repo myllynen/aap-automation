@@ -26,6 +26,10 @@
 #      - '.*cred.*'
 #      - '.*lookup.*'
 
+    # Set to true to reverse role ordering
+    # to ensure removals will work reliably
+    config_removals_only: false
+
     # Settings in files will override these for AAP
     aap_configuration_secure_logging: false
     aap_configuration_dispatcher_exclude_roles:
@@ -116,9 +120,23 @@
         file: "{{ (config_basedir + '/' + item) if not dir_input else omit }}"
       loop: "{{ env_content + ([config_content] | flatten | select) }}"
 
+    - name: Read list of configuration roles
+      ansible.builtin.include_role:
+        name: infra.aap_configuration.dispatch
+        tasks_from: vars_only
+        public: true
+
+    - name: Determine correct role ordering
+      vars:
+        update_order: "{{ aap_configuration_dispatcher_roles | list }}"
+        remove_order: "{{ aap_configuration_dispatcher_roles | reverse | list }}"
+      ansible.builtin.set_fact:
+        dispatcher_roles: "{{ update_order if not config_removals_only | bool else remove_order }}"
+
     - name: Apply AAP configuration
       vars:
         dispatch_include_wildcard_vars: true
+        aap_configuration_dispatcher_roles: "{{ dispatcher_roles }}"
       ansible.builtin.include_role:
         name: infra.aap_configuration.dispatch
       when: ([config_content] | flatten | select | length) > 0
