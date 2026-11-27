@@ -94,8 +94,9 @@ bundle_dir='{{ lookup("ansible.builtin.env", "PWD") }}/bundle'
 #ca_tls_key=/home/admin/ca.key
 #ca_tls_key_passphrase=Foobar_12
 
-# Dashboard
-feature_flags={"FEATURE_DASHBOARD_COLLECTION_ENABLED": True, "FEATURE_OIDC_WORKLOAD_IDENTITY_ENABLED": True}
+# Feature flags
+# https://github.com/ansible/django-ansible-base/blob/devel/ansible_base/feature_flags/definitions/feature_flags.yaml
+feature_flags={"FEATURE_OIDC_WORKLOAD_IDENTITY_ENABLED": True}
 
 # Firewall
 # Set the *_firewall_zone variable for each service.
